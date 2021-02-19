@@ -14,6 +14,8 @@
 open Format
 open Util
 
+let option_default dft = function None -> dft | Some txt -> txt
+
 module Options = struct
 
   type flag = {
@@ -224,15 +226,33 @@ let coqdep_file ~dir ~lvl file =
   Coqdep.parse_coqdep_line coqdep_line |> Option.get |> fun (target, deps) ->
   target, List.map (fun f -> lvl ^ f) deps.Coqdep.Vodep.deps
 
+let vfile_header ~dir vfile =
+  let vfile = Filename.concat dir vfile in
+  let inc = open_in vfile in
+  let line = try
+      input_line inc
+    with End_of_file ->
+      Format.eprintf "error parsing header: %s@\n%!" vfile;
+      ""
+  in
+  close_in inc;
+  if Str.string_match (Str.regexp ".*coq-prog-args: (\\([^)]*\\)).*") line 0 then
+    (let pargs = Str.matched_group 1 line in
+     Format.eprintf "pargs: %s@\n%!" pargs;
+     Some pargs)
+  else
+    None
+
 let expect_rule ~fmt ~dir ~lvl ?(fail=false) ~cconfig ~vfile =
   let open Dune.Rule in
   let _votarget, vfile_deps = coqdep_file ~dir ~lvl vfile in
+  let extra_args = option_default "" (vfile_header ~dir vfile) in
   let exit_codes = if fail then "(or 1 129)" else "0" in
   (* sadly we don't capture the log if the call to coqc fails :S ,
      we'll have to use our custom script so the file is still written
   *)
   let action = Format.asprintf
-      "(with-outputs-to %%{targets} (with-accepted-exit-codes %s (run coqc %s %s)))" exit_codes cconfig vfile in
+      "(with-outputs-to %%{targets} (with-accepted-exit-codes %s (run coqc %s %s %s)))" exit_codes cconfig extra_args vfile in
   let rule =
     { targets = [vfile ^ ".log"]
     ; deps = vfile_deps
@@ -250,7 +270,7 @@ let check_dir dir fmt =
 
 let cconfig = "-coqlib ../../.. -R ../../prerequisite TestSuite"
 let bugs fmt =
-  (* in_subdir fmt "bugs/opened" (expect_rule ~fail:true ~cconfig); *)
+  in_subdir fmt "bugs/opened" (expect_rule ~fail:false ~lvl:"../../" ~cconfig);
   in_subdir fmt "bugs/closed" (expect_rule ~fail:false ~lvl:"../../" ~cconfig);
   ()
 
@@ -272,7 +292,13 @@ let _ =
   Format.pp_print_flush fmt ();
   close_out out
 
-(* output output-coqtop output-modulo-time $(INTERACTIVE) micromega $(COMPLEXITY)
-   modules stm coqdoc ssr primitive ltac2
-   bugs ide vio coqchk output-coqchk coqwc coq-makefile tools $(UNIT_TESTS)
+(* TODO:
+  - coqdep 1 call per dir
+  - output
+  - coqchk [with pattern]
+ *)
+
+(* output output-coqtop output-modulo-time $(INTERACTIVE) $(COMPLEXITY)
+   stm coqdoc ssr primitive ltac2
+   ide vio coqchk output-coqchk coqwc coq-makefile tools $(UNIT_TESTS)
 *)
