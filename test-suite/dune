@@ -1,5 +1,8 @@
-; The easiest way to generate a portable absolute path is to use OCaml
-; itself to print it
+(rule
+ (targets .csdp.cache)
+ (deps .csdp.cache.test-suite)
+ (action (copy %{deps} %{targets})))
+
 (rule
  (targets test_suite_rules.sexp)
  (deps
@@ -11,10 +14,16 @@
   (source_tree micromega)
 
   ; coqdep needs this to run
-  ../tools/coqdep.exe
+  %{bin:coqdep}
   (source_tree ../theories)
-  (source_tree ../user-contrib))
+  (source_tree ../user-contrib)
 
+  %{bin:coqtacticworker.opt}
+  %{bin:coqqueryworker.opt}
+  %{bin:coqproofworker.opt}
+
+  .csdp.cache
+  %{bin:csdpcert})
  (mode promote)
  (action (run ./tools/gen_rules/gen_rules.exe)))
 
