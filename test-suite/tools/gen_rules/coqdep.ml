@@ -5,8 +5,6 @@ module Vodep = struct
     }
 end
 
-type dep = | VO of Vodep.t | MLG of string
-
 (* Filter `.vio` etc... *)
 let filter_no_vo =
   List.filter (fun f -> Filename.check_suffix f ".vo")
@@ -32,7 +30,7 @@ let parse_coqdep_line l =
          of having to parse its output soon, that should solve this
          kind of issues *)
       let deps = List.map fix_cmo_cma deps in
-      Some (String.split_on_char '/' dir, VO { Vodep.target; deps; })
+      Some (String.split_on_char '/' dir, { Vodep.target; deps; })
     (* Otherwise a vio file, we ignore *)
     | _ -> None
     end

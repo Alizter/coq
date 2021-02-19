@@ -2,6 +2,19 @@
 ; itself to print it
 (rule
  (targets test_suite_rules.sexp)
+ (deps
+  (source_tree prerequisite)
+  (source_tree success)
+  (source_tree failure)
+  (source_tree bugs)
+  (source_tree modules)
+  (source_tree micromega)
+
+  ; coqdep needs this to run
+  ../tools/coqdep.exe
+  (source_tree ../theories)
+  (source_tree ../user-contrib))
+
  (mode promote)
  (action (run ./tools/gen_rules/gen_rules.exe)))
 
