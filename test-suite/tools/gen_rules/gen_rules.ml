@@ -32,7 +32,7 @@ module Options = struct
     String.concat " " @@ pmap popt all_opts
 end
 
-type ddir = Coqdep.dep list DirMap.t
+(* type ddir = Coqdep.Vodep.t list DirMap.t *)
 
 (* We could have coqdep to output dune files directly *)
 
@@ -81,19 +81,21 @@ let pp_vo_dep dir fmt vo =
   let all_targets = gen_coqc_targets vo in
   pp_rule fmt all_targets deps action
 
-let pp_mlg_dep _dir fmt ml =
+let _pp_mlg_dep _dir fmt ml =
   fprintf fmt "@[(coq.pp (modules %s))@]@\n" (Filename.remove_extension ml)
 
 let pp_dep dir fmt oo =
-  let open Coqdep in
-  match oo with
-  | VO vo -> pp_vo_dep dir fmt vo
-  | MLG f -> pp_mlg_dep dir fmt f
+  pp_vo_dep dir fmt oo
+  (* let open Coqdep in *)
+  (* match oo with
+   * | VO vo -> pp_vo_dep dir fmt vo
+   * | MLG f -> pp_mlg_dep dir fmt f *)
 
 let out_install fmt dir ff =
-  let open Coqdep in
+  (* let open Coqdep in *)
   let itarget = String.concat "/" dir in
-  let ff = List.concat @@ pmap (function | VO vo -> Some (gen_coqc_targets vo) | _ -> None) ff in
+  (* let ff = List.concat @@ pmap (function | VO vo -> Some (gen_coqc_targets vo) | _ -> None) ff in *)
+  let ff = List.concat @@ List.map gen_coqc_targets ff in
   let pp_ispec fmt tg = fprintf fmt "(%s as coq/%s)" tg (bpath [itarget;tg]) in
   fprintf fmt "(install@\n @[(section lib_root)@\n(package coq)@\n(files @[%a@])@])@\n"
     (pp_list pp_ispec sep) ff
@@ -115,6 +117,7 @@ let record_dune d ff =
     eprintf "error in coq_dune, a directory disappeared: %s@\n%!" sd
 
 (* File Scanning *)
+(*
 let scan_mlg ~root m d =
   let open Coqdep in
   let dir = [root; d] in
@@ -130,8 +133,9 @@ let scan_dir ~root m =
 
 let scan_plugins m = scan_dir ~root:"plugins" m
 let scan_usercontrib m = scan_dir ~root:"user-contrib" m
+*)
 
-let rec read_vfiles ic map =
+let rec _read_vfiles ic map =
   match
     try Some (Coqdep.parse_coqdep_line (input_line ic))
     with End_of_file -> None
@@ -140,12 +144,12 @@ let rec read_vfiles ic map =
   | Some rule ->
     (* Add vo_entry to its corresponding map entry *)
     let map = option_cata map (fun (dir, vo) -> add_map_list dir vo map) rule in
-    read_vfiles ic map
+    _read_vfiles ic map
 
-let out_map map =
+let _out_map map =
   DirMap.iter record_dune map
 
-let exec_ifile f =
+let _exec_ifile f =
   match Array.length Sys.argv with
   | 1 -> f stdin
   | 2 ->
@@ -166,6 +170,109 @@ let _ =
       let map = read_vfiles ic map in
       out_map map)
 *)
+
+let scan_vfiles dir =
+  Sys.readdir dir |> Array.to_list |>
+  List.filter (fun f -> Filename.check_suffix f ".v")
+
+let in_subdir fmt dir f =
+  let vfiles = scan_vfiles dir in
+  Format.fprintf fmt "(subdir %s@\n @[" dir;
+  List.iter (fun vfile -> f ~fmt ~dir ~vfile) vfiles;
+  Format.fprintf fmt "@])@\n";
+  ()
+
+module Dune = struct
+  module Rule = struct
+    type t =
+      { targets : string list
+      ; deps : string list
+      ; action : string
+      ; alias : string option
+      }
+
+    let ppl = pp_list pp_print_string sep
+    let pp_alias fmt = function
+      | None -> ()
+      | Some alias -> fprintf fmt "(alias %s)@\n" alias
+
+    let pp fmt { alias; targets; deps; action } =
+      fprintf fmt
+        "@[(rule@\n @[%a(targets @[%a@])@\n(deps @[%a@])@\n(action @[%a@])@])@]@\n"
+        pp_alias alias ppl targets ppl deps pp_print_string action
+  end
+end
+
+let cctx =
+  [| "-I"; "../plugins/ltac"
+   ; "-R"; "../theories" ; "Coq"
+   ; "-R"; "prerequisite"; "TestSuite"
+   ; "-Q"; "../user-contrib/Ltac2"; "Ltac2" |]
+
+(* Soon we will be able to delegate this call to dune itself, using (read) *)
+let call_coqdep ~dir file =
+  let file = Filename.concat dir file in
+  let args = Array.concat [ [|"../tools/coqdep.exe"; "-boot"|]; cctx; [|file|]] in
+  (* Format.eprintf "call: @[%a@]@\n" (pp_print_list ~pp_sep:pp_print_space pp_print_string) (Array.to_list args); *)
+  let in_c = Unix.open_process_args_in "../tools/coqdep.exe" args in
+  let res = input_line in_c in
+  let _ = Unix.close_process_in in_c in
+  res
+
+let coqdep_file ~dir ~lvl file =
+  let coqdep_line = call_coqdep ~dir file in
+  Coqdep.parse_coqdep_line coqdep_line |> Option.get |> fun (target, deps) ->
+  target, List.map (fun f -> lvl ^ f) deps.Coqdep.Vodep.deps
+
+let expect_rule ~fmt ~dir ~lvl ?(fail=false) ~cconfig ~vfile =
+  let open Dune.Rule in
+  let _votarget, vfile_deps = coqdep_file ~dir ~lvl vfile in
+  let exit_codes = if fail then "(or 1 129)" else "0" in
+  (* sadly we don't capture the log if the call to coqc fails :S ,
+     we'll have to use our custom script so the file is still written
+  *)
+  let action = Format.asprintf
+      "(with-outputs-to %%{targets} (with-accepted-exit-codes %s (run coqc %s %s)))" exit_codes cconfig vfile in
+  let rule =
+    { targets = [vfile ^ ".log"]
+    ; deps = vfile_deps
+    ; action
+    ; alias = Some "runtest"
+    }
+  in
+  pp fmt rule
+
+
+let cconfig = "-coqlib ../.. -R ../prerequisite TestSuite"
+
+let check_dir dir fmt =
+  in_subdir fmt dir (expect_rule ~fail:false ~lvl:"../" ~cconfig)
+
+let cconfig = "-coqlib ../../.. -R ../../prerequisite TestSuite"
+let bugs fmt =
+  (* in_subdir fmt "bugs/opened" (expect_rule ~fail:true ~cconfig); *)
+  in_subdir fmt "bugs/closed" (expect_rule ~fail:false ~lvl:"../../" ~cconfig);
+  ()
+
+let output out = ()
+
+let output_rules out =
+  check_dir "success" out;
+  check_dir "failure" out;
+  bugs out;
+  output out;
+  check_dir "modules" out;
+  check_dir "micromega" out;
+  ()
+
 let _ =
   let out = open_out "test_suite_rules.sexp" in
+  let fmt = Format.formatter_of_out_channel out in
+  output_rules fmt;
+  Format.pp_print_flush fmt ();
   close_out out
+
+(* output output-coqtop output-modulo-time $(INTERACTIVE) micromega $(COMPLEXITY)
+   modules stm coqdoc ssr primitive ltac2
+   bugs ide vio coqchk output-coqchk coqwc coq-makefile tools $(UNIT_TESTS)
+*)

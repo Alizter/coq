@@ -5,6 +5,4 @@ module Vodep : sig
     }
 end
 
-type dep = | VO of Vodep.t | MLG of string
-
-val parse_coqdep_line : string -> (string list * dep) option
+val parse_coqdep_line : string -> (string list * Vodep.t) option
