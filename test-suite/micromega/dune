@@ -1,0 +1,4 @@
+(rule
+ (targets .csdp.cache)
+ (deps ../.csdp.cache.test-suite)
+ (action (copy %{deps} %{targets})))
