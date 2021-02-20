@@ -1,9 +1,4 @@
 (rule
- (targets .csdp.cache)
- (deps .csdp.cache.test-suite)
- (action (copy %{deps} %{targets})))
-
-(rule
  (targets test_suite_rules.sexp)
  (deps
   (source_tree prerequisite)
@@ -22,7 +17,7 @@
   %{bin:coqqueryworker.opt}
   %{bin:coqproofworker.opt}
 
-  .csdp.cache
+  micromega/.csdp.cache
   %{bin:csdpcert})
  (mode promote)
  (action (run ./tools/gen_rules/gen_rules.exe)))

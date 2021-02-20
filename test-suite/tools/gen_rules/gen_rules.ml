@@ -243,10 +243,19 @@ let vfile_header ~dir vfile =
   else
     None
 
+let extra_deps s =
+  match s with
+  | "\"-compat\" \"8.11\"" -> ["../../theories/Compat/Coq811.vo"]
+  | "\"-compat\" \"8.12\"" -> ["../../theories/Compat/Coq812.vo"]
+  | "\"-compat\" \"8.13\"" -> ["../../theories/Compat/Coq813.vo"]
+  | "\"-compat\" \"8.14\"" -> ["../../theories/Compat/Coq814.vo"]
+  | _ -> []
+
 let expect_rule ~fmt ~dir ~lvl ?(fail=false) ~cconfig ~vfile =
   let open Dune.Rule in
   let _votarget, vfile_deps = coqdep_file ~dir ~lvl vfile in
   let extra_args = option_default "" (vfile_header ~dir vfile) in
+  let extra_deps = extra_deps extra_args in
   let exit_codes = if fail then "(or 1 129)" else "0" in
   (* sadly we don't capture the log if the call to coqc fails :S ,
      we'll have to use our custom script so the file is still written
@@ -255,7 +264,7 @@ let expect_rule ~fmt ~dir ~lvl ?(fail=false) ~cconfig ~vfile =
       "(with-outputs-to %%{targets} (with-accepted-exit-codes %s (run coqc %s %s %s)))" exit_codes cconfig extra_args vfile in
   let rule =
     { targets = [vfile ^ ".log"]
-    ; deps = vfile_deps
+    ; deps = extra_deps @ vfile_deps
     ; action
     ; alias = Some "runtest"
     }
