@@ -119,6 +119,19 @@ please see the [contributing guide](../../CONTRIBUTING.md).
 
         make clean
 
+Notes for packagers
+-------------------
+
+The `make install` target for Coq's OCaml parts will call `dune
+install` internally. Before Dune 2.9, `dune install` didn't support
+configuring some particular install paths such as `-docdir` and
+`-configdir`, thus these configure options are ignored by default.
+
+If using Dune 2.9, we recommend patching `Makefile.install` so these
+options are taken into account, if using Dune < 2.8, you may have to
+post-process your package to fix install locations. See
+`Makefile.install` `install-dune` target for more information.
+
 Installation Procedure For Plugin Developers.
 ---------------------------------------------
 
