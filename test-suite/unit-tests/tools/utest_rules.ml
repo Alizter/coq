@@ -1,9 +1,9 @@
 open Format
 
 let subdirs =
-  [ "lib", "coq.lib"
-  ; "clib", "coq.clib"
-  ; "printing", "coq.printing"
+  [ "lib", "coq-core.lib"
+  ; "clib", "coq-core.clib"
+  ; "printing", "coq-core.printing"
   ]
 
 let filter_ext ~ext files =
