@@ -251,11 +251,11 @@ let extra_deps s =
   | "\"-compat\" \"8.14\"" -> ["../../theories/Compat/Coq814.vo"]
   | _ -> []
 
-let expect_rule ~fmt ~dir ~lvl ~fail ~cconfig ~vfile =
+let expect_rule ~fmt ~dir ~lvl ~fail ~cconfig ~vfile ~base_deps =
   let open Dune.Rule in
   let _votarget, vfile_deps = coqdep_file ~dir ~lvl vfile in
   let extra_args = option_default "" (vfile_header ~dir vfile) in
-  let extra_deps = extra_deps extra_args in
+  let extra_deps = extra_deps extra_args @ base_deps in
   let exit_codes = if fail then "(or 1 129)" else "0" in
   (* sadly we don't capture the log if the call to coqc fails :S ,
      we'll have to use our custom script so the file is still written
@@ -274,24 +274,24 @@ let expect_rule ~fmt ~dir ~lvl ~fail ~cconfig ~vfile =
 
 let cconfig = "-coqlib ../.. -R ../prerequisite TestSuite"
 
-let check_dir dir fmt =
-  in_subdir fmt dir (expect_rule ~fail:false ~lvl:"../" ~cconfig)
+let check_dir dir base_deps fmt =
+  in_subdir fmt dir (expect_rule ~fail:false ~lvl:"../" ~cconfig ~base_deps)
 
 let cconfig = "-coqlib ../../.. -R ../../prerequisite TestSuite"
 let bugs fmt =
-  in_subdir fmt "bugs/opened" (expect_rule ~fail:false ~lvl:"../../" ~cconfig);
-  in_subdir fmt "bugs/closed" (expect_rule ~fail:false ~lvl:"../../" ~cconfig);
+  in_subdir fmt "bugs/opened" (expect_rule ~fail:false ~lvl:"../../" ~cconfig ~base_deps:[]);
+  in_subdir fmt "bugs/closed" (expect_rule ~fail:false ~lvl:"../../" ~cconfig ~base_deps:[]);
   ()
 
 let output out = ()
 
 let output_rules out =
-  check_dir "success" out;
-  check_dir "failure" out;
+  check_dir "success" [] out;
+  check_dir "failure" [] out;
   bugs out;
   output out;
-  check_dir "modules" out;
-  check_dir "micromega" out;
+  check_dir "modules" [] out;
+  check_dir "micromega" [".csdp.cache"] out;
   ()
 
 let main () =
