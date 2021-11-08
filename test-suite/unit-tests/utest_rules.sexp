@@ -1,11 +1,15 @@
 (subdir lib
  (executables
-  (names pp_big_vect)
-  (libraries coq_utest coq.lib))
+  (names pp_big_vect
+ coqProject)
+  (libraries coq_utest coq-core.lib))
  
  (rule
   (targets pp_big_vect.ml.log)
   (action (with-accepted-exit-codes 0 (run ./pp_big_vect.exe))))
+ (rule
+  (targets coqProject.ml.log)
+  (action (with-accepted-exit-codes 0 (run ./coqProject.exe))))
  
  (alias
   (name runtest) (deps (glob_files *.ml.log))))
@@ -14,7 +18,7 @@
  (executables
   (names unicode_tests
  inteq)
-  (libraries coq_utest coq.clib))
+  (libraries coq_utest coq-core.clib))
  
  (rule
   (targets unicode_tests.ml.log)
@@ -29,7 +33,7 @@
 (subdir printing
  (executables
   (names proof_diffs_test)
-  (libraries coq_utest coq.printing))
+  (libraries coq_utest coq-core.printing))
  
  (rule
   (targets proof_diffs_test.ml.log)

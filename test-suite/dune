@@ -1,4 +1,5 @@
 (rule
+ (alias test-gen)
  (targets test_suite_rules.sexp)
  (deps
   (source_tree prerequisite)

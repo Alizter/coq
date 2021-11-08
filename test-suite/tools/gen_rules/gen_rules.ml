@@ -251,7 +251,7 @@ let extra_deps s =
   | "\"-compat\" \"8.14\"" -> ["../../theories/Compat/Coq814.vo"]
   | _ -> []
 
-let expect_rule ~fmt ~dir ~lvl ?(fail=false) ~cconfig ~vfile =
+let expect_rule ~fmt ~dir ~lvl ~fail ~cconfig ~vfile =
   let open Dune.Rule in
   let _votarget, vfile_deps = coqdep_file ~dir ~lvl vfile in
   let extra_args = option_default "" (vfile_header ~dir vfile) in
@@ -294,12 +294,20 @@ let output_rules out =
   check_dir "micromega" out;
   ()
 
-let _ =
+let main () =
   let out = open_out "test_suite_rules.sexp" in
   let fmt = Format.formatter_of_out_channel out in
   output_rules fmt;
   Format.pp_print_flush fmt ();
   close_out out
+
+let () =
+  Printexc.record_backtrace true;
+  try main ()
+  with exn ->
+    let bt = Printexc.get_backtrace () in
+    let exn = Printexc.to_string exn in
+    Format.eprintf "%s@\n%s@\n%!" exn bt
 
 (* TODO:
   - coqdep 1 call per dir
