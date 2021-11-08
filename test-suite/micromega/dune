@@ -1,3 +1,4 @@
+; XXX: This is not compatible with the dune cache
 (rule
  (targets .csdp.cache)
  (deps ../.csdp.cache.test-suite)
