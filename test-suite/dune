@@ -5,6 +5,7 @@
   (source_tree prerequisite)
   (source_tree success)
   (source_tree failure)
+  (source_tree output)
   (source_tree bugs)
   (source_tree modules)
   (source_tree micromega)
@@ -24,3 +25,8 @@
  (action (run ./tools/gen_rules/gen_rules.exe)))
 
 (include test_suite_rules.sexp)
+
+(subdir output
+ (rule
+   (targets MExtraction.out)
+   (action (copy ../../plugins/micromega/micromega.ml %{targets}))))
