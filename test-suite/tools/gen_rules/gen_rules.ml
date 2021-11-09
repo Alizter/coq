@@ -254,6 +254,7 @@ let extra_deps s =
 let expect_rule ~fmt ~dir ~lvl ~fail ~cconfig ~vfile ~base_deps =
   let open Dune.Rule in
   let _votarget, vfile_deps = coqdep_file ~dir ~lvl vfile in
+  let vfile_deps = [lvl ^ "../theories/Init/Prelude.vo"] @ vfile_deps in
   let extra_args = option_default "" (vfile_header ~dir vfile) in
   let extra_deps = extra_deps extra_args @ base_deps in
   let exit_codes = if fail then "(or 1 129)" else "0" in
@@ -271,9 +272,46 @@ let expect_rule ~fmt ~dir ~lvl ~fail ~cconfig ~vfile ~base_deps =
   in
   pp fmt rule
 
+let output_rule ~fmt ~dir ~lvl ~cconfig ~vfile =
+  let _votarget, vfile_deps = coqdep_file ~dir ~lvl vfile in
+  let vfile_deps = [lvl ^ "../theories/Init/Prelude.vo"] @ vfile_deps in
+  (* For output tests we also accept failure :/ *)
+  let exit_codes = "(or 0 1)" in
+  let extra_args = option_default "" (vfile_header ~dir vfile) in
+  (* Output-specific args *)
+  let extra_args = "-test-mode -async-proofs-cache force " ^ extra_args in
+  let action = Format.asprintf
+      "(with-outputs-to %%{targets} (with-accepted-exit-codes %s (run coqc %s %s %s)))" exit_codes cconfig extra_args vfile in
+  let open Dune.Rule in
+  let rule_log =
+    { targets = [vfile ^ ".log.pre"]
+    ; deps = vfile_deps
+    ; action
+    ; alias = None
+    }
+  in
+  pp fmt rule_log;
+  (* Rule to amend output test, should drop once makefile goes away *)
+  let action = Format.asprintf "(with-outputs-to %%{targets} (run ../tools/amend-output-log.sh %s))" (vfile^".log.pre") in
+  let rule_log =
+    { targets = [vfile ^ ".log"]
+    ; deps = [vfile ^ ".log.pre"]
+    ; action
+    ; alias = None
+    }
+  in
+  pp fmt rule_log;
+  let action = Format.asprintf "(diff %s %s)" (Filename.remove_extension vfile^".out") (vfile^".log") in
+  let rule_diff =
+    { targets = []
+    ; deps = []
+    ; action
+    ; alias = Some "runtest"
+    } in
+  pp fmt rule_diff
 
+(* Fix this cconfig stuff *)
 let cconfig = "-coqlib ../.. -R ../prerequisite TestSuite"
-
 let check_dir dir base_deps fmt =
   in_subdir fmt dir (expect_rule ~fail:false ~lvl:"../" ~cconfig ~base_deps)
 
@@ -283,7 +321,9 @@ let bugs fmt =
   in_subdir fmt "bugs/closed" (expect_rule ~fail:false ~lvl:"../../" ~cconfig ~base_deps:[]);
   ()
 
-let output out = ()
+let cconfig = "-coqlib ../.. -R ../prerequisite TestSuite"
+let output fmt =
+  in_subdir fmt "output" (output_rule ~lvl:"../" ~cconfig)
 
 let output_rules out =
   check_dir "success" [] out;
