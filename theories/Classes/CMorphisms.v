@@ -670,9 +670,9 @@ intros.
 apply proper_sym_arrow_iffT_2. 1-2: auto with crelations.
 intros x x' Hx y y' Hy Hr.
 transitivity x.
-- generalize (partial_order_equivalence x x'); compute; intuition.
+- generalize (partial_order_equivalence x x'); compute; firstorder.
 - transitivity y; auto.
-  generalize (partial_order_equivalence y y'); compute; intuition.
+  generalize (partial_order_equivalence y y'); compute; firstorder.
 Qed.
 
 (** From a [PartialOrder] to the corresponding [StrictOrder]:
@@ -717,9 +717,9 @@ Lemma StrictOrder_PartialOrder
   `(Equivalence A eqA, StrictOrder A R, Proper _ (eqA==>eqA==>iffT) R) :
   PartialOrder eqA (relation_disjunction R eqA).
 Proof.
-intros. intros x y. compute. intuition.
+intros. intros x y. compute. firstorder.
 elim (StrictOrder_Irreflexive x).
-transitivity y; auto.
+transitivity y; firstorder auto.
 Qed.
 
 #[global]
