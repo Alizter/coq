@@ -2210,23 +2210,14 @@ tactic: [
 | ltac_expr5
 ]
 
-range_selector: [
-| natural "-" natural
-| natural
-]
-
-range_selector_or_nth: [
-| natural "-" natural OPT [ "," LIST1 range_selector SEP "," ]
-| natural OPT [ "," LIST1 range_selector SEP "," ]
-]
-
 selector: [
-| range_selector_or_nth
+| natural
+| natural "-" natural
 | test_bracket_ident "[" ident "]"
 ]
 
 toplevel_selector: [
-| selector ":"
+| selector OPT [ "," LIST1 selector SEP "," ] ":"
 | "!" ":"
 | "all" ":"
 ]

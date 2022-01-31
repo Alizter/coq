@@ -1827,7 +1827,7 @@ let get_current_context_of_args ~pstate =
 
 let query_command_selector ?loc = function
   | None -> None
-  | Some (Goal_select.SelectNth n) -> Some n
+  | Some (Goal_select.SelectList [Goal_select.SelectNth n]) -> Some n
   | _ -> user_err ?loc
       (str "Query commands only support the single numbered goal selector.")
 
@@ -2081,11 +2081,12 @@ let subproof_kind = Proof.new_focus_kind ()
 let subproof_cond = Proof.done_cond subproof_kind
 
 let vernac_subproof gln ~pstate =
+  let open Goal_select in
   Declare.Proof.map ~f:(fun p ->
     match gln with
     | None -> Proof.focus subproof_cond () 1 p
-    | Some (Goal_select.SelectNth n) -> Proof.focus subproof_cond () n p
-    | Some (Goal_select.SelectId id) -> Proof.focus_id subproof_cond () id p
+    | Some (SelectList [SelectNth n]) -> Proof.focus subproof_cond () n p
+    | Some (SelectList [SelectId id]) -> Proof.focus_id subproof_cond () id p
     | _ -> user_err
              (str "Brackets do not support multi-goal selectors."))
     pstate

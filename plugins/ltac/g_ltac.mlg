@@ -123,7 +123,7 @@ GRAMMAR EXTEND Gram
       | IDENT "abstract"; tc = NEXT -> { CAst.make ~loc (TacAbstract (tc,None)) }
       | IDENT "abstract"; tc = NEXT; "using";  s = ident ->
         { CAst.make ~loc (TacAbstract (tc,Some s)) }
-      | IDENT "only"; sel = selector; ":"; ta = ltac_expr -> { CAst.make ~loc (TacSelect (sel, ta)) } ]
+      | IDENT "only"; sel = toplevel_selector; ":"; ta = ltac_expr -> { CAst.make ~loc (TacSelect (sel, ta)) } ]
 (*End of To do*)
     | "2" RIGHTA
       [ ta0 = ltac_expr; "+"; ta1 = binder_tactic -> { CAst.make ~loc (TacOr (ta0,ta1)) }
@@ -297,30 +297,18 @@ GRAMMAR EXTEND Gram
   tactic:
     [ [ tac = ltac_expr -> { tac } ] ]
   ;
-
-  range_selector:
-    [ [ n = natural ; "-" ; m = natural -> { (n, m) }
-      | n = natural -> { (n, n) } ] ]
-  ;
-  (* We unfold a range selectors list once so that we can make a special case
-   * for a unique SelectNth selector. *)
-  range_selector_or_nth:
-    [ [ n = natural ; "-" ; m = natural;
-        l = OPT [","; l = LIST1 range_selector SEP "," -> { l } ] ->
-        { Goal_select.SelectList ((n, m) :: Option.default [] l) }
-      | n = natural;
-        l = OPT [","; l = LIST1 range_selector SEP "," -> { l } ] ->
-        { let open Goal_select in
-          Option.cata (fun l -> SelectList ((n, n) :: l)) (SelectNth n) l } ] ]
-  ;
   selector:
-  [ [ l = range_selector_or_nth -> { l }
+  [ [ n = natural -> { Goal_select.SelectNth n }
+    | n = natural ; "-" ; m = natural -> { Goal_select.SelectRange (n, m) }
     | test_bracket_ident; "["; id = ident; "]" -> { Goal_select.SelectId id } ] ]
   ;
   toplevel_selector:
-    [ [ sel = selector; ":" -> { sel }
-    |   "!"; ":" -> { Goal_select.SelectAlreadyFocused }
-    |   IDENT "all"; ":" -> { Goal_select.SelectAll } ] ]
+    [ [
+      sel = selector;
+      l = OPT [","; l = LIST1 selector SEP "," -> { l }]; ":" ->
+      { Goal_select.SelectList (sel :: Option.default [] l) }
+      | "!"; ":" -> { Goal_select.SelectAlreadyFocused }
+      | IDENT "all"; ":" -> { Goal_select.SelectAll } ] ]
   ;
   tactic_mode:
     [ [ g = OPT toplevel_selector; tac = G_vernac.query_command -> { tac g }

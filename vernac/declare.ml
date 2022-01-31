@@ -1776,7 +1776,7 @@ let update_sigma_univs ugraph p =
 
 let next = let n = ref 0 in fun () -> incr n; !n
 
-let by tac = map_fold ~f:(Proof.solve (Goal_select.SelectNth 1) None tac)
+let by tac = map_fold ~f:(Proof.solve (Goal_select.SelectList [Goal_select.SelectNth 1]) None tac)
 
 let build_constant_by_tactic ~name ?(opaque=Vernacexpr.Transparent) ~uctx ~sign ~poly (typ : EConstr.t) tac =
   let evd = Evd.from_ctx uctx in

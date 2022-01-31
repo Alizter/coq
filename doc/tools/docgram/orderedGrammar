@@ -2557,7 +2557,6 @@ toplevel_selector: [
 | selector
 | "all"
 | "!"
-| "par"
 ]
 
 selector: [
