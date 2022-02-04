@@ -57,7 +57,7 @@ let logfile = ref None
 
 (** The main element of coqide is a notebook of session views *)
 
-let notebook =
+let notebook () =
   Wg_Notebook.create Session.build_layout Session.kill
     ~border_width:2 ~show_border:false ~scrollable:true ()
 
@@ -65,13 +65,13 @@ let notebook =
 (** {2 Callback functions for the user interface } *)
 
 let on_current_term f =
-  let term = try Some notebook#current_term with Invalid_argument _ -> None in
+  let term = try Some (notebook ())#current_term with Invalid_argument _ -> None in
   match term with
   | None -> ()
   | Some t -> ignore (f t)
 
 let on_current_term_val default f =
-  let term = try Some notebook#current_term with Invalid_argument _ -> None in
+  let term = try Some (notebook ())#current_term with Invalid_argument _ -> None in
   match term with
   | None -> default
   | Some t -> f t
@@ -155,10 +155,10 @@ let set_drag (w : GObj.drag_ops) =
 let clear_db_highlight ?(retn=false) sn () =
   (match sn.debug_stop_pt with
     | Some (osn,bp,ep) ->
-      if List.mem osn notebook#pages then  (* in case destroyed *)
+      if List.mem osn (notebook ())#pages then  (* in case destroyed *)
         osn.script#clear_debugging_highlight bp ep;
       if retn then
-        notebook#goto_page (notebook#term_num (fun t1 t2 -> t1 == t2) sn);
+        (notebook ())#goto_page ((notebook ())#term_num (fun t1 t2 -> t1 == t2) sn);
     | None -> ()
   )
 
@@ -169,7 +169,7 @@ let find_secondary_sn sn =
     (match hd.debug_stop_pt with
     | Some (osn,_,_) -> osn
     | None -> find tl)
-  in find notebook#pages
+  in find (notebook ())#pages
 
 let db_cmd sn cmd =
   ignore @@ Coq.try_grab ~db:true sn.coqtop
@@ -232,7 +232,7 @@ let get_updates sn =
       | None -> upds
       | Some file ->
         (List.map (fun bp -> ((file, bp.prev_byte_offset), true)) osn.breakpoints) @ upds
-    ) upds notebook#pages
+    ) upds (notebook ())#pages
 
 (* init breakpoints for new session or re-init after reset *)
 let init_bpts sn =
@@ -273,10 +273,10 @@ let load_file ?(maycreate=false) f =
       | [] -> false
       | sn :: sessions ->
         match sn.fileops#filename with
-          | Some fn when is_f fn -> notebook#goto_page i; true
+          | Some fn when is_f fn -> (notebook ())#goto_page i; true
           | _ -> search_f (i+1) sessions
     in
-    if not (search_f 0 notebook#pages) then begin
+    if not (search_f 0 (notebook ())#pages) then begin
       Minilib.log "Loading: get raw content";
       let b = Buffer.create 1024 in
       if Sys.file_exists f then Ideutils.read_file f b
@@ -285,8 +285,8 @@ let load_file ?(maycreate=false) f =
       let s = do_convert (Buffer.contents b) in
       Minilib.log "Loading: create view";
       let session = create_session (Some f) in
-      let index = notebook#append_term session in
-      notebook#goto_page index;
+      let index = (notebook ())#append_term session in
+      (notebook ())#goto_page index;
       Minilib.log "Loading: stats";
       session.fileops#update_stats;
       let input_buffer = session.buffer in
@@ -340,7 +340,7 @@ let check_quit ?parent saveall =
   (try save_pref ()
    with e -> flash_info ("Cannot save preferences (" ^ Printexc.to_string e ^ ")"));
   let is_modified sn = sn.buffer#modified in
-  if List.exists is_modified notebook#pages then begin
+  if List.exists is_modified (notebook ())#pages then begin
     let answ = Configwin_ihm.question_box ~title:"Quit"
       ~buttons:["Save Named Buffers and Quit";
                 "Quit without Saving";
@@ -355,11 +355,11 @@ let check_quit ?parent saveall =
       | 2 -> ()
       | _ -> in_quit_dialog := false; raise DontQuit
   end;
-  List.iter (fun sn -> Coq.close_coqtop sn.coqtop) notebook#pages
+  List.iter (fun sn -> Coq.close_coqtop sn.coqtop) (notebook ())#pages
 
 (* For MacOS, just to be sure, we close all coqtops (again?) *)
 let close_and_quit () =
-  List.iter (fun sn -> Coq.close_coqtop sn.coqtop) notebook#pages;
+  List.iter (fun sn -> Coq.close_coqtop sn.coqtop) (notebook ())#pages;
   exit 0
 
 (* Work around a deadlock due to OCaml exit cleanup. The standard [exit]
@@ -386,7 +386,7 @@ let crash_save exitcode =
       else Minilib.log ("Could not save "^filename)
     with _ -> Minilib.log ("Could not save "^filename)
   in
-  List.iter save_session notebook#pages;
+  List.iter save_session (notebook ())#pages;
   Minilib.log "End emergency save";
   sys_exit exitcode
 
@@ -404,13 +404,13 @@ module File = struct
 
 let newfile _ =
   let sn = create_session None in
-  let index = notebook#append_term sn in
-  notebook#goto_page index;
+  let index = (notebook ())#append_term sn in
+  (notebook ())#goto_page index;
   init_bpts sn
 
 let load ?parent _ =
   let filename =
-    try notebook#current_term.fileops#filename
+    try (notebook ())#current_term.fileops#filename
     with Invalid_argument _ -> None in
   let filenames = select_file_for_open ~title:"Load file" ~multiple:true ?parent ?filename () in
   List.iter FileAux.load_file filenames;
@@ -433,7 +433,7 @@ let saveall _ =
     (fun sn -> match sn.fileops#filename with
       | None -> ()
       | Some f -> ignore (sn.fileops#save f))
-    notebook#pages
+    (notebook ())#pages
 
 let () = Coq.save_all := saveall
 
@@ -443,7 +443,7 @@ let revert_all ?parent _ =
         clear_all_bpts sn;
         sn.fileops#revert ?parent ()
       end)
-    notebook#pages
+    (notebook ())#pages
 
 let quit ?parent _ =
   if not !FileAux.in_quit_dialog then
@@ -452,7 +452,7 @@ let quit ?parent _ =
 
 let close_buffer ?parent sn =
   let do_remove () =
-    notebook#remove_page notebook#current_page;
+    (notebook ())#remove_page (notebook ())#current_page;
     (* remove breakpoints in this buffer from other sessions *)
     if sn.breakpoints <> [] then
       match sn.abs_file_name with
@@ -465,7 +465,7 @@ let close_buffer ?parent sn =
                 [] sn.breakpoints in
               Coq.add_do_when_ready osn.coqtop (fun _ -> db_upd_bpts upds osn)
             end
-          ) notebook#pages
+          ) (notebook ())#pages
   in
   if not sn.buffer#modified then do_remove ()
   else
@@ -564,7 +564,7 @@ let reset_revert_timer () =
 
 let reset_autosave_timer () =
   let autosave sn = try sn.fileops#auto_save with _ -> () in
-  let autosave_all () = List.iter autosave notebook#pages; true in
+  let autosave_all () = List.iter autosave (notebook ())#pages; true in
   FileOps.autosave_timer.kill ();
   if auto_save#get then
     FileOps.autosave_timer.run ~ms:auto_save_delay#get ~callback:autosave_all
@@ -746,7 +746,7 @@ let db_continue opt sn =
 (* find the session identified by sid.  If not specified and the current term
    is the stopping point for another session, direct actions to that term *)
 let find_db_sn ?sid () =
-  let cur = notebook#current_term in
+  let cur = (notebook ())#current_term in
   let f = match sid with
   | Some sid -> fun term -> term.sid == sid
   | None -> fun term ->
@@ -754,7 +754,7 @@ let find_db_sn ?sid () =
     | Some (osn,_,_) -> osn == cur
     | None -> false
   in
-  let res = List.filter f notebook#pages in
+  let res = List.filter f (notebook ())#pages in
   if res = [] then cur else List.hd res
 
 let resume_debugger ?sid opt =
@@ -795,7 +795,7 @@ let calculate_bpt_updates () =
         update_bpts sn upd (bp :: bpts_res) tl       (* no change, keep *)
     | [] -> (List.rev upd, List.rev bpts_res)  (* order matters *)
   in
-  let upds = List.map (fun sn -> update_bpts sn [] [] sn.breakpoints) notebook#pages in
+  let upds = List.map (fun sn -> update_bpts sn [] [] sn.breakpoints) (notebook ())#pages in
   upds
 
 let maybe_update_breakpoints () =
@@ -809,10 +809,10 @@ let maybe_update_breakpoints () =
           | Some fn ->
             List.map (fun ((_, off), set) -> ((fn, off), set)) upd
           | None -> []
-        ) notebook#pages) in
+        ) (notebook ())#pages) in
       if sn_upds <> [] then
         Coq.add_do_when_ready sn.coqtop (fun _ -> db_upd_bpts sn_upds sn)
-    ) notebook#pages upds
+    ) (notebook ())#pages upds
 
 module Nav = struct
   let forward_one_sid ?sid _ =
@@ -840,18 +840,18 @@ module Nav = struct
   let restart _ =
     Minilib.log "Reset Initial";
     maybe_update_breakpoints ();
-    if notebook#pages <> [] then begin
-      let sn = notebook#current_term in
+    if (notebook ())#pages <> [] then begin
+      let sn = (notebook ())#current_term in
       Coq.reset_coqtop sn.coqtop (* calls init_bpts *)
     end
   let interrupt _ =  (* terminate computation *)
     Minilib.log "User interrupt received";
-    if not (resume_debugger Interface.Interrupt) && notebook#pages <> [] then begin
+    if not (resume_debugger Interface.Interrupt) && (notebook ())#pages <> [] then begin
       let osn = (find_db_sn ()) in
       Coq.interrupt_coqtop osn.coqtop CString.(Set.elements (Map.domain osn.jobpage#data))
     end
   let break ?sid _ =  (* stop at the next possible stopping point *)
-    if notebook#pages <> [] then begin
+    if (notebook ())#pages <> [] then begin
       let ocoqtop = (find_db_sn ?sid ()).coqtop in
       if not (Coq.is_stopped_in_debugger ocoqtop) then
         Coq.send_break ocoqtop
@@ -1036,13 +1036,13 @@ let highlight_code sn loc =
   let (file, bp, ep) = loc in
   let highlight () =
     clear_db_highlight sn ();
-    notebook#current_term.script#set_debugging_highlight bp ep;
-    sn.debug_stop_pt <- Some (notebook#current_term, bp, ep);
+    (notebook ())#current_term.script#set_debugging_highlight bp ep;
+    sn.debug_stop_pt <- Some ((notebook ())#current_term, bp, ep);
     (* also show goal in secondary script goal panel *)
-    notebook#current_term.coqops#set_debug_goal sn.last_db_goals
+    (notebook ())#current_term.coqops#set_debug_goal sn.last_db_goals
   in
   if file = "ToplevelInput" then begin
-    notebook#goto_term sn;
+    (notebook ())#goto_term sn;
     highlight ()
   end else if CString.is_suffix ".v" file then begin
     try let _ = Unix.stat file in
@@ -1136,12 +1136,12 @@ let toggle_breakpoint_i sn =
     List.iter (fun osn ->
         if osn != sn then
           Coq.add_do_when_ready osn.coqtop (fun _ -> db_upd_bpts upd2 osn)
-      ) notebook#pages
+      ) (notebook ())#pages
   | None -> ()
 
 let all_sessions_ready _ =
   List.fold_left (fun rdy sn -> rdy && Coq.is_ready_or_stopped_in_debugger sn.coqtop)
-      true notebook#pages
+      true (notebook ())#pages
 
 let toggle_breakpoint _ =
   if all_sessions_ready () then
@@ -1255,7 +1255,7 @@ let refresh_notebook_pos () =
     | true , false -> `LEFT
     | true , true  -> `RIGHT
   in
-  notebook#set_tab_pos pos
+  (notebook ())#set_tab_pos pos
 
 (** Wrappers around GAction functions for creating menus *)
 
@@ -1483,10 +1483,10 @@ let build_ui () =
     item "View" ~label:"_View";
     item "Previous tab" ~label:"_Previous tab" ~accel:"<Alt>Left"
       ~stock:`GO_BACK
-      ~callback:(fun _ -> notebook#previous_page ());
+      ~callback:(fun _ -> (notebook ())#previous_page ());
     item "Next tab" ~label:"_Next tab" ~accel:"<Alt>Right"
       ~stock:`GO_FORWARD
-      ~callback:(fun _ -> notebook#next_page ());
+      ~callback:(fun _ -> (notebook ())#next_page ());
     item "Zoom in" ~label:"_Zoom in" ~accel:("<Primary>plus")
         ~stock:`ZOOM_IN ~callback:(fun _ ->
           let ft = Pango.Font.from_string text_font#get in
@@ -1548,7 +1548,7 @@ let build_ui () =
     ("Reset", "_Reset", `GOTO_TOP, Nav.restart, "Reset Coq", "Home");
     (* wait for this available in GtkSourceView !
     ("Hide", "_Hide", `MISSING_IMAGE,
-        ~callback:(fun _ -> let sess = notebook#current_term in
+        ~callback:(fun _ -> let sess = (notebook ())#current_term in
           toggle_proof_visibility sess.buffer sess.analyzed_view#get_insert), "Hide proof", "h"); *)
     ("Previous", "_Previous", `GO_BACK, Nav.previous_occ, "Previous occurrence", "less");
     ("Next", "_Next", `GO_FORWARD, Nav.next_occ, "Next occurrence", "greater");
@@ -1631,10 +1631,10 @@ let build_ui () =
     item "Help" ~label:"_Help";
     item "Browse Coq Manual" ~label:"Browse Coq _Manual"
       ~callback:(fun _ ->
-        browse notebook#current_term.messages#default_route#add_string Coq_config.wwwrefman);
+        browse (notebook ())#current_term.messages#default_route#add_string Coq_config.wwwrefman);
     item "Browse Coq Library" ~label:"Browse Coq _Library"
       ~callback:(fun _ ->
-        browse notebook#current_term.messages#default_route#add_string Coq_config.wwwstdlib);
+        browse (notebook ())#current_term.messages#default_route#add_string Coq_config.wwwstdlib);
     item "Help for keyword" ~label:"Help for _keyword" ~stock:`HELP
       ~callback:(fun _ -> on_current_term (fun sn ->
         browse_keyword sn.messages#default_route#add_string (get_current_word sn)));
@@ -1683,23 +1683,23 @@ let build_ui () =
   let () = vbox#pack toolbar#coerce in
 
   (* Emacs/PG mode *)
-  MicroPG.init w notebook all_menus;
+  MicroPG.init w (notebook ()) all_menus;
 
   (* On tab switch, reset, update location *)
-  let _ = notebook#connect#switch_page ~callback:(fun n ->
+  let _ = (notebook ())#connect#switch_page ~callback:(fun n ->
     let _ = if reset_on_tab_switch#get then Nav.restart () in
     try
-      let session = notebook#get_nth_term n in
+      let session = (notebook ())#get_nth_term n in
       let ins = session.buffer#get_iter_at_mark `INSERT in
       Ideutils.display_location ins
     with _ -> ())
   in
 
   (* Vertical Separator between Scripts and Goals *)
-  let () = vbox#pack ~expand:true notebook#coerce in
+  let () = vbox#pack ~expand:true (notebook ())#coerce in
   let () = refresh_notebook_pos () in
   let lower_hbox = GPack.hbox ~homogeneous:false ~packing:vbox#pack () in
-  let () = lower_hbox#pack ~expand:true status#coerce in
+  let () = lower_hbox#pack ~expand:true (status ())#coerce in
 
   (* Location display *)
   let l = GMisc.label
@@ -1750,12 +1750,12 @@ let build_ui () =
       v.script#source_buffer#set_style_scheme style;
       v.proof#source_buffer#set_style_scheme style;
       v.messages#default_route#source_buffer#set_style_scheme style in
-    List.iter iter_session notebook#pages
+    List.iter iter_session (notebook ())#pages
   in
   let refresh_language lang =
     let lang = lang_manager#language lang in
     let iter_session v = v.script#source_buffer#set_language lang in
-    List.iter iter_session notebook#pages
+    List.iter iter_session (notebook ())#pages
   in
   let refresh_toolbar b =
     if b then toolbar#misc#show () else toolbar#misc#hide ()
@@ -1777,7 +1777,7 @@ let make_file_buffer f =
 
 let make_scratch_buffer () =
   let session = create_session None in
-  let _ = notebook#append_term session in
+  let _ = (notebook ())#append_term session in
   ()
 
 let main files =
@@ -1787,7 +1787,7 @@ let main files =
   (match files with
     | [] -> make_scratch_buffer ()
     | _ -> List.iter make_file_buffer files);
-  notebook#goto_page 0;
+  (notebook ())#goto_page 0;
   MiscMenu.initial_about ();
   on_current_term (fun t -> t.script#misc#grab_focus ());
   Minilib.log "End of Coqide.main";

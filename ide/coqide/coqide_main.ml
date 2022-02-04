@@ -52,12 +52,21 @@ let load_prefs () =
   Preferences.load_pref ~warn:(fun ~delay -> Ideutils.flash_info ~delay)
 
 let () =
-  Ideutils.push_info ("Ready"^ if Preferences.microPG#get then ", [μPG]" else "");
-  load_prefs ();
+  (* Entry point for coqide *)
+  (* First we read the arguments *)
   let argl = List.tl (Array.to_list Sys.argv) in
+  (* Here we handle arguments specific to CoqIDE *)
   let argl = Coqide.read_coqide_args argl in
+  (* Now we initialize the GTK code *)
+  let _ = GtkMain.Main.init () in
+  (* We can continue processing arguments. Errors will be shown in dialog boxes
+     hence why we initialized above. *)
   let files = Coq.filter_coq_opts argl in
   let args = List.filter (fun x -> not (List.mem x files)) argl in
+
+  Ideutils.push_info ("Ready"^ if Preferences.microPG#get then ", [μPG]" else "");
+  load_prefs ();
+
   Coq.check_connection args;
   Coqide.sup_args := args;
   let w = Coqide.main files in

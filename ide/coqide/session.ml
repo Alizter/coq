@@ -74,7 +74,7 @@ let create_buffer () =
     ~left_gravity:false ~name:"stop_of_input" buffer#end_iter in
   let _ = buffer#create_mark ~name:"prev_insert" buffer#start_iter in
   let _ = buffer#place_cursor ~where:buffer#start_iter in
-  let _ = buffer#add_selection_clipboard Ideutils.cb in
+  let _ = buffer#add_selection_clipboard (Ideutils.cb ()) in
   buffer
 
 let create_script coqtop source_buffer =

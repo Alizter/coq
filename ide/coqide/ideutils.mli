@@ -11,7 +11,7 @@
 val warn_image : unit -> GMisc.image
 val warning : string -> unit
 
-val cb : GData.clipboard
+val cb : unit -> GData.clipboard
 
 val browse : (string -> unit) -> string -> unit
 val browse_keyword : (string -> unit) -> string -> unit
@@ -47,7 +47,7 @@ val custom_coqtop : string option ref
 val coqtop_path : unit -> string
 
 
-val status : GMisc.statusbar
+val status : unit -> GMisc.statusbar
 val push_info : string -> unit
 val pop_info : unit -> unit
 val clear_info : unit -> unit

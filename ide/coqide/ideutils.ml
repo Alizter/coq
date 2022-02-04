@@ -10,8 +10,6 @@
 
 open Preferences
 
-let _ = GtkMain.Main.init ()
-
 let warn_image () =
   let img = GMisc.image () in
   img#set_stock `DIALOG_WARNING;
@@ -21,22 +19,22 @@ let warn_image () =
 let warning msg =
    GToolbox.message_box ~title:"Warning" ~icon:(warn_image ())#coerce msg
 
-let cb = GData.clipboard Gdk.Atom.primary
+let cb () = GData.clipboard Gdk.Atom.primary
 
-(* status bar and locations *)
+(* (status ()) bar and locations *)
 
-let status = GMisc.statusbar ()
+let status () = GMisc.statusbar ()
 
 (* These functions seem confused:
 1. They should be per-session rather than global (e.g. for "Coq is computing")
 2. I don't see how pushing and popping is particularly useful
    and there's no explanation of when to push/pop *)
 let push_info,pop_info,clear_info =
-  let status_context = status#new_context ~name:"Messages" in
+  let status_context () = (status ())#new_context ~name:"Messages" in
   let size = ref 0 in
-  (fun s -> incr size; ignore (status_context#push s)),
-  (fun () -> decr size; status_context#pop ()),
-  (fun () -> for _i = 1 to !size do status_context#pop () done; size := 0)
+  (fun s -> incr size; ignore ((status_context ())#push s)),
+  (fun () -> decr size; (status_context ())#pop ()),
+  (fun () -> for _i = 1 to !size do (status_context ())#pop () done; size := 0)
 
 type 'a mlist = Nil | Cons of { hd : 'a ; mutable tl : 'a mlist }
 
@@ -55,9 +53,9 @@ let pop = function
   | Cons p -> p.tl
   | Nil -> assert false
 
-let flash_info =
+let flash_info ?(delay=5000) text =
   let queue = ref Nil in
-  let flash_context = status#new_context ~name:"Flash" in
+  let flash_context = (status ())#new_context ~name:"Flash" in
   let rec process () = match !queue with
     | Cons { hd = (delay,text) } ->
        let msg = flash_context#push text in
@@ -66,7 +64,6 @@ let flash_info =
                    queue := pop !queue;
                    process (); false))
     | Nil -> () in
-  fun ?(delay=5000) text ->
     let processing = !queue <> Nil in
     enqueue (delay,text) queue;
     if not processing then process ()
