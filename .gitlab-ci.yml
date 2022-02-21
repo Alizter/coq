@@ -872,3 +872,4 @@ plugin:ci-rewriter:
 
 plugin:ci-vscoq:
   extends: .ci-template
+  allow_failure: true
