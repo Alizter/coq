@@ -462,6 +462,60 @@ Displaying information about notations
 
    :flag:`Printing All` to disable other elements in addition to notations.
 
+.. cmd:: Print Notation @string {? in custom @ident }
+
+   Displays information about the previously reserved notation string
+   :token:`string`. An optional custom entry may also be given.
+
+   .. coqtop:: all
+
+      Reserved Notation "x $ y" (at level 123, right associativity).
+      Print Notation "_ $ _".
+
+   Variables can be indicated with either "_" or names, as long as these can not
+   be confused with notation symbols. When confusion may arise, for example with
+   notation symbols that are entirely made up of letters, use single quotes to
+   delimit those symbols.
+
+   .. note:: There must always be (at least) a space between notation symbols
+             and arguments, even when the notation format does not include those
+             spaces.
+
+   .. example:: :cmd:`Print Notation`
+
+      .. coqtop:: all
+
+         Reserved Notation "x 'mod' y" (at level 40, no associativity).
+         Print Notation "_ mod _".
+         Print Notation "x 'mod' y".
+
+         Reserved Notation "/ x /" (at level 0, format "/ x /").
+         Fail Print Notation "/x/".
+         Print Notation "/ x /".
+
+         Reserved Notation "( x , y , .. , z )" (at level 0).
+         Print Notation "( _ , _ , .. , _ )".
+
+   .. exn:: :token:`string` cannot be interpreted as a known notation. Make sure
+            that symbols are surrounded by spaces and that holes are explicitly
+            denoted with "_".
+
+      This error occurs when :cmd:`Print Notation` cannot find a notation
+      associated with :token:`string`. This can happen, for example, when the
+      notation does not exist in the current context, :token:`string` is not
+      specific enough, there are missing spaces between symbols, or some symbols
+      need to be quoted with "'". Try with the exact string used to reserve (or
+      define) the notation.
+
+   .. exn:: Unknown custom entry: :token:`string`.
+
+      This error occurs when :cmd:`Print Notation` cannot find the given custom
+      entry given by the user.
+
+.. seealso::
+
+    :cmd:`Locate` for information on the definitions and scopes associated with
+    a notation.
 
 .. cmd:: Print Grammar @ident
 
