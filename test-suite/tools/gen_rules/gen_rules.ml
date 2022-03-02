@@ -315,20 +315,13 @@ let cconfig = "-coqlib ../.. -R ../prerequisite TestSuite"
 let check_dir dir base_deps fmt =
   in_subdir fmt dir (expect_rule ~fail:false ~lvl:"../" ~cconfig ~base_deps)
 
-let cconfig = "-coqlib ../../.. -R ../../prerequisite TestSuite"
-let bugs fmt =
-  in_subdir fmt "bugs/opened" (expect_rule ~fail:false ~lvl:"../../" ~cconfig ~base_deps:[]);
-  in_subdir fmt "bugs/closed" (expect_rule ~fail:false ~lvl:"../../" ~cconfig ~base_deps:[]);
-  ()
-
-let cconfig = "-coqlib ../.. -R ../prerequisite TestSuite"
 let output fmt =
   in_subdir fmt "output" (output_rule ~lvl:"../" ~cconfig)
 
 let output_rules out =
   check_dir "success" [] out;
   check_dir "failure" [] out;
-  bugs out;
+  check_dir "bugs" [] out;
   output out;
   check_dir "modules" [] out;
   check_dir "micromega" [".csdp.cache"] out;
