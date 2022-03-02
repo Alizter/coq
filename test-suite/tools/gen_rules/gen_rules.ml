@@ -180,7 +180,8 @@ let scan_vfiles dir =
 let in_subdir fmt dir f =
   let vfiles = scan_vfiles dir in
   Format.fprintf fmt "(subdir %s@\n @[" dir;
-  List.iter (fun vfile -> f ~fmt ~dir ~vfile) vfiles;
+  (try List.iter (fun vfile -> f ~fmt ~dir ~vfile) vfiles
+  with exn -> Format.fprintf fmt "@])@\n"; raise exn);
   Format.fprintf fmt "@])@\n";
   ()
 
@@ -206,7 +207,7 @@ module Dune = struct
 end
 
 let cctx =
-  [| "-I"; "../plugins/ltac"
+  [| "-I"; "../../install/default/lib"
    ; "-R"; "../theories" ; "Coq"
    ; "-R"; "prerequisite"; "TestSuite"
    ; "-Q"; "../user-contrib/Ltac2"; "Ltac2" |]
