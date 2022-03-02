@@ -213,11 +213,13 @@ let cctx =
    ; "-Q"; "../user-contrib/Ltac2"; "Ltac2" |]
 
 (* Soon we will be able to delegate this call to dune itself, using (read) *)
+let coqdep_path = "../tools/coqdep/coqdep.exe"
+
 let call_coqdep ~dir file =
   let file = Filename.concat dir file in
-  let args = Array.concat [ [|"../tools/coqdep.exe"; "-boot"|]; cctx; [|file|]] in
+  let args = Array.concat [ [|coqdep_path; "-boot"|]; cctx; [|file|]] in
   (* Format.eprintf "call: @[%a@]@\n" (pp_print_list ~pp_sep:pp_print_space pp_print_string) (Array.to_list args); *)
-  let in_c = Unix.open_process_args_in "../tools/coqdep.exe" args in
+  let in_c = Unix.open_process_args_in coqdep_path args in
   let res = input_line in_c in
   let _ = Unix.close_process_in in_c in
   res
