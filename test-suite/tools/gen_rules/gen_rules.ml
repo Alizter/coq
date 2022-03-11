@@ -174,8 +174,9 @@ let _ =
 *)
 
 let scan_vfiles dir =
-  Sys.readdir dir |> Array.to_list |>
-  List.filter (fun f -> Filename.check_suffix f ".v")
+  Sys.readdir dir
+  |> Array.to_list
+  |> List.filter (fun f -> Filename.check_suffix f ".v")
 
 let in_subdir fmt dir f =
   let vfiles = scan_vfiles dir in
@@ -241,10 +242,14 @@ let vfile_header ~dir vfile =
   close_in inc;
   if Str.string_match (Str.regexp ".*coq-prog-args: (\\([^)]*\\)).*") line 0 then
     (let pargs = Str.matched_group 1 line in
-     Format.eprintf "pargs: %s@\n%!" pargs;
+     (* Format.eprintf "pargs: %s@\n%!" pargs; *)
      Some pargs)
   else
     None
+
+let flatten_args args =
+  List.map (fun x -> "\"" ^ x ^ "\"") args
+  |> String.concat " "
 
 let extra_deps s =
   match s with
@@ -254,11 +259,11 @@ let extra_deps s =
   | "\"-compat\" \"8.14\"" -> ["../../theories/Compat/Coq814.vo"]
   | _ -> []
 
-let expect_rule ~fmt ~dir ~lvl ~fail ~cconfig ~vfile ~base_deps =
+let expect_rule ~fmt ~dir ~lvl ~fail ~cconfig ~vfile ~args ~base_deps =
   let open Dune.Rule in
   let _votarget, vfile_deps = coqdep_file ~dir ~lvl vfile in
   let vfile_deps = [lvl ^ "../theories/Init/Prelude.vo"] @ vfile_deps in
-  let extra_args = option_default "" (vfile_header ~dir vfile) in
+  let extra_args = option_default "" (vfile_header ~dir vfile) ^ " " ^ flatten_args args in
   let extra_deps = extra_deps extra_args @ base_deps in
   let exit_codes = if fail then "(or 1 129)" else "0" in
   (* sadly we don't capture the log if the call to coqc fails :S ,
@@ -275,12 +280,13 @@ let expect_rule ~fmt ~dir ~lvl ~fail ~cconfig ~vfile ~base_deps =
   in
   pp fmt rule
 
-let output_rule ~fmt ~dir ~lvl ~cconfig ~vfile =
+let output_rule ~fmt ~dir ~lvl ~fail ~cconfig ~vfile ~args ~base_deps =
   let _votarget, vfile_deps = coqdep_file ~dir ~lvl vfile in
   let vfile_deps = [lvl ^ "../theories/Init/Prelude.vo"] @ vfile_deps in
   (* For output tests we also accept failure :/ *)
-  let exit_codes = "(or 0 1)" in
-  let extra_args = option_default "" (vfile_header ~dir vfile) in
+  let exit_codes = if fail then "(or 1 129)" else "0" in
+  let extra_args = option_default "" (vfile_header ~dir vfile) ^ " " ^ flatten_args args in
+  let extra_deps = extra_deps extra_args @ base_deps in
   (* Output-specific args *)
   let extra_args = "-test-mode -async-proofs-cache force " ^ extra_args in
   let action = Format.asprintf
@@ -298,7 +304,7 @@ let output_rule ~fmt ~dir ~lvl ~cconfig ~vfile =
   let action = Format.asprintf "(with-outputs-to %%{targets} (run ../tools/amend-output-log.sh %s))" (vfile^".log.pre") in
   let rule_log =
     { targets = [vfile ^ ".log"]
-    ; deps = [vfile ^ ".log.pre"]
+    ; deps = extra_deps @ [vfile ^ ".log.pre"]
     ; action
     ; alias = None
     }
@@ -315,19 +321,36 @@ let output_rule ~fmt ~dir ~lvl ~cconfig ~vfile =
 
 (* Fix this cconfig stuff *)
 let cconfig = "-coqlib ../.. -R ../prerequisite TestSuite"
-let check_dir dir base_deps fmt =
-  in_subdir fmt dir (expect_rule ~fail:false ~lvl:"../" ~cconfig ~base_deps)
+let check_dir ?(fail=false) ?(args=[]) dir base_deps fmt =
+  in_subdir fmt dir (expect_rule ~fail ~lvl:"../" ~cconfig ~args ~base_deps)
 
-let output fmt =
-  in_subdir fmt "output" (output_rule ~lvl:"../" ~cconfig)
+let check_dir_output ?(fail=false) ?(args=[]) dir base_deps fmt =
+  in_subdir fmt dir (output_rule ~fail ~lvl:"../" ~cconfig ~args ~base_deps)
 
 let output_rules out =
-  check_dir "success" [] out;
-  check_dir "failure" [] out;
   check_dir "bugs" [] out;
-  output out;
-  check_dir "modules" [] out;
+  (* TODO: complexity *)
+  (* TODO: coq-makefile *)
+  (* TODO: coqchk *)
+  (* TODO: coqdoc *)
+  (* TODO: coqwc *)
+  check_dir "failure" [] out;
+  (* TODO: ide *)
+  (* TODO: interactive *)
+  (* TODO: ltac2 *)
   check_dir "micromega" [".csdp.cache"] out;
+  check_dir "misc" [] out;
+  check_dir "modules" [] out;
+  check_dir_output "output" [] out;
+  (* TODO: output-coqchk *)
+  (* TODO: output-coqtop *)
+  (* TODO: output-modulo-time *)
+  (* TODO: primitive *)
+  check_dir "ssr" [] out;
+  check_dir "stm" [] ~args:["-async-proofs"; "on"] out;
+  check_dir "success" [] out;
+  (* TODO: unit-tests *)
+  (* TODO: vio *)
   ()
 
 let main () =
