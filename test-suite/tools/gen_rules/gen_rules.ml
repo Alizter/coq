@@ -228,7 +228,12 @@ let call_coqdep ~dir file =
 let coqdep_file ~dir ~lvl file =
   let coqdep_line = call_coqdep ~dir file in
   Coqdep.parse_coqdep_line coqdep_line |> Option.get |> fun (target, deps) ->
-  target, List.map (fun f -> lvl ^ f) deps.Coqdep.Vodep.deps
+  (* Split deps and META deps *)
+  let  metas, deps = List.partition (fun x -> Str.string_match (Str.regexp ".*/META") x 0) deps.Coqdep.Vodep.deps in
+  (* Due to a limitation of coqdep we have relativize the META file(s) *)
+  (* We just replace everything before lib/coq-core with ../../install/default/lib/coq-core *)
+  let metas = metas |> List.map @@ Str.replace_first (Str.regexp ".*/lib/coq-core") "../../install/default/lib/coq-core" in
+  target, List.map (fun f -> lvl ^ f) (List.append deps metas)
 
 let vfile_header ~dir vfile =
   let vfile = Filename.concat dir vfile in
@@ -259,13 +264,14 @@ let extra_deps s =
   | "\"-compat\" \"8.14\"" -> ["../../theories/Compat/Coq814.vo"]
   | _ -> []
 
-let expect_rule ~fmt ~dir ~lvl ~fail ~cconfig ~vfile ~args ~base_deps =
+let expect_rule ~fmt ~dir ~lvl ~allow_fail ~cconfig ~vfile ~args ~base_deps =
   let open Dune.Rule in
   let _votarget, vfile_deps = coqdep_file ~dir ~lvl vfile in
   let vfile_deps = [lvl ^ "../theories/Init/Prelude.vo"] @ vfile_deps in
   let extra_args = option_default "" (vfile_header ~dir vfile) ^ " " ^ flatten_args args in
   let extra_deps = extra_deps extra_args @ base_deps in
-  let exit_codes = if fail then "(or 1 129)" else "0" in
+  (* TODO: Do we want more fine control on exit codes *)
+  let exit_codes = if allow_fail then "(or 0 1 129)" else "0" in
   (* sadly we don't capture the log if the call to coqc fails :S ,
      we'll have to use our custom script so the file is still written
   *)
@@ -280,11 +286,12 @@ let expect_rule ~fmt ~dir ~lvl ~fail ~cconfig ~vfile ~args ~base_deps =
   in
   pp fmt rule
 
-let output_rule ~fmt ~dir ~lvl ~fail ~cconfig ~vfile ~args ~base_deps =
+let output_rule ~fmt ~dir ~lvl ~allow_fail ~cconfig ~vfile ~args ~base_deps =
   let _votarget, vfile_deps = coqdep_file ~dir ~lvl vfile in
   let vfile_deps = [lvl ^ "../theories/Init/Prelude.vo"] @ vfile_deps in
   (* For output tests we also accept failure :/ *)
-  let exit_codes = if fail then "(or 1 129)" else "0" in
+  (* Do we? Also we prob want better control for exit codes *)
+  let exit_codes = if allow_fail then "(or 0 1 129)" else "0" in
   let extra_args = option_default "" (vfile_header ~dir vfile) ^ " " ^ flatten_args args in
   let extra_deps = extra_deps extra_args @ base_deps in
   (* Output-specific args *)
@@ -321,11 +328,11 @@ let output_rule ~fmt ~dir ~lvl ~fail ~cconfig ~vfile ~args ~base_deps =
 
 (* Fix this cconfig stuff *)
 let cconfig = "-coqlib ../.. -R ../prerequisite TestSuite"
-let check_dir ?(fail=false) ?(args=[]) ?(base_deps=[]) dir fmt =
-  in_subdir fmt dir (expect_rule ~fail ~lvl:"../" ~cconfig ~args ~base_deps)
+let check_dir ?(allow_fail=false) ?(args=[]) ?(base_deps=[]) dir fmt =
+  in_subdir fmt dir (expect_rule ~allow_fail ~lvl:"../" ~cconfig ~args ~base_deps)
 
-let _check_dir_output ?(fail=false) ?(args=[]) ?(base_deps=[]) dir fmt =
-  in_subdir fmt dir (output_rule ~fail ~lvl:"../" ~cconfig ~args ~base_deps)
+let _check_dir_output ?(allow_fail=false) ?(args=[]) ?(base_deps=[]) dir fmt =
+  in_subdir fmt dir (output_rule ~allow_fail ~lvl:"../" ~cconfig ~args ~base_deps)
 
 let output_rules out =
   check_dir "bugs" out;
@@ -337,19 +344,22 @@ let output_rules out =
   check_dir "failure" out;
   (* TODO: ide *)
   (* TODO: interactive *)
-  (* TODO: ltac2 *)
-  (* check_dir "micromega" [".csdp.cache"] out; *)
-  (* check_dir "misc" [] out; *)
-  (* check_dir "modules" [] out; *)
-  (* check_dir_output "output" out; *)
+  check_dir "ltac2" out;
+   (* !! Something is broken here: *)
+  (* check_dir "micromega" ~base_deps:[".csdp.cache"] out; *)
+   (* ?? unused? some of these tests no longer work *)
+  (* check_dir "misc" out; *)
+   (* ?? unused? *)
+  (* check_dir "modules" out; *)
+   (* !! Something is broken here: *)
+  (* check_dir_output "output" ~fail:true out; *)
   (* TODO: output-coqchk *)
   (* TODO: output-coqtop *)
   (* TODO: output-modulo-time *)
   (* TODO: primitive *)
-  (* check_dir "ssr" [] out; *)
-  (* check_dir "stm" [] ~args:["-async-proofs"; "on"] out; *)
-  (* check_dir "success" [] out; *)
-  (* TODO: unit-tests *)
+  check_dir "ssr" out;
+  check_dir "stm" ~args:["-async-proofs"; "on"] out;
+  check_dir "success" out;
   (* TODO: vio *)
   ()
 
