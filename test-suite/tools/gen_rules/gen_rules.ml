@@ -321,34 +321,34 @@ let output_rule ~fmt ~dir ~lvl ~fail ~cconfig ~vfile ~args ~base_deps =
 
 (* Fix this cconfig stuff *)
 let cconfig = "-coqlib ../.. -R ../prerequisite TestSuite"
-let check_dir ?(fail=false) ?(args=[]) dir base_deps fmt =
+let check_dir ?(fail=false) ?(args=[]) ?(base_deps=[]) dir fmt =
   in_subdir fmt dir (expect_rule ~fail ~lvl:"../" ~cconfig ~args ~base_deps)
 
-let check_dir_output ?(fail=false) ?(args=[]) dir base_deps fmt =
+let _check_dir_output ?(fail=false) ?(args=[]) ?(base_deps=[]) dir fmt =
   in_subdir fmt dir (output_rule ~fail ~lvl:"../" ~cconfig ~args ~base_deps)
 
 let output_rules out =
-  check_dir "bugs" [] out;
+  check_dir "bugs" out;
   (* TODO: complexity *)
   (* TODO: coq-makefile *)
   (* TODO: coqchk *)
   (* TODO: coqdoc *)
   (* TODO: coqwc *)
-  check_dir "failure" [] out;
+  check_dir "failure" out;
   (* TODO: ide *)
   (* TODO: interactive *)
   (* TODO: ltac2 *)
-  check_dir "micromega" [".csdp.cache"] out;
-  check_dir "misc" [] out;
-  check_dir "modules" [] out;
-  check_dir_output "output" [] out;
+  (* check_dir "micromega" [".csdp.cache"] out; *)
+  (* check_dir "misc" [] out; *)
+  (* check_dir "modules" [] out; *)
+  (* check_dir_output "output" out; *)
   (* TODO: output-coqchk *)
   (* TODO: output-coqtop *)
   (* TODO: output-modulo-time *)
   (* TODO: primitive *)
-  check_dir "ssr" [] out;
-  check_dir "stm" [] ~args:["-async-proofs"; "on"] out;
-  check_dir "success" [] out;
+  (* check_dir "ssr" [] out; *)
+  (* check_dir "stm" [] ~args:["-async-proofs"; "on"] out; *)
+  (* check_dir "success" [] out; *)
   (* TODO: unit-tests *)
   (* TODO: vio *)
   ()
