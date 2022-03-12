@@ -331,7 +331,7 @@ let cconfig = "-coqlib ../.. -R ../prerequisite TestSuite"
 let check_dir ?(allow_fail=false) ?(args=[]) ?(base_deps=[]) dir fmt =
   in_subdir fmt dir (expect_rule ~allow_fail ~lvl:"../" ~cconfig ~args ~base_deps)
 
-let _check_dir_output ?(allow_fail=false) ?(args=[]) ?(base_deps=[]) dir fmt =
+let check_dir_output ?(allow_fail=false) ?(args=[]) ?(base_deps=[]) dir fmt =
   in_subdir fmt dir (output_rule ~allow_fail ~lvl:"../" ~cconfig ~args ~base_deps)
 
 let output_rules out =
@@ -346,13 +346,13 @@ let output_rules out =
   (* TODO: interactive *)
   check_dir "ltac2" out;
    (* !! Something is broken here: *)
-  (* check_dir "micromega" ~base_deps:[".csdp.cache"] out; *)
+  check_dir "micromega" ~base_deps:[".csdp.cache"] ~allow_fail:true out;
    (* ?? unused? some of these tests no longer work *)
   (* check_dir "misc" out; *)
    (* ?? unused? *)
   (* check_dir "modules" out; *)
    (* !! Something is broken here: *)
-  (* check_dir_output "output" ~fail:true out; *)
+  check_dir_output "output" ~allow_fail:true out;
   (* TODO: output-coqchk *)
   (* TODO: output-coqtop *)
   (* TODO: output-modulo-time *)
