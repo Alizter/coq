@@ -334,6 +334,16 @@ let check_dir ?(allow_fail=false) ?(args=[]) ?(base_deps=[]) dir fmt =
 let check_dir_output ?(allow_fail=false) ?(args=[]) ?(base_deps=[]) dir fmt =
   in_subdir fmt dir (output_rule ~allow_fail ~lvl:"../" ~cconfig ~args ~base_deps)
 
+(** TODO:
+- All our time is spent calling coqtop for each file, there are a lot of files
+  and coqdep processes are not cheap.
+  + We ought to really have a Coqdep library which we can access within OCaml.
+    This would also be useful for dune to use.margin
+  + Are we writing files in the most efficient way at the moment?
+- We need to have finer control on exit codes, some tests straight out don't work currently.
+- Scanning for .v files is not recursive, it probably should be.
+*)
+
 let output_rules out =
   check_dir "bugs" out;
   (* TODO: complexity *)
