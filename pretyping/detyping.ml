@@ -782,7 +782,9 @@ and detype_r d flags avoid env sigma t =
           (* Using a dash to be unparsable *)
           GEvar (CAst.make @@ Id.of_string_soft "CONTEXT-HOLE", [])
         else
-          GEvar (CAst.make @@ Id.of_string_soft ("M" ^ string_of_int n), [])
+          (match Evd.meta_name sigma n with
+          | Name id -> GEvar (CAst.make id, [])
+          | Anonymous -> GEvar (CAst.make @@ Id.of_string_soft ("M" ^ string_of_int n), []))
     | Var id ->
         (* Discriminate between section variable and non-section variable *)
         (try let _ = Global.lookup_named id in GRef (GlobRef.VarRef id, None)
