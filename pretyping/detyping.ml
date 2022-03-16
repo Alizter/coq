@@ -762,6 +762,95 @@ let delay (type a) (d : a delay) (f : a delay -> _ -> _ -> _ -> _ -> _ -> a glob
   | Now -> DAst.make (f d flags env avoid sigma t)
   | Later -> DAst.delay (fun () -> f d flags env avoid sigma t)
 
+(* TODO: move *)
+
+let clenv_meta_type env sigma mv cache =
+  let ty =
+    try Evd.meta_ftype sigma mv
+    with Not_found -> anomaly Pp.(str "unknown meta ?" ++ str (Nameops.string_of_meta mv) ++ str ".") in
+  Reductionops.meta_instance env cache ty
+
+let error_incompatible_inst env sigma mv  =
+  let na = Evd.meta_name sigma mv in
+  match na with
+  | Name id ->
+    user_err
+      Pp.(str "An incompatible instantiation has already been found for " ++
+          Id.print id)
+  | _ ->
+    anomaly ~label:"clenv_assign" (Pp.str "non dependent metavar already assigned.")
+
+
+let mentions env sigma mv0 =
+  let open Evd in
+  let rec menrec mv1 =
+    Int.equal mv0 mv1 ||
+    let mlist =
+      try match meta_opt_fvalue sigma mv1 with
+      | Some (b,_) -> b.freemetas
+      | None -> Metaset.empty
+      with Not_found -> Metaset.empty in
+    Metaset.exists menrec mlist
+  in menrec
+
+let adjust_meta_source evd mv =
+  let open Evd in function
+  | loc,Evar_kinds.VarInstance id ->
+    let rec match_name c l =
+      match EConstr.kind evd c, l with
+      | Lambda ({binder_name=Name id},_,c), a::l when EConstr.eq_constr evd a (mkMeta mv) -> Some id
+      | Lambda (_,_,c), a::l -> match_name c l
+      | _ -> None in
+    (* This is very ad hoc code so that an evar inherits the name of the binder
+        in situations like "ex_intro (fun x => P) ?ev p" *)
+    let f = function (mv',(Cltyp (_,t) | Clval (_,_,t))) ->
+      if Evd.Metaset.mem mv t.freemetas then
+        let f,l = decompose_app evd t.rebus in
+        match EConstr.kind evd f with
+        | Meta mv'' ->
+          (match meta_opt_fvalue evd mv'' with
+          | Some (c,_) -> match_name c.rebus l
+          | None -> None)
+        | _ -> None
+      else None in
+    let id = try List.find_map f (Evd.meta_list evd) with Not_found -> id in
+    loc,Evar_kinds.VarInstance id
+  | src -> src
+
+(* TODO: replace by clenv_unify (mkMeta mv) rhs ? *)
+let clenv_assign mv rhs env sigma =
+  let open Evd in
+  let rhs_fls = mk_freelisted rhs in
+  if Metaset.exists (mentions env sigma mv) rhs_fls.freemetas then
+    user_err Pp.(str "clenv_assign: circularity in unification");
+  try
+    if meta_defined sigma mv then
+      if not (EConstr.eq_constr sigma (fst (meta_fvalue sigma mv)).rebus rhs) then
+        error_incompatible_inst env sigma mv
+      else
+        sigma
+    else
+      let st = (Conv,TypeNotProcessed) in
+      Evd.meta_assign mv (rhs_fls.rebus,st) sigma
+  with Not_found ->
+    user_err Pp.(str "clenv_assign: undefined meta")
+
+let clenv_pose_metas_as_evars env sigma cache dep_mvs =
+  let rec fold sigma = function
+  | [] -> sigma
+  | mv::mvs ->
+      let ty = clenv_meta_type env sigma mv cache in
+      (* Postpone the evar-ization if dependent on another meta *)
+      (* This assumes no cycle in the dependencies - is it correct ? *)
+      if occur_meta sigma ty then fold sigma (mvs@[mv])
+      else
+        let src = Evd.evar_source_of_meta mv sigma in
+        let src = adjust_meta_source sigma mv src in
+        let (sigma, evar) = Evarutil.new_evar env sigma ~src ty in
+        let clenv = clenv_assign mv evar env sigma in
+        fold clenv mvs in
+  fold sigma dep_mvs
+
 let rec detype d flags avoid env sigma t =
   delay d detype_r flags avoid env sigma t
 
@@ -782,7 +871,13 @@ and detype_r d flags avoid env sigma t =
           (* Using a dash to be unparsable *)
           GEvar (CAst.make @@ Id.of_string_soft "CONTEXT-HOLE", [])
         else
-          (match Evd.meta_name sigma n with
+          (* We can generate new evars from a list of metas *)
+          let sigma = clenv_pose_metas_as_evars (snd env) sigma
+            (Reductionops.create_meta_instance_subst sigma) [n] in
+          (* But now what?! *)
+          (* let evar_name = evar_suggested_name (snd env) sigma n in *)
+          let evar_name = Evd.meta_name sigma n in
+          (match evar_name with
           | Name id -> GEvar (CAst.make id, [])
           | Anonymous -> GEvar (CAst.make @@ Id.of_string_soft ("M" ^ string_of_int n), []))
     | Var id ->
