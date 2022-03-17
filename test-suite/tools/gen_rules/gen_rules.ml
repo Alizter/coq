@@ -328,11 +328,11 @@ let output_rule ~fmt ~dir ~lvl ~allow_fail ~cconfig ~vfile ~args ~base_deps =
 
 (* Fix this cconfig stuff *)
 let cconfig = "-coqlib ../.. -R ../prerequisite TestSuite"
-let check_dir ?(allow_fail=false) ?(args=[]) ?(base_deps=[]) dir fmt =
-  in_subdir fmt dir (expect_rule ~allow_fail ~lvl:"../" ~cconfig ~args ~base_deps)
+let check_dir ?(lvl="../") ?(allow_fail=false) ?(args=[]) ?(base_deps=[]) dir fmt =
+  in_subdir fmt dir (expect_rule ~allow_fail ~lvl ~cconfig ~args ~base_deps)
 
-let check_dir_output ?(allow_fail=false) ?(args=[]) ?(base_deps=[]) dir fmt =
-  in_subdir fmt dir (output_rule ~allow_fail ~lvl:"../" ~cconfig ~args ~base_deps)
+let check_dir_output ?(lvl="../") ?(allow_fail=false) ?(args=[]) ?(base_deps=[]) dir fmt =
+  in_subdir fmt dir (output_rule ~allow_fail ~lvl ~cconfig ~args ~base_deps)
 
 (** TODO:
 - All our time is spent calling coqtop for each file, there are a lot of files
@@ -360,13 +360,16 @@ let output_rules out =
    (* ?? unused? some of these tests no longer work *)
   (* check_dir "misc" out; *)
    (* ?? unused? *)
-  (* check_dir "modules" out; *)
+  check_dir "modules" out;
    (* !! Something is broken here: *)
   check_dir_output "output" ~allow_fail:true out;
   (* TODO: output-coqchk *)
   (* TODO: output-coqtop *)
   (* TODO: output-modulo-time *)
-  (* TODO: primitive *)
+  check_dir "primitive/arrays" ~lvl:"../../" out;
+  check_dir "primitive/float" ~lvl:"../../" out;
+  check_dir "primitive/sint63" ~lvl:"../../" out;
+  check_dir "primitive/uint63" ~lvl:"../../" out;
   check_dir "ssr" out;
   check_dir "stm" ~args:["-async-proofs"; "on"] out;
   check_dir "success" out;
