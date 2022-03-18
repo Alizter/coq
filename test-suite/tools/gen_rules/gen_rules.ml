@@ -54,9 +54,9 @@ let coqdep_files ~dir files () =
   let files = List.map (Filename.concat dir) files in
   let args = List.concat [[ coqdep_path; "-boot"]; cctx; files] in
   let open Coqdeplib in
-  let v_files = Common.init args in
+  let v_files,state  = Common.init args in
   List.iter Common.treat_file_command_line v_files;
-  let deps = Common.compute_deps () in
+  let deps = Common.compute_deps state in
   deps
 
 let vfile_header ~dir vfile =
@@ -103,7 +103,7 @@ let generate_rule ~fmt ~dir ~lvl ~cconfig ~args ~base_deps ~exit_codes ~output (
     in
     List.map f vfile_dep_info.Dep_info.deps
   in
-  let vfile_deps = List.map (Dep.string_of_dep ~suffix:".vo") vfile_deps in
+  let vfile_deps = List.map (Dep.to_string ~suffix:".vo") vfile_deps in
   let vfile_deps = ["../theories/Init/Prelude.vo"; vfile_long] @ vfile_deps in
   (* lvl adjustment done here *)
   let vfile_deps = List.map ((^) lvl) vfile_deps in
@@ -184,38 +184,37 @@ let check_dir ?(lvl="../") ?(allow_fail=false) ?(args=[]) ?(base_deps=[]) ?(exit
     the global state of coqdep, multiple check_dir (i.e calls to coqdep) result
     in leaking of state.
   *)
-
   check_dir "bugs" out;
   (* TODO: complexity *)
   (* TODO: coq-makefile *)
   (* TODO: coqchk *)
   (* TODO: coqdoc *)
   (* TODO: coqwc *)
-  (* check_dir "failure" out; *)
+  check_dir "failure" out;
   (* TODO: ide *)
   (* TODO: interactive *)
-  (* check_dir "ltac2" out; *)
+  check_dir "ltac2" out;
    (* !! Something is broken here: *)
-  (* check_dir "micromega" ~base_deps:[".csdp.cache"] ~allow_fail:true out; *)
+  check_dir "micromega" ~base_deps:[".csdp.cache"] ~allow_fail:true out;
    (* ?? unused? some of these tests no longer work *)
-  (* check_dir "misc" out; *)
+  check_dir "misc" out;
    (* ?? unused? *)
-  (* check_dir "modules" out; *)
+  check_dir "modules" out;
    (* !! Something is broken here: *)
-  (* check_dir "output" ~allow_fail:true ~output:true out; *)
+  check_dir "output" ~allow_fail:true ~output:true out;
   (* extra args for output? *)
   (* let extra_args = "-test-mode -async-proofs-cache force " ^ extra_args in *)
 
   (* TODO: output-coqchk *)
   (* TODO: output-coqtop *)
   (* TODO: output-modulo-time *)
-  (* check_dir "primitive/arrays" ~lvl:"../../" out; *)
-  (* check_dir "primitive/float" ~lvl:"../../" out; *)
-  (* check_dir "primitive/sint63" ~lvl:"../../" out; *)
-  (* check_dir "primitive/uint63" ~lvl:"../../" out; *)
-  (* check_dir "ssr" out; *)
-  (* check_dir "stm" ~args:["-async-proofs"; "on"] out; *)
-  (* check_dir "success" out; *)
+  check_dir "primitive/arrays" ~lvl:"../../" out;
+  check_dir "primitive/float" ~lvl:"../../" out;
+  check_dir "primitive/sint63" ~lvl:"../../" out;
+  check_dir "primitive/uint63" ~lvl:"../../" out;
+  check_dir "ssr" out;
+  check_dir "stm" ~args:["-async-proofs"; "on"] out;
+  check_dir "success" out;
   (* TODO: vio *)
   ()
 
