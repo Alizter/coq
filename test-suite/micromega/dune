@@ -1,5 +1,9 @@
-; XXX: This is not compatible with the dune cache
 (rule
  (targets .csdp.cache)
  (deps ../.csdp.cache.test-suite)
- (action (copy %{deps} %{targets})))
+ (action (copy %{deps} %{targets}))
+  (action
+  (progn
+  ; Cache set this to read-only
+  (copy %{deps} %{targets})
+  (bash "chmod +w %{targets}"))))
