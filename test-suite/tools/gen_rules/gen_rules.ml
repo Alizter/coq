@@ -77,7 +77,8 @@ let vfile_header ~dir vfile =
     None
 
 let flatten_args args =
-  List.map (fun x -> "\"" ^ x ^ "\"") args
+  args
+  (* |> List.map (fun x -> "\"" ^ x ^ "\"") *)
   |> String.concat " "
 
 let extra_deps s =
@@ -88,7 +89,7 @@ let extra_deps s =
   | "\"-compat\" \"8.14\"" -> ["../../theories/Compat/Coq814.vo"]
   | _ -> []
 
-let generate_rule ~fmt ~cctx ~dir ~lvl ~cconfig ~args ~base_deps ~exit_codes ~output (vfile_dep_info : Coqdeplib.Common.Dep_info.t) =
+let generate_rule ~fmt ~cctx ~dir ~lvl ~args ~base_deps ~exit_codes ~output (vfile_dep_info : Coqdeplib.Common.Dep_info.t) =
   let open Coqdeplib.Common in
   let vfile_long =  vfile_dep_info.Dep_info.name ^ ".v" in
   let vfile =
@@ -119,12 +120,12 @@ let generate_rule ~fmt ~cctx ~dir ~lvl ~cconfig ~args ~base_deps ~exit_codes ~ou
   | l -> Printf.sprintf "(or %s)" @@ String.concat " " (List.map string_of_int l)
   in
   let action out_file = Format.asprintf
-    "(with-outputs-to %s (with-accepted-exit-codes %s (run coqc %s %s %s)))" out_file exit_codes cconfig extra_args vfile in
+    "(with-outputs-to %s (with-accepted-exit-codes %s (run coqc %s %s %s)))" out_file exit_codes (flatten_args cctx) extra_args vfile in
   let open Dune.Rule in
   if output then
     (* output rule generation *)
     let rule_log =
-      { targets = [vfile; vfile ^ ".log.pre"]
+      { targets = [vfile ^ ".log.pre"]
       ; deps = vfile_deps
       ; action = action (vfile ^ ".log.pre")
       ; alias = None
@@ -152,7 +153,7 @@ let generate_rule ~fmt ~cctx ~dir ~lvl ~cconfig ~args ~base_deps ~exit_codes ~ou
   else
     (* normal rule generation *)
     let rule =
-      { targets = [vfile; vfile ^ ".log"]
+      { targets = [vfile ^ ".log"]
       ; deps = extra_deps @ vfile_deps
       ; action = action (vfile ^ ".log")
       ; alias = Some "runtest"
@@ -160,15 +161,11 @@ let generate_rule ~fmt ~cctx ~dir ~lvl ~cconfig ~args ~base_deps ~exit_codes ~ou
     in
     pp fmt rule
 
-
-(* Fix this cconfig stuff *)
-let cconfig = "-coqlib ../.. -R ../prerequisite TestSuite"
-
 let check_dir ~cctx ?lvl ?(args=[]) ?(base_deps=[]) ?(exit_codes=[]) ?(output=false) dir fmt =
   (* Scan for all .v files in directory *)
   let vfiles = scan_vfiles dir in
   (* Run coqdep to get deps *)
-  let deps = coqdep_files ~cctx ~dir vfiles () in
+  let deps = coqdep_files ~cctx:(cctx ".") ~dir vfiles () in
   (* The lvl can be computed from the dir *)
   let lvl = match lvl with
     | Some l -> l
@@ -179,7 +176,7 @@ let check_dir ~cctx ?lvl ?(args=[]) ?(base_deps=[]) ?(exit_codes=[]) ?(output=fa
   let () =
     try
       (* Generate rule for each set of dependencies  *)
-      List.iter (generate_rule ~cctx ~lvl ~cconfig ~args ~base_deps ~output ~exit_codes ~fmt ~dir) deps
+      List.iter (generate_rule ~cctx:(cctx lvl) ~lvl ~args ~base_deps ~output ~exit_codes ~fmt ~dir) deps
     (* Make sure we gracefully balance the file before throwing an excpetion *)
     with exn -> Format.fprintf fmt "@])@\n"; raise exn
   in
@@ -187,13 +184,14 @@ let check_dir ~cctx ?lvl ?(args=[]) ?(base_deps=[]) ?(exit_codes=[]) ?(output=fa
   ()
 
 let output_rules out =
-  (* Common context - This will be passed to coqdep *)
-  let cctx = [
+  (* TODO clean up lvl stuff here *)
+  (* Common context - This will be passed to coqdep and coqc *)
+  let cctx lvl = [
     "-boot";
-    "-I"; "../../install/default/lib";
-    "-R"; "../theories" ; "Coq";
-    "-R"; "prerequisite"; "TestSuite";
-    "-Q"; "../user-contrib/Ltac2"; "Ltac2" ]
+    "-I"; lvl ^ "/../../install/default/lib";
+    "-R"; lvl ^ "/../theories" ; "Coq";
+    "-R"; lvl ^ "/prerequisite"; "TestSuite";
+    "-Q"; lvl ^ "/../user-contrib/Ltac2"; "Ltac2" ]
   in
   check_dir "bugs" out ~cctx;
   (* TODO: complexity *)
@@ -210,7 +208,7 @@ let output_rules out =
    (* ?? unused? some of these tests no longer work *)
   check_dir "misc" out ~cctx;
    (* ?? unused? *)
-  check_dir "modules" out ~cctx:(["-R"; "."; "Mods"] @ cctx);
+  check_dir "modules" out ~cctx:(fun lvl -> ["-R"; lvl; "Mods"] @ cctx lvl);
    (* !! Something is broken here: *)
   check_dir "output" out ~cctx ~output:true ~args:["-test-mode"; "-async-proofs-cache"; "force"];
 
