@@ -3,7 +3,7 @@
 
 .PHONY: help help-install states world watch check    # Main developer targets
 .PHONY: refman-html refman-pdf stdlib-html apidoc     # Documentation targets
-.PHONY: test-suite dev-targets
+.PHONY: test test-suite dev-targets
 .PHONY: fmt ocheck obuild ireport clean               # Maintenance targets
 .PHONY: dunestrap vio release install                 # Miscellaneous
 
@@ -144,8 +144,9 @@ watch:
 check:
 	dune build $(DUNEOPT) @check
 
-test-suite: dunestrap
-	dune runtest --no-buffer $(DUNEOPT)
+test test-suite: dunestrap
+	dune build @test-gen $(DUNEOPT)
+	dune test $(DUNEOPT)
 
 refman-html: dunestrap
 	dune build --no-buffer @refman-html
