@@ -369,7 +369,13 @@ let generate_build_rule ~fmt ~exit_codes ~args ~deps ~chk_args
     with_outputs_to_rule ~fmt vfile;
     diff_rule ~fmt vfile;
     ()
-  | arguments -> error_unsupported_build_rule arguments ()
+  (* failing output rule *)
+  | false, Output.Coqc, false, false, false, false ->
+    coqc_log_rule ~fmt ~exit_codes ~args ~deps ~log_ext:".log.pre" vfile;
+    with_outputs_to_rule ~fmt vfile;
+    diff_rule ~fmt vfile;
+    ()
+    | arguments -> error_unsupported_build_rule arguments ()
 
 
 let generate_rule
@@ -491,11 +497,12 @@ let _output_rules out =
   check_dir "failure" out ~cctx;
   check_dir "ltac2" out ~cctx;
   (* !! Something is broken here: *)
-  check_dir "micromega" out ~base_deps:[".csdp.cache"] ~cctx;
+  (* check_dir "micromega" out ~base_deps:[".csdp.cache"] ~cctx; *)
   check_dir "modules" out ~cctx:(fun lvl -> ["-R"; lvl; "Mods"]);
   (* !! Something is broken here: *)
   check_dir "output" out ~cctx ~output:Output.Coqc ~args:["-test-mode"; "-async-proofs-cache"; "force"];
   check_dir "output-coqchk" out ~cctx ~output:Output.Check;
+  check_dir "output-failure" out ~cctx ~output:Output.Coqc ~args:["-test-mode"; "-async-proofs-cache"; "force"] ~exit_codes:[1];
   check_dir "primitive/arrays" out ~cctx;
   check_dir "primitive/float" out ~cctx;
   check_dir "primitive/sint63" out ~cctx;
@@ -525,8 +532,9 @@ let () =
     Format.eprintf "%s@\n%s@\n%!" exn bt
 
 (* TODOS:
-(* LINTER - check theere is a rule for every test *)
-(* Rule to update output tests (prob a promote rule) *)
+(* ADD: linter - check theere is a rule for every test *)
+(* ADD: Rule to update output tests (prob a promote rule) *)
+(* FIX: Cannot run test-suite directly from clean build *)
 (* TODO: complexity *)
 (* TODO: coq-makefile *)
 (* TODO: coqdoc *)
