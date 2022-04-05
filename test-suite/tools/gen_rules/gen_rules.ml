@@ -121,7 +121,7 @@ let _coqc_rule ~fmt ~exit_codes ~args ~deps vfile =
   pp fmt rule
 
 (** coqc rule vo target, no log *)
-let _coqc_vo_rule ~fmt ~exit_codes ~args ~deps vfile =
+let coqc_vo_rule ~fmt ~exit_codes ~args ~deps vfile =
   let open Dune.Rule in
   let rule =
     { targets = [vfile ^ "o"]
@@ -199,15 +199,15 @@ let coqc_vok_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext="ok.log") vfile =
   in
   pp fmt rule
 
-let coqchk_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext=".chk.log") vfile =
+let coqchk_log_rule ~fmt ~exit_codes ~chk_args ~deps ?(log_ext=".chk.log") vfile =
   let open Dune.Rule in
   let vofile = vfile ^ "o" in
   let rule =
     { targets = [vfile ^ log_ext]
     ; deps = vofile :: deps
     ; action = Format.asprintf
-        "(with-outputs-to %s (with-accepted-exit-codes %s (run coqchk %s -norec %s)))"
-        (vfile ^ log_ext) (exit_codes_to_string exit_codes) args vofile
+        "(with-outputs-to %s (with-accepted-exit-codes %s (run coqchk -silent -o %s -norec %s)))"
+        (vfile ^ log_ext) (exit_codes_to_string exit_codes) chk_args vofile
     ; alias = Some "runtest"
     }
   in
@@ -290,10 +290,19 @@ let diff_rule ~fmt ?(out_ext=".out") ?(log_ext=".log") vfile =
     } in
   pp fmt rule_diff
 
+module Output = struct
+  (* The type of output - dictates which logs we will diff *)
+  type t = None | Vo | Check
+  let to_string = function
+    | None -> "None"
+    | Vo -> "Vo"
+    | Check -> "Check"
+end
+
 let error_unsupported_build_rule (success, output, vio, vio2vo, vos, vok) () =
   Printf.eprintf
-    "Combination of arguments:\n + success=%b\n + output%b\n + vio=%b\n + vio2vo=%b\n + vos=%b\n + vok=%b\nHas chosen a build rule that is not supported."
-    success output vio vio2vo vos vok
+    "Combination of arguments:\n + success=%b\n + output%s\n + vio=%b\n + vio2vo=%b\n + vos=%b\n + vok=%b\nHas chosen a build rule that is not supported."
+    success (Output.to_string output) vio vio2vo vos vok
 
 let generate_build_rule ~fmt ~exit_codes ~args ~deps ~chk_args
   ~output ~vio2vo vfile =
@@ -314,33 +323,40 @@ let generate_build_rule ~fmt ~exit_codes ~args ~deps ~chk_args
   match success, output, vio, vio2vo, vos, vok with
   (* Compilation flags - Only one should be true at a time TODO: perhaps not so strictly tho*)
   (* vio *)
-  | true, false, true, false, false, false ->
+  | true, Output.None, true, false, false, false ->
     coqc_vio_log_rule ~fmt ~exit_codes ~args ~deps vfile
   (* vio2vo *)
-  | true, false, _, true, false, false ->
+  | true, Output.None, _, true, false, false ->
     coqc_vio2vo_log_rule ~fmt ~exit_codes ~args ~deps vfile;
-    coqchk_log_rule ~fmt ~exit_codes ~args:chk_args ~deps vfile;
+    coqchk_log_rule ~fmt ~exit_codes ~chk_args ~deps vfile;
     ()
   (* vos *)
-  | true, false, false, false, true, false ->
+  | true, Output.None, false, false, true, false ->
     coqc_vos_log_rule ~fmt ~exit_codes ~args ~deps vfile
   (* vok *)
-  | true, false, false, false, false, true ->
+  | true, Output.None, false, false, false, true ->
     coqc_vok_log_rule ~fmt ~exit_codes ~args ~deps vfile
   (* vo *)
-  | true, false, false, false, false, false ->
+  | true, Output.None, false, false, false, false ->
     coqc_vo_log_rule ~fmt ~exit_codes ~args ~deps vfile;
-    coqchk_log_rule ~fmt ~exit_codes ~args:chk_args ~deps vfile;
+    coqchk_log_rule ~fmt ~exit_codes ~chk_args ~deps vfile;
     ()
   (* failing vo *)
-  | false, false, false, false, false, false ->
+  | false, Output.None, false, false, false, false ->
     coqc_log_rule ~fmt ~exit_codes ~args ~deps vfile
   (* output rule *)
-  | _, true, _, _, _, _ ->
+  | _, Output.Vo, _, _, _, _ ->
     coqc_vo_log_rule ~fmt ~exit_codes ~args ~deps ~log_ext:".log.pre" vfile;
     with_outputs_to_rule ~fmt vfile;
     diff_rule ~fmt vfile;
-    coqchk_log_rule ~fmt ~exit_codes ~args:chk_args ~deps vfile;
+    coqchk_log_rule ~fmt ~exit_codes ~chk_args ~deps vfile;
+    ()
+  | _, Output.Check, _, _, _, _ ->
+    coqc_vo_rule ~fmt ~exit_codes ~args ~deps vfile;
+    coqchk_log_rule ~fmt ~exit_codes ~chk_args ~deps ~log_ext:".log.pre" vfile;
+    (* TODO are these right? *)
+    with_outputs_to_rule ~fmt vfile;
+    diff_rule ~fmt vfile;
     ()
   | arguments -> error_unsupported_build_rule arguments ()
 
@@ -391,24 +407,29 @@ let generate_rule
   (* parse the header of the .v file for extra arguments *)
   let extra_args = option_default "" (vfile_header ~dir vfile) ^ " " ^ flatten_args args in
   let extra_deps = extra_deps extra_args @ base_deps in
+  (* args *)
+  let args = (flatten_args cctx) ^ " " ^ extra_args in
+  (* deps *)
+  let deps = extra_deps @ vfile_deps in
   (* filter args and pass to coqchk *)
   let chk_args =
     let rec filter = function
       | "-R" :: dir :: name :: l -> "-R" :: dir :: name :: filter l
       | "-Q" :: dir :: name :: l -> "-Q" :: dir :: name :: filter l
       | "-noinit" :: l -> "-noinit" :: filter l
+      | "-impredicative-set" :: l -> "-impredicative-set" :: filter l
       | _ :: l -> filter l
       | [] -> []
     in
-    filter cctx
+    args
+    |> Str.split (Str.regexp " ")
+    |> filter
     |> String.concat " "
   in
-  let args = (flatten_args cctx) ^ " " ^ extra_args in
-  let deps = extra_deps @ vfile_deps in
   generate_build_rule ~fmt ~exit_codes ~args ~chk_args ~deps ~output vfile
 
 let check_dir ~cctx ?lvl ?(args=[]) ?(base_deps=[]) ?(exit_codes=[])
-  ?(output=false) ?(vio2vo=false) dir fmt =
+  ?(output=Output.None) ?(vio2vo=false) dir fmt =
   (* Scan for all .v files in directory *)
   let vfiles = scan_vfiles dir in
   (* Run coqdep to get deps *)
@@ -431,14 +452,19 @@ let check_dir ~cctx ?lvl ?(args=[]) ?(base_deps=[]) ?(exit_codes=[])
   ()
 
 let _debug_rules out =
-  let cctx lvl = [
+  let _cctx lvl = [
     "-boot";
     "-I"; lvl ^ "/../../install/default/lib";
     "-R"; lvl ^ "/../theories" ; "Coq";
     "-R"; lvl ^ "/prerequisite"; "TestSuite";
     "-Q"; lvl ^ "/../user-contrib/Ltac2"; "Ltac2" ]
   in
-  check_dir "success" out ~cctx;
+  (* check_dir "success" out ~cctx; *)
+
+  (* check_dir "coqchk" out ~cctx; *)
+  (* check_dir "output-coqchk" out ~cctx ~output:Output.Check; *)
+  check_dir "modules" out ~cctx:(fun lvl -> ["-R"; lvl; "Mods"]);
+
 
   (* check_dir "micromega" out ~base_deps:[".csdp.cache"] ~cctx; *)
   ()
@@ -452,63 +478,29 @@ let _output_rules out =
     "-R"; lvl ^ "/prerequisite"; "TestSuite";
     "-Q"; lvl ^ "/../user-contrib/Ltac2"; "Ltac2" ]
   in
-  (* Working! *)
   check_dir "bugs" out ~cctx;
-
-  (* TODO: complexity *)
-
-  (* TODO: coq-makefile *)
-
-  (* TODO: coqchk *)
-
+  check_dir "coqchk" out ~cctx;
   (* TODO: coqdoc *)
-
   (* TODO: coqwc *)
-
-  (* Working! *)
   check_dir "failure" out ~cctx;
-
-  (* TODO: ide *)
-
-  (* TODO: interactive *)
-
-  (* Working! *)
   check_dir "ltac2" out ~cctx;
-
   (* !! Something is broken here: *)
   (* TODO: not working *)
   check_dir "micromega" out ~base_deps:[".csdp.cache"] ~cctx;
-
-  (* TODO: make cram *)
-  (* check_dir "misc" out ~cctx; *)
-
-  (* TODO: broken, make cram? *)
-  (* check_dir "modules" out ~cctx:(fun lvl -> ["-R"; lvl; "Mods"] @ cctx lvl); *)
-
+  check_dir "modules" out ~cctx:(fun lvl -> ["-R"; lvl; "Mods"]);
   (* !! Something is broken here: *)
-  check_dir "output" out ~cctx ~output:true ~args:["-test-mode"; "-async-proofs-cache"; "force"];
-
-  (* TODO: output-coqchk *)
-
+  check_dir "output" out ~cctx ~output:Output.Vo ~args:["-test-mode"; "-async-proofs-cache"; "force"];
+  check_dir "output-coqchk" out ~cctx ~output:Output.Check;
   (* TODO: output-coqtop *)
-
-  (* TODO: output-modulo-time *)
-
-  (* Working! *)
   check_dir "primitive/arrays" out ~cctx;
   check_dir "primitive/float" out ~cctx;
   check_dir "primitive/sint63" out ~cctx;
   check_dir "primitive/uint63" out ~cctx;
-  (* Working! *)
   check_dir "ssr" out ~cctx;
-  (* Working! *)
   check_dir "stm" out ~cctx ~args:["-async-proofs"; "on"];
-
   (* TODO: mostly working *)
   (* The extra_dep.v test seems to either be wrong or broken *)
   check_dir "success" out ~cctx;
-
-  (* Working! *)
   check_dir "vio" out ~cctx ~args:["-vio"];
   check_dir "vio" out ~cctx ~vio2vo:true;
   ()
@@ -529,7 +521,16 @@ let () =
     let exn = Printexc.to_string exn in
     Format.eprintf "%s@\n%s@\n%!" exn bt
 
-(* output output-coqtop output-modulo-time $(INTERACTIVE) $(COMPLEXITY)
-   stm coqdoc ssr primitive ltac2
-   ide vio coqchk output-coqchk coqwc coq-makefile tools $(UNIT_TESTS)
+(* TODOS:
+(* LINTER - check theere is a rule for every test *)
+(* Rule to update output tests (prob a promote rule) *)
+(* TODO: complexity *)
+(* TODO: coq-makefile *)
+(* TODO: coqdoc *)
+(* TODO: coqwc *)
+(* TODO: ide *)
+(* TODO: interactive *)
+(* TODO: misc, make cram *)
+(* TODO: output-coqtop *)
+(* TODO: output-modulo-time *)
 *)
