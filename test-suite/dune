@@ -16,15 +16,17 @@
   (source_tree misc)
   (source_tree modules)
   (source_tree output)
-  ; (source_tree output-coqchk)
+  (source_tree output-coqchk)
   ; (source_tree output-coqtop)
+  (source_tree output-failure)
   ; (source_tree output-modulo-time)
   (source_tree prerequisite)
   (source_tree primitive)
   (source_tree ssr)
   (source_tree stm)
   (source_tree success)
-  ; (source_tree vio)
+  (source_tree vio)
+
 
   ; We rely on coqdeplib
   (source_tree ../tools/coqdep)
