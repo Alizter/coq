@@ -292,16 +292,16 @@ let diff_rule ~fmt ?(out_ext=".out") ?(log_ext=".log") vfile =
 
 module Output = struct
   (* The type of output - dictates which logs we will diff *)
-  type t = None | Vo | Check
+  type t = None | Coqc | Check
   let to_string = function
     | None -> "None"
-    | Vo -> "Vo"
+    | Coqc -> "Coqc"
     | Check -> "Check"
 end
 
 let error_unsupported_build_rule (success, output, vio, vio2vo, vos, vok) () =
   Printf.eprintf
-    "Combination of arguments:\n + success=%b\n + output%s\n + vio=%b\n + vio2vo=%b\n + vos=%b\n + vok=%b\nHas chosen a build rule that is not supported."
+    "*** Error: Combination of arguments:\n + success = %b\n + output = %s\n + vio = %b\n + vio2vo = %b\n + vos = %b\n + vok = %b\nHas chosen a build rule that is not supported.\n"
     success (Output.to_string output) vio vio2vo vos vok
 
 let generate_build_rule ~fmt ~exit_codes ~args ~deps ~chk_args
@@ -325,6 +325,11 @@ let generate_build_rule ~fmt ~exit_codes ~args ~deps ~chk_args
   (* vio *)
   | true, Output.None, true, false, false, false ->
     coqc_vio_log_rule ~fmt ~exit_codes ~args ~deps vfile
+  | true, Output.Coqc, true, false, false, false ->
+    coqc_vio_log_rule ~fmt ~exit_codes ~args ~deps ~log_ext:".log.pre" vfile;
+    with_outputs_to_rule ~fmt vfile;
+    diff_rule ~fmt vfile;
+    ()
   (* vio2vo *)
   | true, Output.None, _, true, false, false ->
     coqc_vio2vo_log_rule ~fmt ~exit_codes ~args ~deps vfile;
@@ -333,6 +338,11 @@ let generate_build_rule ~fmt ~exit_codes ~args ~deps ~chk_args
   (* vos *)
   | true, Output.None, false, false, true, false ->
     coqc_vos_log_rule ~fmt ~exit_codes ~args ~deps vfile
+  | true, Output.Coqc, false, false, true, false ->
+    coqc_vos_log_rule ~fmt ~exit_codes ~args ~deps ~log_ext:".log.pre" vfile;
+    with_outputs_to_rule ~fmt vfile;
+    diff_rule ~fmt vfile;
+    ()
   (* vok *)
   | true, Output.None, false, false, false, true ->
     coqc_vok_log_rule ~fmt ~exit_codes ~args ~deps vfile
@@ -345,13 +355,14 @@ let generate_build_rule ~fmt ~exit_codes ~args ~deps ~chk_args
   | false, Output.None, false, false, false, false ->
     coqc_log_rule ~fmt ~exit_codes ~args ~deps vfile
   (* output rule *)
-  | _, Output.Vo, _, _, _, _ ->
+  | true, Output.Coqc, false, false, false, false ->
     coqc_vo_log_rule ~fmt ~exit_codes ~args ~deps ~log_ext:".log.pre" vfile;
     with_outputs_to_rule ~fmt vfile;
     diff_rule ~fmt vfile;
     coqchk_log_rule ~fmt ~exit_codes ~chk_args ~deps vfile;
     ()
-  | _, Output.Check, _, _, _, _ ->
+  (* checking output of coqchk *)
+  | true, Output.Check, false, false, false, false ->
     coqc_vo_rule ~fmt ~exit_codes ~args ~deps vfile;
     coqchk_log_rule ~fmt ~exit_codes ~chk_args ~deps ~log_ext:".log.pre" vfile;
     (* TODO are these right? *)
@@ -486,7 +497,7 @@ let _output_rules out =
   check_dir "micromega" out ~base_deps:[".csdp.cache"] ~cctx;
   check_dir "modules" out ~cctx:(fun lvl -> ["-R"; lvl; "Mods"]);
   (* !! Something is broken here: *)
-  check_dir "output" out ~cctx ~output:Output.Vo ~args:["-test-mode"; "-async-proofs-cache"; "force"];
+  check_dir "output" out ~cctx ~output:Output.Coqc ~args:["-test-mode"; "-async-proofs-cache"; "force"];
   check_dir "output-coqchk" out ~cctx ~output:Output.Check;
   check_dir "primitive/arrays" out ~cctx;
   check_dir "primitive/float" out ~cctx;
