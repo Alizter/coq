@@ -59,6 +59,12 @@ let coqdep_files ~dir files ~cctx () =
   let deps = Common.compute_deps state in
   deps
 
+let strip_quotes str =
+  if Str.string_match (Str.regexp "\"\\(.*\\)\"") str 0 then
+    Str.matched_group 1 str
+  else
+    str
+
 let vfile_header ~dir vfile =
   let vfile = Filename.concat dir vfile in
   let inc = open_in vfile in
@@ -70,9 +76,16 @@ let vfile_header ~dir vfile =
   in
   close_in inc;
   if Str.string_match (Str.regexp ".*coq-prog-args: (\\([^)]*\\)).*") line 0 then
-    (let pargs = Str.matched_group 1 line in
-     (* Format.eprintf "pargs: %s@\n%!" pargs; *)
-     Some pargs)
+    begin
+      (* These arguments are surrounded by quotes so we need to unquote them *)
+      let pargs =
+        Str.matched_group 1 line
+        |> Str.split (Str.regexp " ")
+        |> List.map strip_quotes
+        |> String.concat " "
+      in
+      Some pargs
+    end
   else
     None
 
@@ -89,7 +102,135 @@ let extra_deps s =
   | "\"-compat\" \"8.14\"" -> ["../../theories/Compat/Coq814.vo"]
   | _ -> []
 
-let generate_rule ~fmt ~cctx ~dir ~lvl ~args ~base_deps ~exit_codes ~output (vfile_dep_info : Coqdeplib.Common.Dep_info.t) =
+let exit_codes_to_string = function
+  | [] -> "0"
+  | l -> Printf.sprintf "(or %s)" @@ String.concat " " (List.map string_of_int l)
+
+(** coqc rule no targets *)
+let coqc_rule ~fmt ~exit_codes ~args ~deps vfile =
+  let open Dune.Rule in
+  let rule =
+    { targets = []
+    ; deps
+    ; action = Format.asprintf
+        "(with-accepted-exit-codes %s (run coqc %s %s))"
+        (exit_codes_to_string exit_codes) args vfile
+    ; alias = Some "runtest"
+    }
+  in
+  pp fmt rule
+
+(** coqc rule vo target *)
+(* let coqc_vo_rule ~fmt ~exit_codes ~args ~deps vfile =
+  let open Dune.Rule in
+  let rule =
+    { targets = [vfile ^ "o"]
+    ; deps
+    ; action = Format.asprintf
+        "(with-accepted-exit-codes %s (run coqc %s %s))"
+        (exit_codes_to_string exit_codes) args vfile
+    ; alias = Some "runtest"
+    }
+  in
+  pp fmt rule *)
+
+(** coqc rule vo and log targets *)
+let coqc_vo_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext=".log") vfile =
+  let open Dune.Rule in
+  let rule =
+    { targets = [vfile ^ "o"; vfile ^ log_ext]
+    ; deps
+    ; action = Format.asprintf
+        "(with-outputs-to %s (with-accepted-exit-codes %s (run coqc %s %s)))"
+        (vfile ^ log_ext) (exit_codes_to_string exit_codes) args vfile
+    ; alias = Some "runtest"
+    }
+  in
+  pp fmt rule
+
+let _coqchk_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext=".chk.log") vfile =
+  let open Dune.Rule in
+  let vofile = vfile ^ "o" in
+  let rule =
+    { targets = [vfile ^ log_ext]
+    ; deps = vofile :: deps
+    ; action = Format.asprintf
+        "(with-outputs-to %s (with-accepted-exit-codes %s (run coqchk %s -norec %s)))"
+        (vfile ^ log_ext) (exit_codes_to_string exit_codes) args vofile
+    ; alias = Some "runtest"
+    }
+  in
+  pp fmt rule
+
+let generate_build_rule ~fmt ~exit_codes ~args ?(chk_args="") ~deps vfile =
+  (* TODO: determination of what to do here needs to be more complicated vio, vos cxms etc. *)
+  (* We only generate vo files if coqc exits in success *)
+  let success =
+    match exit_codes with
+    | [] -> true
+    | l -> List.exists (fun x -> 0 = x) l
+  in
+  if success then begin
+    coqc_vo_log_rule ~fmt ~exit_codes ~args ~deps vfile;
+    (* let args =
+      (* Filter arguments not passable to coqchk *)
+      Str.split (Str.regexp " ") args
+      |> List.filter (fun arg ->
+          arg <> "-boot")
+      |> String.concat " "
+    in
+    let args = String.concat " " [args; chk_args] in
+    coqchk_log_rule ~fmt ~exit_codes ~args ~deps vfile *)
+  end else
+    coqc_rule ~fmt ~exit_codes ~args ~deps vfile
+
+let generate_output_rule ~fmt ~exit_codes ~args ~deps vfile =
+  let open Dune.Rule in
+  (* output rule generation *)
+  (* Part 1: Compile .vo file and generate log *)
+  coqc_vo_log_rule ~fmt ~exit_codes ~args ~deps ~log_ext:".log.pre" vfile;
+  (* Part 2: Process log *)
+  (* Rule to amend output test, should drop once makefile goes away *)
+  let action = Format.asprintf "(with-outputs-to %s (run ../tools/amend-output-log.sh %s))" (vfile ^ ".log") (vfile ^ ".log.pre") in
+  let rule_log =
+    { targets = [vfile ^ ".log"]
+    ; deps = (*extra_deps @*) [vfile ^ ".log.pre"]
+    ; action
+    ; alias = None
+    }
+  in
+  pp fmt rule_log;
+  (* Part 3: diff expected output with log *)
+  let action = Format.asprintf "(diff %s %s)" (Filename.remove_extension vfile^".out") (vfile^".log") in
+  let rule_diff =
+    { targets = []
+    ; deps = []
+    ; action
+    ; alias = Some "runtest"
+    } in
+  pp fmt rule_diff
+
+
+let generate_rule
+  (* Formatter *)
+  ~fmt
+  (* Common context - arguments passed both to coqdep and coqc*)
+  ~cctx
+  (* Root directory - e.g. bugs/ *)
+  ~dir
+  (* Lvl - The correction given to files in the directory - e.g. ../ *)
+  ~lvl
+  (* Arguments to pass to coqc *)
+  ~args
+  (* Base dependencies of rule *)
+  ~base_deps
+  (* Accpted exit codes *)
+  ~exit_codes
+  (* Should the output of the test be checked? *)
+  ~output
+  (* The dependency output of coqdep *)
+  (vfile_dep_info : Coqdeplib.Common.Dep_info.t) =
+
   let open Coqdeplib.Common in
   let vfile_long =  vfile_dep_info.Dep_info.name ^ ".v" in
   let vfile =
@@ -114,52 +255,10 @@ let generate_rule ~fmt ~cctx ~dir ~lvl ~args ~base_deps ~exit_codes ~output (vfi
   (* parse the header of the .v file for extra arguments *)
   let extra_args = option_default "" (vfile_header ~dir vfile) ^ " " ^ flatten_args args in
   let extra_deps = extra_deps extra_args @ base_deps in
-  (* exit codes *)
-  let exit_codes = match exit_codes with
-  | [] -> "0"
-  | l -> Printf.sprintf "(or %s)" @@ String.concat " " (List.map string_of_int l)
-  in
-  let action out_file = Format.asprintf
-    "(with-outputs-to %s (with-accepted-exit-codes %s (run coqc %s %s %s)))" out_file exit_codes (flatten_args cctx) extra_args vfile in
-  let open Dune.Rule in
   if output then
-    (* output rule generation *)
-    let rule_log =
-      { targets = [vfile ^ ".log.pre"]
-      ; deps = vfile_deps
-      ; action = action (vfile ^ ".log.pre")
-      ; alias = None
-      }
-    in
-    pp fmt rule_log;
-    (* Rule to amend output test, should drop once makefile goes away *)
-    let action = Format.asprintf "(with-outputs-to %s (run ../tools/amend-output-log.sh %s))" (vfile ^ ".log") (vfile ^ ".log.pre") in
-    let rule_log =
-      { targets = [vfile ^ ".log"]
-      ; deps = extra_deps @ [vfile ^ ".log.pre"]
-      ; action
-      ; alias = None
-      }
-    in
-    pp fmt rule_log;
-    let action = Format.asprintf "(diff %s %s)" (Filename.remove_extension vfile^".out") (vfile^".log") in
-    let rule_diff =
-      { targets = []
-      ; deps = []
-      ; action
-      ; alias = Some "runtest"
-      } in
-    pp fmt rule_diff
+    generate_output_rule ~fmt ~exit_codes ~args:((flatten_args cctx) ^ " " ^ extra_args) ~deps:(extra_deps @ vfile_deps) vfile
   else
-    (* normal rule generation *)
-    let rule =
-      { targets = [vfile ^ ".log"]
-      ; deps = extra_deps @ vfile_deps
-      ; action = action (vfile ^ ".log")
-      ; alias = Some "runtest"
-      }
-    in
-    pp fmt rule
+    generate_build_rule ~fmt ~exit_codes ~args:((flatten_args cctx) ^ " " ^ extra_args) ~deps:(extra_deps @ vfile_deps) vfile
 
 let check_dir ~cctx ?lvl ?(args=[]) ?(base_deps=[]) ?(exit_codes=[]) ?(output=false) dir fmt =
   (* Scan for all .v files in directory *)
@@ -184,7 +283,9 @@ let check_dir ~cctx ?lvl ?(args=[]) ?(base_deps=[]) ?(exit_codes=[]) ?(output=fa
   ()
 
 let output_rules out =
-  (* TODO clean up lvl stuff here *)
+  (* TODO: parse all coq args ourselves so we can filter etc. Will make rule generation easier to handle *)
+
+
   (* Common context - This will be passed to coqdep and coqc *)
   let cctx lvl = [
     "-boot";
@@ -193,36 +294,63 @@ let output_rules out =
     "-R"; lvl ^ "/prerequisite"; "TestSuite";
     "-Q"; lvl ^ "/../user-contrib/Ltac2"; "Ltac2" ]
   in
+  (* Working! *)
   check_dir "bugs" out ~cctx;
+
   (* TODO: complexity *)
+
   (* TODO: coq-makefile *)
+
   (* TODO: coqchk *)
+
   (* TODO: coqdoc *)
+
   (* TODO: coqwc *)
+
+  (* Working! *)
   check_dir "failure" out ~cctx;
+
   (* TODO: ide *)
+
   (* TODO: interactive *)
+
+  (* Working! *)
   check_dir "ltac2" out ~cctx;
-   (* !! Something is broken here: *)
-  check_dir "micromega" out ~base_deps:[".csdp.cache"] ~cctx;
-   (* ?? unused? some of these tests no longer work *)
-  check_dir "misc" out ~cctx;
-   (* ?? unused? *)
-  check_dir "modules" out ~cctx:(fun lvl -> ["-R"; lvl; "Mods"] @ cctx lvl);
-   (* !! Something is broken here: *)
-  check_dir "output" out ~cctx ~output:true ~args:["-test-mode"; "-async-proofs-cache"; "force"];
+
+  (* !! Something is broken here: *)
+
+  (* TODO: not working *)
+  (* check_dir "micromega" out ~base_deps:[".csdp.cache"] ~cctx; *)
+
+  (* TODO: make cram *)
+  (* check_dir "misc" out ~cctx; *)
+
+  (* TODO: make cram? *)
+  (* check_dir "modules" out ~cctx:(fun lvl -> ["-R"; lvl; "Mods"] @ cctx lvl); *)
+
+  (* !! Something is broken here: *)
+  (* check_dir "output" out ~cctx ~output:true ~args:["-test-mode"; "-async-proofs-cache"; "force"]; *)
 
   (* TODO: output-coqchk *)
+
   (* TODO: output-coqtop *)
+
   (* TODO: output-modulo-time *)
+
+  (* Working! *)
   check_dir "primitive/arrays" out ~cctx;
   check_dir "primitive/float" out ~cctx;
   check_dir "primitive/sint63" out ~cctx;
   check_dir "primitive/uint63" out ~cctx;
+  (* Working! *)
   check_dir "ssr" out ~cctx;
+  (* Working! *)
   check_dir "stm" out ~cctx ~args:["-async-proofs"; "on"];
-  check_dir "success" out ~cctx;
-  (* TODO: vio *)
+
+  (* TODO: not working *)
+  (* check_dir "success" out ~cctx; *)
+
+  (* TODO: vio, cram? *)
   ()
 
 let main () =
