@@ -121,7 +121,7 @@ let coqc_rule ~fmt ~exit_codes ~args ~deps vfile =
   pp fmt rule
 
 (** coqc rule vo target *)
-(* let coqc_vo_rule ~fmt ~exit_codes ~args ~deps vfile =
+let _coqc_vo_rule ~fmt ~exit_codes ~args ~deps vfile =
   let open Dune.Rule in
   let rule =
     { targets = [vfile ^ "o"]
@@ -132,7 +132,7 @@ let coqc_rule ~fmt ~exit_codes ~args ~deps vfile =
     ; alias = Some "runtest"
     }
   in
-  pp fmt rule *)
+  pp fmt rule
 
 (** coqc rule vo and log targets *)
 let coqc_vo_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext=".log") vfile =
@@ -142,6 +142,43 @@ let coqc_vo_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext=".log") vfile =
     ; deps
     ; action = Format.asprintf
         "(with-outputs-to %s (with-accepted-exit-codes %s (run coqc %s %s)))"
+        (vfile ^ log_ext) (exit_codes_to_string exit_codes) args vfile
+    ; alias = Some "runtest"
+    }
+  in
+  pp fmt rule
+
+(* TODO: works but vos needed for stdlib *)
+let _coqc_vos_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext=".vos.log") vfile =
+  let open Dune.Rule in
+  let vosify deps = deps
+    |> List.filter_map (Filename.chop_suffix_opt ~suffix:".vo")
+    |> List.map (fun x -> x ^ ".vos")
+  in
+  let rule =
+    { targets = [vfile ^ "os"; vfile ^ log_ext]
+    (* TODO: get rid of deps? Do we need to depend on vo? *)
+    ; deps = deps @ vosify deps
+    ; action = Format.asprintf
+        "(with-outputs-to %s (with-accepted-exit-codes %s (run coqc %s -vos %s)))"
+        (vfile ^ log_ext) (exit_codes_to_string exit_codes) args vfile
+    ; alias = Some "runtest"
+    }
+  in
+  pp fmt rule
+
+(* TODO: works but vos needed for stdlib *)
+let _coqc_vok_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext=".vok.log") vfile =
+  let open Dune.Rule in
+  let vosify deps = deps
+    |> List.filter_map (Filename.chop_suffix_opt ~suffix:".vo")
+    |> List.map (fun x -> x ^ ".vos")
+  in
+  let rule =
+    { targets = [vfile ^ "ok"; vfile ^ log_ext]
+    ; deps = deps @ vosify deps
+    ; action = Format.asprintf
+        "(with-outputs-to %s (with-accepted-exit-codes %s (run coqc %s -vok %s)))"
         (vfile ^ log_ext) (exit_codes_to_string exit_codes) args vfile
     ; alias = Some "runtest"
     }
@@ -162,8 +199,30 @@ let _coqchk_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext=".chk.log") vfile =
   in
   pp fmt rule
 
+(* TODO: coqnative works but cmxs needed for stdlib *)
+let _coqnative_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext=".cmxs.log") vfile =
+  let open Dune.Rule in
+  (* We need to also require .cmxs files for each .vo file *)
+  let cmxsify deps = deps
+    |> List.filter_map (Filename.chop_suffix_opt ~suffix:".vo")
+    |> List.map (fun x -> x ^ ".cmxs")
+  in
+  let vofile = vfile ^ "o" in
+  let cmxsfile = Filename.chop_extension vfile ^ ".cmxs" in
+  let rule =
+    { targets = [cmxsfile; vfile ^ log_ext]
+    ; deps = vofile :: deps @ cmxsify deps
+    ; action = Format.asprintf
+        "(with-outputs-to %s (with-accepted-exit-codes %s (run coqnative %s %s)))"
+        (vfile ^ log_ext) (exit_codes_to_string exit_codes) args vofile
+    ; alias = Some "runtest"
+    }
+  in
+  pp fmt rule
+
+
 let generate_build_rule ~fmt ~exit_codes ~args ?(chk_args="") ~deps vfile =
-  (* TODO: determination of what to do here needs to be more complicated vio, vos cxms etc. *)
+  (* TODO: determination of what to do here needs to be more complicated vio, vos cmxs etc. *)
   (* We only generate vo files if coqc exits in success *)
   let success =
     match exit_codes with
@@ -181,6 +240,7 @@ let generate_build_rule ~fmt ~exit_codes ~args ?(chk_args="") ~deps vfile =
     in
     let args = String.concat " " [args; chk_args] in
     coqchk_log_rule ~fmt ~exit_codes ~args ~deps vfile *)
+    ()
   end else
     coqc_rule ~fmt ~exit_codes ~args ~deps vfile
 
@@ -247,9 +307,10 @@ let generate_rule
     in
     List.map f vfile_dep_info.Dep_info.deps
   in
+  (* Dependencies are the .vo files given by coqdep *)
   let vfile_deps = List.map (Dep.to_string ~suffix:".vo") vfile_deps in
+  (* We also add the original .v file *)
   let vfile_deps = vfile_long :: vfile_deps in
-  (* let vfile_deps = ["../theories/Init/Prelude.vo"; vfile_long] @ vfile_deps in *)
   (* lvl adjustment done here *)
   let vfile_deps = List.map ((^) (lvl ^ "/")) vfile_deps in
   (* parse the header of the .v file for extra arguments *)
@@ -283,8 +344,6 @@ let check_dir ~cctx ?lvl ?(args=[]) ?(base_deps=[]) ?(exit_codes=[]) ?(output=fa
   ()
 
 let output_rules out =
-  (* TODO: parse all coq args ourselves so we can filter etc. Will make rule generation easier to handle *)
-
 
   (* Common context - This will be passed to coqdep and coqc *)
   let cctx lvl = [
@@ -318,7 +377,6 @@ let output_rules out =
   check_dir "ltac2" out ~cctx;
 
   (* !! Something is broken here: *)
-
   (* TODO: not working *)
   (* check_dir "micromega" out ~base_deps:[".csdp.cache"] ~cctx; *)
 
@@ -367,12 +425,6 @@ let () =
     let bt = Printexc.get_backtrace () in
     let exn = Printexc.to_string exn in
     Format.eprintf "%s@\n%s@\n%!" exn bt
-
-(* TODO:
-  - coqdep 1 call per dir
-  - output
-  - coqchk [with pattern]
- *)
 
 (* output output-coqtop output-modulo-time $(INTERACTIVE) $(COMPLEXITY)
    stm coqdoc ssr primitive ltac2
