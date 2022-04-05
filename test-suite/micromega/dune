@@ -1,7 +1,6 @@
 (rule
  (targets .csdp.cache)
  (deps ../.csdp.cache.test-suite)
- (action (copy %{deps} %{targets}))
   (action
   (progn
   ; Cache set this to read-only
