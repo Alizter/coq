@@ -497,7 +497,7 @@ let _output_rules out =
   check_dir "failure" out ~cctx;
   check_dir "ltac2" out ~cctx;
   (* !! Something is broken here: *)
-  (* check_dir "micromega" out ~base_deps:[".csdp.cache"] ~cctx; *)
+  check_dir "micromega" out ~base_deps:[".csdp.cache"] ~cctx;
   check_dir "modules" out ~cctx:(fun lvl -> ["-R"; lvl; "Mods"]);
   (* !! Something is broken here: *)
   check_dir "output" out ~cctx ~output:Output.Coqc ~args:["-test-mode"; "-async-proofs-cache"; "force"];
