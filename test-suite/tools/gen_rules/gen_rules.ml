@@ -427,8 +427,8 @@ let generate_rule
     let rec filter = function
       | "-R" :: dir :: name :: l -> "-R" :: dir :: name :: filter l
       | "-Q" :: dir :: name :: l -> "-Q" :: dir :: name :: filter l
-      | "-noinit" :: l -> "-noinit" :: filter l
       | "-impredicative-set" :: l -> "-impredicative-set" :: filter l
+      | "-indices-matter" :: l -> "-indices-matter" :: filter l
       | _ :: l -> filter l
       | [] -> []
     in
