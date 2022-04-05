@@ -163,7 +163,7 @@ let coqc_vo_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext=".log") vfile =
   pp fmt rule
 
 (* TODO: works but vos needed for stdlib *)
-let _coqc_vos_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext="os.log") vfile =
+let coqc_vos_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext="os.log") vfile =
   let open Dune.Rule in
   let vosify deps = deps
     |> List.filter_map (Filename.chop_suffix_opt ~suffix:".vo")
@@ -182,7 +182,7 @@ let _coqc_vos_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext="os.log") vfile =
   pp fmt rule
 
 (* TODO: works but vos needed for stdlib *)
-let _coqc_vok_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext="ok.log") vfile =
+let coqc_vok_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext="ok.log") vfile =
   let open Dune.Rule in
   let vosify deps = deps
     |> List.filter_map (Filename.chop_suffix_opt ~suffix:".vo")
@@ -199,7 +199,7 @@ let _coqc_vok_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext="ok.log") vfile =
   in
   pp fmt rule
 
-let _coqchk_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext=".chk.log") vfile =
+let coqchk_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext=".chk.log") vfile =
   let open Dune.Rule in
   let vofile = vfile ^ "o" in
   let rule =
@@ -234,15 +234,11 @@ let _coqnative_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext=".cmxs.log") vfil
   in
   pp fmt rule
 
-let _coqc_vio_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext="io.log") vfile =
+let coqc_vio_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext="io.log") vfile =
   let open Dune.Rule in
-  let _vioify deps = deps
-    |> List.filter_map (Filename.chop_suffix_opt ~suffix:".vo")
-    |> List.map (fun x -> x ^ ".vio")
-  in
   let rule =
+    (* TODO: do we want .vio versions of deps here? (prob need stdlib vio first) *)
     { targets = [vfile ^ "io"; vfile ^ log_ext]
-    (* ; deps = deps @ vioify deps *)
     ; deps
     ; action = Format.asprintf
         "(with-outputs-to %s (with-accepted-exit-codes %s (run coqc %s -vio %s)))"
@@ -252,7 +248,7 @@ let _coqc_vio_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext="io.log") vfile =
   in
   pp fmt rule
 
-let _coqc_vio2vo_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext="io2vo.log") vfile =
+let coqc_vio2vo_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext="io2vo.log") vfile =
   let open Dune.Rule in
   let _vioify deps = deps
     |> List.filter_map (Filename.chop_suffix_opt ~suffix:".vo")
@@ -299,7 +295,7 @@ let error_unsupported_build_rule (success, output, vio, vio2vo, vos, vok) () =
     "Combination of arguments:\n + success=%b\n + output%b\n + vio=%b\n + vio2vo=%b\n + vos=%b\n + vok=%b\nHas chosen a build rule that is not supported."
     success output vio vio2vo vos vok
 
-let generate_build_rule ~fmt ~exit_codes ~args ~deps ?(chk_args="")
+let generate_build_rule ~fmt ~exit_codes ~args ~deps ~chk_args
   ~output ~vio2vo vfile =
   (* TODO: determination of what to do here needs to be more complicated vio, vos cmxs etc. *)
   (* We only generate vo files if coqc exits in success *)
@@ -319,19 +315,23 @@ let generate_build_rule ~fmt ~exit_codes ~args ~deps ?(chk_args="")
   (* Compilation flags - Only one should be true at a time TODO: perhaps not so strictly tho*)
   (* vio *)
   | true, false, true, false, false, false ->
-    _coqc_vio_log_rule ~fmt ~exit_codes ~args ~deps vfile
+    coqc_vio_log_rule ~fmt ~exit_codes ~args ~deps vfile
   (* vio2vo *)
   | true, false, _, true, false, false ->
-    _coqc_vio2vo_log_rule ~fmt ~exit_codes ~args ~deps vfile
+    coqc_vio2vo_log_rule ~fmt ~exit_codes ~args ~deps vfile;
+    coqchk_log_rule ~fmt ~exit_codes ~args:chk_args ~deps vfile;
+    ()
   (* vos *)
   | true, false, false, false, true, false ->
-    _coqc_vos_log_rule ~fmt ~exit_codes ~args ~deps vfile
+    coqc_vos_log_rule ~fmt ~exit_codes ~args ~deps vfile
   (* vok *)
   | true, false, false, false, false, true ->
-    _coqc_vok_log_rule ~fmt ~exit_codes ~args ~deps vfile
+    coqc_vok_log_rule ~fmt ~exit_codes ~args ~deps vfile
   (* vo *)
   | true, false, false, false, false, false ->
-    coqc_vo_log_rule ~fmt ~exit_codes ~args ~deps vfile
+    coqc_vo_log_rule ~fmt ~exit_codes ~args ~deps vfile;
+    coqchk_log_rule ~fmt ~exit_codes ~args:chk_args ~deps vfile;
+    ()
   (* failing vo *)
   | false, false, false, false, false, false ->
     coqc_log_rule ~fmt ~exit_codes ~args ~deps vfile
@@ -340,6 +340,7 @@ let generate_build_rule ~fmt ~exit_codes ~args ~deps ?(chk_args="")
     coqc_vo_log_rule ~fmt ~exit_codes ~args ~deps ~log_ext:".log.pre" vfile;
     with_outputs_to_rule ~fmt vfile;
     diff_rule ~fmt vfile;
+    coqchk_log_rule ~fmt ~exit_codes ~args:chk_args ~deps vfile;
     ()
   | arguments -> error_unsupported_build_rule arguments ()
 
@@ -390,8 +391,21 @@ let generate_rule
   (* parse the header of the .v file for extra arguments *)
   let extra_args = option_default "" (vfile_header ~dir vfile) ^ " " ^ flatten_args args in
   let extra_deps = extra_deps extra_args @ base_deps in
-
-  generate_build_rule ~fmt ~exit_codes ~args:((flatten_args cctx) ^ " " ^ extra_args) ~deps:(extra_deps @ vfile_deps) ~output vfile
+  (* filter args and pass to coqchk *)
+  let chk_args =
+    let rec filter = function
+      | "-R" :: dir :: name :: l -> "-R" :: dir :: name :: filter l
+      | "-Q" :: dir :: name :: l -> "-Q" :: dir :: name :: filter l
+      | "-noinit" :: l -> "-noinit" :: filter l
+      | _ :: l -> filter l
+      | [] -> []
+    in
+    filter cctx
+    |> String.concat " "
+  in
+  let args = (flatten_args cctx) ^ " " ^ extra_args in
+  let deps = extra_deps @ vfile_deps in
+  generate_build_rule ~fmt ~exit_codes ~args ~chk_args ~deps ~output vfile
 
 let check_dir ~cctx ?lvl ?(args=[]) ?(base_deps=[]) ?(exit_codes=[])
   ?(output=false) ?(vio2vo=false) dir fmt =
@@ -430,7 +444,6 @@ let _debug_rules out =
   ()
 
 let _output_rules out =
-
   (* Common context - This will be passed to coqdep and coqc *)
   let cctx lvl = [
     "-boot";
