@@ -163,7 +163,7 @@ let coqc_vo_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext=".log") vfile =
   pp fmt rule
 
 (* TODO: works but vos needed for stdlib *)
-let _coqc_vos_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext=".vos.log") vfile =
+let _coqc_vos_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext="os.log") vfile =
   let open Dune.Rule in
   let vosify deps = deps
     |> List.filter_map (Filename.chop_suffix_opt ~suffix:".vo")
@@ -182,7 +182,7 @@ let _coqc_vos_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext=".vos.log") vfile 
   pp fmt rule
 
 (* TODO: works but vos needed for stdlib *)
-let _coqc_vok_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext=".vok.log") vfile =
+let _coqc_vok_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext="ok.log") vfile =
   let open Dune.Rule in
   let vosify deps = deps
     |> List.filter_map (Filename.chop_suffix_opt ~suffix:".vo")
@@ -234,18 +234,37 @@ let _coqnative_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext=".cmxs.log") vfil
   in
   pp fmt rule
 
-let _coqc_vio_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext=".vio.log") vfile =
+let _coqc_vio_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext="io.log") vfile =
   let open Dune.Rule in
-  let vioify deps = deps
+  let _vioify deps = deps
     |> List.filter_map (Filename.chop_suffix_opt ~suffix:".vo")
     |> List.map (fun x -> x ^ ".vio")
   in
   let rule =
     { targets = [vfile ^ "io"; vfile ^ log_ext]
-    ; deps = deps @ vioify deps
+    (* ; deps = deps @ vioify deps *)
+    ; deps
     ; action = Format.asprintf
         "(with-outputs-to %s (with-accepted-exit-codes %s (run coqc %s -vio %s)))"
         (vfile ^ log_ext) (exit_codes_to_string exit_codes) args vfile
+    ; alias = Some "runtest"
+    }
+  in
+  pp fmt rule
+
+let _coqc_vio2vo_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext="io2vo.log") vfile =
+  let open Dune.Rule in
+  let _vioify deps = deps
+    |> List.filter_map (Filename.chop_suffix_opt ~suffix:".vo")
+    |> List.map (fun x -> x ^ ".vio")
+  in
+  let rule =
+    { targets = [vfile ^ "o"; vfile ^ log_ext]
+    (* ; deps = deps @ vioify deps *)
+    ; deps = deps @ [vfile ^ "io"]
+    ; action = Format.asprintf
+        "(with-outputs-to %s (with-accepted-exit-codes %s (run coqc %s -vio2vo %s)))"
+        (vfile ^ log_ext) (exit_codes_to_string exit_codes) args (vfile ^ "io")
     ; alias = Some "runtest"
     }
   in
@@ -275,12 +294,13 @@ let diff_rule ~fmt ?(out_ext=".out") ?(log_ext=".log") vfile =
     } in
   pp fmt rule_diff
 
-let error_unsupported_build_rule (success, output, vio, vio2vo, vok, vos) () =
+let error_unsupported_build_rule (success, output, vio, vio2vo, vos, vok) () =
   Printf.eprintf
-    "Combination of arguments:\n + success=%b\n + output%b\n + vio=%b\n + vio2vo=%b\n + vok=%b\n + vos=%b: has chosen a build rule that is not supported."
-    success output vio vio2vo vok vos
+    "Combination of arguments:\n + success=%b\n + output%b\n + vio=%b\n + vio2vo=%b\n + vos=%b\n + vok=%b\nHas chosen a build rule that is not supported."
+    success output vio vio2vo vos vok
 
-let generate_build_rule ~fmt ~exit_codes ~args ~deps ?(chk_args="") ?(output=false) vfile =
+let generate_build_rule ~fmt ~exit_codes ~args ~deps ?(chk_args="")
+  ~output ~vio2vo vfile =
   (* TODO: determination of what to do here needs to be more complicated vio, vos cmxs etc. *)
   (* We only generate vo files if coqc exits in success *)
   let success =
@@ -289,35 +309,34 @@ let generate_build_rule ~fmt ~exit_codes ~args ~deps ?(chk_args="") ?(output=fal
     | l -> List.exists (fun x -> 0 = x) l
   in
   let vio = Str.string_match (Str.regexp ".*-vio") args 0 in
-  let vio2vo = Str.string_match (Str.regexp ".*-vio2vo") args 0 in
   let vok = Str.string_match (Str.regexp ".*-vok") args 0 in
   let vos = Str.string_match (Str.regexp ".*-vos") args 0 in
   (* TODO: detect native *)
 
   (* TODO: output rules should be tailored to other flags*)
 
-  match success, output, vio, vio2vo, vok, vos with
+  match success, output, vio, vio2vo, vos, vok with
   (* Compilation flags - Only one should be true at a time TODO: perhaps not so strictly tho*)
-  | true, false, true, false, false, false -> (* vio *)
+  (* vio *)
+  | true, false, true, false, false, false ->
     _coqc_vio_log_rule ~fmt ~exit_codes ~args ~deps vfile
-
-  | true, false, false, true, false, false -> () (* vio2vo *)
-
-
-  (* | true, false, false, false, true, false -> () vok *)
-  | true, false, false, false, false, true ->
+  (* vio2vo *)
+  | true, false, _, true, false, false ->
+    _coqc_vio2vo_log_rule ~fmt ~exit_codes ~args ~deps vfile
+  (* vos *)
+  | true, false, false, false, true, false ->
     _coqc_vos_log_rule ~fmt ~exit_codes ~args ~deps vfile
-
+  (* vok *)
+  | true, false, false, false, false, true ->
+    _coqc_vok_log_rule ~fmt ~exit_codes ~args ~deps vfile
+  (* vo *)
   | true, false, false, false, false, false ->
-    coqc_vo_log_rule ~fmt ~exit_codes ~args ~deps vfile;
-    ()
-
+    coqc_vo_log_rule ~fmt ~exit_codes ~args ~deps vfile
+  (* failing vo *)
   | false, false, false, false, false, false ->
-    coqc_log_rule ~fmt ~exit_codes ~args ~deps vfile;
-    ()
-
+    coqc_log_rule ~fmt ~exit_codes ~args ~deps vfile
+  (* output rule *)
   | _, true, _, _, _, _ ->
-    (* output rule *)
     coqc_vo_log_rule ~fmt ~exit_codes ~args ~deps ~log_ext:".log.pre" vfile;
     with_outputs_to_rule ~fmt vfile;
     diff_rule ~fmt vfile;
@@ -367,13 +386,15 @@ let generate_rule
   let vfile_deps = vfile_long :: vfile_deps in
   (* lvl adjustment done here *)
   let vfile_deps = List.map ((^) (lvl ^ "/")) vfile_deps in
+  let base_deps = List.map ((^) (lvl ^ "/")) base_deps in
   (* parse the header of the .v file for extra arguments *)
   let extra_args = option_default "" (vfile_header ~dir vfile) ^ " " ^ flatten_args args in
   let extra_deps = extra_deps extra_args @ base_deps in
 
   generate_build_rule ~fmt ~exit_codes ~args:((flatten_args cctx) ^ " " ^ extra_args) ~deps:(extra_deps @ vfile_deps) ~output vfile
 
-let check_dir ~cctx ?lvl ?(args=[]) ?(base_deps=[]) ?(exit_codes=[]) ?(output=false) dir fmt =
+let check_dir ~cctx ?lvl ?(args=[]) ?(base_deps=[]) ?(exit_codes=[])
+  ?(output=false) ?(vio2vo=false) dir fmt =
   (* Scan for all .v files in directory *)
   let vfiles = scan_vfiles dir in
   (* Run coqdep to get deps *)
@@ -388,14 +409,27 @@ let check_dir ~cctx ?lvl ?(args=[]) ?(base_deps=[]) ?(exit_codes=[]) ?(output=fa
   let () =
     try
       (* Generate rule for each set of dependencies  *)
-      List.iter (generate_rule ~cctx:(cctx lvl) ~lvl ~args ~base_deps ~output ~exit_codes ~fmt ~dir) deps
+      List.iter (generate_rule ~cctx:(cctx lvl) ~lvl ~args ~base_deps ~output ~vio2vo ~exit_codes ~fmt ~dir) deps
     (* Make sure we gracefully balance the file before throwing an excpetion *)
     with exn -> Format.fprintf fmt "@])@\n"; raise exn
   in
   Format.fprintf fmt "@])@\n";
   ()
 
-let output_rules out =
+let _debug_rules out =
+  let cctx lvl = [
+    "-boot";
+    "-I"; lvl ^ "/../../install/default/lib";
+    "-R"; lvl ^ "/../theories" ; "Coq";
+    "-R"; lvl ^ "/prerequisite"; "TestSuite";
+    "-Q"; lvl ^ "/../user-contrib/Ltac2"; "Ltac2" ]
+  in
+  check_dir "success" out ~cctx;
+
+  (* check_dir "micromega" out ~base_deps:[".csdp.cache"] ~cctx; *)
+  ()
+
+let _output_rules out =
 
   (* Common context - This will be passed to coqdep and coqc *)
   let cctx lvl = [
@@ -430,12 +464,12 @@ let output_rules out =
 
   (* !! Something is broken here: *)
   (* TODO: not working *)
-  (* check_dir "micromega" out ~base_deps:[".csdp.cache"] ~cctx; *)
+  check_dir "micromega" out ~base_deps:[".csdp.cache"] ~cctx;
 
   (* TODO: make cram *)
   (* check_dir "misc" out ~cctx; *)
 
-  (* TODO: make cram? *)
+  (* TODO: broken, make cram? *)
   (* check_dir "modules" out ~cctx:(fun lvl -> ["-R"; lvl; "Mods"] @ cctx lvl); *)
 
   (* !! Something is broken here: *)
@@ -457,16 +491,20 @@ let output_rules out =
   (* Working! *)
   check_dir "stm" out ~cctx ~args:["-async-proofs"; "on"];
 
-  (* TODO: not working *)
-  (* check_dir "success" out ~cctx; *)
+  (* TODO: mostly working *)
+  (* The extra_dep.v test seems to either be wrong or broken *)
+  check_dir "success" out ~cctx;
 
-  (* TODO: vio, cram? *)
+  (* Working! *)
+  check_dir "vio" out ~cctx ~args:["-vio"];
+  check_dir "vio" out ~cctx ~vio2vo:true;
   ()
 
 let main () =
   let out = open_out "test_suite_rules.sexp" in
   let fmt = Format.formatter_of_out_channel out in
-  output_rules fmt;
+  _output_rules fmt;
+  (* _debug_rules fmt; *)
   Format.pp_print_flush fmt ();
   close_out out
 

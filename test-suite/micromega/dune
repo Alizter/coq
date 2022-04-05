@@ -1,8 +1,0 @@
-(rule
- (targets .csdp.cache)
- (deps ../.csdp.cache.test-suite)
-  (action
-  (progn
-  ; Cache set this to read-only
-  (copy %{deps} %{targets})
-  (bash "chmod +w %{targets}"))))

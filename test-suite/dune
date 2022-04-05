@@ -35,7 +35,7 @@
   %{bin:coqqueryworker.opt}
   %{bin:coqproofworker.opt}
 
-  micromega/.csdp.cache
+  .csdp.cache
   %{bin:csdpcert})
  (mode promote)
  (action (run ./tools/gen_rules/gen_rules.exe)))
@@ -52,3 +52,12 @@
     (progn
      (cat ../../plugins/micromega/micromega.ml)
      (echo "\n"))))))
+
+(rule
+ (targets .csdp.cache)
+ (deps .csdp.cache.test-suite)
+  (action
+  (progn
+  ; Cache set this to read-only
+  (copy %{deps} %{targets})
+  (bash "chmod u+w %{targets}"))))
