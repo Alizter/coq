@@ -480,26 +480,21 @@ let _output_rules out =
   in
   check_dir "bugs" out ~cctx;
   check_dir "coqchk" out ~cctx;
-  (* TODO: coqdoc *)
-  (* TODO: coqwc *)
   check_dir "failure" out ~cctx;
   check_dir "ltac2" out ~cctx;
   (* !! Something is broken here: *)
-  (* TODO: not working *)
   check_dir "micromega" out ~base_deps:[".csdp.cache"] ~cctx;
   check_dir "modules" out ~cctx:(fun lvl -> ["-R"; lvl; "Mods"]);
   (* !! Something is broken here: *)
   check_dir "output" out ~cctx ~output:Output.Vo ~args:["-test-mode"; "-async-proofs-cache"; "force"];
   check_dir "output-coqchk" out ~cctx ~output:Output.Check;
-  (* TODO: output-coqtop *)
   check_dir "primitive/arrays" out ~cctx;
   check_dir "primitive/float" out ~cctx;
   check_dir "primitive/sint63" out ~cctx;
   check_dir "primitive/uint63" out ~cctx;
   check_dir "ssr" out ~cctx;
   check_dir "stm" out ~cctx ~args:["-async-proofs"; "on"];
-  (* TODO: mostly working *)
-  (* The extra_dep.v test seems to either be wrong or broken *)
+  (* !! The extra_dep.v test seems to either be wrong or broken *)
   check_dir "success" out ~cctx;
   check_dir "vio" out ~cctx ~args:["-vio"];
   check_dir "vio" out ~cctx ~vio2vo:true;
