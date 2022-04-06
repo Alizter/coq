@@ -146,7 +146,7 @@ check:
 
 test test-suite: dunestrap
 	dune build @test-gen $(DUNEOPT)
-	dune test $(DUNEOPT)
+	dune test $(DUNEOPT) --display=short --always-show-command-line
 
 refman-html: dunestrap
 	dune build --no-buffer @refman-html
