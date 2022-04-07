@@ -12,6 +12,7 @@
 (* It is desirable that this file can be bootstrapped alone             *)
 
 let _debug_rules out =
+  let open CoqRules.Compilation.Output in
   let cctx lvl = [
     "-boot";
     "-I"; lvl ^ "/../../install/default/lib";
@@ -21,11 +22,12 @@ let _debug_rules out =
   in
   (* TODO: these are still borken *)
   CoqRules.check_dir "micromega" out ~base_deps:[".csdp.cache"] ~cctx;
-  CoqRules.check_dir "output" out ~cctx ~output:CoqRules.Output.Coqc ~args:["-test-mode"; "-async-proofs-cache"; "force"];
+  CoqRules.check_dir "output" out ~cctx ~output:Coqc ~args:["-test-mode"; "-async-proofs-cache"; "force"];
   CoqRules.check_dir "success" out ~cctx;
   ()
 
 let _output_rules out =
+  let open CoqRules.Compilation.Output in
   (* Common context - This will be passed to coqdep and coqc *)
   let cctx lvl = [
     "-boot";
@@ -48,9 +50,9 @@ let _output_rules out =
   CoqRules.check_dir "modules" out ~cctx:(fun lvl -> ["-R"; lvl; "Mods"]);
   (* !! Something is broken here: *)
   (* Load.v *)
-  CoqRules.check_dir "output" out ~cctx ~output:CoqRules.Output.Coqc ~args:["-test-mode"; "-async-proofs-cache"; "force"];
-  CoqRules.check_dir "output-coqchk" out ~cctx ~output:CoqRules.Output.Check;
-  CoqRules.check_dir "output-failure" out ~cctx ~output:CoqRules.Output.Coqc ~args:["-test-mode"; "-async-proofs-cache"; "force"] ~exit_codes:[1];
+  CoqRules.check_dir "output" out ~cctx ~output:Coqc ~args:["-test-mode"; "-async-proofs-cache"; "force"];
+  CoqRules.check_dir "output-coqchk" out ~cctx ~output:Check;
+  CoqRules.check_dir "output-failure" out ~cctx ~output:Coqc ~args:["-test-mode"; "-async-proofs-cache"; "force"] ~exit_codes:[1];
   CoqRules.check_dir "primitive/arrays" out ~cctx;
   CoqRules.check_dir "primitive/float" out ~cctx;
   CoqRules.check_dir "primitive/sint63" out ~cctx;
