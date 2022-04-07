@@ -19,43 +19,71 @@ let cctx lvl = [
   "-R"; lvl ^ "/prerequisite"; "TestSuite";
   "-Q"; lvl ^ "/../user-contrib/Ltac2"; "Ltac2" ]
 
-let test bin dir out =
+let test ~run ~out ~out_file ~log_file file=
+  (* TODO: move to dune module *)
+  (* TODO: generalize past .out *)
+  let rule = Dune.Rule.{
+    targets = [log_file]
+    ; deps = [file]
+    ; action = Format.asprintf "(with-outputs-to %s (run %s))" log_file (run file)
+    ; alias = Some "runtest"
+    } in
+  Dune.Rule.pp out rule;
+  Dune.Rules.diff out out_file log_file
+
+let in_subdir ?(ext=".v") f dir out =
   (* TODO: generalize past .v case *)
-  let vfiles = Dir.scan_files_by_ext ".v" dir in
-  let generate_rule vfile =
-    let out_file = Filename.chop_extension vfile ^ ".out" in
-    let log_file = vfile ^ ".log" in
-    let coqwc_rule = Dune.Rule.{
-      targets = [log_file]
-      ; deps = [vfile]
-      ; action = Format.asprintf "(with-outputs-to %s (run %s %s))" log_file bin vfile
-      ; alias = Some "runtest"
-      } in
-    Dune.Rule.pp out coqwc_rule;
-    Dune.Rules.diff out out_file log_file
-  in
+  let vfiles = Dir.scan_files_by_ext ext dir in
   Format.fprintf out "(subdir %s@\n @[" dir;
   let () =
     try
       (* Generate rule for each set of dependencies  *)
-      List.iter generate_rule vfiles
+      List.iter f vfiles
     (* Make sure we gracefully balance the file before throwing an excpetion *)
     with exn -> Format.fprintf out "@])@\n"; raise exn
   in
   Format.fprintf out "@])@\n";
   ()
 
+let test_in_subdir ?ext ~run dir out =
+  in_subdir ?ext (fun file ->
+    let log_file = file ^ ".log" in
+    let out_file = Filename.chop_extension file ^ ".out" in
+    test ~run ~out ~log_file ~out_file file) dir out
+
 let _debug_rules out =
+  let sf = Printf.sprintf in
+
   (* let open CoqRules.Compilation.Output in *)
   (* TODO: these are still borken *)
   (* test "coqwc" "coqwc" out; *)
 
+  let () =
+    let dir = "ide" in
+    let lvl = ".." in
+    let args file = [
+      (* "-q" ; *)
+      "-boot" ;
+      "-R" ; lvl ^ "/../theories" ; "Coq" ;
+      (* "-async-proofs" ; "on" ; *)
+      (* "-async-proofs-tactic-error-resilience" ; "off"; *)
+      (* "-async-proofs-command-error-resilience" ; "off" *)
+       ]
+      @ CoqRules.vfile_header ~dir file
+      (* @ cctx lvl *)
+      |> String.concat " "
+    in
+    let run = fun file -> sf "fake_ide %%{bin:coqidetop.opt} %s %s" file (args file) in
+    test_in_subdir dir out ~run ~ext:".fake"
+  in
   (* CoqRules.check_dir "micromega" out ~base_deps:[".csdp.cache"] ~cctx; *)
   (* CoqRules.check_dir "output" out ~cctx ~output:Coqc ~args:["-test-mode"; "-async-proofs-cache"; "force"]; *)
   (* CoqRules.check_dir "success" out ~cctx; *)
   ()
 
 let _output_rules out =
+  let sf = Printf.sprintf in
+
   let open CoqRules.Compilation.Output in
   (* We disable coqchk for bugs due to anomalies present (coqchk was not run for bugs before) *)
   (* TODO: that should be mostly fixed soon *)
@@ -88,15 +116,16 @@ let _output_rules out =
   CoqRules.check_dir "vio" out ~cctx ~vio2vo:true;
 
   (* Other tests *)
-  test "coqwc" "coqwc" out;
+  test_in_subdir "coqwc" out ~run:(sf "coqwc %s");
+  (* test_in_subdir "ide" out ~run:(sf "fake_ide coqidetop.byte %s") ~ext:".fake" ~read_args:true; *)
 
   ()
 
 let main () =
   let out = open_out "test_suite_rules.sexp" in
   let fmt = Format.formatter_of_out_channel out in
-  _output_rules fmt;
-  (* _debug_rules fmt; *)
+  (* _output_rules fmt; *)
+  _debug_rules fmt;
   Format.pp_print_flush fmt ();
   close_out out
 
@@ -115,7 +144,6 @@ let () =
 (* TODO: complexity *)
 (* TODO: coq-makefile *)
 (* TODO: coqdoc *)
-(* TODO: coqwc *)
 (* TODO: ide *)
 (* TODO: interactive *)
 (* TODO: misc, make cram *)

@@ -9,7 +9,7 @@
   ; (source_tree coqdoc)
   (source_tree coqwc)
   (source_tree failure)
-  ; (source_tree ide)
+  (source_tree ide)
   ; (source_tree interactive)
   (source_tree ltac2)
   (source_tree micromega)
@@ -36,11 +36,18 @@
   %{bin:coqtacticworker.opt}
   %{bin:coqqueryworker.opt}
   %{bin:coqproofworker.opt}
+  %{bin:fake_ide}
+  %{bin:coqidetop.byte}
+  %{lib:coq-core.vm:../../stublibs/dllcoqrun_stubs.so}
+
 
   .csdp.cache
   %{bin:csdpcert})
  (mode promote)
  (action (run ./tools/gen_rules/gen_rules.exe)))
+
+(env (_
+ (binaries (ide/fake_ide.exe as fake_ide))))
 
 (include test_suite_rules.sexp)
 
