@@ -1,8 +1,4 @@
 
-let option_default dft = function None -> dft | Some txt -> txt
-
-let scan_vfiles dir = Dir.scan_files_by_ext ".v" dir
-
 let coqdep_files ~dir files ~cctx () =
   let files = List.map (Filename.concat dir) files in
   let args = List.concat [cctx; files] in
@@ -34,10 +30,10 @@ let vfile_header ~dir vfile =
   else []
 
 let rec extra_deps = function
-  | "-compat" :: "8.11" :: s -> ["../../theories/Compat/Coq811.vo"] @ extra_deps s
-  | "-compat" :: "8.12" :: s -> ["../../theories/Compat/Coq812.vo"] @ extra_deps s
-  | "-compat" :: "8.13" :: s -> ["../../theories/Compat/Coq813.vo"] @ extra_deps s
-  | "-compat" :: "8.14" :: s -> ["../../theories/Compat/Coq814.vo"] @ extra_deps s
+  | "-compat" :: "8.11" :: s -> ["../theories/Compat/Coq811.vo"] @ extra_deps s
+  | "-compat" :: "8.12" :: s -> ["../theories/Compat/Coq812.vo"] @ extra_deps s
+  | "-compat" :: "8.13" :: s -> ["../theories/Compat/Coq813.vo"] @ extra_deps s
+  | "-compat" :: "8.14" :: s -> ["../theories/Compat/Coq814.vo"] @ extra_deps s
   | _ :: s -> extra_deps s
   | [] -> []
 
@@ -364,31 +360,24 @@ let generate_rule
     in
     List.map f vfile_dep_info.Dep_info.deps
   in
-  (* Dependencies are the .vo files given by coqdep *)
-  let vfile_deps = List.map (Dep.to_string ~suffix:".vo") vfile_deps in
-  (* We also add the original .v file *)
-  let vfile_deps = vfile_long :: vfile_deps in
-  (* lvl adjustment done here *)
-  let vfile_deps = List.map ((^) (lvl ^ "/")) vfile_deps in
-  let base_deps = List.map ((^) (lvl ^ "/")) base_deps in
+  (* Dependencies are the .vo files given by coqdep and the original .v file *)
+  let vfile_deps = vfile_long :: List.map (Dep.to_string ~suffix:".vo") vfile_deps in
   (* parse the header of the .v file for extra arguments *)
   let args = vfile_header ~dir vfile @ args in
-  let deps = extra_deps args @ base_deps @ vfile_deps in
+  (* lvl adjustment done here *)
+  let deps = extra_deps args @ base_deps @ vfile_deps |> List.map (fun x -> lvl ^ "/" ^ x) in
   let args = cctx @ args in
   let chk_args = chk_filter args in
   generate_build_rule ~fmt ~exit_codes ~args ~chk_args ~deps ~output vfile
 
-let check_dir ~cctx ?lvl ?(args=[]) ?(base_deps=[]) ?(exit_codes=[])
+let check_dir ~cctx ?(args=[]) ?(base_deps=[]) ?(exit_codes=[])
   ?(output=Output.None) ?(vio2vo=false) ?(coqchk=true) dir fmt =
   (* Scan for all .v files in directory *)
-  let vfiles = scan_vfiles dir in
+  let vfiles = Dir.scan_files_by_ext ".v" dir in
   (* Run coqdep to get deps *)
   let deps = coqdep_files ~cctx:(cctx ".") ~dir vfiles () in
   (* The lvl can be computed from the dir *)
-  let lvl = match lvl with
-    | Some l -> l
-    | None -> Dir.back_to_root dir
-  in
+  let lvl = Dir.back_to_root dir in
   (* Begin prinitng subdir stanza *)
   Format.fprintf fmt "(subdir %s@\n @[" dir;
   let () =
