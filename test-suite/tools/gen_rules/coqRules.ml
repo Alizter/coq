@@ -234,24 +234,41 @@ let diff_rule ~fmt ?(out_ext=".out") ?(log_ext=".log") vfile =
     } in
   pp fmt rule_diff
 
-module Output = struct
-  (* The type of output - dictates which logs we will diff *)
-  type t = None | Coqc | Check
-  let to_string = function
-    | None -> "None"
-    | Coqc -> "Coqc"
-    | Check -> "Check"
+module Compilation = struct
+  module Output = struct
+    (* The type of output - dictates which logs we will diff *)
+    type t = None | Coqc | Check
+    let to_string = function
+      | None -> "None"
+      | Coqc -> "Coqc"
+      | Check -> "Check"
+  end
+
+  module Kind = struct
+    type t =
+    | Vo
+    | Vos
+    | Vok
+    | Vio
+    | Vio2Vo
+
+    let to_string = function
+      | Vo -> "vo"
+      | Vos -> "vos"
+      | Vok -> "vok"
+      | Vio -> "vio"
+      | Vio2Vo -> "vio2vo"
+  end
 end
 
-let error_unsupported_build_rule (success, output, vio, vio2vo, vos, vok) () =
+let error_unsupported_build_rule (success, output, kind) () =
+  let open Compilation in
   Printf.eprintf
-    "*** Error: Combination of arguments:\n + success = %b\n + output = %s\n + vio = %b\n + vio2vo = %b\n + vos = %b\n + vok = %b\nHas chosen a build rule that is not supported.\n"
-    success (Output.to_string output) vio vio2vo vos vok
+    "*** Error: Combination of arguments:\n + success = %b\n + output = %s\n + kind = %s\nHas chosen a build rule that is not supported.\n"
+    success (Output.to_string output) (Kind.to_string kind)
 
 let generate_build_rule ~fmt ~exit_codes ~args ~deps ~chk_args
   ~output ~vio2vo ~coqchk vfile =
-  let args = String.concat " " args in
-  let chk_args = String.concat " " chk_args in
   (* TODO: determination of what to do here needs to be more complicated vio, vos cmxs etc. *)
   (* We only generate vo files if coqc exits in success *)
   let success =
@@ -259,56 +276,61 @@ let generate_build_rule ~fmt ~exit_codes ~args ~deps ~chk_args
     | [] -> true
     | l -> List.exists (fun x -> 0 = x) l
   in
-  let vio = Str.string_match (Str.regexp ".*-vio") args 0 in
-  let vok = Str.string_match (Str.regexp ".*-vok") args 0 in
-  let vos = Str.string_match (Str.regexp ".*-vos") args 0 in
-  (* TODO: detect native *)
+  let open Compilation in
+  let kind =
+    if vio2vo then Kind.Vio2Vo
+    else if List.mem "-vio" args then Kind.Vio
+    else if List.mem "-vos" args then Kind.Vos
+    else if List.mem "-vok" args then Kind.Vok
+    else Kind.Vo
+  in
+
+  let args = String.concat " " args in
+  let chk_args = String.concat " " chk_args in
 
   (* TODO: output rules should be tailored to other flags*)
-
-  match success, output, vio, vio2vo, vos, vok with
-  (* Compilation flags - Only one should be true at a time TODO: perhaps not so strictly tho*)
+  match success, output, kind with
   (* vio *)
-  | true, Output.None, true, false, false, false ->
+  | true, Output.None, Kind.Vio ->
     coqc_vio_log_rule ~fmt ~exit_codes ~args ~deps vfile
-  | true, Output.Coqc, true, false, false, false ->
+  | true, Output.Coqc, Kind.Vio ->
     coqc_vio_log_rule ~fmt ~exit_codes ~args ~deps ~log_ext:".log.pre" vfile;
     with_outputs_to_rule ~fmt vfile;
     diff_rule ~fmt vfile;
     ()
   (* vio2vo *)
-  | true, Output.None, _, true, false, false ->
+  | true, Output.None, Kind.Vio2Vo ->
     coqc_vio2vo_log_rule ~fmt ~exit_codes ~args ~deps vfile;
     if coqchk then coqchk_log_rule ~fmt ~exit_codes ~chk_args ~deps vfile;
     ()
   (* vos *)
-  | true, Output.None, false, false, true, false ->
+  | true, Output.None, Kind.Vos ->
     coqc_vos_log_rule ~fmt ~exit_codes ~args ~deps vfile
-  | true, Output.Coqc, false, false, true, false ->
+  | true, Output.Coqc, Kind.Vos ->
     coqc_vos_log_rule ~fmt ~exit_codes ~args ~deps ~log_ext:".log.pre" vfile;
     with_outputs_to_rule ~fmt vfile;
     diff_rule ~fmt vfile;
     ()
   (* vok *)
-  | true, Output.None, false, false, false, true ->
+  | true, Output.None, Kind.Vok ->
     coqc_vok_log_rule ~fmt ~exit_codes ~args ~deps vfile
   (* vo *)
-  | true, Output.None, false, false, false, false ->
+  | true, Output.None, Kind.Vo ->
     coqc_vo_log_rule ~fmt ~exit_codes ~args ~deps vfile;
     if coqchk then coqchk_log_rule ~fmt ~exit_codes ~chk_args ~deps vfile;
     ()
   (* failing vo *)
-  | false, Output.None, false, false, false, false ->
+  | false, Output.None, Kind.Vo ->
     coqc_log_rule ~fmt ~exit_codes ~args ~deps vfile
   (* output rule *)
-  | true, Output.Coqc, false, false, false, false ->
+  | true, Output.Coqc, Kind.Vo ->
     coqc_vo_log_rule ~fmt ~exit_codes ~args ~deps ~log_ext:".log.pre" vfile;
     with_outputs_to_rule ~fmt vfile;
     diff_rule ~fmt vfile;
     if coqchk then coqchk_log_rule ~fmt ~exit_codes ~chk_args ~deps vfile;
     ()
   (* checking output of coqchk *)
-  | true, Output.Check, false, false, false, false ->
+  | true, Output.Check, Kind.Vo ->
     coqc_vo_rule ~fmt ~exit_codes ~args ~deps vfile;
     coqchk_log_rule ~fmt ~exit_codes ~chk_args ~deps ~log_ext:".log.pre" vfile;
     (* TODO are these right? *)
@@ -316,12 +338,12 @@ let generate_build_rule ~fmt ~exit_codes ~args ~deps ~chk_args
     diff_rule ~fmt vfile;
     ()
   (* failing output rule *)
-  | false, Output.Coqc, false, false, false, false ->
+  | false, Output.Coqc, Kind.Vo ->
     coqc_log_rule ~fmt ~exit_codes ~args ~deps ~log_ext:".log.pre" vfile;
     with_outputs_to_rule ~fmt vfile;
     diff_rule ~fmt vfile;
     ()
-    | arguments -> error_unsupported_build_rule arguments ()
+  | arguments -> error_unsupported_build_rule arguments ()
 
 
 let generate_rule
@@ -371,7 +393,7 @@ let generate_rule
   generate_build_rule ~fmt ~exit_codes ~args ~chk_args ~deps ~output vfile
 
 let check_dir ~cctx ?(args=[]) ?(base_deps=[]) ?(exit_codes=[])
-  ?(output=Output.None) ?(vio2vo=false) ?(coqchk=true) dir fmt =
+  ?(output=Compilation.Output.None) ?(vio2vo=false) ?(coqchk=true) dir fmt =
   (* Scan for all .v files in directory *)
   let vfiles = Dir.scan_files_by_ext ".v" dir in
   (* Run coqdep to get deps *)
