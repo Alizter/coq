@@ -11,32 +11,54 @@
 (* gen_rules: generate dune build rules for Coq's test-suite            *)
 (* It is desirable that this file can be bootstrapped alone             *)
 
-let _debug_rules out =
-  let open CoqRules.Compilation.Output in
-  let cctx lvl = [
-    "-boot";
-    "-I"; lvl ^ "/../../install/default/lib";
-    "-R"; lvl ^ "/../theories" ; "Coq";
-    "-R"; lvl ^ "/prerequisite"; "TestSuite";
-    "-Q"; lvl ^ "/../user-contrib/Ltac2"; "Ltac2" ]
+(* Common context - This will be passed to coqdep and coqc *)
+let cctx lvl = [
+  "-boot";
+  "-I"; lvl ^ "/../../install/default/lib";
+  "-R"; lvl ^ "/../theories" ; "Coq";
+  "-R"; lvl ^ "/prerequisite"; "TestSuite";
+  "-Q"; lvl ^ "/../user-contrib/Ltac2"; "Ltac2" ]
+
+let test bin dir out =
+  (* TODO: generalize past .v case *)
+  let vfiles = Dir.scan_files_by_ext ".v" dir in
+  let generate_rule vfile =
+    let out_file = Filename.chop_extension vfile ^ ".out" in
+    let log_file = vfile ^ ".log" in
+    let coqwc_rule = Dune.Rule.{
+      targets = [log_file]
+      ; deps = [vfile]
+      ; action = Format.asprintf "(with-outputs-to %s (run %s %s))" log_file bin vfile
+      ; alias = Some "runtest"
+      } in
+    Dune.Rule.pp out coqwc_rule;
+    Dune.Rules.diff out out_file log_file
   in
+  Format.fprintf out "(subdir %s@\n @[" dir;
+  let () =
+    try
+      (* Generate rule for each set of dependencies  *)
+      List.iter generate_rule vfiles
+    (* Make sure we gracefully balance the file before throwing an excpetion *)
+    with exn -> Format.fprintf out "@])@\n"; raise exn
+  in
+  Format.fprintf out "@])@\n";
+  ()
+
+let _debug_rules out =
+  (* let open CoqRules.Compilation.Output in *)
   (* TODO: these are still borken *)
-  CoqRules.check_dir "micromega" out ~base_deps:[".csdp.cache"] ~cctx;
-  CoqRules.check_dir "output" out ~cctx ~output:Coqc ~args:["-test-mode"; "-async-proofs-cache"; "force"];
-  CoqRules.check_dir "success" out ~cctx;
+  (* test "coqwc" "coqwc" out; *)
+
+  (* CoqRules.check_dir "micromega" out ~base_deps:[".csdp.cache"] ~cctx; *)
+  (* CoqRules.check_dir "output" out ~cctx ~output:Coqc ~args:["-test-mode"; "-async-proofs-cache"; "force"]; *)
+  (* CoqRules.check_dir "success" out ~cctx; *)
   ()
 
 let _output_rules out =
   let open CoqRules.Compilation.Output in
-  (* Common context - This will be passed to coqdep and coqc *)
-  let cctx lvl = [
-    "-boot";
-    "-I"; lvl ^ "/../../install/default/lib";
-    "-R"; lvl ^ "/../theories" ; "Coq";
-    "-R"; lvl ^ "/prerequisite"; "TestSuite";
-    "-Q"; lvl ^ "/../user-contrib/Ltac2"; "Ltac2" ]
-  in
   (* We disable coqchk for bugs due to anomalies present (coqchk was not run for bugs before) *)
+  (* TODO: that should be mostly fixed soon *)
   CoqRules.check_dir "bugs" out ~cctx ~coqchk:false;
   CoqRules.check_dir "coqchk" out ~cctx;
   CoqRules.check_dir "failure" out ~cctx;
@@ -64,6 +86,10 @@ let _output_rules out =
   CoqRules.check_dir "success" out ~cctx;
   CoqRules.check_dir "vio" out ~cctx ~args:["-vio"];
   CoqRules.check_dir "vio" out ~cctx ~vio2vo:true;
+
+  (* Other tests *)
+  test "coqwc" "coqwc" out;
+
   ()
 
 let main () =
