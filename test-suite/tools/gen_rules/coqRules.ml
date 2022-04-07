@@ -21,25 +21,17 @@ let strip_quotes str =
 let vfile_header ~dir vfile =
   let vfile = Filename.concat dir vfile in
   let inc = open_in vfile in
-  let line = try
-      input_line inc
-    with End_of_file ->
-      Format.eprintf "error parsing header: %s@\n%!" vfile;
-      ""
+  let line =
+    try input_line inc
+    with End_of_file -> Format.eprintf "error parsing header: %s@\n%!" vfile; ""
   in
   close_in inc;
   if Str.string_match (Str.regexp ".*coq-prog-args: (\\([^)]*\\)).*") line 0 then
-    begin
-      (* These arguments are surrounded by quotes so we need to unquote them *)
-      let pargs =
-        Str.matched_group 1 line
-        |> Str.split (Str.regexp " ")
-        |> List.map strip_quotes
-      in
-      pargs
-    end
-  else
-    []
+    (* These arguments are surrounded by quotes so we need to unquote them *)
+    Str.matched_group 1 line
+    |> Str.split (Str.regexp " ")
+    |> List.map strip_quotes
+  else []
 
 let rec extra_deps = function
   | "-compat" :: "8.11" :: s -> ["../../theories/Compat/Coq811.vo"] @ extra_deps s
