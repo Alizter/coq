@@ -19,7 +19,7 @@ let cctx lvl = [
   "-R"; lvl ^ "/prerequisite"; "TestSuite";
   "-Q"; lvl ^ "/../user-contrib/Ltac2"; "Ltac2" ]
 
-let test ~run ~out ~out_file ~log_file file=
+let test ~run ~out ~log_file file=
   (* TODO: move to dune module *)
   (* TODO: generalize past .out *)
   let rule = Dune.Rule.{
@@ -28,8 +28,7 @@ let test ~run ~out ~out_file ~log_file file=
     ; action = Format.asprintf "(with-outputs-to %s (run %s))" log_file (run file)
     ; alias = Some "runtest"
     } in
-  Dune.Rule.pp out rule;
-  Dune.Rules.diff out out_file log_file
+  Dune.Rule.pp out rule
 
 let in_subdir ?(ext=".v") f dir out =
   (* TODO: generalize past .v case *)
@@ -45,37 +44,41 @@ let in_subdir ?(ext=".v") f dir out =
   Format.fprintf out "@])@\n";
   ()
 
-let test_in_subdir ?ext ~run dir out =
+let test_in_subdir ?ext ?out_file_ext ~run dir out =
   in_subdir ?ext (fun file ->
     let log_file = file ^ ".log" in
-    let out_file = Filename.chop_extension file ^ ".out" in
-    test ~run ~out ~log_file ~out_file file) dir out
+    match out_file_ext with
+    | Some out_file_ext ->
+      let out_file = Filename.chop_extension file ^ out_file_ext in
+      test ~run ~out ~log_file file;
+      Dune.Rules.diff out out_file log_file
+    | None -> test ~run ~out ~log_file file
+  ) dir out
+
+let test_ide out =
+  let sf = Printf.sprintf in
+  let dir = "ide" in
+  let lvl = ".." in
+  let args file = [
+    "-q" ;
+    "-async-proofs" ; "on" ;
+    "-async-proofs-tactic-error-resilience" ; "off";
+    "-async-proofs-command-error-resilience" ; "off"
+      ]
+    @ CoqRules.vfile_header ~dir file
+    @ cctx lvl
+    |> String.concat " "
+  in
+  let run = fun file -> sf "fake_ide %%{bin:coqidetop.opt} %s \"%s\"" file (args file) in
+  (* TODO: test output *)
+  test_in_subdir dir out ~run ~ext:".fake"
 
 let _debug_rules out =
-  let sf = Printf.sprintf in
-
   (* let open CoqRules.Compilation.Output in *)
   (* TODO: these are still borken *)
   (* test "coqwc" "coqwc" out; *)
 
-  let () =
-    let dir = "ide" in
-    let lvl = ".." in
-    let args file = [
-      (* "-q" ; *)
-      "-boot" ;
-      "-R" ; lvl ^ "/../theories" ; "Coq" ;
-      (* "-async-proofs" ; "on" ; *)
-      (* "-async-proofs-tactic-error-resilience" ; "off"; *)
-      (* "-async-proofs-command-error-resilience" ; "off" *)
-       ]
-      @ CoqRules.vfile_header ~dir file
-      (* @ cctx lvl *)
-      |> String.concat " "
-    in
-    let run = fun file -> sf "fake_ide %%{bin:coqidetop.opt} %s %s" file (args file) in
-    test_in_subdir dir out ~run ~ext:".fake"
-  in
+  test_ide out;
   (* CoqRules.check_dir "micromega" out ~base_deps:[".csdp.cache"] ~cctx; *)
   (* CoqRules.check_dir "output" out ~cctx ~output:Coqc ~args:["-test-mode"; "-async-proofs-cache"; "force"]; *)
   (* CoqRules.check_dir "success" out ~cctx; *)
@@ -118,14 +121,15 @@ let _output_rules out =
   (* Other tests *)
   test_in_subdir "coqwc" out ~run:(sf "coqwc %s");
   (* test_in_subdir "ide" out ~run:(sf "fake_ide coqidetop.byte %s") ~ext:".fake" ~read_args:true; *)
+  test_ide out;
 
   ()
 
 let main () =
   let out = open_out "test_suite_rules.sexp" in
   let fmt = Format.formatter_of_out_channel out in
-  (* _output_rules fmt; *)
-  _debug_rules fmt;
+  _output_rules fmt;
+  (* _debug_rules fmt; *)
   Format.pp_print_flush fmt ();
   close_out out
 

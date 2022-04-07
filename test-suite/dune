@@ -5,7 +5,7 @@
   (source_tree bugs)
   ; (source_tree complexity)
   ; (source_tree coq-makefile)
-  ; (source_tree coqchk)
+  (source_tree coqchk)
   ; (source_tree coqdoc)
   (source_tree coqwc)
   (source_tree failure)
@@ -32,6 +32,8 @@
   (source_tree ../tools/coqdep)
   (source_tree ../theories)
   (source_tree ../user-contrib)
+
+  (file ../theories/Init/Prelude.vo)
 
   %{bin:coqtacticworker.opt}
   %{bin:coqqueryworker.opt}
