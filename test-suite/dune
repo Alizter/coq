@@ -7,7 +7,7 @@
   ; (source_tree coq-makefile)
   ; (source_tree coqchk)
   ; (source_tree coqdoc)
-  ; (source_tree coqwc)
+  (source_tree coqwc)
   (source_tree failure)
   ; (source_tree ide)
   ; (source_tree interactive)

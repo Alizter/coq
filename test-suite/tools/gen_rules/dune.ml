@@ -23,3 +23,14 @@ module Rule = struct
       "@[(rule@\n @[%a(targets @[%a@])@\n(deps @[%a@])@\n(action @[%a@])@])@]@\n"
       pp_alias alias ppl targets ppl deps Format.pp_print_string action
 end
+
+module Rules = struct
+  let diff fmt file1 file2 =
+    let rule_diff =
+      Rule.{ targets = []
+      ; deps = []
+      ; action = Format.asprintf "(diff %s %s)" file1 file2
+      ; alias = Some "runtest"
+      } in
+      Rule.pp fmt rule_diff
+end

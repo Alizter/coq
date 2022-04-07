@@ -225,14 +225,7 @@ let with_outputs_to_rule ~fmt vfile =
   pp fmt rule_log
 
 let diff_rule ~fmt ?(out_ext=".out") ?(log_ext=".log") vfile =
-  let open Dune.Rule in
-  let rule_diff =
-    { targets = []
-    ; deps = []
-    ; action = Format.asprintf "(diff %s %s)" (Filename.remove_extension vfile ^ out_ext) (vfile ^ log_ext)
-    ; alias = Some "runtest"
-    } in
-  pp fmt rule_diff
+  Dune.Rules.diff fmt (Filename.remove_extension vfile ^ out_ext) (vfile ^ log_ext)
 
 module Compilation = struct
   module Output = struct
@@ -377,6 +370,7 @@ let generate_rule
     let f = function
     | Dep.Require s -> Dep.Require s
     | Dep.Other s ->
+        (* TODO: not just META *)
         (* Printf.printf "vfile: %s META: %s\n" vfile s; *)
         Dep.Other (Str.replace_first (Str.regexp ".*/lib/coq-core") "../../install/default/lib/coq-core" s)
     in
