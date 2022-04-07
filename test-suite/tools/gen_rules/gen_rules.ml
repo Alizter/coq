@@ -11,8 +11,6 @@
 (* gen_rules: generate dune build rules for Coq's test-suite            *)
 (* It is desirable that this file can be bootstrapped alone             *)
 
-open CoqRules
-
 let _debug_rules out =
   let cctx lvl = [
     "-boot";
@@ -22,9 +20,9 @@ let _debug_rules out =
     "-Q"; lvl ^ "/../user-contrib/Ltac2"; "Ltac2" ]
   in
   (* TODO: these are still borken *)
-  check_dir "micromega" out ~base_deps:[".csdp.cache"] ~cctx;
-  check_dir "output" out ~cctx ~output:CoqRules.Output.Coqc ~args:["-test-mode"; "-async-proofs-cache"; "force"];
-  check_dir "success" out ~cctx;
+  CoqRules.check_dir "micromega" out ~base_deps:[".csdp.cache"] ~cctx;
+  CoqRules.check_dir "output" out ~cctx ~output:CoqRules.Output.Coqc ~args:["-test-mode"; "-async-proofs-cache"; "force"];
+  CoqRules.check_dir "success" out ~cctx;
   ()
 
 let _output_rules out =
@@ -37,33 +35,33 @@ let _output_rules out =
     "-Q"; lvl ^ "/../user-contrib/Ltac2"; "Ltac2" ]
   in
   (* We disable coqchk for bugs due to anomalies present (coqchk was not run for bugs before) *)
-  check_dir "bugs" out ~cctx ~coqchk:false;
-  check_dir "coqchk" out ~cctx;
-  check_dir "failure" out ~cctx;
-  check_dir "ltac2" out ~cctx;
+  CoqRules.check_dir "bugs" out ~cctx ~coqchk:false;
+  CoqRules.check_dir "coqchk" out ~cctx;
+  CoqRules.check_dir "failure" out ~cctx;
+  CoqRules.check_dir "ltac2" out ~cctx;
   (* !! Something is broken here: *)
   (* qexample.v *)
   (* example.v *)
   (* bertot.v *)
   (* rexample.v *)
-  check_dir "micromega" out ~base_deps:[".csdp.cache"] ~cctx;
-  check_dir "modules" out ~cctx:(fun lvl -> ["-R"; lvl; "Mods"]);
+  CoqRules.check_dir "micromega" out ~base_deps:[".csdp.cache"] ~cctx;
+  CoqRules.check_dir "modules" out ~cctx:(fun lvl -> ["-R"; lvl; "Mods"]);
   (* !! Something is broken here: *)
   (* Load.v *)
-  check_dir "output" out ~cctx ~output:CoqRules.Output.Coqc ~args:["-test-mode"; "-async-proofs-cache"; "force"];
-  check_dir "output-coqchk" out ~cctx ~output:CoqRules.Output.Check;
-  check_dir "output-failure" out ~cctx ~output:CoqRules.Output.Coqc ~args:["-test-mode"; "-async-proofs-cache"; "force"] ~exit_codes:[1];
-  check_dir "primitive/arrays" out ~cctx;
-  check_dir "primitive/float" out ~cctx;
-  check_dir "primitive/sint63" out ~cctx;
-  check_dir "primitive/uint63" out ~cctx;
-  check_dir "ssr" out ~cctx;
-  check_dir "stm" out ~cctx ~args:["-async-proofs"; "on"];
+  CoqRules.check_dir "output" out ~cctx ~output:CoqRules.Output.Coqc ~args:["-test-mode"; "-async-proofs-cache"; "force"];
+  CoqRules.check_dir "output-coqchk" out ~cctx ~output:CoqRules.Output.Check;
+  CoqRules.check_dir "output-failure" out ~cctx ~output:CoqRules.Output.Coqc ~args:["-test-mode"; "-async-proofs-cache"; "force"] ~exit_codes:[1];
+  CoqRules.check_dir "primitive/arrays" out ~cctx;
+  CoqRules.check_dir "primitive/float" out ~cctx;
+  CoqRules.check_dir "primitive/sint63" out ~cctx;
+  CoqRules.check_dir "primitive/uint63" out ~cctx;
+  CoqRules.check_dir "ssr" out ~cctx;
+  CoqRules.check_dir "stm" out ~cctx ~args:["-async-proofs"; "on"];
   (* !! Something is broken here: *)
   (* extra_dep.v *)
-  check_dir "success" out ~cctx;
-  check_dir "vio" out ~cctx ~args:["-vio"];
-  check_dir "vio" out ~cctx ~vio2vo:true;
+  CoqRules.check_dir "success" out ~cctx;
+  CoqRules.check_dir "vio" out ~cctx ~args:["-vio"];
+  CoqRules.check_dir "vio" out ~cctx ~vio2vo:true;
   ()
 
 let main () =
