@@ -28,7 +28,7 @@ module Rules = struct
   let diff fmt file1 file2 =
     let rule_diff =
       Rule.{ targets = []
-      ; deps = []
+      ; deps = [file1; file2]
       ; action = Format.asprintf "(diff %s %s)" file1 file2
       ; alias = Some "runtest"
       } in
