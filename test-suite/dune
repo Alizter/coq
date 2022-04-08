@@ -6,7 +6,7 @@
   ; (source_tree complexity)
   ; (source_tree coq-makefile)
   (source_tree coqchk)
-  ; (source_tree coqdoc)
+  (source_tree coqdoc)
   (source_tree coqwc)
   (source_tree failure)
   (source_tree ide)
@@ -35,6 +35,7 @@
 
   (file ../theories/Init/Prelude.vo)
 
+  %{bin:coqdoc}
   %{bin:coqtacticworker.opt}
   %{bin:coqqueryworker.opt}
   %{bin:coqproofworker.opt}

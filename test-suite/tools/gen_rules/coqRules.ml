@@ -14,7 +14,8 @@ let strip_quotes str =
   else
     str
 
-let vfile_header ~dir vfile =
+let vfile_header ~dir ?(name="coq-prog-args") vfile =
+  let sf = Printf.sprintf in
   let vfile = Filename.concat dir vfile in
   let inc = open_in vfile in
   let line =
@@ -22,7 +23,7 @@ let vfile_header ~dir vfile =
     with End_of_file -> Format.eprintf "error parsing header: %s@\n%!" vfile; ""
   in
   close_in inc;
-  if Str.string_match (Str.regexp ".*coq-prog-args: (\\([^)]*\\)).*") line 0 then
+  if Str.string_match (Str.regexp (sf ".*%s: (\\([^)]*\\)).*" name)) line 0 then
     (* These arguments are surrounded by quotes so we need to unquote them *)
     Str.matched_group 1 line
     |> Str.split (Str.regexp " ")

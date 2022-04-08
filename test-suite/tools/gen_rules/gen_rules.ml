@@ -19,12 +19,11 @@ let cctx lvl = [
   "-R"; lvl ^ "/prerequisite"; "TestSuite";
   "-Q"; lvl ^ "/../user-contrib/Ltac2"; "Ltac2" ]
 
-let test ~run ~out ~log_file file=
+let test_rule ~run ~out ~log_file ?(targets=[]) ?(deps=[]) file=
   (* TODO: move to dune module *)
-  (* TODO: generalize past .out *)
   let rule = Dune.Rule.{
-    targets = [log_file]
-    ; deps = [file]
+    targets = log_file :: targets
+    ; deps = file :: deps
     ; action = Format.asprintf "(with-outputs-to %s (run %s))" log_file (run file)
     ; alias = Some "runtest"
     } in
@@ -44,16 +43,16 @@ let in_subdir ?(ext=".v") f dir out =
   Format.fprintf out "@])@\n";
   ()
 
-let test_in_subdir ?ext ?out_file_ext ~run dir out =
+let test_in_subdir ?ext ?out_file_ext ?(log_file_ext=".log") ?(targets=[]) ?(deps=[]) ~run dir out =
+  (* log file extension is appended, out file extension is replaced *)
   in_subdir ?ext (fun file ->
-    let log_file = file ^ ".log" in
+    let log_file = file ^ log_file_ext in
+    test_rule ~run ~out ~log_file ~targets ~deps file;
     match out_file_ext with
     | Some out_file_ext ->
       let out_file = Filename.chop_extension file ^ out_file_ext in
-      test ~run ~out ~log_file file;
       Dune.Rules.diff out out_file log_file
-    | None -> test ~run ~out ~log_file file
-  ) dir out
+    | None -> ()) dir out
 
 let test_ide out =
   let sf = Printf.sprintf in
@@ -73,12 +72,36 @@ let test_ide out =
   (* TODO: test output *)
   test_in_subdir dir out ~run ~ext:".fake"
 
+let coqdoc_test dir out =
+  let sf = Printf.sprintf in
+  let run_coqdoc ~mode ~ext file =
+    let doc_file = Filename.chop_extension file ^ ext in
+    let log_file = doc_file ^ ".log" in
+    (* Get extra args under "coqdoc-prog-args" in file *)
+    let args = [
+      "-utf8";
+      "-R"; "."; "Coqdoc";
+      "-coqlib_url"; "http://coq.inria.fr/stdlib";
+      sf "--%s" mode;
+      (* "-o"; doc_file ; *)
+      ]
+      (* @ CoqRules.vfile_header ~dir ~name:"coqdoc-prog-args" file *)
+    in
+    let run = sf "%%{bin:coqdoc} %s %s" (String.concat " " args) in
+    test_rule ~run ~out ~log_file ~targets:["Coqdoc." ^ doc_file] ~deps:[file ^ "o"] file;
+    Dune.Rules.diff out (doc_file ^ ".out") ("Coqdoc." ^ doc_file)
+  in
+  in_subdir (fun file ->
+    run_coqdoc ~mode:"html" ~ext:".html" file;
+    run_coqdoc ~mode:"latex" ~ext:".tex" file) dir out
+
 let _debug_rules out =
   (* let open CoqRules.Compilation.Output in *)
   (* TODO: these are still borken *)
   (* test "coqwc" "coqwc" out; *)
 
-  test_ide out;
+  CoqRules.check_dir "coqdoc" out ~cctx ~args:["-R"; "coqdoc"; "Coqdoc"];
+  coqdoc_test "coqdoc" out;
   (* CoqRules.check_dir "micromega" out ~base_deps:[".csdp.cache"] ~cctx; *)
   (* CoqRules.check_dir "output" out ~cctx ~output:Coqc ~args:["-test-mode"; "-async-proofs-cache"; "force"]; *)
   (* CoqRules.check_dir "success" out ~cctx; *)
@@ -119,19 +142,23 @@ let _output_rules out =
   CoqRules.check_dir "vio" out ~cctx ~vio2vo:true;
 
   (* Other tests *)
-  test_in_subdir "coqwc" out ~run:(sf "coqwc %s");
-  (* test_in_subdir "ide" out ~run:(sf "fake_ide coqidetop.byte %s") ~ext:".fake" ~read_args:true; *)
-  test_ide out;
 
+  (* TODO: in the future, make this cram *)
+  test_in_subdir "coqwc" out ~run:(sf "coqwc %s");
+  (* TODO: in the future, make this cram *)
+  test_ide out;
+  CoqRules.check_dir "coqdoc" out ~cctx ~args:["-R"; "coqdoc"; "Coqdoc"];
+  coqdoc_test "coqdoc" out;
   ()
 
 let main () =
   let out = open_out "test_suite_rules.sexp" in
   let fmt = Format.formatter_of_out_channel out in
-  _output_rules fmt;
-  (* _debug_rules fmt; *)
+  (* _output_rules fmt; *)
+  _debug_rules fmt;
   Format.pp_print_flush fmt ();
   close_out out
+
 
 let () =
   Printexc.record_backtrace true;
@@ -139,7 +166,9 @@ let () =
   with exn ->
     let bt = Printexc.get_backtrace () in
     let exn = Printexc.to_string exn in
-    Format.eprintf "%s@\n%s@\n%!" exn bt
+    Format.eprintf "%s@\n%s@\n%!" exn bt;
+    let exception Gen_rules_Anomaly in
+    raise Gen_rules_Anomaly
 
 (* TODOS:
 (* ADD: linter - check theere is a rule for every test *)
@@ -147,8 +176,6 @@ let () =
 (* FIX: Cannot run test-suite directly from clean build *)
 (* TODO: complexity *)
 (* TODO: coq-makefile *)
-(* TODO: coqdoc *)
-(* TODO: ide *)
 (* TODO: interactive *)
 (* TODO: misc, make cram *)
 (* TODO: output-coqtop *)
