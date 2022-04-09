@@ -106,13 +106,13 @@ let test_coqdoc dir out =
     coqdoc_latex_with_diff_rule ~dir ~out file;
     ()) dir out
 
-let test_coq_makefile dir out =
+let test_tool ?(ignore=[]) dir out =
   let sf = Printf.sprintf in
   Dune.Rules.in_subdir dir out ~f:(fun () ->
     let dirs = Dir.scan_dirs dir in
     let per_dir subdir =
       (* We ignore the template directory *)
-      if subdir = "template" then () else
+      if List.mem subdir ignore then () else
         Dune.Rules.in_subdir subdir out ~f:(fun () ->
           Dune.Rules.bash ~run:"./run.sh" ~out ~deps:["run.sh"] ~log_file:(sf "%s.log" subdir) ();
         ())
@@ -122,16 +122,9 @@ let test_coq_makefile dir out =
 let _debug_rules out =
   (* let sf = Printf.sprintf in *)
 
-  (* let open CoqRules.Compilation.Output in *)
-  (* TODO: these are still borken *)
-  (* test "coqwc" "coqwc" out; *)
+  (* test_tool "coq-makefile" out ~ignore:["template"]; *)
 
-  (* test_in_subdir "coq-makefile" out ~run:(sf "%s/run.sh") ~ext:""; *)
-
-
-  (* CoqRules.check_dir "micromega" out ~base_deps:[".csdp.cache"] ~cctx; *)
-  (* CoqRules.check_dir "output" out ~cctx ~output:Coqc ~args:["-test-mode"; "-async-proofs-cache"; "force"]; *)
-  (* CoqRules.check_dir "success" out ~cctx; *)
+  (* test_tool "tools" out ~ignore:["gen_rules"]; *)
   ()
 
 let _output_rules out =
@@ -177,8 +170,10 @@ let _output_rules out =
   (* TODO: fix these, they are broken since .glob appears different when coqc is ran in same directory vs from test-suite. *)
   CoqRules.check_dir "coqdoc" out ~cctx ~args:["-R"; "coqdoc"; "Coqdoc"];
   test_coqdoc "coqdoc" out;
-  test_coq_makefile "coq-makefile" out;
-
+  (* TODO: fix python stuff here *)
+  test_tool "coq-makefile" out ~ignore:["template"];
+  (* TODO: broken and seems kind of pointless *)
+  test_tool "tools" out ~ignore:["gen_rules"];
   ()
 
 let main () =

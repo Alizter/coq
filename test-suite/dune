@@ -25,6 +25,7 @@
   (source_tree ssr)
   (source_tree stm)
   (source_tree success)
+  (source_tree tools)
   (source_tree vio)
 
 
@@ -42,9 +43,6 @@
   %{bin:fake_ide}
   %{bin:coqidetop.byte}
   %{lib:coq-core.vm:../../stublibs/dllcoqrun_stubs.so}
-
-  (file ../tools/make-both-time-files.py)
-
 
   .csdp.cache
   %{bin:csdpcert})
