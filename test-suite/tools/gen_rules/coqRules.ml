@@ -96,8 +96,13 @@ let coqc_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext=".log") vfile =
 (** coqc rule vo and log targets *)
 let coqc_vo_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext=".log") vfile =
   let open Dune.Rule in
+  let filename = Filename.chop_extension vfile in
+  let vofile = filename ^ ".vo" in
+  let vlogfile = vfile ^ log_ext in
+  let globfile = filename ^ ".glob" in
+  let auxfile = "." ^ filename ^ ".aux" in
   let rule =
-    { targets = [vfile ^ "o"; vfile ^ log_ext]
+    { targets = [vofile; vlogfile; globfile; auxfile]
     ; deps
     ; action = Format.asprintf
         "(with-outputs-to %s (with-accepted-exit-codes %s (run coqc %s %s)))"
