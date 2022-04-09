@@ -4,7 +4,7 @@
  (deps
   (source_tree bugs)
   ; (source_tree complexity)
-  ; (source_tree coq-makefile)
+  (source_tree coq-makefile)
   (source_tree coqchk)
   (source_tree coqdoc)
   (source_tree coqwc)
@@ -42,6 +42,8 @@
   %{bin:fake_ide}
   %{bin:coqidetop.byte}
   %{lib:coq-core.vm:../../stublibs/dllcoqrun_stubs.so}
+
+  (file ../tools/make-both-time-files.py)
 
 
   .csdp.cache

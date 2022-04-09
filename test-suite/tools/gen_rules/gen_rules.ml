@@ -14,39 +14,58 @@
 (* Common context - This will be passed to coqdep and coqc *)
 let cctx lvl = [
   "-boot";
-  "-I"; lvl ^ "/../../install/default/lib";
-  "-R"; lvl ^ "/../theories" ; "Coq";
-  "-R"; lvl ^ "/prerequisite"; "TestSuite";
-  "-Q"; lvl ^ "/../user-contrib/Ltac2"; "Ltac2" ]
+  "-I"; Filename.concat lvl "../../install/default/lib";
+  "-R"; Filename.concat lvl "../theories" ; "Coq";
+  "-R"; Filename.concat lvl "prerequisite"; "TestSuite";
+  "-Q"; Filename.concat lvl "../user-contrib/Ltac2"; "Ltac2" ]
 
-let test_rule ~run ~out ?log_file ?(targets=[]) ?(deps=[]) file =
+let run_rule ~run ~out ?log_file ?(targets=[]) ?(deps=[]) () =
   (* TODO: move to dune module *)
   match log_file with
   | Some log_file ->
     let rule = Dune.Rule.{
       targets = log_file :: targets
-      ; deps = file :: deps
-      ; action = Format.asprintf "(with-outputs-to %s (run %s))" log_file (run file)
+      ; deps = deps
+      ; action = Format.asprintf "(with-outputs-to %s (run %s))" log_file run
       ; alias = Some "runtest"
       } in
     Dune.Rule.pp out rule
   | None ->
     let rule = Dune.Rule.{
       targets = targets
-      ; deps = file :: deps
-      ; action = Format.asprintf "(run %s)" (run file)
+      ; deps = deps
+      ; action = Format.asprintf "(run %s)" run
       ; alias = Some "runtest"
       } in
     Dune.Rule.pp out rule
 
-let in_subdir ?(ext=".v") f dir out =
-  (* TODO: generalize past .v case *)
-  let vfiles = Dir.scan_files_by_ext ext dir in
+let bash_rule ~run ~out ?log_file ?(targets=[]) ?(deps=[]) () =
+  (* TODO: move to dune module *)
+  match log_file with
+  | Some log_file ->
+    let rule = Dune.Rule.{
+      targets = log_file :: targets
+      ; deps = deps
+      ; action = Format.asprintf "(with-outputs-to %s (bash %s))" log_file run
+      ; alias = Some "runtest"
+      } in
+    Dune.Rule.pp out rule
+  | None ->
+    let rule = Dune.Rule.{
+      targets = targets
+      ; deps = deps
+      ; action = Format.asprintf "(bash %s)" run
+      ; alias = Some "runtest"
+      } in
+    Dune.Rule.pp out rule
+
+let in_subdir_foreach_ext ?(ext=".v") f dir out =
+  let files = Dir.scan_files_by_ext ext dir in
   Format.fprintf out "(subdir %s@\n @[" dir;
   let () =
     try
       (* Generate rule for each set of dependencies  *)
-      List.iter f vfiles
+      List.iter f files
     (* Make sure we gracefully balance the file before throwing an excpetion *)
     with exn -> Format.fprintf out "@])@\n"; raise exn
   in
@@ -55,9 +74,9 @@ let in_subdir ?(ext=".v") f dir out =
 
 let test_in_subdir ?ext ?out_file_ext ?(log_file_ext=".log") ?(targets=[]) ?(deps=[]) ~run dir out =
   (* log file extension is appended, out file extension is replaced *)
-  in_subdir ?ext (fun file ->
+  in_subdir_foreach_ext ?ext (fun file ->
     let log_file = file ^ log_file_ext in
-    test_rule ~run ~out ~log_file ~targets ~deps file;
+    run_rule ~run:(run file) ~out ~log_file ~targets ~deps:(file :: deps) ();
     match out_file_ext with
     | Some out_file_ext ->
       let out_file = Filename.chop_extension file ^ out_file_ext in
@@ -100,8 +119,8 @@ let coqdoc_html_with_diff_rule ~dir ~out file  =
     (* Get extra args under "coqdoc-prog-args" in file *)
     @ CoqRules.vfile_header ~dir ~name:"coqdoc-prog-args" file
   in
-  let run = sf "%%{bin:coqdoc} %s %s" (String.concat " " args) in
-  test_rule ~run ~out ~log_file ~targets:[doc_file] ~deps:[vofile; globfile] file;
+  let run = sf "%%{bin:coqdoc} %s %s" (String.concat " " args) file in
+  run_rule ~run ~out ~log_file ~targets:[doc_file] ~deps:[file; vofile; globfile] ();
   Dune.Rules.diff out (doc_file ^ ".out") doc_file
 
 let coqdoc_latex_with_diff_rule ~dir ~out file  =
@@ -123,25 +142,48 @@ let coqdoc_latex_with_diff_rule ~dir ~out file  =
     (* Get extra args under "coqdoc-prog-args" in file *)
     @ CoqRules.vfile_header ~dir ~name:"coqdoc-prog-args" file
   in
-  let run = sf "%%{bin:coqdoc} %s %s" (String.concat " " args) in
-  test_rule ~run ~out ~log_file ~targets:[doc_file_pre] ~deps:[vofile; globfile] file;
+  let run = sf "%%{bin:coqdoc} %s %s" (String.concat " " args) file in
+  run_rule ~run ~out ~log_file ~targets:[doc_file_pre] ~deps:[file; vofile; globfile] ();
   (* We need to scrub the .tex file of comments begining %% *)
-  test_rule ~out ~run:(sf "grep -v \"^%%%%\" %s") ~targets:[doc_file] ~log_file:doc_file doc_file_pre;
+  run_rule ~out ~run:(sf "grep -v \"^%%%%\" %s" doc_file_pre) ~targets:[doc_file] ~deps:[doc_file_pre] ~log_file:doc_file ();
   Dune.Rules.diff out (doc_file ^ ".out") doc_file
 
-let coqdoc_test dir out =
-  in_subdir (fun file ->
-    (* coqdoc_html_with_diff_rule ~dir ~out file; *)
+let test_coqdoc dir out =
+  in_subdir_foreach_ext (fun file ->
+    coqdoc_html_with_diff_rule ~dir ~out file;
     coqdoc_latex_with_diff_rule ~dir ~out file;
     ()) dir out
 
+let in_subdir dir out ~f =
+  (* The thunking here is important for order of execution *)
+  Format.fprintf out "(subdir %s@\n @[" dir;
+  let () = try f () with exn -> Format.fprintf out "@])@\n"; raise exn in
+  Format.fprintf out "@])@\n";
+  ()
+
+let test_coq_makefile dir out =
+  let sf = Printf.sprintf in
+  in_subdir dir out ~f:(fun () ->
+    let dirs = Dir.scan_dirs dir in
+    let per_dir subdir =
+      (* We ignore the template directory *)
+      if subdir = "template" then () else
+        in_subdir subdir out ~f:(fun () ->
+          bash_rule ~run:"./run.sh" ~out ~deps:["run.sh"] ~log_file:(sf "%s.log" subdir) ();
+        ())
+    in
+    List.iter per_dir dirs)
+
 let _debug_rules out =
+  (* let sf = Printf.sprintf in *)
+
   (* let open CoqRules.Compilation.Output in *)
   (* TODO: these are still borken *)
   (* test "coqwc" "coqwc" out; *)
 
-  CoqRules.check_dir "coqdoc" out ~cctx ~args:["-R"; "coqdoc"; "Coqdoc"];
-  coqdoc_test "coqdoc" out;
+  (* test_in_subdir "coq-makefile" out ~run:(sf "%s/run.sh") ~ext:""; *)
+
+
   (* CoqRules.check_dir "micromega" out ~base_deps:[".csdp.cache"] ~cctx; *)
   (* CoqRules.check_dir "output" out ~cctx ~output:Coqc ~args:["-test-mode"; "-async-proofs-cache"; "force"]; *)
   (* CoqRules.check_dir "success" out ~cctx; *)
@@ -187,15 +229,18 @@ let _output_rules out =
   test_in_subdir "coqwc" out ~run:(sf "coqwc %s");
   (* TODO: in the future, make this cram *)
   test_ide out;
+  (* TODO: fix these, they are broken since .glob appears different when coqc is ran in same directory vs from test-suite. *)
   CoqRules.check_dir "coqdoc" out ~cctx ~args:["-R"; "coqdoc"; "Coqdoc"];
-  (* coqdoc_test "coqdoc" out; *)
+  test_coqdoc "coqdoc" out;
+  test_coq_makefile "coq-makefile" out;
+
   ()
 
 let main () =
   let out = open_out "test_suite_rules.sexp" in
   let fmt = Format.formatter_of_out_channel out in
-  (* _output_rules fmt; *)
-  _debug_rules fmt;
+  _output_rules fmt;
+  (* _debug_rules fmt; *)
   Format.pp_print_flush fmt ();
   close_out out
 

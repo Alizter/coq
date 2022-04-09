@@ -11,3 +11,8 @@ let scan_files_by_ext ext dir =
   Sys.readdir dir
   |> Array.to_list
   |> List.filter (fun f -> Filename.check_suffix f ext)
+
+let scan_dirs dir =
+  Sys.readdir dir
+  |> Array.to_list
+  |> List.filter (fun subdir -> Sys.is_directory (Filename.concat dir subdir))
