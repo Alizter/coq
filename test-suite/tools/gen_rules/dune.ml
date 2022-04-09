@@ -33,4 +33,50 @@ module Rules = struct
       ; alias = Some "runtest"
       } in
       Rule.pp fmt rule_diff
+
+  let run ~run ~out ?log_file ?(targets=[]) ?(deps=[]) () =
+    match log_file with
+    | Some log_file ->
+      let rule = Rule.{
+        targets = log_file :: targets
+        ; deps = deps
+        ; action = Format.asprintf "(with-outputs-to %s (run %s))" log_file run
+        ; alias = Some "runtest"
+        } in
+      Rule.pp out rule
+    | None ->
+      let rule = Rule.{
+        targets = targets
+        ; deps = deps
+        ; action = Format.asprintf "(run %s)" run
+        ; alias = Some "runtest"
+        } in
+      Rule.pp out rule
+
+  let bash ~run ~out ?log_file ?(targets=[]) ?(deps=[]) () =
+    match log_file with
+    | Some log_file ->
+      let rule = Rule.{
+        targets = log_file :: targets
+        ; deps = deps
+        ; action = Format.asprintf "(with-outputs-to %s (bash %s))" log_file run
+        ; alias = Some "runtest"
+        } in
+      Rule.pp out rule
+    | None ->
+      let rule = Rule.{
+        targets = targets
+        ; deps = deps
+        ; action = Format.asprintf "(bash %s)" run
+        ; alias = Some "runtest"
+        } in
+      Rule.pp out rule
+
+  let in_subdir dir out ~f =
+    (* The thunking here is important for order of execution *)
+    Format.fprintf out "(subdir %s@\n @[" dir;
+    (* We catch and reraise exceptions in order to balance the stanza correctly *)
+    let () = try f () with exn -> Format.fprintf out "@])@\n"; raise exn in
+    Format.fprintf out "@])@\n";
+    ()
 end

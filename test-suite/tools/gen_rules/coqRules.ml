@@ -400,14 +400,5 @@ let check_dir ~cctx ?(args=[]) ?(base_deps=[]) ?(exit_codes=[])
   let deps = coqdep_files ~cctx:(cctx ".") ~dir vfiles () in
   (* The lvl can be computed from the dir *)
   let lvl = Dir.back_to_root dir in
-  (* Begin prinitng subdir stanza *)
-  Format.fprintf fmt "(subdir %s@\n @[" dir;
-  let () =
-    try
-      (* Generate rule for each set of dependencies  *)
-      List.iter (generate_rule ~cctx:(cctx lvl) ~lvl ~args ~base_deps ~output ~vio2vo ~coqchk ~exit_codes ~fmt ~dir) deps
-    (* Make sure we gracefully balance the file before throwing an excpetion *)
-    with exn -> Format.fprintf fmt "@])@\n"; raise exn
-  in
-  Format.fprintf fmt "@])@\n";
-  ()
+  Dune.Rules.in_subdir dir fmt ~f:(fun () ->
+    List.iter (generate_rule ~cctx:(cctx lvl) ~lvl ~args ~base_deps ~output ~vio2vo ~coqchk ~exit_codes ~fmt ~dir) deps)
