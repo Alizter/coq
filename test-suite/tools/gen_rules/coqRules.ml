@@ -405,7 +405,7 @@ let generate_rule ~fmt ~cctx ~dir ~lvl ~args ~base_deps ~exit_codes ~output ~kin
 let check_dir ~cctx ?(args=[]) ?(base_deps=[]) ?(exit_codes=[])
   ?(output=Compilation.Output.None) ?(kind=Compilation.Kind.Vo) ?(coqchk=true) dir fmt =
   (* Scan for all .v files in directory *)
-  let vfiles = Dir.scan_files_by_ext ".v" dir in
+  let vfiles = Dir.scan_files_by_ext ~ext:".v" dir in
   (* Run coqdep to get deps *)
   let deps = coqdep_files ~cctx:(cctx ".") ~dir vfiles () in
   (* The lvl can be computed from the dir *)

@@ -21,7 +21,7 @@ let cctx lvl = [
 
 let in_subdir_foreach_ext ?(ext=".v") f dir out =
   Dune.Rules.in_subdir dir out ~f:(fun () ->
-    let files = Dir.scan_files_by_ext ext dir in
+    let files = Dir.scan_files_by_ext ~ext dir in
     List.iter f files)
 
 let test_in_subdir ?ext ?out_file_ext ?(log_file_ext=".log") ?(targets=[]) ?(deps=[]) ~run dir out =
@@ -119,10 +119,23 @@ let test_tool ?(ignore=[]) dir out =
     in
     List.iter per_dir dirs)
 
+let test_misc dir out =
+  let sf = Printf.sprintf in
+  let deps = ["%{bin:coqdep}"; "%{bin:coqc}"; "%{bin:coqtop.byte}"] in
+  in_subdir_foreach_ext ~ext:".sh" (fun file ->
+    let log_file = file ^ ".log" in
+    Dune.Rules.run_with_env ~run:(sf "./%s" file) ~out ~log_file ~deps:(file :: deps)
+      ~envs:
+        ["coqdep", "%{bin:coqdep}"
+        ; "coqc", "%{bin:coqc}"
+        ; "coqtop", "%{bin:coqtop}"
+        ; "coq_makefile", "%{bin:coq_makefile}"
+        ; "coqtop_byte", "%{bin:coqtop.byte}"] ();
+    ()) dir out
+
 let _debug_rules out =
-  (* let sf = Printf.sprintf in *)
-  (* let open CoqRules.Compilation.Kind in *)
-  (* let open CoqRules.Compilation.Output in *)
+
+
   ()
 
 let _output_rules out =
@@ -174,13 +187,15 @@ let _output_rules out =
   test_tool "coq-makefile" out ~ignore:["template"];
   (* TODO: broken and seems kind of pointless *)
   test_tool "tools" out ~ignore:["gen_rules"];
+  (* TODO: mostly broken *)
+  test_misc "misc" out;
   ()
 
 let main () =
   let out = open_out "test_suite_rules.sexp" in
   let fmt = Format.formatter_of_out_channel out in
-  _output_rules fmt;
-  (* _debug_rules fmt; *)
+  (* _output_rules fmt; *)
+  _debug_rules fmt;
   Format.pp_print_flush fmt ();
   close_out out
 
@@ -200,6 +215,5 @@ let () =
 (* ADD: Rule to update output tests (prob a promote rule) *)
 (* FIX: Cannot run test-suite directly from clean build *)
 (* TODO: complexity *)
-(* TODO: misc, make cram *)
 (* TODO: output-modulo-time *)
 *)

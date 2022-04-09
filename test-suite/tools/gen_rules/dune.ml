@@ -53,6 +53,29 @@ module Rules = struct
         } in
       Rule.pp out rule
 
+  let run_with_env ~run ~envs ~out ?log_file ?(targets=[]) ?(deps=[]) () =
+    let rec flatten_env envs dsl = match envs with
+      | (envvar, envval) :: envs -> Format.asprintf "(setenv %s %s %s)" envvar envval @@ flatten_env envs dsl
+      | [] -> dsl
+    in
+    match log_file with
+    | Some log_file ->
+      let rule = Rule.{
+        targets = log_file :: targets
+        ; deps = deps
+        ; action = flatten_env envs @@ Format.asprintf "(with-outputs-to %s (run %s))" log_file run
+        ; alias = Some "runtest"
+        } in
+      Rule.pp out rule
+    | None ->
+      let rule = Rule.{
+        targets = targets
+        ; deps = deps
+        ; action = flatten_env envs @@ Format.asprintf "(run %s)" run
+        ; alias = Some "runtest"
+        } in
+      Rule.pp out rule
+
   let bash ~run ~out ?log_file ?(targets=[]) ?(deps=[]) () =
     match log_file with
     | Some log_file ->

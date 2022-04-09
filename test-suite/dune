@@ -36,6 +36,9 @@
 
   (file ../theories/Init/Prelude.vo)
 
+  %{bin:coqc}
+  %{bin:coqtop}
+  %{bin:coqtop.byte}
   %{bin:coqdoc}
   %{bin:coqtacticworker.opt}
   %{bin:coqqueryworker.opt}
