@@ -7,7 +7,7 @@ let back_to_root dir =
   |> back_to_root_aux
   |> String.concat "/"
 
-let scan_files_by_ext ext dir =
+let scan_files_by_ext ~ext dir =
   Sys.readdir dir
   |> Array.to_list
   |> List.filter (fun f -> Filename.check_suffix f ext)
