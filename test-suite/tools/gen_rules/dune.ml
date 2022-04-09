@@ -79,4 +79,30 @@ module Rules = struct
     let () = try f () with exn -> Format.fprintf out "@])@\n"; raise exn in
     Format.fprintf out "@])@\n";
     ()
+
+  let run_pipe ~runs ~out ?log_file ?(targets=[]) ?(deps=[]) () =
+    match log_file with
+    | Some log_file ->
+      let rule = Rule.{
+        targets = log_file :: targets
+        ; deps = deps
+        ; action = runs
+        |> List.map (Printf.sprintf "(run %s)")
+        |> String.concat " "
+        |> Format.asprintf "(with-outputs-to %s (pipe-outputs %s))" log_file
+        ; alias = Some "runtest"
+        } in
+      Rule.pp out rule
+    | None ->
+      let rule = Rule.{
+        targets = targets
+        ; deps = deps
+        (* Should it be pipe-outputs or pipe-stdout? *)
+        ; action = runs
+          |> List.map (Printf.sprintf "(run %s)")
+          |> String.concat " "
+          |> Format.asprintf "(pipe-stdout %s)"
+        ; alias = Some "runtest"
+        } in
+      Rule.pp out rule
 end

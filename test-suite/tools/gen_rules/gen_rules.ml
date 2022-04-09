@@ -121,21 +121,21 @@ let test_tool ?(ignore=[]) dir out =
 
 let _debug_rules out =
   (* let sf = Printf.sprintf in *)
-
-  (* test_tool "coq-makefile" out ~ignore:["template"]; *)
-
-  (* test_tool "tools" out ~ignore:["gen_rules"]; *)
+  (* let open CoqRules.Compilation.Kind in *)
+  (* let open CoqRules.Compilation.Output in *)
   ()
 
 let _output_rules out =
   let sf = Printf.sprintf in
 
+  let open CoqRules.Compilation.Kind in
   let open CoqRules.Compilation.Output in
   (* We disable coqchk for bugs due to anomalies present (coqchk was not run for bugs before) *)
   (* TODO: that should be mostly fixed soon *)
   CoqRules.check_dir "bugs" out ~cctx ~coqchk:false;
   CoqRules.check_dir "coqchk" out ~cctx;
   CoqRules.check_dir "failure" out ~cctx;
+  CoqRules.check_dir "interactive" out ~cctx ~kind:Coqtop;
   CoqRules.check_dir "ltac2" out ~cctx;
   (* !! Something is broken here: *)
   (* qexample.v *)
@@ -146,9 +146,10 @@ let _output_rules out =
   CoqRules.check_dir "modules" out ~cctx:(fun lvl -> ["-R"; lvl; "Mods"]);
   (* !! Something is broken here: *)
   (* Load.v *)
-  CoqRules.check_dir "output" out ~cctx ~output:Coqc ~args:["-test-mode"; "-async-proofs-cache"; "force"];
-  CoqRules.check_dir "output-coqchk" out ~cctx ~output:Check;
-  CoqRules.check_dir "output-failure" out ~cctx ~output:Coqc ~args:["-test-mode"; "-async-proofs-cache"; "force"] ~exit_codes:[1];
+  CoqRules.check_dir "output" out ~cctx ~output:MainJob ~args:["-test-mode"; "-async-proofs-cache"; "force"];
+  CoqRules.check_dir "output-coqchk" out ~cctx ~output:CheckJob;
+  CoqRules.check_dir "output-coqtop" out ~cctx ~kind:Coqtop ~output:MainJob;
+  CoqRules.check_dir "output-failure" out ~cctx ~output:MainJob ~args:["-test-mode"; "-async-proofs-cache"; "force"] ~exit_codes:[1];
   CoqRules.check_dir "primitive/arrays" out ~cctx;
   CoqRules.check_dir "primitive/float" out ~cctx;
   CoqRules.check_dir "primitive/sint63" out ~cctx;
@@ -158,9 +159,8 @@ let _output_rules out =
   (* !! Something is broken here: *)
   (* extra_dep.v *)
   CoqRules.check_dir "success" out ~cctx;
-  CoqRules.check_dir "vio" out ~cctx ~args:["-vio"];
-  CoqRules.check_dir "vio" out ~cctx ~vio2vo:true;
-
+  CoqRules.check_dir "vio" out ~cctx ~kind:Vio;
+  CoqRules.check_dir "vio" out ~cctx ~kind:Vio2vo;
   (* Other tests *)
 
   (* TODO: in the future, make this cram *)
@@ -200,8 +200,6 @@ let () =
 (* ADD: Rule to update output tests (prob a promote rule) *)
 (* FIX: Cannot run test-suite directly from clean build *)
 (* TODO: complexity *)
-(* TODO: interactive *)
 (* TODO: misc, make cram *)
-(* TODO: output-coqtop *)
 (* TODO: output-modulo-time *)
 *)

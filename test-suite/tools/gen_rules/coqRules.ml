@@ -216,6 +216,19 @@ let coqc_vio2vo_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext="io2vo.log") vfi
   in
   pp fmt rule
 
+let coqtop_log_rule ~fmt ~exit_codes ~args ~deps ?(log_ext=".log") vfile =
+  let open Dune.Rule in
+  let vlogfile = vfile ^ log_ext in
+  let rule =
+    { targets = [vlogfile]
+    ; deps
+    ; action = Format.asprintf
+        "(with-outputs-to %s (with-accepted-exit-codes %s (with-stdin-from %s (run coqtop %s))))"
+        (vfile ^ log_ext) (exit_codes_to_string exit_codes) vfile args
+    ; alias = Some "runtest"
+    }
+  in
+  pp fmt rule
 
 (* Preprocessing for output log *)
 let with_outputs_to_rule ~fmt vfile =
@@ -236,11 +249,11 @@ let diff_rule ~fmt ?(out_ext=".out") ?(log_ext=".log") vfile =
 module Compilation = struct
   module Output = struct
     (* The type of output - dictates which logs we will diff *)
-    type t = None | Coqc | Check
+    type t = None | MainJob | CheckJob
     let to_string = function
       | None -> "None"
-      | Coqc -> "Coqc"
-      | Check -> "Check"
+      | MainJob -> "MainJob"
+      | CheckJob -> "CheckJob"
   end
 
   module Kind = struct
@@ -249,14 +262,16 @@ module Compilation = struct
     | Vos
     | Vok
     | Vio
-    | Vio2Vo
+    | Vio2vo
+    | Coqtop
 
     let to_string = function
       | Vo -> "vo"
       | Vos -> "vos"
       | Vok -> "vok"
       | Vio -> "vio"
-      | Vio2Vo -> "vio2vo"
+      | Vio2vo -> "vio2vo"
+      | Coqtop -> "coqtop"
   end
 end
 
@@ -266,24 +281,16 @@ let error_unsupported_build_rule (success, output, kind) () =
     "*** Error: Combination of arguments:\n + success = %b\n + output = %s\n + kind = %s\nHas chosen a build rule that is not supported.\n"
     success (Output.to_string output) (Kind.to_string kind)
 
-let generate_build_rule ~fmt ~exit_codes ~args ~deps ~chk_args
-  ~output ~vio2vo ~coqchk vfile =
-  (* TODO: determination of what to do here needs to be more complicated vio, vos cmxs etc. *)
-  (* We only generate vo files if coqc exits in success *)
-  let success =
-    match exit_codes with
-    | [] -> true
-    | l -> List.exists (fun x -> 0 = x) l
-  in
+let generate_build_rule ~fmt ~exit_codes ~args ~deps ~chk_args ~success ~output ~kind ~coqchk vfile =
   let open Compilation in
+  (* Override kind depending on args *)
   let kind =
-    if vio2vo then Kind.Vio2Vo
+    if List.mem "-vio2vo" args then Kind.Vio2vo
     else if List.mem "-vio" args then Kind.Vio
     else if List.mem "-vos" args then Kind.Vos
     else if List.mem "-vok" args then Kind.Vok
-    else Kind.Vo
+    else kind
   in
-
   let args = String.concat " " args in
   let chk_args = String.concat " " chk_args in
 
@@ -292,20 +299,20 @@ let generate_build_rule ~fmt ~exit_codes ~args ~deps ~chk_args
   (* vio *)
   | true, Output.None, Kind.Vio ->
     coqc_vio_log_rule ~fmt ~exit_codes ~args ~deps vfile
-  | true, Output.Coqc, Kind.Vio ->
+  | true, Output.MainJob, Kind.Vio ->
     coqc_vio_log_rule ~fmt ~exit_codes ~args ~deps ~log_ext:".log.pre" vfile;
     with_outputs_to_rule ~fmt vfile;
     diff_rule ~fmt vfile;
     ()
   (* vio2vo *)
-  | true, Output.None, Kind.Vio2Vo ->
+  | true, Output.None, Kind.Vio2vo ->
     coqc_vio2vo_log_rule ~fmt ~exit_codes ~args ~deps vfile;
     if coqchk then coqchk_log_rule ~fmt ~exit_codes ~chk_args ~deps vfile;
     ()
   (* vos *)
   | true, Output.None, Kind.Vos ->
     coqc_vos_log_rule ~fmt ~exit_codes ~args ~deps vfile
-  | true, Output.Coqc, Kind.Vos ->
+  | true, Output.MainJob, Kind.Vos ->
     coqc_vos_log_rule ~fmt ~exit_codes ~args ~deps ~log_ext:".log.pre" vfile;
     with_outputs_to_rule ~fmt vfile;
     diff_rule ~fmt vfile;
@@ -322,14 +329,14 @@ let generate_build_rule ~fmt ~exit_codes ~args ~deps ~chk_args
   | false, Output.None, Kind.Vo ->
     coqc_log_rule ~fmt ~exit_codes ~args ~deps vfile
   (* output rule *)
-  | true, Output.Coqc, Kind.Vo ->
+  | true, Output.MainJob, Kind.Vo ->
     coqc_vo_log_rule ~fmt ~exit_codes ~args ~deps ~log_ext:".log.pre" vfile;
     with_outputs_to_rule ~fmt vfile;
     diff_rule ~fmt vfile;
     if coqchk then coqchk_log_rule ~fmt ~exit_codes ~chk_args ~deps vfile;
     ()
   (* checking output of coqchk *)
-  | true, Output.Check, Kind.Vo ->
+  | true, Output.CheckJob, Kind.Vo ->
     coqc_vo_rule ~fmt ~exit_codes ~args ~deps vfile;
     coqchk_log_rule ~fmt ~exit_codes ~chk_args ~deps ~log_ext:".log.pre" vfile;
     (* TODO are these right? *)
@@ -337,32 +344,30 @@ let generate_build_rule ~fmt ~exit_codes ~args ~deps ~chk_args
     diff_rule ~fmt vfile;
     ()
   (* failing output rule *)
-  | false, Output.Coqc, Kind.Vo ->
+  | false, Output.MainJob, Kind.Vo ->
     coqc_log_rule ~fmt ~exit_codes ~args ~deps ~log_ext:".log.pre" vfile;
     with_outputs_to_rule ~fmt vfile;
+    diff_rule ~fmt vfile;
+    ()
+  (* coqtop rule *)
+  | true, Output.None, Kind.Coqtop ->
+    coqtop_log_rule ~fmt ~exit_codes ~args ~deps vfile;
+    ()
+  | true, Output.MainJob, Kind.Coqtop ->
+    coqtop_log_rule ~fmt ~exit_codes ~args ~deps ~log_ext:".log.pre" vfile;
+    Dune.Rules.run_pipe ~out:fmt
+      ~runs:
+        [ Printf.sprintf "grep -v \"Welcome to Coq\" %s" (vfile ^ ".log.pre")
+        ; "grep -v \"Loading ML file\""
+        ; "grep -v \"Skipping rcfile loading\""
+        ; "grep -v \"^<W>\"" ]
+      ~log_file:(vfile ^ ".log") ();
     diff_rule ~fmt vfile;
     ()
   | arguments -> error_unsupported_build_rule arguments ()
 
 
-let generate_rule
-  (* Formatter *)
-  ~fmt
-  (* Common context - arguments passed both to coqdep and coqc*)
-  ~cctx
-  (* Root directory - e.g. bugs/ *)
-  ~dir
-  (* Lvl - The correction given to files in the directory - e.g. ../ *)
-  ~lvl
-  (* Arguments to pass to coqc *)
-  ~args
-  (* Base dependencies of rule *)
-  ~base_deps
-  (* Accpted exit codes *)
-  ~exit_codes
-  (* Should the output of the test be checked? *)
-  ~output
-  (* The dependency output of coqdep *)
+let generate_rule ~fmt ~cctx ~dir ~lvl ~args ~base_deps ~exit_codes ~output ~kind ~coqchk
   (vfile_dep_info : Coqdeplib.Common.Dep_info.t) =
 
   let open Coqdeplib.Common in
@@ -390,10 +395,15 @@ let generate_rule
   let deps = extra_deps args @ base_deps @ vfile_deps |> List.map (fun x -> lvl ^ "/" ^ x) in
   let args = cctx @ args in
   let chk_args = chk_filter args in
-  generate_build_rule ~fmt ~exit_codes ~args ~chk_args ~deps ~output vfile
+  let success =
+    match exit_codes with
+    | [] -> true
+    | l -> List.exists (fun x -> 0 = x) l
+  in
+  generate_build_rule ~fmt ~exit_codes ~args ~chk_args ~deps ~success ~output ~kind ~coqchk vfile
 
 let check_dir ~cctx ?(args=[]) ?(base_deps=[]) ?(exit_codes=[])
-  ?(output=Compilation.Output.None) ?(vio2vo=false) ?(coqchk=true) dir fmt =
+  ?(output=Compilation.Output.None) ?(kind=Compilation.Kind.Vo) ?(coqchk=true) dir fmt =
   (* Scan for all .v files in directory *)
   let vfiles = Dir.scan_files_by_ext ".v" dir in
   (* Run coqdep to get deps *)
@@ -401,4 +411,4 @@ let check_dir ~cctx ?(args=[]) ?(base_deps=[]) ?(exit_codes=[])
   (* The lvl can be computed from the dir *)
   let lvl = Dir.back_to_root dir in
   Dune.Rules.in_subdir dir fmt ~f:(fun () ->
-    List.iter (generate_rule ~cctx:(cctx lvl) ~lvl ~args ~base_deps ~output ~vio2vo ~coqchk ~exit_codes ~fmt ~dir) deps)
+    List.iter (generate_rule ~cctx:(cctx lvl) ~lvl ~args ~base_deps ~output ~kind ~coqchk ~exit_codes ~fmt ~dir) deps)
