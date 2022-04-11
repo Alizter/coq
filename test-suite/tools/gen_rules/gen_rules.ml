@@ -114,8 +114,7 @@ let test_tool ?(ignore=[]) dir out =
       (* We ignore the template directory *)
       if List.mem subdir ignore then () else
         Dune.Rules.in_subdir subdir out ~f:(fun () ->
-          Dune.Rules.bash ~run:"./run.sh" ~out ~deps:["run.sh"] ~log_file:(sf "%s.log" subdir) ();
-        ())
+          Dune.Rules.bash ~run:"./run.sh" ~out ~deps:["run.sh"] ~log_file:(sf "%s.log" subdir) ())
     in
     List.iter per_dir dirs)
 
@@ -126,7 +125,7 @@ let test_misc dir out =
     let log_file = file ^ ".log" in
     Dune.Rules.run_with_env ~run:(sf "./%s" file) ~out ~log_file ~deps:(file :: deps)
       ~envs:
-        ["coqdep", "%{bin:coqdep}"
+        [ "coqdep", "%{bin:coqdep}"
         ; "coqc", "%{bin:coqc}"
         ; "coqtop", "%{bin:coqtop}"
         ; "coq_makefile", "%{bin:coq_makefile}"
@@ -134,6 +133,9 @@ let test_misc dir out =
     ()) dir out
 
 let _debug_rules out =
+  (* test_misc "misc" out; *)
+  CoqRules.check_dir "micromega" out ~lvld_deps:[".csdp.cache"; "%{bin:csdpcert}"] ~cctx;
+  (* CoqRules.check_dir "micromega" out ~lvld_deps:[".csdp.cache"; "%{bin:csdpcert}"] ~cctx; *)
 
 
   ()
@@ -157,6 +159,8 @@ let _output_rules out =
   (* rexample.v *)
   CoqRules.check_dir "micromega" out ~base_deps:[".csdp.cache"] ~cctx;
   CoqRules.check_dir "modules" out ~cctx:(fun lvl -> ["-R"; lvl; "Mods"]);
+  (* TODO: do we want this? was it done before? *)
+  (* CoqRules.check_dir "misc" out ~cctx; *)
   (* !! Something is broken here: *)
   (* Load.v *)
   CoqRules.check_dir "output" out ~cctx ~output:MainJob ~args:["-test-mode"; "-async-proofs-cache"; "force"];

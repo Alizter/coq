@@ -47,7 +47,7 @@
   %{bin:coqidetop.byte}
   %{lib:coq-core.vm:../../stublibs/dllcoqrun_stubs.so}
 
-  .csdp.cache
+  micromega/.csdp.cache
   %{bin:csdpcert})
  (mode promote)
  (action (run ./tools/gen_rules/gen_rules.exe)))
@@ -69,10 +69,6 @@
      (echo "\n"))))))
 
 (rule
- (targets .csdp.cache)
- (deps .csdp.cache.test-suite)
-  (action
-  (progn
-  ; Cache set this to read-only
-  (copy %{deps} %{targets})
-  (bash "chmod u+w %{targets}"))))
+ (alias runtest)
+ (deps (alias micromega/runtest))
+ (action (diff micromega/.csdp.cache micromega/.copy.csdp.cache)))

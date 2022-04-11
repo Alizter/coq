@@ -367,7 +367,7 @@ let generate_build_rule ~fmt ~exit_codes ~args ~deps ~chk_args ~success ~output 
   | arguments -> error_unsupported_build_rule arguments ()
 
 
-let generate_rule ~fmt ~cctx ~dir ~lvl ~args ~base_deps ~exit_codes ~output ~kind ~coqchk
+let generate_rule ~fmt ~cctx ~dir ~lvl ~args ~base_deps ~lvld_deps ~exit_codes ~output ~kind ~coqchk
   (vfile_dep_info : Coqdeplib.Common.Dep_info.t) =
 
   let open Coqdeplib.Common in
@@ -392,7 +392,7 @@ let generate_rule ~fmt ~cctx ~dir ~lvl ~args ~base_deps ~exit_codes ~output ~kin
   (* parse the header of the .v file for extra arguments *)
   let args = vfile_header ~dir vfile @ args in
   (* lvl adjustment done here *)
-  let deps = extra_deps args @ base_deps @ vfile_deps |> List.map (fun x -> lvl ^ "/" ^ x) in
+  let deps = lvld_deps @ (base_deps @ extra_deps args @ vfile_deps |> List.map (fun x -> lvl ^ "/" ^ x)) in
   let args = cctx @ args in
   let chk_args = chk_filter args in
   let success =
@@ -402,7 +402,7 @@ let generate_rule ~fmt ~cctx ~dir ~lvl ~args ~base_deps ~exit_codes ~output ~kin
   in
   generate_build_rule ~fmt ~exit_codes ~args ~chk_args ~deps ~success ~output ~kind ~coqchk vfile
 
-let check_dir ~cctx ?(args=[]) ?(base_deps=[]) ?(exit_codes=[])
+let check_dir ~cctx ?(args=[]) ?(base_deps=[]) ?(lvld_deps=[]) ?(exit_codes=[])
   ?(output=Compilation.Output.None) ?(kind=Compilation.Kind.Vo) ?(coqchk=true) dir fmt =
   (* Scan for all .v files in directory *)
   let vfiles = Dir.scan_files_by_ext ~ext:".v" dir in
@@ -411,4 +411,4 @@ let check_dir ~cctx ?(args=[]) ?(base_deps=[]) ?(exit_codes=[])
   (* The lvl can be computed from the dir *)
   let lvl = Dir.back_to_root dir in
   Dune.Rules.in_subdir dir fmt ~f:(fun () ->
-    List.iter (generate_rule ~cctx:(cctx lvl) ~lvl ~args ~base_deps ~output ~kind ~coqchk ~exit_codes ~fmt ~dir) deps)
+    List.iter (generate_rule ~cctx:(cctx lvl) ~lvl ~args ~base_deps ~lvld_deps ~output ~kind ~coqchk ~exit_codes ~fmt ~dir) deps)
