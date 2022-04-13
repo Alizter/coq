@@ -57,48 +57,45 @@ let coqdoc_html_with_diff_rule ~dir ~out file  =
   let sf = Printf.sprintf in
   let filename = Filename.chop_extension file in
   let doc_file = filename ^ ".html" in
-  let log_file = doc_file ^ ".log" in
+  let log_file = filename ^ ".html.log" in
+  let out_file = filename ^ ".html.out" in
   let vofile = filename ^ ".vo" in
   let globfile = filename ^ ".glob" in
   let args = [
     "-utf8";
-    (* TODO more generic *)
-    "-R"; "."; "Coqdoc";
     "-coqlib_url"; "http://coq.inria.fr/stdlib";
     "--html";
-    "-o"; doc_file ;
     ]
     (* Get extra args under "coqdoc-prog-args" in file *)
     @ CoqRules.vfile_header ~dir ~name:"coqdoc-prog-args" file
   in
   let run = sf "%%{bin:coqdoc} %s %s" (String.concat " " args) file in
   Dune.Rules.run ~run ~out ~log_file ~targets:[doc_file] ~deps:[file; vofile; globfile] ();
-  Dune.Rules.diff ~out (doc_file ^ ".out") doc_file
+  Dune.Rules.diff ~out out_file doc_file
 
 let coqdoc_latex_with_diff_rule ~dir ~out file  =
   let sf = Printf.sprintf in
   let filename = Filename.chop_extension file in
   let doc_file = filename ^ ".tex" in
-  let doc_file_pre = doc_file ^ ".pre" in
-  let log_file = doc_file ^ ".log" in
+  let doc_file_scrub = filename ^ ".tex.scrub" in
+  let log_file = filename ^ ".tex.log" in
+  let out_file = filename ^ ".tex.out" in
   let vofile = filename ^ ".vo" in
   let globfile = filename ^ ".glob" in
   let args = [
     "-utf8";
-    (* TODO more generic *)
-    "-R"; "." ; "Coqdoc";
     "-coqlib_url"; "http://coq.inria.fr/stdlib";
     "--latex";
-    "-o"; doc_file_pre ;
+
     ]
     (* Get extra args under "coqdoc-prog-args" in file *)
     @ CoqRules.vfile_header ~dir ~name:"coqdoc-prog-args" file
   in
   let run = sf "%%{bin:coqdoc} %s %s" (String.concat " " args) file in
-  Dune.Rules.run ~run ~out ~log_file ~targets:[doc_file_pre] ~deps:[file; vofile; globfile] ();
+  Dune.Rules.run ~run ~out ~log_file ~targets:[doc_file] ~deps:[file; vofile; globfile] ();
   (* We need to scrub the .tex file of comments begining %% *)
-  Dune.Rules.run ~out ~run:(sf "grep -v \"^%%%%\" %s" doc_file_pre) ~targets:[doc_file] ~deps:[doc_file_pre] ~log_file:doc_file ();
-  Dune.Rules.diff ~out (doc_file ^ ".out") doc_file
+  Dune.Rules.run ~out ~run:(sf "grep -v \"^%%%%\" %s" doc_file) ~deps:[doc_file] ~log_file:doc_file_scrub ();
+  Dune.Rules.diff ~out out_file doc_file_scrub
 
 let test_coqdoc dir out =
   in_subdir_foreach_ext (fun file ->
@@ -136,7 +133,8 @@ let _debug_rules out =
   (* test_misc "misc" out; *)
   (* CoqRules.check_dir "micromega" out ~cctx; *)
   (* CoqRules.check_dir "micromega" out ~lvld_deps:[".csdp.cache"; "%{bin:csdpcert}"] ~cctx; *)
-
+  CoqRules.check_dir "coqdoc" out ~cctx ~args:["-Q"; "coqdoc"; "Coqdoc"];
+  test_coqdoc "coqdoc" out;
 
   ()
 
@@ -186,7 +184,7 @@ let _output_rules out =
   (* TODO: in the future, make this cram *)
   test_ide out;
   (* TODO: fix these, they are broken since .glob appears different when coqc is ran in same directory vs from test-suite. *)
-  CoqRules.check_dir "coqdoc" out ~cctx ~args:["-R"; "coqdoc"; "Coqdoc"];
+  CoqRules.check_dir "coqdoc" out ~cctx ~args:["-Q"; "coqdoc"; "Coqdoc"];
   test_coqdoc "coqdoc" out;
   (* TODO: fix python stuff here *)
   test_tool "coq-makefile" out ~ignore:["template"];
