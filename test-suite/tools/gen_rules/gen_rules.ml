@@ -32,7 +32,7 @@ let test_in_subdir ?ext ?out_file_ext ?(log_file_ext=".log") ?(targets=[]) ?(dep
     match out_file_ext with
     | Some out_file_ext ->
       let out_file = Filename.chop_extension file ^ out_file_ext in
-      Dune.Rules.diff out out_file log_file
+      Dune.Rules.diff ~out out_file log_file
     | None -> ()) dir out
 
 let test_ide out =
@@ -73,7 +73,7 @@ let coqdoc_html_with_diff_rule ~dir ~out file  =
   in
   let run = sf "%%{bin:coqdoc} %s %s" (String.concat " " args) file in
   Dune.Rules.run ~run ~out ~log_file ~targets:[doc_file] ~deps:[file; vofile; globfile] ();
-  Dune.Rules.diff out (doc_file ^ ".out") doc_file
+  Dune.Rules.diff ~out (doc_file ^ ".out") doc_file
 
 let coqdoc_latex_with_diff_rule ~dir ~out file  =
   let sf = Printf.sprintf in
@@ -98,7 +98,7 @@ let coqdoc_latex_with_diff_rule ~dir ~out file  =
   Dune.Rules.run ~run ~out ~log_file ~targets:[doc_file_pre] ~deps:[file; vofile; globfile] ();
   (* We need to scrub the .tex file of comments begining %% *)
   Dune.Rules.run ~out ~run:(sf "grep -v \"^%%%%\" %s" doc_file_pre) ~targets:[doc_file] ~deps:[doc_file_pre] ~log_file:doc_file ();
-  Dune.Rules.diff out (doc_file ^ ".out") doc_file
+  Dune.Rules.diff ~out (doc_file ^ ".out") doc_file
 
 let test_coqdoc dir out =
   in_subdir_foreach_ext (fun file ->
@@ -114,7 +114,7 @@ let test_tool ?(ignore=[]) dir out =
       (* We ignore the template directory *)
       if List.mem subdir ignore then () else
         Dune.Rules.in_subdir subdir out ~f:(fun () ->
-          Dune.Rules.bash ~run:"./run.sh" ~out ~deps:["run.sh"] ~log_file:(sf "%s.log" subdir) ())
+          Dune.Rules.run ~run:"./run.sh" ~out ~deps:["run.sh"] ~log_file:(sf "%s.log" subdir) ())
     in
     List.iter per_dir dirs)
 
@@ -123,7 +123,7 @@ let test_misc dir out =
   let deps = ["%{bin:coqdep}"; "%{bin:coqc}"; "%{bin:coqtop.byte}"] in
   in_subdir_foreach_ext ~ext:".sh" (fun file ->
     let log_file = file ^ ".log" in
-    Dune.Rules.run_with_env ~run:(sf "./%s" file) ~out ~log_file ~deps:(file :: deps)
+    Dune.Rules.run ~run:(sf "./%s" file) ~out ~log_file ~deps:(file :: deps)
       ~envs:
         [ "coqdep", "%{bin:coqdep}"
         ; "coqc", "%{bin:coqc}"
@@ -134,7 +134,7 @@ let test_misc dir out =
 
 let _debug_rules out =
   (* test_misc "misc" out; *)
-  CoqRules.check_dir "micromega" out ~lvld_deps:[".csdp.cache"; "%{bin:csdpcert}"] ~cctx;
+  CoqRules.check_dir "micromega" out ~cctx;
   (* CoqRules.check_dir "micromega" out ~lvld_deps:[".csdp.cache"; "%{bin:csdpcert}"] ~cctx; *)
 
 
@@ -157,7 +157,8 @@ let _output_rules out =
   (* example.v *)
   (* bertot.v *)
   (* rexample.v *)
-  CoqRules.check_dir "micromega" out ~base_deps:[".csdp.cache"] ~cctx;
+  (* For micromega we implicitly copy a cache, we could copy this in other directories too *)
+  CoqRules.check_dir "micromega" out ~cctx;
   CoqRules.check_dir "modules" out ~cctx:(fun lvl -> ["-R"; lvl; "Mods"]);
   (* TODO: do we want this? was it done before? *)
   (* CoqRules.check_dir "misc" out ~cctx; *)

@@ -1,13 +1,9 @@
 (rule
  (alias runtest)
- ; (universe) means that we depend on everything, this has two behavious we
- ; would like:
- ; - Dune cache cannot and should not cache this rule, this is undesirable since
- ;   reading and writing permissions are not preserved.
- ; - The rule is rerun everytime. This is of course inefficient if the cache was
- ;   large but this isn't such a huge bottleneck in practice.
- (deps (universe) .copy.csdp.cache)
- (targets .csdp.cache)
+ ; The universe dep ensures we always run this rule
+ (deps (universe) .csdp.cache.test-suite)
  (action (progn
-  (copy .copy.csdp.cache .csdp.cache)
-  (run chmod +xw .csdp.cache))))
+  ; It is important we don't add .csdp.cache as a target or else dune will scrub
+  ; its write permissions
+  (no-infer (copy .csdp.cache.test-suite .csdp.cache))
+  (run chmod +w .csdp.cache))))

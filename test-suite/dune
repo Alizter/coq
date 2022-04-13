@@ -45,10 +45,7 @@
   %{bin:coqproofworker.opt}
   %{bin:fake_ide}
   %{bin:coqidetop.byte}
-  %{lib:coq-core.vm:../../stublibs/dllcoqrun_stubs.so}
-
-  micromega/.csdp.cache
-  %{bin:csdpcert})
+  %{lib:coq-core.vm:../../stublibs/dllcoqrun_stubs.so})
  (mode promote)
  (action (run ./tools/gen_rules/gen_rules.exe)))
 
@@ -68,7 +65,8 @@
      (cat ../../plugins/micromega/micromega.ml)
      (echo "\n"))))))
 
-(rule
- (alias runtest)
- (deps (alias micromega/runtest))
- (action (diff micromega/.csdp.cache micromega/.copy.csdp.cache)))
+; TODO: promotion of cache
+; (rule
+;  (alias runtest)
+;  (deps (alias micromega/runtest))
+;  (action (diff micromega/.csdp.cache micromega/.copy.csdp.cache)))
