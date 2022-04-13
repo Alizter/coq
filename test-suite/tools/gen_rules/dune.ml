@@ -25,75 +25,51 @@ module Rule = struct
 end
 
 module Rules = struct
-  let diff fmt file1 file2 =
+  let diff ~out ?(alias=Some "runtest") file1 file2 =
     let rule_diff =
       Rule.{ targets = []
       ; deps = [file1; file2]
       ; action = Format.asprintf "(diff %s %s)" file1 file2
-      ; alias = Some "runtest"
+      ; alias
       } in
-      Rule.pp fmt rule_diff
+      Rule.pp out rule_diff
 
-  let run ~run ~out ?log_file ?(targets=[]) ?(deps=[]) () =
-    match log_file with
-    | Some log_file ->
-      let rule = Rule.{
-        targets = log_file :: targets
-        ; deps = deps
-        ; action = Format.asprintf "(with-outputs-to %s (run %s))" log_file run
-        ; alias = Some "runtest"
-        } in
-      Rule.pp out rule
-    | None ->
-      let rule = Rule.{
-        targets = targets
-        ; deps = deps
-        ; action = Format.asprintf "(run %s)" run
-        ; alias = Some "runtest"
-        } in
-      Rule.pp out rule
+    let exit_codes_to_string = function
+      | [] -> "0"
+      | l -> Printf.sprintf "(or %s)" @@ String.concat " " (List.map string_of_int l)
 
-  let run_with_env ~run ~envs ~out ?log_file ?(targets=[]) ?(deps=[]) () =
+  let run ~run ~out ?log_file ?in_file ?(alias=Some "runtest") ?(envs=[]) ?(exit_codes=[]) ?(targets=[]) ?(deps=[]) () =
     let rec flatten_env envs dsl = match envs with
       | (envvar, envval) :: envs -> Format.asprintf "(setenv %s %s %s)" envvar envval @@ flatten_env envs dsl
       | [] -> dsl
     in
-    match log_file with
-    | Some log_file ->
-      let rule = Rule.{
-        targets = log_file :: targets
-        ; deps = deps
-        ; action = flatten_env envs @@ Format.asprintf "(with-outputs-to %s (run %s))" log_file run
-        ; alias = Some "runtest"
-        } in
-      Rule.pp out rule
-    | None ->
-      let rule = Rule.{
-        targets = targets
-        ; deps = deps
-        ; action = flatten_env envs @@ Format.asprintf "(run %s)" run
-        ; alias = Some "runtest"
-        } in
-      Rule.pp out rule
-
-  let bash ~run ~out ?log_file ?(targets=[]) ?(deps=[]) () =
-    match log_file with
-    | Some log_file ->
-      let rule = Rule.{
-        targets = log_file :: targets
-        ; deps = deps
-        ; action = Format.asprintf "(with-outputs-to %s (bash %s))" log_file run
-        ; alias = Some "runtest"
-        } in
-      Rule.pp out rule
-    | None ->
-      let rule = Rule.{
-        targets = targets
-        ; deps = deps
-        ; action = Format.asprintf "(bash %s)" run
-        ; alias = Some "runtest"
-        } in
-      Rule.pp out rule
+    let with_outputs_to log_file dsl = match log_file with
+      | Some log_file -> Format.asprintf "(with-outputs-to %s %s)" log_file dsl
+      | None -> dsl
+    in
+    let targets = function
+      | Some log_file -> log_file :: targets
+      | None -> targets
+    in
+    let with_exit_codes exit_codes dsl = match exit_codes with
+      | [] -> dsl
+      | exit_codes -> Format.asprintf "(with-accepted-exit-codes %s %s)" (exit_codes_to_string exit_codes) dsl
+    in
+    let with_stdin_from in_file dsl = match in_file with
+      | Some in_file -> Format.asprintf "(with-stdin-from %s %s)" in_file dsl
+      | None -> dsl
+    in
+    let rule = Rule.{
+      targets = targets log_file
+      ; deps = deps
+      ; action = flatten_env envs
+        @@ with_outputs_to log_file
+        @@ with_exit_codes exit_codes
+        @@ with_stdin_from in_file
+        @@ Format.asprintf "(run %s)"  run
+      ; alias
+      } in
+    Rule.pp out rule
 
   let in_subdir dir out ~f =
     (* The thunking here is important for order of execution *)
@@ -103,6 +79,7 @@ module Rules = struct
     Format.fprintf out "@])@\n";
     ()
 
+  (* TODO: share more with run *)
   let run_pipe ~runs ~out ?log_file ?(targets=[]) ?(deps=[]) () =
     match log_file with
     | Some log_file ->
