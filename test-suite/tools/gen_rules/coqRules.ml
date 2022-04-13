@@ -151,7 +151,7 @@ let coqtop_log_rule ~out ~envs ~exit_codes ~args ~deps ?(log_ext=".log") vfile =
 let with_outputs_to_rule ~out vfile =
   let log_file = vfile ^ ".log" in
   let log_pre_file = vfile ^ ".log.pre" in
-  let run = Format.asprintf "run ../tools/amend-output-log.sh %s" log_pre_file in
+  let run = Format.asprintf "../tools/amend-output-log.sh %s" log_pre_file in
   let targets = [log_file] in
   let deps = [log_pre_file] in
   Dune.Rules.run ~out ~run ~deps ~targets ~log_file ~in_file:vfile ()
