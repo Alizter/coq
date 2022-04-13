@@ -134,7 +134,7 @@ let test_misc dir out =
 
 let _debug_rules out =
   (* test_misc "misc" out; *)
-  CoqRules.check_dir "micromega" out ~cctx;
+  (* CoqRules.check_dir "micromega" out ~cctx; *)
   (* CoqRules.check_dir "micromega" out ~lvld_deps:[".csdp.cache"; "%{bin:csdpcert}"] ~cctx; *)
 
 
@@ -199,8 +199,8 @@ let _output_rules out =
 let main () =
   let out = open_out "test_suite_rules.sexp" in
   let fmt = Format.formatter_of_out_channel out in
-  (* _output_rules fmt; *)
-  _debug_rules fmt;
+  _output_rules fmt;
+  (* _debug_rules fmt; *)
   Format.pp_print_flush fmt ();
   close_out out
 
