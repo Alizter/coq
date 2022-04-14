@@ -111,7 +111,10 @@ let test_tool ?(ignore=[]) dir out =
       (* We ignore the template directory *)
       if List.mem subdir ignore then () else
         Dune.Rules.in_subdir subdir out ~f:(fun () ->
-          Dune.Rules.run ~run:"./run.sh" ~out ~deps:["run.sh"] ~log_file:(sf "%s.log" subdir) ())
+          Dune.Rules.run ~run:"./run.sh" ~out ~log_file:(sf "%s.log" subdir)
+            ~deps:
+              [ "run.sh" ]
+          ())
     in
     List.iter per_dir dirs)
 
@@ -130,12 +133,19 @@ let test_misc dir out =
     ()) dir out
 
 let _debug_rules out =
-  (* test_misc "misc" out; *)
-  (* CoqRules.check_dir "micromega" out ~cctx; *)
-  (* CoqRules.check_dir "micromega" out ~lvld_deps:[".csdp.cache"; "%{bin:csdpcert}"] ~cctx; *)
-  CoqRules.check_dir "coqdoc" out ~cctx ~args:["-Q"; "coqdoc"; "Coqdoc"];
-  test_coqdoc "coqdoc" out;
+  (* let sf = Printf.sprintf in *)
+  (* let open CoqRules.Compilation.Kind in *)
+  (* let open CoqRules.Compilation.Output in *)
 
+  (* !! Something is broken here: *)
+  (* Load.v *)
+  (* CoqRules.check_dir "output" out ~cctx ~output:MainJob ~args:["-test-mode"; "-async-proofs-cache"; "force"]; *)
+
+  (* TODO: fix python stuff here *)
+  (* test_tool "coq-makefile" out ~ignore:["template"]; *)
+
+  (* TODO: mostly broken *)
+  (* test_misc "misc" out; *)
   ()
 
 let _output_rules out =
@@ -150,16 +160,10 @@ let _output_rules out =
   CoqRules.check_dir "failure" out ~cctx;
   CoqRules.check_dir "interactive" out ~cctx ~kind:Coqtop;
   CoqRules.check_dir "ltac2" out ~cctx;
-  (* !! Something is broken here: *)
-  (* qexample.v *)
-  (* example.v *)
-  (* bertot.v *)
-  (* rexample.v *)
   (* For micromega we implicitly copy a cache, we could copy this in other directories too *)
+  (* TODO: make sure cache rule is called before *)
   CoqRules.check_dir "micromega" out ~cctx;
   CoqRules.check_dir "modules" out ~cctx:(fun lvl -> ["-R"; lvl; "Mods"]);
-  (* TODO: do we want this? was it done before? *)
-  (* CoqRules.check_dir "misc" out ~cctx; *)
   (* !! Something is broken here: *)
   (* Load.v *)
   CoqRules.check_dir "output" out ~cctx ~output:MainJob ~args:["-test-mode"; "-async-proofs-cache"; "force"];
@@ -172,23 +176,16 @@ let _output_rules out =
   CoqRules.check_dir "primitive/uint63" out ~cctx;
   CoqRules.check_dir "ssr" out ~cctx;
   CoqRules.check_dir "stm" out ~cctx ~args:["-async-proofs"; "on"];
-  (* !! Something is broken here: *)
-  (* extra_dep.v *)
   CoqRules.check_dir "success" out ~cctx;
   CoqRules.check_dir "vio" out ~cctx ~kind:Vio;
   CoqRules.check_dir "vio" out ~cctx ~kind:Vio2vo;
   (* Other tests *)
-
-  (* TODO: in the future, make this cram *)
   test_in_subdir "coqwc" out ~run:(sf "coqwc %s");
-  (* TODO: in the future, make this cram *)
   test_ide out;
-  (* TODO: fix these, they are broken since .glob appears different when coqc is ran in same directory vs from test-suite. *)
   CoqRules.check_dir "coqdoc" out ~cctx ~args:["-Q"; "coqdoc"; "Coqdoc"];
   test_coqdoc "coqdoc" out;
-  (* TODO: fix python stuff here *)
+  (* TODO: We need directory independent dependencies for the python deps *)
   test_tool "coq-makefile" out ~ignore:["template"];
-  (* TODO: broken and seems kind of pointless *)
   test_tool "tools" out ~ignore:["gen_rules"];
   (* TODO: mostly broken *)
   test_misc "misc" out;
