@@ -36,6 +36,11 @@
 
   (file ../theories/Init/Prelude.vo)
 
+  ; These are needed for test-suite/tools/update-compat/run.sh
+  ../dev/tools/update-compat.py
+  ../dev/header.ml
+  ../doc/stdlib/index-list.html.template
+
   %{bin:coqc}
   %{bin:coqtop}
   %{bin:coqtop.byte}
