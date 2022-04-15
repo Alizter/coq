@@ -25,7 +25,7 @@ module Action = struct
   | Progn of t list
   | Pipe_outputs of t list
   | Diff of string * string
-  | Run of string
+  | Run of string list
 
   let pp fmt action =
     let rec pp_action fmt = function
@@ -36,7 +36,7 @@ module Action = struct
     | Diff (file1, file2) -> Format.fprintf fmt "@[<1>(diff@ %s@ %s)@]" file1 file2
     | Progn dsls -> Format.fprintf fmt "@[<1>(progn@ %a)@]" (pp_list sep pp_action) dsls
     | Pipe_outputs dsls -> Format.fprintf fmt "@[<1>(pipe-outputs@ %a)@]" (pp_list sep pp_action) dsls
-    | Run run -> Format.fprintf fmt "@[<1>(run %s)@]" run
+    | Run run -> Format.fprintf fmt "@[<1>(run %a)@]" (pp_list sep Format.pp_print_string) run
     in
     Format.fprintf fmt "@[<v1>(action@ %a)@]" pp_action action
 

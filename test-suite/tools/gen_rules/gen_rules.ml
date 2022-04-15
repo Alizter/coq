@@ -36,7 +36,6 @@ let test_in_subdir ?ext ?out_file_ext ?(log_file_ext=".log") ?(targets=[]) ?(dep
     | None -> ()) dir out
 
 let test_ide out =
-  let sf = Printf.sprintf in
   let dir = "ide" in
   let lvl = ".." in
   let args file = [
@@ -47,14 +46,12 @@ let test_ide out =
       ]
     @ CoqRules.vfile_header ~dir file
     @ cctx lvl
-    |> String.concat " "
   in
-  let run = fun file -> sf "fake_ide %%{bin:coqidetop.opt} %s \"%s\"" file (args file) in
+  let run = fun file -> ["fake_ide"; "%%{bin:coqidetop.opt}"; file] @ args file in
   (* TODO: test output *)
   test_in_subdir dir out ~run ~ext:".fake"
 
 let coqdoc_html_with_diff_rule ~dir ~out file  =
-  let sf = Printf.sprintf in
   let filename = Filename.chop_extension file in
   let doc_file = filename ^ ".html" in
   let log_file = filename ^ ".html.log" in
@@ -69,12 +66,11 @@ let coqdoc_html_with_diff_rule ~dir ~out file  =
     (* Get extra args under "coqdoc-prog-args" in file *)
     @ CoqRules.vfile_header ~dir ~name:"coqdoc-prog-args" file
   in
-  let run = sf "%%{bin:coqdoc} %s %s" (String.concat " " args) file in
+  let run = "%%{bin:coqdoc}" :: args @ [file] in
   Dune.Rules.run ~run ~out ~log_file ~targets:[doc_file] ~deps:[file; vofile; globfile] ();
   Dune.Rules.diff ~out out_file doc_file
 
 let coqdoc_latex_with_diff_rule ~dir ~out file  =
-  let sf = Printf.sprintf in
   let filename = Filename.chop_extension file in
   let doc_file = filename ^ ".tex" in
   let doc_file_scrub = filename ^ ".tex.scrub" in
@@ -91,10 +87,11 @@ let coqdoc_latex_with_diff_rule ~dir ~out file  =
     (* Get extra args under "coqdoc-prog-args" in file *)
     @ CoqRules.vfile_header ~dir ~name:"coqdoc-prog-args" file
   in
-  let run = sf "%%{bin:coqdoc} %s %s" (String.concat " " args) file in
-  Dune.Rules.run ~run ~out ~log_file ~targets:[doc_file] ~deps:[file; vofile; globfile] ();
+  Dune.Rules.run  ~out ~run:("%%{bin:coqdoc}" :: args @ [file])
+    ~log_file ~targets:[doc_file] ~deps:[file; vofile; globfile] ();
   (* We need to scrub the .tex file of comments begining %% *)
-  Dune.Rules.run ~out ~run:(sf "grep -v \"^%%%%\" %s" doc_file) ~deps:[doc_file] ~log_file:doc_file_scrub ();
+  Dune.Rules.run ~out ~run:["grep"; "-v"; "\"^%%%%\""; file]
+    ~log_file:doc_file_scrub ~deps:[doc_file] ();
   Dune.Rules.diff ~out out_file doc_file_scrub
 
 let test_coqdoc dir out =
@@ -111,7 +108,7 @@ let test_tool ?(ignore=[]) dir out =
       (* We ignore the template directory *)
       if List.mem subdir ignore then () else
         Dune.Rules.in_subdir subdir out ~f:(fun out () ->
-          Dune.Rules.run ~run:"./run.sh" ~out ~log_file:(sf "%s.log" subdir)
+          Dune.Rules.run ~run:["./run.sh"] ~out ~log_file:(sf "%s.log" subdir)
             ~deps:
               [ "run.sh" ]
           ())
@@ -119,11 +116,10 @@ let test_tool ?(ignore=[]) dir out =
     List.iter per_dir dirs)
 
 let test_misc dir out =
-  let sf = Printf.sprintf in
   let deps = ["%{bin:coqdep}"; "%{bin:coqc}"; "%{bin:coqtop.byte}"] in
   in_subdir_foreach_ext ~ext:".sh" (fun file ->
     let log_file = file ^ ".log" in
-    Dune.Rules.run ~run:(sf "./%s" file) ~out ~log_file ~deps:(file :: deps)
+    Dune.Rules.run ~run:["./" ^ file] ~out ~log_file ~deps:(file :: deps)
       ~envs:
         [ "coqdep", "%{bin:coqdep}"
         ; "coqc", "%{bin:coqc}"
@@ -133,7 +129,6 @@ let test_misc dir out =
     ()) dir out
 
 let _debug_rules out =
-  (* let sf = Printf.sprintf in *)
   (* let open CoqRules.Compilation.Kind in *)
   (* let open CoqRules.Compilation.Output in *)
 
@@ -151,7 +146,6 @@ let _debug_rules out =
   ()
 
 let _output_rules out =
-  let sf = Printf.sprintf in
 
   let open CoqRules.Compilation.Kind in
   let open CoqRules.Compilation.Output in
@@ -182,7 +176,7 @@ let _output_rules out =
   CoqRules.check_dir "vio" out ~cctx ~kind:Vio;
   CoqRules.check_dir "vio" out ~cctx ~kind:Vio2vo;
   (* Other tests *)
-  test_in_subdir "coqwc" out ~run:(sf "coqwc %s");
+  test_in_subdir "coqwc" out ~run:(fun file -> ["coqwc"; file]);
   test_ide out;
   CoqRules.check_dir "coqdoc" out ~cctx ~args:["-Q"; "coqdoc"; "Coqdoc"];
   test_coqdoc "coqdoc" out;
