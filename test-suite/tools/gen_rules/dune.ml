@@ -1,19 +1,80 @@
+
+let rec pp_list sep pp fmt = function
+  | []  -> ()
+  | [l] -> Format.fprintf fmt "%a" pp l
+  | x::xs -> Format.fprintf fmt "%a%a%a" pp x sep () (pp_list sep pp) xs
+
+let sep fmt () = Format.fprintf fmt "@;"
+
+let ppl = pp_list sep Format.pp_print_string
+
+module Action = struct
+  module Outputs = struct
+    type t = Stdout | Stderr | Outputs
+    let pp fmt = function
+    | Stdout -> Format.fprintf fmt "stdout"
+    | Stderr -> Format.fprintf fmt "stderr"
+    | Outputs -> Format.fprintf fmt "outputs"
+  end
+
+  type t =
+  | Setenv of (string * string) * t
+  | With_outputs_to of Outputs.t * string * t
+  | With_accepted_exit_codes of string * t
+  | With_stdin_from of string * t
+  | Progn of t list
+  | Pipe_outputs of t list
+  | Diff of string * string
+  | Run of string
+
+  let pp fmt action =
+    (* TODO boxing and breaking *)
+    let rec pp_action fmt = function
+    | Setenv ((envvar, envval), dsl) -> Format.fprintf fmt "(setenv %s %s %a)" envvar envval pp_action dsl
+    | With_outputs_to (outputs, file, dsl) -> Format.fprintf fmt "(with-%a-to %s %a)" Outputs.pp outputs file pp_action dsl
+    | With_accepted_exit_codes (codes, dsl) -> Format.fprintf fmt "(with-accepted-exit-codes %s %a)" codes pp_action dsl
+    | With_stdin_from (in_file, dsl) -> Format.fprintf fmt "(with-stdin-from %s %a)" in_file pp_action dsl
+    | Diff (file1, file2) -> Format.fprintf fmt "(diff %s %s)" file1 file2
+    | Progn dsls -> Format.fprintf fmt "(progn %a)" (pp_list sep pp_action) dsls
+    | Pipe_outputs dsls -> Format.fprintf fmt "(pipe-outputs %a)" (pp_list sep pp_action) dsls
+    | Run run -> Format.fprintf fmt "(run %s)" run
+    in
+    (* TODO: linebreak before *)
+    Format.fprintf fmt "(action @[%a@])" pp_action action
+
+  (* Smart constructors *)
+  let rec setenv_batch envs action = match envs with
+  | envpair :: envs -> Setenv (envpair, setenv_batch envs action)
+  | [] -> action
+
+  let with_stdin_from_opt in_file action = match in_file with
+    | Some in_file -> With_stdin_from (in_file, action)
+    | None -> action
+
+  let with_accepted_exit_codes_list exit_codes dsl =
+    let exit_codes_to_string = function
+      | [] -> "0"
+      | l -> Printf.sprintf "(or %s)" @@ String.concat " " (List.map string_of_int l)
+    in
+    match exit_codes with
+    | [] -> dsl
+    | exit_codes -> With_accepted_exit_codes (exit_codes_to_string exit_codes, dsl)
+
+  let with_outputs_to_opt outputs log_file dsl = match log_file with
+    | Some log_file -> With_outputs_to (outputs, log_file, dsl)
+    | None -> dsl
+
+end
+
+
 module Rule = struct
   type t =
     { targets : string list
     ; deps : string list
-    ; action : string
+    ; action : Action.t
     ; alias : string option
     }
 
-  let rec pp_list pp sep fmt l = match l with
-    | []  -> ()
-    | [l] -> Format.fprintf fmt "%a" pp l
-    | x::xs -> Format.fprintf fmt "%a%a%a" pp x sep () (pp_list pp sep) xs
-
-  let sep fmt () = Format.fprintf fmt "@;"
-
-  let ppl = pp_list Format.pp_print_string sep
   let pp_alias fmt = function
     | None -> ()
     | Some alias -> Format.fprintf fmt "(alias @[%s@])@ " alias
@@ -35,7 +96,7 @@ module Rule = struct
       pp_alias alias
       pp_targets targets
       pp_deps deps
-      pp_action action
+      Action.pp action
 end
 
 module Rules = struct
@@ -43,47 +104,24 @@ module Rules = struct
     let rule_diff =
       Rule.{ targets = []
       ; deps = [file1; file2]
-      ; action = Format.asprintf "(diff %s %s)" file1 file2
+      ; action = Action.Diff (file1, file2)
       ; alias
       } in
       Rule.pp out rule_diff
 
-    let exit_codes_to_string = function
-      | [] -> "0"
-      | l -> Printf.sprintf "(or %s)" @@ String.concat " " (List.map string_of_int l)
-
   let run ~run ~out ?log_file ?in_file ?(alias=Some "runtest") ?(envs=[]) ?(exit_codes=[]) ?(targets=[]) ?(deps=[]) () =
-    let rec flatten_env envs dsl = match envs with
-      | (envvar, envval) :: envs -> Format.asprintf "(setenv %s %s %s)" envvar envval @@ flatten_env envs dsl
-      | [] -> dsl
-    in
-    let with_outputs_to log_file dsl = match log_file with
-      | Some log_file -> Format.asprintf "(with-outputs-to %s %s)" log_file dsl
-      | None -> dsl
-    in
-    let targets = function
+    let targets = match log_file with
       | Some log_file -> log_file :: targets
       | None -> targets
     in
-    let with_exit_codes exit_codes dsl = match exit_codes with
-      | [] -> dsl
-      | exit_codes -> Format.asprintf "(with-accepted-exit-codes %s %s)" (exit_codes_to_string exit_codes) dsl
+    let action =
+      Action.Run run
+      |> Action.with_stdin_from_opt in_file
+      |> Action.with_accepted_exit_codes_list exit_codes
+      |> Action.with_outputs_to_opt Action.Outputs.Outputs log_file
+      |> Action.setenv_batch envs
     in
-    let with_stdin_from in_file dsl = match in_file with
-      | Some in_file -> Format.asprintf "(with-stdin-from %s %s)" in_file dsl
-      | None -> dsl
-    in
-    let rule = Rule.{
-      targets = targets log_file
-      ; deps = deps
-      ; action = flatten_env envs
-        @@ with_outputs_to log_file
-        @@ with_exit_codes exit_codes
-        @@ with_stdin_from in_file
-        @@ Format.asprintf "(run %s)"  run
-      ; alias
-      } in
-    Rule.pp out rule
+    Rule.pp out Rule.{ targets; deps; action; alias }
 
   let in_subdir dir out ~f =
     (* The thunking here is important for order of execution *)
@@ -94,29 +132,19 @@ module Rules = struct
     ()
 
   (* TODO: share more with run *)
-  let run_pipe ~runs ~out ?log_file ?(targets=[]) ?(deps=[]) () =
-    match log_file with
-    | Some log_file ->
-      let rule = Rule.{
-        targets = log_file :: targets
-        ; deps = deps
-        ; action = runs
-        |> List.map (Printf.sprintf "(run %s)")
-        |> String.concat " "
-        |> Format.asprintf "(with-outputs-to %s (pipe-outputs %s))" log_file
-        ; alias = Some "runtest"
-        } in
-      Rule.pp out rule
-    | None ->
-      let rule = Rule.{
-        targets = targets
-        ; deps = deps
-        (* Should it be pipe-outputs or pipe-stdout? *)
-        ; action = runs
-          |> List.map (Printf.sprintf "(run %s)")
-          |> String.concat " "
-          |> Format.asprintf "(pipe-stdout %s)"
-        ; alias = Some "runtest"
-        } in
-      Rule.pp out rule
+  let run_pipe ~runs ~out ?log_file ?in_file ?(alias=Some "runtest") ?(envs=[]) ?(exit_codes=[]) ?(targets=[]) ?(deps=[]) () =
+    let targets = match log_file with
+      | Some log_file -> log_file :: targets
+      | None -> targets
+    in
+    let action =
+      runs
+      |> List.map (fun x -> Action.Run x)
+      |> fun x -> Action.Pipe_outputs x
+      |> Action.with_stdin_from_opt in_file
+      |> Action.with_accepted_exit_codes_list exit_codes
+      |> Action.with_outputs_to_opt Action.Outputs.Outputs log_file
+      |> Action.setenv_batch envs
+    in
+    Rule.pp out Rule.{ targets; deps; action; alias }
 end
