@@ -16,22 +16,22 @@ module Rule = struct
   let ppl = pp_list Format.pp_print_string sep
   let pp_alias fmt = function
     | None -> ()
-    | Some alias -> Format.fprintf fmt "(alias %s)" alias
+    | Some alias -> Format.fprintf fmt "(alias @[%s@])@ " alias
 
   let pp_targets fmt = function
     | [] -> ()
-    | ts -> Format.fprintf fmt "(targets @[%a@])" ppl ts
+    | ts -> Format.fprintf fmt "(targets @[%a@])@ " ppl ts
 
   let pp_deps fmt = function
     | [] -> ()
-    | ds -> Format.fprintf fmt "(deps @[%a@])" ppl ds
+    | ds -> Format.fprintf fmt "(deps @[%a@])@ " ppl ds
 
   let pp_action fmt action =
-    Format.fprintf fmt "(action @[%a@])" Format.pp_print_string action
+    Format.fprintf fmt "(action @[%a@])@ " Format.pp_print_string action
 
   let pp fmt { alias; targets; deps; action } =
     Format.fprintf fmt
-      "@[(rule@\n @[%a@\n%a@\n%a@\n%a@])@]@\n"
+      "@[<1>(rule@,@[<v>%a%a%a%a@])@]@,"
       pp_alias alias
       pp_targets targets
       pp_deps deps
