@@ -83,7 +83,7 @@ module Rule = struct
 
   let pp_deps fmt = function
     | [] -> ()
-    | ds -> Format.fprintf fmt "@[(deps @[<v1>%a@])@]@ " ppl ds
+    | ds -> Format.fprintf fmt "@[(deps @[<v>%a@])@]@ " ppl ds
 
   let pp_action fmt action =
     Format.fprintf fmt "@[(action @[<v>%a@])@]@ " Format.pp_print_string action
