@@ -117,7 +117,7 @@ module Rules = struct
     in
     Rule.pp out Rule.{ targets; deps; action; alias }
 
-  let in_subdir dir fmt ~f =
+  let in_subdir fmt dir ~f =
     Format.fprintf fmt "@[<1>(subdir %s@,@[<v>%a@])@]@," dir f ()
 
   (* TODO: share more with run *)
