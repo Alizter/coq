@@ -46,8 +46,10 @@ let test_ide out =
       ]
     @ CoqRules.vfile_header ~dir file
     @ cctx lvl
+    |> String.concat " "
   in
-  let run = fun file -> ["fake_ide"; "%%{bin:coqidetop.opt}"; file] @ args file in
+  (* NOTE: it is very important for the arguments to be quoted, so args will have to be flattened *)
+  let run = fun file -> ["fake_ide"; "%{bin:coqidetop.opt}"; file; "\"" ^ args file ^ "\""] in
   (* TODO: test output *)
   test_in_subdir dir out ~run ~ext:".fake"
 
@@ -66,7 +68,7 @@ let coqdoc_html_with_diff_rule ~dir ~out file  =
     (* Get extra args under "coqdoc-prog-args" in file *)
     @ CoqRules.vfile_header ~dir ~name:"coqdoc-prog-args" file
   in
-  let run = "%%{bin:coqdoc}" :: args @ [file] in
+  let run = "%{bin:coqdoc}" :: args @ [file] in
   Dune.Rules.run ~run ~out ~log_file ~targets:[doc_file] ~deps:[file; vofile; globfile] ();
   Dune.Rules.diff ~out out_file doc_file
 
@@ -82,15 +84,14 @@ let coqdoc_latex_with_diff_rule ~dir ~out file  =
     "-utf8";
     "-coqlib_url"; "http://coq.inria.fr/stdlib";
     "--latex";
-
     ]
     (* Get extra args under "coqdoc-prog-args" in file *)
     @ CoqRules.vfile_header ~dir ~name:"coqdoc-prog-args" file
   in
-  Dune.Rules.run  ~out ~run:("%%{bin:coqdoc}" :: args @ [file])
+  Dune.Rules.run ~out ~run:("%{bin:coqdoc}" :: args @ [file])
     ~log_file ~targets:[doc_file] ~deps:[file; vofile; globfile] ();
   (* We need to scrub the .tex file of comments begining %% *)
-  Dune.Rules.run ~out ~run:["grep"; "-v"; "\"^%%%%\""; file]
+  Dune.Rules.run ~out ~run:["grep"; "-v"; "\"^%%\""; doc_file]
     ~log_file:doc_file_scrub ~deps:[doc_file] ();
   Dune.Rules.diff ~out out_file doc_file_scrub
 
