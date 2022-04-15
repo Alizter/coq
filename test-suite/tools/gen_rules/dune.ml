@@ -75,18 +75,18 @@ module Rule = struct
 
   let pp_alias fmt = function
     | None -> ()
-    | Some alias -> Format.fprintf fmt "(alias @[%s@])@ " alias
+    | Some alias -> Format.fprintf fmt "@[(alias @[%s@])@]@ " alias
 
   let pp_targets fmt = function
     | [] -> ()
-    | ts -> Format.fprintf fmt "(targets @[%a@])@ " ppl ts
+    | ts -> Format.fprintf fmt "@[(targets @[<v>%a@])@]@ " ppl ts
 
   let pp_deps fmt = function
     | [] -> ()
-    | ds -> Format.fprintf fmt "(deps @[%a@])@ " ppl ds
+    | ds -> Format.fprintf fmt "@[(deps @[<v1>%a@])@]@ " ppl ds
 
   let pp_action fmt action =
-    Format.fprintf fmt "(action @[<v>%a@])@ " Format.pp_print_string action
+    Format.fprintf fmt "@[(action @[<v>%a@])@]@ " Format.pp_print_string action
 
   let pp fmt { alias; targets; deps; action } =
     Format.fprintf fmt
@@ -108,10 +108,6 @@ module Rules = struct
       Rule.pp out rule_diff
 
   let run ~run ~out ?log_file ?in_file ?(alias=Some "runtest") ?(envs=[]) ?(exit_codes=[]) ?(targets=[]) ?(deps=[]) () =
-    let targets = match log_file with
-      | Some log_file -> log_file :: targets
-      | None -> targets
-    in
     let action =
       Action.Run run
       |> Action.with_stdin_from_opt in_file
@@ -126,10 +122,6 @@ module Rules = struct
 
   (* TODO: share more with run *)
   let run_pipe ~runs ~out ?log_file ?in_file ?(alias=Some "runtest") ?(envs=[]) ?(exit_codes=[]) ?(targets=[]) ?(deps=[]) () =
-    let targets = match log_file with
-      | Some log_file -> log_file :: targets
-      | None -> targets
-    in
     let action =
       runs
       |> List.map (fun x -> Action.Run x)
