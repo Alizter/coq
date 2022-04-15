@@ -30,17 +30,17 @@ module Action = struct
   let pp fmt action =
     (* TODO boxing and breaking *)
     let rec pp_action fmt = function
-    | Setenv ((envvar, envval), dsl) -> Format.fprintf fmt "(setenv %s %s %a)" envvar envval pp_action dsl
-    | With_outputs_to (outputs, file, dsl) -> Format.fprintf fmt "(with-%a-to %s %a)" Outputs.pp outputs file pp_action dsl
-    | With_accepted_exit_codes (codes, dsl) -> Format.fprintf fmt "(with-accepted-exit-codes %s %a)" codes pp_action dsl
-    | With_stdin_from (in_file, dsl) -> Format.fprintf fmt "(with-stdin-from %s %a)" in_file pp_action dsl
-    | Diff (file1, file2) -> Format.fprintf fmt "(diff %s %s)" file1 file2
-    | Progn dsls -> Format.fprintf fmt "(progn %a)" (pp_list sep pp_action) dsls
-    | Pipe_outputs dsls -> Format.fprintf fmt "(pipe-outputs %a)" (pp_list sep pp_action) dsls
-    | Run run -> Format.fprintf fmt "(run %s)" run
+    | Setenv ((envvar, envval), dsl) -> Format.fprintf fmt "@[(setenv %s %s@ %a)@]" envvar envval pp_action dsl
+    | With_outputs_to (outputs, file, dsl) -> Format.fprintf fmt "@[<1>(with-%a-to %s@ %a)@]" Outputs.pp outputs file pp_action dsl
+    | With_accepted_exit_codes (codes, dsl) -> Format.fprintf fmt "@[<1>(with-accepted-exit-codes %s@ %a)@]" codes pp_action dsl
+    | With_stdin_from (in_file, dsl) -> Format.fprintf fmt "@[<1>(with-stdin-from %s@ %a)@]" in_file pp_action dsl
+    | Diff (file1, file2) -> Format.fprintf fmt "@[<1>(diff@ %s@ %s)@]" file1 file2
+    | Progn dsls -> Format.fprintf fmt "@[<1>(progn@ %a)@]" (pp_list sep pp_action) dsls
+    | Pipe_outputs dsls -> Format.fprintf fmt "@[<1>(pipe-outputs@ %a)@]" (pp_list sep pp_action) dsls
+    | Run run -> Format.fprintf fmt "@[<1>(run %s)@]" run
     in
     (* TODO: linebreak before *)
-    Format.fprintf fmt "(action @[%a@])" pp_action action
+    Format.fprintf fmt "@[<v1>(action@ %a)@]" pp_action action
 
   (* Smart constructors *)
   let rec setenv_batch envs action = match envs with
@@ -88,7 +88,7 @@ module Rule = struct
     | ds -> Format.fprintf fmt "(deps @[%a@])@ " ppl ds
 
   let pp_action fmt action =
-    Format.fprintf fmt "(action @[%a@])@ " Format.pp_print_string action
+    Format.fprintf fmt "(action @[<v>%a@])@ " Format.pp_print_string action
 
   let pp fmt { alias; targets; deps; action } =
     Format.fprintf fmt
