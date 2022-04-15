@@ -159,7 +159,8 @@ let _output_rules out =
   (* For micromega we implicitly copy a cache, we could copy this in other directories too *)
   (* TODO: make sure cache rule is called before *)
   CoqRules.check_dir ~out ~cctx "micromega";
-  CoqRules.check_dir ~out "modules" ~cctx:(fun lvl -> ["-R"; lvl; "Mods"]);
+  (* We override cctx here in order to pass these arguments to coqdep uniformly *)
+  CoqRules.check_dir ~out "modules" ~cctx:(fun lvl -> ["-R"; lvl; "Mods"] @ cctx lvl);
   (* !! Something is broken here: *)
   (* Load.v *)
   CoqRules.check_dir ~out ~cctx "output" ~output:MainJob ~args:["-test-mode"; "-async-proofs-cache"; "force"];

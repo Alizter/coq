@@ -48,9 +48,18 @@
   %{bin:coqtacticworker.opt}
   %{bin:coqqueryworker.opt}
   %{bin:coqproofworker.opt}
+  %{bin:coq_makefile}
   %{bin:fake_ide}
+  %{bin:coqchk}
   %{bin:coqidetop.byte}
-  %{lib:coq-core.vm:../../stublibs/dllcoqrun_stubs.so})
+  %{lib:coq-core.vm:../../stublibs/dllcoqrun_stubs.so}
+  %{lib:coq-core.plugins.number_string_notation:number_string_notation_plugin.cmxs}
+  %{lib:coq-core.plugins.tauto:tauto_plugin.cmxs}
+  %{lib:coq-core.plugins.cc:cc_plugin.cmxs}
+  %{lib:coq-core.plugins.firstorder:firstorder_plugin.cmxs}
+  %{lib:coq-core.plugins.ltac:ltac_plugin.cmxs}
+
+  )
  (mode promote)
  (action (run ./tools/gen_rules/gen_rules.exe)))
 
