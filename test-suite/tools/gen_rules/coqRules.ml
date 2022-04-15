@@ -73,7 +73,7 @@ let coqc_vo_log_rule ~out ~envs ~exit_codes ~args ~deps ?(log_ext=".log") vfile 
   let globfile = filename ^ ".glob" in
   let auxfile = "." ^ filename ^ ".aux" in
   let run = "coqc" :: args @ [vfile] in
-  let targets = [vofile; log_file; globfile; auxfile] in
+  let targets = [auxfile; vofile; globfile; log_file] in
   Dune.Rules.run ~out ~run ~exit_codes ~deps ~targets ~log_file ()
 
 (* TODO: works but vos needed for stdlib *)
