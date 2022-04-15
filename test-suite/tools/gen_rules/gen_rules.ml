@@ -20,7 +20,7 @@ let cctx lvl = [
   "-Q"; Filename.concat lvl "../user-contrib/Ltac2"; "Ltac2" ]
 
 let in_subdir_foreach_ext ?(ext=".v") f dir out =
-  Dune.Rules.in_subdir dir out ~f:(fun () ->
+  Dune.Rules.in_subdir dir out ~f:(fun out () ->
     let files = Dir.scan_files_by_ext ~ext dir in
     List.iter f files)
 
@@ -105,12 +105,12 @@ let test_coqdoc dir out =
 
 let test_tool ?(ignore=[]) dir out =
   let sf = Printf.sprintf in
-  Dune.Rules.in_subdir dir out ~f:(fun () ->
+  Dune.Rules.in_subdir dir out ~f:(fun out () ->
     let dirs = Dir.scan_dirs dir in
     let per_dir subdir =
       (* We ignore the template directory *)
       if List.mem subdir ignore then () else
-        Dune.Rules.in_subdir subdir out ~f:(fun () ->
+        Dune.Rules.in_subdir subdir out ~f:(fun out () ->
           Dune.Rules.run ~run:"./run.sh" ~out ~log_file:(sf "%s.log" subdir)
             ~deps:
               [ "run.sh" ]

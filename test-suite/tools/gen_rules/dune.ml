@@ -28,7 +28,6 @@ module Action = struct
   | Run of string
 
   let pp fmt action =
-    (* TODO boxing and breaking *)
     let rec pp_action fmt = function
     | Setenv ((envvar, envval), dsl) -> Format.fprintf fmt "@[(setenv %s %s@ %a)@]" envvar envval pp_action dsl
     | With_outputs_to (outputs, file, dsl) -> Format.fprintf fmt "@[<1>(with-%a-to %s@ %a)@]" Outputs.pp outputs file pp_action dsl
@@ -39,7 +38,6 @@ module Action = struct
     | Pipe_outputs dsls -> Format.fprintf fmt "@[<1>(pipe-outputs@ %a)@]" (pp_list sep pp_action) dsls
     | Run run -> Format.fprintf fmt "@[<1>(run %s)@]" run
     in
-    (* TODO: linebreak before *)
     Format.fprintf fmt "@[<v1>(action@ %a)@]" pp_action action
 
   (* Smart constructors *)
@@ -123,13 +121,8 @@ module Rules = struct
     in
     Rule.pp out Rule.{ targets; deps; action; alias }
 
-  let in_subdir dir out ~f =
-    (* The thunking here is important for order of execution *)
-    Format.fprintf out "(subdir %s@\n @[" dir;
-    (* We catch and reraise exceptions in order to balance the stanza correctly *)
-    let () = try f () with exn -> Format.fprintf out "@])@\n"; raise exn in
-    Format.fprintf out "@])@\n";
-    ()
+  let in_subdir dir fmt ~f =
+    Format.fprintf fmt "@[<1>(subdir %s@,@[<v>%a@])@]@," dir f ()
 
   (* TODO: share more with run *)
   let run_pipe ~runs ~out ?log_file ?in_file ?(alias=Some "runtest") ?(envs=[]) ?(exit_codes=[]) ?(targets=[]) ?(deps=[]) () =
