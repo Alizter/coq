@@ -313,13 +313,13 @@ let generate_rule ~out ~cctx ~dir ~lvl ~args ~base_deps ~lvld_deps ~envs ~exit_c
   in
   generate_build_rule ~out ~envs:(envs vfile) ~exit_codes ~args ~chk_args ~deps ~success ~output ~kind ~coqchk vfile
 
-let check_dir ~cctx ?(args=[]) ?(base_deps=[]) ?(lvld_deps=[]) ?(envs=fun _ -> []) ?(exit_codes=[])
-  ?(output=Compilation.Output.None) ?(kind=Compilation.Kind.Vo) ?(coqchk=true) dir out =
+let check_dir ~out ~cctx ?(args=[]) ?(base_deps=[]) ?(lvld_deps=[]) ?(envs=fun _ -> []) ?(exit_codes=[])
+  ?(output=Compilation.Output.None) ?(kind=Compilation.Kind.Vo) ?(coqchk=true) dir =
   (* Scan for all .v files in directory *)
   let vfiles = Dir.scan_files_by_ext ~ext:".v" dir in
   (* Run coqdep to get deps *)
   let deps = coqdep_files ~cctx:(cctx ".") ~dir vfiles () in
   (* The lvl can be computed from the dir *)
   let lvl = Dir.back_to_root dir in
-  Dune.Rules.in_subdir dir out ~f:(fun out () ->
+  Dune.Rules.in_subdir out dir ~f:(fun out () ->
     List.iter (generate_rule ~cctx:(cctx lvl) ~lvl ~args ~base_deps ~lvld_deps ~output ~kind ~coqchk ~envs ~exit_codes ~out ~dir) deps)
