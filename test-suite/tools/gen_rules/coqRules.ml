@@ -49,18 +49,18 @@ let rec chk_filter = function
 
 (** coqc rule no vo targets, no log *)
 let _coqc_rule ~out ~envs ~exit_codes ~args ~deps vfile =
-  let run = Format.asprintf "coqc %s %s" args vfile in
+  let run = "coqc" :: args @ [vfile] in
   Dune.Rules.run ~out ~run ~envs ~exit_codes ~deps ()
 
 (** coqc rule vo target, no log *)
 let coqc_vo_rule ~out ~envs ~exit_codes ~args ~deps vfile =
-  let run = Format.asprintf "coqc %s %s" args vfile in
+  let run = "coqc" :: args @ [vfile] in
   let targets = [vfile ^ "o"] in
   Dune.Rules.run ~out ~run ~envs ~exit_codes ~deps ~targets ()
 
 (** coqc rule no vo target, log *)
 let coqc_log_rule ~out ~envs ~exit_codes ~args ~deps ?(log_ext=".log") vfile =
-  let run = Format.asprintf "coqc %s %s" args vfile in
+  let run = "coqc" :: args @ [vfile]  in
   let log_file = vfile ^ log_ext in
   let targets = [log_file] in
   Dune.Rules.run ~out ~run ~envs ~exit_codes ~deps ~targets ~log_file ()
@@ -72,7 +72,7 @@ let coqc_vo_log_rule ~out ~envs ~exit_codes ~args ~deps ?(log_ext=".log") vfile 
   let log_file = vfile ^ log_ext in
   let globfile = filename ^ ".glob" in
   let auxfile = "." ^ filename ^ ".aux" in
-  let run = Format.asprintf "coqc %s %s" args vfile in
+  let run = "coqc" :: args @ [vfile] in
   let targets = [vofile; log_file; globfile; auxfile] in
   Dune.Rules.run ~out ~run ~exit_codes ~deps ~targets ~log_file ()
 
@@ -86,7 +86,7 @@ let coqc_vos_log_rule ~out ~envs ~exit_codes ~args ~deps ?(log_ext="os.log") vfi
   let log_file = vfile ^ log_ext in
   let vos_file = vfile ^ "os" in
   let targets = [vos_file; log_file] in
-  let run = Format.asprintf "coqc %s -vos %s" args vfile in
+  let run = "coqc" :: args @ ["-vos"; vfile] in
   Dune.Rules.run ~out ~run ~exit_codes ~deps ~targets ~log_file ()
 
 (* TODO: works but vos needed for stdlib *)
@@ -99,7 +99,7 @@ let coqc_vok_log_rule ~out ~envs ~exit_codes ~args ~deps ?(log_ext="ok.log") vfi
   let log_file = vfile ^ log_ext in
   let vok_file = vfile ^ "ok" in
   let targets = [vok_file; log_file] in
-  let run = Format.asprintf "coqc %s -vok %s" args vfile in
+  let run = "coqc" :: args @ ["-vok"; vfile] in
   Dune.Rules.run ~out ~run ~exit_codes ~deps ~targets ~log_file ()
 
 let coqchk_log_rule ~out ~envs ~exit_codes ~chk_args ~deps ?(log_ext=".chk.log") vfile =
@@ -107,7 +107,7 @@ let coqchk_log_rule ~out ~envs ~exit_codes ~chk_args ~deps ?(log_ext=".chk.log")
   let log_file = vfile ^ log_ext in
   let targets = [log_file] in
   let deps = vofile :: deps in
-  let run = Format.asprintf "coqchk -silent -o %s -norec %s" chk_args vofile in
+  let run = ["coqchk"; "-silent"; "-o"] @ chk_args @ ["-norec"; vofile] in
   Dune.Rules.run ~out ~run ~exit_codes ~deps ~targets ~log_file ()
 
 (* TODO: coqnative works but cmxs needed for stdlib *)
@@ -122,14 +122,14 @@ let _coqnative_log_rule ~out ~envs ~exit_codes ~args ~deps ?(log_ext=".cmxs.log"
   let log_file = vfile ^ log_ext in
   let targets = [cmxsfile; log_file] in
   let deps = vofile :: deps @ cmxsify deps in
-  let run = Format.asprintf "coqnative %s %s" args vofile in
+  let run = "coqnative" :: args @ [vofile] in
   Dune.Rules.run ~out ~run ~exit_codes ~deps ~targets ~log_file ()
 
 let coqc_vio_log_rule ~out ~envs ~exit_codes ~args ~deps ?(log_ext="io.log") vfile =
   let vio_file = vfile ^ "io" in
   let log_file = vfile ^ log_ext in
   let targets = [vio_file; log_file] in
-  let run = Format.asprintf "coqc %s -vio %s" args vfile in
+  let run = "coqc" :: args @ ["-vio"; vfile] in
   Dune.Rules.run ~out ~run ~exit_codes ~deps ~targets ~log_file ()
 
 let coqc_vio2vo_log_rule ~out ~envs ~exit_codes ~args ~deps ?(log_ext="io2vo.log") vfile =
@@ -138,22 +138,22 @@ let coqc_vio2vo_log_rule ~out ~envs ~exit_codes ~args ~deps ?(log_ext="io2vo.log
   let viofile = vfile ^ "io" in
   let targets = [vofile; log_file] in
   let deps = viofile :: deps in
-  let run = Format.asprintf "coqc %s -vio2vo %s" args viofile in
+  let run = "coqc" :: args @ ["-vio2vo"; viofile] in
   Dune.Rules.run ~out ~run ~exit_codes ~deps ~targets ~log_file ()
 
 let coqtop_log_rule ~out ~envs ~exit_codes ~args ~deps ?(log_ext=".log") vfile =
   let log_file = vfile ^ log_ext in
   let targets = [log_file] in
-  let run = Format.asprintf "coqtop %s" args in
+  let run = "coqtop" :: args in
   Dune.Rules.run ~out ~run ~exit_codes ~deps ~targets ~log_file ~in_file:vfile ()
 
 (* Preprocessing for output log *)
 let with_outputs_to_rule ~out vfile =
   let log_file = vfile ^ ".log" in
   let log_pre_file = vfile ^ ".log.pre" in
-  let run = Format.asprintf "../tools/amend-output-log.sh %s" log_pre_file in
   let targets = [log_file] in
   let deps = [log_pre_file] in
+  let run = ["../tools/amend-output-log.sh"; log_pre_file] in
   Dune.Rules.run ~out ~run ~deps ~targets ~log_file ~in_file:vfile ()
 
 let diff_rule ~out ?(out_ext=".out") ?(log_ext=".log") vfile =
@@ -204,8 +204,6 @@ let generate_build_rule ~out ~envs ~exit_codes ~args ~deps ~chk_args ~success ~o
     else if List.mem "-vok" args then Kind.Vok
     else kind
   in
-  let args = String.concat " " args in
-  let chk_args = String.concat " " chk_args in
 
   (* TODO: output rules should be tailored to other flags*)
   match success, output, kind with
@@ -270,10 +268,10 @@ let generate_build_rule ~out ~envs ~exit_codes ~args ~deps ~chk_args ~success ~o
     coqtop_log_rule ~out ~envs ~exit_codes ~args ~deps ~log_ext:".log.pre" vfile;
     Dune.Rules.run_pipe ~out:out
       ~runs:
-        [ Printf.sprintf "grep -v \"Welcome to Coq\" %s" (vfile ^ ".log.pre")
-        ; "grep -v \"Loading ML file\""
-        ; "grep -v \"Skipping rcfile loading\""
-        ; "grep -v \"^<W>\"" ]
+        [ ["grep"; "-v"; "\"Welcome to Coq\""; vfile ^ ".log.pre"]
+        ; ["grep"; "-v"; "\"Loading ML file\""]
+        ; ["grep"; "-v"; "\"Skipping rcfile loading\""]
+        ; ["grep"; "-v"; "\"^<W>\""] ]
       ~log_file:(vfile ^ ".log") ();
     diff_rule ~out vfile;
     ()
