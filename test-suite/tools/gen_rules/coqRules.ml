@@ -323,5 +323,5 @@ let check_dir ~cctx ?(args=[]) ?(base_deps=[]) ?(lvld_deps=[]) ?(envs=fun _ -> [
   let deps = coqdep_files ~cctx:(cctx ".") ~dir vfiles () in
   (* The lvl can be computed from the dir *)
   let lvl = Dir.back_to_root dir in
-  Dune.Rules.in_subdir dir out ~f:(fun () ->
+  Dune.Rules.in_subdir dir out ~f:(fun out () ->
     List.iter (generate_rule ~cctx:(cctx lvl) ~lvl ~args ~base_deps ~lvld_deps ~output ~kind ~coqchk ~envs ~exit_codes ~out ~dir) deps)
