@@ -124,6 +124,7 @@ let test_misc ~out ~deps ?(ignore=[]) dir =
         "coq_makefile", "%{bin:coq_makefile}";
         "coqtop_byte", "%{bin:coqtop.byte}";
         "votour", "%{bin:votour}";
+        "coqchk", "%{bin:coqchk}";
         ] ();
     ()) dir
 
@@ -180,33 +181,13 @@ let _output_rules out =
     ~deps:[
       "../../config/coq_config.py";
       "../prerequisite/ssr_mini_mathcomp.vo";
+      "(package coq-stdlib)";
     ]
     (* The following tests don't work and need to be fixed *)
     ~ignore:[
-      "11170.sh";
-      "7393.sh";
-      "7595.sh";
-      "7704.sh";
-      "coqc_dash_o.sh";
-      "coqc_dash_vok.sh";
       "coq_environment.sh";
       "coqtop_print-mod-uid.sh";
-      "deps-checksum.sh";
-      "deps-order-distinct-root.sh";
-      "deps-order-from.sh";
-      "deps-order.sh";
-      "deps-utf8.sh";
-      "external-deps.sh";
-      "non-marshalable-state.sh";
-      "poly-capture-global-univs.sh";
-      "print-assumptions-vok.sh";
       "printers.sh";
-      "quick-include.sh";
-      "quotation_token.sh";
-      "redirect_printing.sh";
-      "side-eff-leak-univs.sh";
-      "universes.sh";
-      "vio_checking.sh";
     ];
   ()
 
