@@ -266,9 +266,11 @@ let generate_build_rule ~out ~envs ~exit_codes ~args ~deps ~chk_args ~success ~o
     ()
   | true, Output.MainJob, Kind.Coqtop ->
     coqtop_log_rule ~out ~envs ~exit_codes ~args ~deps ~log_ext:".log.pre" vfile;
-    Dune.Rules.run_pipe ~out:out
+    let log_file = vfile ^ ".log" in
+    let log_pre_file = vfile ^ ".log.pre" in
+    Dune.Rules.run_pipe ~out:out ~deps:[log_pre_file] ~targets:[log_file]
       ~runs:
-        [ ["grep"; "-v"; "\"Welcome to Coq\""; vfile ^ ".log.pre"]
+        [ ["grep"; "-v"; "\"Welcome to Coq\""; log_pre_file]
         ; ["grep"; "-v"; "\"Loading ML file\""]
         ; ["grep"; "-v"; "\"Skipping rcfile loading\""]
         ; ["grep"; "-v"; "\"^<W>\""] ]
