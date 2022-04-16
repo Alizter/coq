@@ -125,6 +125,7 @@ let test_misc ~out ~deps ?(ignore=[]) dir =
         "coqtop_byte", "%{bin:coqtop.byte}";
         "votour", "%{bin:votour}";
         "coqchk", "%{bin:coqchk}";
+        "COQ_STUBLIBS", "%{project_root}/../install/default/lib/stublibs";
         ] ();
     ()) dir
 
@@ -182,12 +183,18 @@ let _output_rules out =
       "../../config/coq_config.py";
       "../prerequisite/ssr_mini_mathcomp.vo";
       "(package coq-stdlib)";
+      "%{lib:coq-core.vm:../../stublibs/dllcoqrun_stubs.so}";
+      "../../dev/include";
+      "../../dev/base_include";
+      "../../dev/inc_ltac_dune";
+      "../../dev/include_printers";
+      (* TODO: refine to files actually needed for printers.sh *)
+      "(source_tree ../../dev)";
     ]
     (* The following tests don't work and need to be fixed *)
     ~ignore:[
       "coq_environment.sh";
       "coqtop_print-mod-uid.sh";
-      "printers.sh";
     ];
   ()
 
