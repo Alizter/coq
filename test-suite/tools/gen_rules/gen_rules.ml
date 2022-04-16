@@ -117,12 +117,14 @@ let test_misc ~out ~deps ?(ignore=[]) dir =
   in_subdir_foreach_ext ~out ~ext:".sh" ~ignore (fun file ->
     let log_file = file ^ ".log" in
     Dune.Rules.run ~out ~run:["./" ^ file] ~log_file ~deps:(file :: deps)
-      ~envs:
-        [ "coqdep", "%{bin:coqdep}"
-        ; "coqc", "%{bin:coqc}"
-        ; "coqtop", "%{bin:coqtop}"
-        ; "coq_makefile", "%{bin:coq_makefile}"
-        ; "coqtop_byte", "%{bin:coqtop.byte}"] ();
+      ~envs:[
+        "coqdep", "%{bin:coqdep}";
+        "coqc", "%{bin:coqc}";
+        "coqtop", "%{bin:coqtop}";
+        "coq_makefile", "%{bin:coq_makefile}";
+        "coqtop_byte", "%{bin:coqtop.byte}";
+        "votour", "%{bin:votour}";
+        ] ();
     ()) dir
 
 let _debug_rules out =
@@ -177,23 +179,17 @@ let _output_rules out =
   test_misc ~out "misc"
     ~deps:[
       "../../config/coq_config.py";
-      "%{bin:coqdep}";
-      "%{bin:coqc}";
-      "%{bin:coqtop.byte}";
+      "../prerequisite/ssr_mini_mathcomp.vo";
     ]
     (* The following tests don't work and need to be fixed *)
     ~ignore:[
       "11170.sh";
-      "13330.sh";
-      "4722.sh";
       "7393.sh";
       "7595.sh";
       "7704.sh";
-      "bug_14550.sh";
       "coqc_dash_o.sh";
       "coqc_dash_vok.sh";
       "coq_environment.sh";
-      "coq_makefile_destination_of.sh";
       "coqtop_print-mod-uid.sh";
       "deps-checksum.sh";
       "deps-order-distinct-root.sh";
@@ -203,7 +199,6 @@ let _output_rules out =
       "deps-order-subdir2-file.sh";
       "deps-order-subdir3-file.sh";
       "deps-utf8.sh";
-      "exitstatus.sh";
       "external-deps.sh";
       "non-marshalable-state.sh";
       "poly-capture-global-univs.sh";
@@ -215,7 +210,7 @@ let _output_rules out =
       "side-eff-leak-univs.sh";
       "universes.sh";
       "vio_checking.sh";
-      "votour.sh";
+      (* "votour.sh"; *)
     ];
   ()
 
