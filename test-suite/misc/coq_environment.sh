@@ -14,8 +14,8 @@ OCAMLFIND="$TMP/overridden"
 FOOBAR="one more"
 EOT
 
-cp $BIN/coqc .
-cp $BIN/coq_makefile .
+cp $coqc .
+cp $coq_makefile .
 mkdir -p overridden/tools/
 cp $COQLIB/../coq-core/tools/CoqMakefile.in overridden/tools/
 
