@@ -1,4 +1,4 @@
-
+(* Some helper functions form formatting lists and strings *)
 let rec pp_list sep pp fmt = function
   | []  -> ()
   | [l] -> Format.fprintf fmt "%a" pp l
@@ -8,6 +8,10 @@ let sep fmt () = Format.fprintf fmt "@;"
 
 let ppl = pp_list sep Format.pp_print_string
 
+(* Dune rule formatting API *)
+(* TODO: make into proper API *)
+
+(** Action formatting API *)
 module Action = struct
   module Outputs = struct
     type t = Stdout | Stderr | Outputs
@@ -17,6 +21,8 @@ module Action = struct
     | Outputs -> Format.fprintf fmt "outputs"
   end
 
+  (** Various actions a dune rule can have. This list is of course incomplete.
+    *)
   type t =
   | Setenv of (string * string) * t
   | With_outputs_to of Outputs.t * string * t
@@ -64,7 +70,7 @@ module Action = struct
 
 end
 
-
+(** Rule formatting API *)
 module Rule = struct
   type t =
     { targets : string list
@@ -97,7 +103,9 @@ module Rule = struct
       Action.pp action
 end
 
+(** Collection of predefined dune rules. *)
 module Rules = struct
+  (** Diffing two files. *)
   let diff ~out ?(alias=Some "runtest") file1 file2 =
     let rule_diff =
       Rule.{ targets = []
@@ -107,6 +115,7 @@ module Rules = struct
       } in
       Rule.pp out rule_diff
 
+  (** Run rule, [~run] is a list of string consisting of a command and its arguments. *)
   let run ~run ~out ?log_file ?in_file ?(alias=Some "runtest") ?(envs=[]) ?(exit_codes=[]) ?(targets=[]) ?(deps=[]) () =
     let action =
       Action.Run run
@@ -117,10 +126,11 @@ module Rules = struct
     in
     Rule.pp out Rule.{ targets; deps; action; alias }
 
+  (** Format inside a subdir stanza *)
   let in_subdir fmt dir ~f =
     Format.fprintf fmt "@[<1>(subdir %s@,@[<v>%a@])@]@," dir f ()
 
-  (* TODO: share more with run *)
+  (** Variant of run that takes a list of runs and pipes them *)
   let run_pipe ~runs ~out ?log_file ?in_file ?(alias=Some "runtest") ?(envs=[]) ?(exit_codes=[]) ?(targets=[]) ?(deps=[]) () =
     let action =
       runs
