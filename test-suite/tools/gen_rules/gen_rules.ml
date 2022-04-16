@@ -148,22 +148,27 @@ let _output_rules out =
 
   let open CoqRules.Compilation.Kind in
   let open CoqRules.Compilation.Output in
+  (* Including this argument will allow .csdp.cache to be copied into that test
+  directory in a writable state. *)
+  let copy_csdp_cache = ".csdp.cache.test-suite" in
+
   (* We disable coqchk for bugs due to anomalies present (coqchk was not run for bugs before) *)
   (* TODO: that should be mostly fixed soon *)
-  CoqRules.check_dir ~out ~cctx "bugs" ~coqchk:false;
-  CoqRules.check_dir ~out ~cctx "coqchk";
+  CoqRules.check_dir ~out ~cctx "bugs" ~coqchk:false ~copy_csdp_cache;
+  CoqRules.check_dir ~out ~cctx "coqchk" ~copy_csdp_cache;
   CoqRules.check_dir ~out ~cctx "failure";
   CoqRules.check_dir ~out ~cctx "interactive" ~kind:Coqtop;
   CoqRules.check_dir ~out ~cctx "ltac2";
-  (* For micromega we implicitly copy a cache, we could copy this in other directories too *)
-  CoqRules.check_dir ~out ~cctx "micromega" ~deps:["(alias csdp-cache)"];
+  CoqRules.check_dir ~out ~cctx "micromega" ~copy_csdp_cache;
   (* We override cctx here in order to pass these arguments to coqdep uniformly *)
   CoqRules.check_dir ~out ~cctx:(fun lvl -> ["-R"; lvl; "Mods"]) "modules";
   (* TODO: Broken *)
-  CoqRules.check_dir ~out ~cctx "output" ~output:MainJob ~args:["-test-mode"; "-async-proofs-cache"; "force"]
+  CoqRules.check_dir ~out ~cctx "output" ~output:MainJob ~copy_csdp_cache
+    ~args:["-test-mode"; "-async-proofs-cache"; "force"]
     (* Load.v is broken because we call coqdep in one directory and run coqc in another. *)
     ~ignore:["Load.v"];
   CoqRules.check_dir ~out ~cctx "output-coqchk" ~output:CheckJob;
+  (* Some issues with deps here it seems *)
   CoqRules.check_dir ~out ~cctx "output-coqtop" ~kind:Coqtop ~output:MainJob;
   CoqRules.check_dir ~out ~cctx "output-failure" ~output:MainJob ~args:["-test-mode"; "-async-proofs-cache"; "force"] ~exit_codes:[1];
   CoqRules.check_dir ~out ~cctx "primitive/arrays";
