@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
-export COQBIN=$BIN
-export PATH=$COQBIN:$PATH
+# Make
+coqc="$(realpath "$coqc")"
+coq_makefile="$(realpath "$coq_makefile")"
+CoqMakefile_in="$(realpath "../../tools/CoqMakefile.in")"
 
 TMP=`mktemp -d`
 cd $TMP
@@ -14,10 +16,10 @@ OCAMLFIND="$TMP/overridden"
 FOOBAR="one more"
 EOT
 
-cp $coqc .
-cp $coq_makefile .
+cp $coqc ./coqc
+cp $coq_makefile ./coq_makefile
 mkdir -p overridden/tools/
-cp $COQLIB/../coq-core/tools/CoqMakefile.in overridden/tools/
+cp $CoqMakefile_in overridden/tools/CoqMakefile.in
 
 unset COQLIB
 N=`./coqc -config | grep COQLIB | grep /overridden | wc -l`
