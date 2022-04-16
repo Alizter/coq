@@ -168,7 +168,6 @@ let _output_rules out =
     (* Load.v is broken because we call coqdep in one directory and run coqc in another. *)
     ~ignore:["Load.v"];
   CoqRules.check_dir ~out ~cctx "output-coqchk" ~output:CheckJob;
-  (* Some issues with deps here it seems *)
   CoqRules.check_dir ~out ~cctx "output-coqtop" ~kind:Coqtop ~output:MainJob;
   CoqRules.check_dir ~out ~cctx "output-failure" ~output:MainJob ~args:["-test-mode"; "-async-proofs-cache"; "force"] ~exit_codes:[1];
   CoqRules.check_dir ~out ~cctx "primitive/arrays";
