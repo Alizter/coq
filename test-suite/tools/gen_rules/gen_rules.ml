@@ -138,11 +138,7 @@ let _debug_rules out =
   (* Load.v *)
   (* CoqRules.check_dir "output" out ~cctx ~output:MainJob ~args:["-test-mode"; "-async-proofs-cache"; "force"]; *)
 
-  (* TODO: fix python stuff here *)
-  (* test_tool "coq-makefile" out ~ignore:["template"]; *)
 
-  (* TODO: mostly broken *)
-  (* test_misc "misc" out; *)
   ()
 
 let _output_rules out =
@@ -160,10 +156,11 @@ let _output_rules out =
   (* TODO: make sure cache rule is called before *)
   CoqRules.check_dir ~out ~cctx "micromega";
   (* We override cctx here in order to pass these arguments to coqdep uniformly *)
-  CoqRules.check_dir ~out "modules" ~cctx:(fun lvl -> ["-R"; lvl; "Mods"] @ cctx lvl);
+  CoqRules.check_dir ~out ~cctx:(fun lvl -> ["-R"; lvl; "Mods"]) "modules";
   (* !! Something is broken here: *)
   (* Load.v *)
-  CoqRules.check_dir ~out ~cctx "output" ~output:MainJob ~args:["-test-mode"; "-async-proofs-cache"; "force"];
+  CoqRules.check_dir ~out ~cctx "output" ~output:MainJob ~args:["-test-mode"; "-async-proofs-cache"; "force"]
+    ~ignore:["Load.v"];
   CoqRules.check_dir ~out ~cctx "output-coqchk" ~output:CheckJob;
   CoqRules.check_dir ~out ~cctx "output-coqtop" ~kind:Coqtop ~output:MainJob;
   CoqRules.check_dir ~out ~cctx "output-failure" ~output:MainJob ~args:["-test-mode"; "-async-proofs-cache"; "force"] ~exit_codes:[1];
