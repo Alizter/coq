@@ -313,7 +313,7 @@ let generate_rule ~out ~cctx ~dir ~lvl ~args ~base_deps ~deps ~envs ~exit_codes 
   in
   generate_build_rule ~out ~envs:(envs vfile) ~exit_codes ~args ~chk_args ~deps ~success ~output ~kind ~coqchk vfile
 
-let check_dir ~out ~cctx ?(ignore=[])
+let check_dir ~out ~cctx ?(ignore=[]) ?copy_csdp_cache
   ?(args=[]) ?(base_deps=[]) ?(deps=[]) ?(envs=fun _ -> []) ?(exit_codes=[])
   ?(output=Compilation.Output.None) ?(kind=Compilation.Kind.Vo) ?(coqchk=true) dir =
   (* Scan for all .v files in directory ignoring as necessary *)
@@ -322,5 +322,26 @@ let check_dir ~out ~cctx ?(ignore=[])
   let coq_deps = coqdep_files ~cctx:(cctx ".") ~dir vfiles () in
   (* The lvl can be computed from the dir *)
   let lvl = Dir.back_to_root dir in
+  (* If the csdp cache copy is set then we add the special alias as a dep *)
+  let deps = match copy_csdp_cache with None -> deps | Some _ -> "(alias csdp-cache)" :: deps in
   Dune.Rules.in_subdir out dir ~f:(fun out () ->
-    List.iter (generate_rule ~cctx:(cctx lvl) ~lvl ~args ~base_deps ~deps ~output ~kind ~coqchk ~envs ~exit_codes ~out ~dir) coq_deps)
+    List.iter (generate_rule ~cctx:(cctx lvl) ~lvl ~args ~base_deps ~deps ~output ~kind ~coqchk ~envs ~exit_codes ~out ~dir) coq_deps;
+    match copy_csdp_cache with
+    | None -> ()
+    | Some copy_csdp_cache ->
+      let copy_csdp_cache = Filename.concat lvl copy_csdp_cache in
+      (* Add rule for copying .csdp.cache *)
+      let action =
+        let open Dune.Action in
+        Progn [
+          No_infer (Copy (copy_csdp_cache, ".csdp.cache"));
+          Run ["chmod"; "+w"; ".csdp.cache"];
+        ]
+      in
+      let rule = Dune.Rule.{
+        targets = [];
+        deps = ["(universe)"; copy_csdp_cache];
+        action ;
+        alias = Some "csdp-cache";
+      } in
+      Dune.Rule.pp out rule)

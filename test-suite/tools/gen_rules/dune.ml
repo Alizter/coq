@@ -32,6 +32,8 @@ module Action = struct
   | Pipe_outputs of t list
   | Diff of string * string
   | Run of string list
+  | No_infer of t
+  | Copy of string * string
 
   let pp fmt action =
     let rec pp_action fmt = function
@@ -43,6 +45,8 @@ module Action = struct
     | Progn dsls -> Format.fprintf fmt "@[<1>(progn@ %a)@]" (pp_list sep pp_action) dsls
     | Pipe_outputs dsls -> Format.fprintf fmt "@[<1>(pipe-outputs@ %a)@]" (pp_list sep pp_action) dsls
     | Run run -> Format.fprintf fmt "@[<1>(run %a)@]" (pp_list sep Format.pp_print_string) run
+    | No_infer dsl -> Format.fprintf fmt "@[<1>(no-infer %a)@]" pp_action dsl
+    | Copy (file1, file2) -> Format.fprintf fmt "@[<1>(copy@ %s@ %s)@]" file1 file2
     in
     Format.fprintf fmt "@[<v1>(action@ %a)@]" pp_action action
 
@@ -136,6 +140,19 @@ module Rules = struct
       runs
       |> List.map (fun x -> Action.Run x)
       |> fun x -> Action.Pipe_outputs x
+      |> Action.with_stdin_from_opt in_file
+      |> Action.with_accepted_exit_codes_list exit_codes
+      |> Action.with_outputs_to_opt Action.Outputs.Outputs log_file
+      |> Action.setenv_batch envs
+    in
+    Rule.pp out Rule.{ targets; deps; action; alias }
+
+  (** Variant of run that takes a list of runs *)
+  let run_progn ~runs ~out ?log_file ?in_file ?(alias=Some "runtest") ?(envs=[]) ?(exit_codes=[]) ?(targets=[]) ?(deps=[]) () =
+    let action =
+      runs
+      |> List.map (fun x -> Action.Run x)
+      |> fun x -> Action.Progn x
       |> Action.with_stdin_from_opt in_file
       |> Action.with_accepted_exit_codes_list exit_codes
       |> Action.with_outputs_to_opt Action.Outputs.Outputs log_file
