@@ -19,9 +19,9 @@ let cctx lvl = [
   "-R"; Filename.concat lvl "prerequisite"; "TestSuite";
   "-Q"; Filename.concat lvl "../user-contrib/Ltac2"; "Ltac2" ]
 
-let in_subdir_foreach_ext ~out ?(ext=".v") f dir =
+let in_subdir_foreach_ext ~out ?(ext=".v") ?(ignore=[]) f dir =
   Dune.Rules.in_subdir out dir ~f:(fun _ () ->
-    let files = Dir.scan_files_by_ext ~ext dir in
+    let files = Dir.scan_files_by_ext ~ext ~ignore dir in
     List.iter f files)
 
 let test_in_subdir ~out ?ext ?out_file_ext ?(log_file_ext=".log") ?(targets=[]) ?(deps=[]) ~run dir =
@@ -103,21 +103,18 @@ let test_coqdoc ~out dir =
 
 let test_tool ~out ?(ignore=[]) dir =
   Dune.Rules.in_subdir out dir ~f:(fun out () ->
-    let dirs = Dir.scan_dirs dir in
+    let dirs = Dir.scan_dirs dir ~ignore in
     let per_dir subdir =
-      (* We ignore the template directory *)
-      if List.mem subdir ignore then () else
-        Dune.Rules.in_subdir out subdir ~f:(fun out () ->
-          Dune.Rules.run ~run:["./run.sh"] ~out ~log_file:(subdir ^ ".log")
-            ~deps:
-              [ "run.sh" ]
-          ())
+      Dune.Rules.in_subdir out subdir ~f:(fun out () ->
+        Dune.Rules.run ~run:["./run.sh"] ~out ~log_file:(subdir ^ ".log")
+          ~deps:
+            [ "run.sh" ]
+        ())
     in
     List.iter per_dir dirs)
 
-let test_misc ~out dir =
-  let deps = ["%{bin:coqdep}"; "%{bin:coqc}"; "%{bin:coqtop.byte}"] in
-  in_subdir_foreach_ext ~out ~ext:".sh" (fun file ->
+let test_misc ~out ~deps ?(ignore=[]) dir =
+  in_subdir_foreach_ext ~out ~ext:".sh" ~ignore (fun file ->
     let log_file = file ^ ".log" in
     Dune.Rules.run ~out ~run:["./" ^ file] ~log_file ~deps:(file :: deps)
       ~envs:
@@ -177,7 +174,49 @@ let _output_rules out =
       ];
   test_tool ~out "tools" ~ignore:["gen_rules"];
   (* TODO: mostly broken *)
-  (* test_misc ~out "misc"; *)
+  test_misc ~out "misc"
+    ~deps:[
+      "../../config/coq_config.py";
+      "%{bin:coqdep}";
+      "%{bin:coqc}";
+      "%{bin:coqtop.byte}";
+    ]
+    (* The following tests don't work and need to be fixed *)
+    ~ignore:[
+      "11170.sh";
+      "13330.sh";
+      "4722.sh";
+      "7393.sh";
+      "7595.sh";
+      "7704.sh";
+      "bug_14550.sh";
+      "coqc_dash_o.sh";
+      "coqc_dash_vok.sh";
+      "coq_environment.sh";
+      "coq_makefile_destination_of.sh";
+      "coqtop_print-mod-uid.sh";
+      "deps-checksum.sh";
+      "deps-order-distinct-root.sh";
+      "deps-order-from.sh";
+      "deps-order.sh";
+      "deps-order-subdir1-file.sh";
+      "deps-order-subdir2-file.sh";
+      "deps-order-subdir3-file.sh";
+      "deps-utf8.sh";
+      "exitstatus.sh";
+      "external-deps.sh";
+      "non-marshalable-state.sh";
+      "poly-capture-global-univs.sh";
+      "print-assumptions-vok.sh";
+      "printers.sh";
+      "quick-include.sh";
+      "quotation_token.sh";
+      "redirect_printing.sh";
+      "side-eff-leak-univs.sh";
+      "universes.sh";
+      "vio_checking.sh";
+      "votour.sh";
+    ];
   ()
 
 let main () =
