@@ -141,10 +141,7 @@ let test_misc ~out ?(ignore=[]) dir =
         ] ();
     ()) dir
 
-let _debug_rules out =
-  ()
-
-let _output_rules out =
+let output_rules out =
 
   let open CoqRules.Compilation.Kind in
   let open CoqRules.Compilation.Output in
@@ -152,9 +149,10 @@ let _output_rules out =
   directory in a writable state. *)
   let copy_csdp_cache = ".csdp.cache.test-suite" in
 
-  (* We disable coqchk for bugs due to anomalies present (coqchk was not run for bugs before) *)
-  (* TODO: that should be mostly fixed soon *)
-  CoqRules.check_dir ~out ~cctx "bugs" ~coqchk:false ~copy_csdp_cache;
+  CoqRules.check_dir ~out ~cctx "bugs" ~copy_csdp_cache
+    (* We disable coqchk for bugs due to anomalies present (coqchk was not run
+    for bugs before). #15930 *)
+    ~coqchk:false;
   CoqRules.check_dir ~out ~cctx "coqchk" ~copy_csdp_cache;
   CoqRules.check_dir ~out ~cctx "failure";
   CoqRules.check_dir ~out ~cctx "interactive" ~kind:Coqtop;
@@ -192,11 +190,9 @@ let _output_rules out =
 let main () =
   let out = open_out "test_suite_rules.sexp" in
   let fmt = Format.formatter_of_out_channel out in
-  _output_rules fmt;
-  (* _debug_rules fmt; *)
+  output_rules fmt;
   Format.pp_print_flush fmt ();
   close_out out
-
 
 let () =
   Printexc.record_backtrace true;
@@ -210,7 +206,6 @@ let () =
 
 (* TODOS:
 (* ADD: linter - check theere is a rule for every test *)
-(* ADD: Rule to update output tests (prob a promote rule) *)
 (* FIX: Cannot run test-suite directly from clean build *)
 (* TODO: complexity *)
 (* TODO: output-modulo-time *)
