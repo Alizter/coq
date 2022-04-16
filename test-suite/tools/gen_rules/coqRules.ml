@@ -317,10 +317,7 @@ let check_dir ~out ~cctx ?(ignore=[])
   ?(args=[]) ?(base_deps=[]) ?(deps=[]) ?(envs=fun _ -> []) ?(exit_codes=[])
   ?(output=Compilation.Output.None) ?(kind=Compilation.Kind.Vo) ?(coqchk=true) dir =
   (* Scan for all .v files in directory ignoring as necessary *)
-  let vfiles =
-    Dir.scan_files_by_ext ~ext:".v" dir
-    |> List.filter (fun x -> not @@ List.mem x ignore)
-  in
+  let vfiles = Dir.scan_files_by_ext ~ext:".v" ~ignore dir in
   (* Run coqdep to get deps *)
   let coq_deps = coqdep_files ~cctx:(cctx ".") ~dir vfiles () in
   (* The lvl can be computed from the dir *)
