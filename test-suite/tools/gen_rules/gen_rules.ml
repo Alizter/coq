@@ -195,9 +195,6 @@ let _output_rules out =
       "deps-order-distinct-root.sh";
       "deps-order-from.sh";
       "deps-order.sh";
-      "deps-order-subdir1-file.sh";
-      "deps-order-subdir2-file.sh";
-      "deps-order-subdir3-file.sh";
       "deps-utf8.sh";
       "external-deps.sh";
       "non-marshalable-state.sh";
@@ -210,7 +207,6 @@ let _output_rules out =
       "side-eff-leak-univs.sh";
       "universes.sh";
       "vio_checking.sh";
-      (* "votour.sh"; *)
     ];
   ()
 
