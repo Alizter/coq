@@ -129,16 +129,6 @@ let test_misc ~out dir =
     ()) dir
 
 let _debug_rules out =
-  (* let open CoqRules.Compilation.Kind in *)
-  (* let open CoqRules.Compilation.Output in *)
-
-
-
-  (* !! Something is broken here: *)
-  (* Load.v *)
-  (* CoqRules.check_dir "output" out ~cctx ~output:MainJob ~args:["-test-mode"; "-async-proofs-cache"; "force"]; *)
-
-
   ()
 
 let _output_rules out =
@@ -153,13 +143,12 @@ let _output_rules out =
   CoqRules.check_dir ~out ~cctx "interactive" ~kind:Coqtop;
   CoqRules.check_dir ~out ~cctx "ltac2";
   (* For micromega we implicitly copy a cache, we could copy this in other directories too *)
-  (* TODO: make sure cache rule is called before *)
-  CoqRules.check_dir ~out ~cctx "micromega";
+  CoqRules.check_dir ~out ~cctx "micromega" ~lvld_deps:["(alias csdp-cache)"];
   (* We override cctx here in order to pass these arguments to coqdep uniformly *)
   CoqRules.check_dir ~out ~cctx:(fun lvl -> ["-R"; lvl; "Mods"]) "modules";
-  (* !! Something is broken here: *)
-  (* Load.v *)
+  (* TODO: Broken *)
   CoqRules.check_dir ~out ~cctx "output" ~output:MainJob ~args:["-test-mode"; "-async-proofs-cache"; "force"]
+    (* Load.v is broken because we call coqdep in one directory and run coqc in another. *)
     ~ignore:["Load.v"];
   CoqRules.check_dir ~out ~cctx "output-coqchk" ~output:CheckJob;
   CoqRules.check_dir ~out ~cctx "output-coqtop" ~kind:Coqtop ~output:MainJob;
@@ -178,11 +167,17 @@ let _output_rules out =
   test_ide ~out;
   CoqRules.check_dir ~out ~cctx "coqdoc" ~args:["-Q"; "coqdoc"; "Coqdoc"];
   test_coqdoc ~out "coqdoc";
-  (* TODO: We need directory independent dependencies for the python deps *)
-  test_tool ~out "coq-makefile" ~ignore:["template"];
+  (* TODO: Broken *)
+  test_tool ~out "coq-makefile"
+    ~ignore:[
+      "template";
+      (* We need directory independent dependencies for the python deps but for
+      now we ignore the timing folder *)
+      "timing";
+      ];
   test_tool ~out "tools" ~ignore:["gen_rules"];
   (* TODO: mostly broken *)
-  test_misc ~out "misc";
+  (* test_misc ~out "misc"; *)
   ()
 
 let main () =

@@ -78,9 +78,3 @@
     (progn
      (cat ../../plugins/micromega/micromega.ml)
      (echo "\n"))))))
-
-; TODO: promotion of cache
-; (rule
-;  (alias runtest)
-;  (deps (alias micromega/runtest))
-;  (action (diff micromega/.csdp.cache micromega/.copy.csdp.cache)))

@@ -1,6 +1,7 @@
 (rule
- (alias runtest)
- ; The universe dep ensures we always run this rule
+ (alias csdp-cache)
+ ; The universe dep ensures we always run this rule and that dune cache doesn't
+ ; pick it up
  (deps (universe) .csdp.cache.test-suite)
  (action (progn
   ; It is important we don't add .csdp.cache as a target or else dune will scrub
