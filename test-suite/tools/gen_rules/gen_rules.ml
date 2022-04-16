@@ -113,10 +113,23 @@ let test_tool ~out ?(ignore=[]) dir =
     in
     List.iter per_dir dirs)
 
-let test_misc ~out ~deps ?(ignore=[]) dir =
+let test_misc ~out ?(ignore=[]) dir =
   in_subdir_foreach_ext ~out ~ext:".sh" ~ignore (fun file ->
     let log_file = file ^ ".log" in
-    Dune.Rules.run ~out ~run:["./" ^ file] ~log_file ~deps:(file :: deps)
+    Dune.Rules.run ~out ~run:["./" ^ file] ~log_file
+      ~deps:[
+        file;
+        "../../config/coq_config.py";
+        "../prerequisite/ssr_mini_mathcomp.vo";
+        "(package coq-stdlib)";
+        "%{lib:coq-core.vm:../../stublibs/dllcoqrun_stubs.so}";
+        "../../dev/include";
+        "../../dev/base_include";
+        "../../dev/inc_ltac_dune";
+        "../../dev/include_printers";
+        (* TODO: refine to files actually needed for printers.sh *)
+        "(source_tree ../../dev)";
+      ]
       ~envs:[
         "coqdep", "%{bin:coqdep}";
         "coqc", "%{bin:coqc}";
@@ -167,28 +180,9 @@ let _output_rules out =
   test_ide ~out;
   CoqRules.check_dir ~out ~cctx "coqdoc" ~args:["-Q"; "coqdoc"; "Coqdoc"];
   test_coqdoc ~out "coqdoc";
-  (* TODO: Broken *)
-  test_tool ~out "coq-makefile"
-    ~ignore:[
-      "template";
-      (* We need directory independent dependencies for the python deps but for
-      now we ignore the timing folder *)
-      "timing";
-      ];
+  test_tool ~out "coq-makefile" ~ignore:["template";];
   test_tool ~out "tools" ~ignore:["gen_rules"];
-  test_misc ~out "misc"
-    ~deps:[
-      "../../config/coq_config.py";
-      "../prerequisite/ssr_mini_mathcomp.vo";
-      "(package coq-stdlib)";
-      "%{lib:coq-core.vm:../../stublibs/dllcoqrun_stubs.so}";
-      "../../dev/include";
-      "../../dev/base_include";
-      "../../dev/inc_ltac_dune";
-      "../../dev/include_printers";
-      (* TODO: refine to files actually needed for printers.sh *)
-      "(source_tree ../../dev)";
-    ];
+  test_misc ~out "misc";
   ()
 
 let main () =
