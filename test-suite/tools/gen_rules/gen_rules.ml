@@ -194,7 +194,6 @@ let _output_rules out =
     (* The following tests don't work and need to be fixed *)
     ~ignore:[
       "coq_environment.sh";
-      "coqtop_print-mod-uid.sh";
     ];
   ()
 
