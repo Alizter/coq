@@ -123,12 +123,14 @@ let test_misc ~out ?(ignore=[]) dir =
         "../prerequisite/ssr_mini_mathcomp.vo";
         "(package coq-stdlib)";
         "%{lib:coq-core.vm:../../stublibs/dllcoqrun_stubs.so}";
-        "../../dev/include";
+        (* printers.sh deps *)
+        "../../dev/incdir_dune";
         "../../dev/base_include";
         "../../dev/inc_ltac_dune";
         "../../dev/include_printers";
-        (* TODO: refine to files actually needed for printers.sh *)
-        "(source_tree ../../dev)";
+        "../../dev/include";
+        "../../dev/top_printers.ml";
+        "../../dev/vm_printers.ml";
       ]
       ~envs:[
         "coqdep", "%{bin:coqdep}";
