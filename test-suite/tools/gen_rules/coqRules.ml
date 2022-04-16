@@ -278,7 +278,7 @@ let generate_build_rule ~out ~envs ~exit_codes ~args ~deps ~chk_args ~success ~o
   | arguments -> error_unsupported_build_rule arguments ()
 
 
-let generate_rule ~out ~cctx ~dir ~lvl ~args ~base_deps ~lvld_deps ~envs ~exit_codes ~output ~kind ~coqchk
+let generate_rule ~out ~cctx ~dir ~lvl ~args ~base_deps ~deps ~envs ~exit_codes ~output ~kind ~coqchk
   (vfile_dep_info : Coqdeplib.Common.Dep_info.t) =
 
   let open Coqdeplib.Common in
@@ -303,7 +303,7 @@ let generate_rule ~out ~cctx ~dir ~lvl ~args ~base_deps ~lvld_deps ~envs ~exit_c
   (* parse the header of the .v file for extra arguments *)
   let args = vfile_header ~dir vfile @ args in
   (* lvl adjustment done here *)
-  let deps = lvld_deps @ (base_deps @ extra_deps args @ vfile_deps |> List.map (fun x -> lvl ^ "/" ^ x)) in
+  let deps = deps @ (base_deps @ extra_deps args @ vfile_deps |> List.map (fun x -> lvl ^ "/" ^ x)) in
   let args = cctx @ args in
   let chk_args = chk_filter args in
   let success =
@@ -314,7 +314,7 @@ let generate_rule ~out ~cctx ~dir ~lvl ~args ~base_deps ~lvld_deps ~envs ~exit_c
   generate_build_rule ~out ~envs:(envs vfile) ~exit_codes ~args ~chk_args ~deps ~success ~output ~kind ~coqchk vfile
 
 let check_dir ~out ~cctx ?(ignore=[])
-  ?(args=[]) ?(base_deps=[]) ?(lvld_deps=[]) ?(envs=fun _ -> []) ?(exit_codes=[])
+  ?(args=[]) ?(base_deps=[]) ?(deps=[]) ?(envs=fun _ -> []) ?(exit_codes=[])
   ?(output=Compilation.Output.None) ?(kind=Compilation.Kind.Vo) ?(coqchk=true) dir =
   (* Scan for all .v files in directory ignoring as necessary *)
   let vfiles =
@@ -322,8 +322,8 @@ let check_dir ~out ~cctx ?(ignore=[])
     |> List.filter (fun x -> not @@ List.mem x ignore)
   in
   (* Run coqdep to get deps *)
-  let deps = coqdep_files ~cctx:(cctx ".") ~dir vfiles () in
+  let coq_deps = coqdep_files ~cctx:(cctx ".") ~dir vfiles () in
   (* The lvl can be computed from the dir *)
   let lvl = Dir.back_to_root dir in
   Dune.Rules.in_subdir out dir ~f:(fun out () ->
-    List.iter (generate_rule ~cctx:(cctx lvl) ~lvl ~args ~base_deps ~lvld_deps ~output ~kind ~coqchk ~envs ~exit_codes ~out ~dir) deps)
+    List.iter (generate_rule ~cctx:(cctx lvl) ~lvl ~args ~base_deps ~deps ~output ~kind ~coqchk ~envs ~exit_codes ~out ~dir) coq_deps)

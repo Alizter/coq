@@ -143,7 +143,7 @@ let _output_rules out =
   CoqRules.check_dir ~out ~cctx "interactive" ~kind:Coqtop;
   CoqRules.check_dir ~out ~cctx "ltac2";
   (* For micromega we implicitly copy a cache, we could copy this in other directories too *)
-  CoqRules.check_dir ~out ~cctx "micromega" ~lvld_deps:["(alias csdp-cache)"];
+  CoqRules.check_dir ~out ~cctx "micromega" ~deps:["(alias csdp-cache)"];
   (* We override cctx here in order to pass these arguments to coqdep uniformly *)
   CoqRules.check_dir ~out ~cctx:(fun lvl -> ["-R"; lvl; "Mods"]) "modules";
   (* TODO: Broken *)
