@@ -125,7 +125,6 @@ let test_misc ~out ~deps ?(ignore=[]) dir =
         "coqtop_byte", "%{bin:coqtop.byte}";
         "votour", "%{bin:votour}";
         "coqchk", "%{bin:coqchk}";
-        "COQ_STUBLIBS", "%{project_root}/../install/default/lib/stublibs";
         ] ();
     ()) dir
 
@@ -177,7 +176,6 @@ let _output_rules out =
       "timing";
       ];
   test_tool ~out "tools" ~ignore:["gen_rules"];
-  (* TODO: mostly broken *)
   test_misc ~out "misc"
     ~deps:[
       "../../config/coq_config.py";
@@ -190,10 +188,6 @@ let _output_rules out =
       "../../dev/include_printers";
       (* TODO: refine to files actually needed for printers.sh *)
       "(source_tree ../../dev)";
-    ]
-    (* The following tests don't work and need to be fixed *)
-    ~ignore:[
-      "coq_environment.sh";
     ];
   ()
 

@@ -1,7 +1,5 @@
 #!/bin/sh
 
-CAML_LD_LIBRARY_PATH="$CAML_LD_LIBRARY_PATH:$COQ_STUBLIBS"
-
 command -v "$coqtop_byte" || { echo "Missing coqtop.byte"; exit 1; }
 
 f=$(mktemp)
