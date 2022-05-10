@@ -28,43 +28,19 @@
   (source_tree tools)
   (source_tree vio)
 
-
-  ; We rely on coqdeplib
-  (source_tree ../tools/coqdep)
   (source_tree ../theories)
   (source_tree ../user-contrib)
+  ../theories/Init/Prelude.vo
 
-  (file ../theories/Init/Prelude.vo)
-
-  ; These are needed for test-suite/tools/update-compat/run.sh
-  ../dev/tools/update-compat.py
-  ../dev/header.ml
-  ../doc/stdlib/index-list.html.template
-
-  %{bin:coqc}
-  %{bin:coqtop}
-  %{bin:coqtop.byte}
-  %{bin:coqdoc}
-  %{bin:coqtacticworker.opt}
-  %{bin:coqqueryworker.opt}
-  %{bin:coqproofworker.opt}
-  %{bin:coq_makefile}
-  %{bin:fake_ide}
-  %{bin:coqchk}
-  %{bin:coqidetop.byte}
-  %{lib:coq-core.vm:../../stublibs/dllcoqrun_stubs.so}
-  %{lib:coq-core.plugins.number_string_notation:number_string_notation_plugin.cmxs}
-  %{lib:coq-core.plugins.tauto:tauto_plugin.cmxs}
-  %{lib:coq-core.plugins.cc:cc_plugin.cmxs}
-  %{lib:coq-core.plugins.firstorder:firstorder_plugin.cmxs}
-  %{lib:coq-core.plugins.ltac:ltac_plugin.cmxs}
-
+ ; ; TODO: refine to requiring meta file
+  (package coq-core)
   )
  (mode promote)
  (action (run ./tools/gen_rules/gen_rules.exe)))
 
 (env (_
- (binaries (ide/fake_ide.exe as fake_ide))))
+ (binaries (ide/fake_ide.exe as fake_ide))
+ ))
 
 (include test_suite_rules.sexp)
 
