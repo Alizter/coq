@@ -101,14 +101,14 @@ let test_coqdoc ~out dir =
     coqdoc_latex_with_diff_rule ~dir ~out file;
     ()) dir
 
-let test_tool ~out ?(ignore=[]) dir =
+let test_tool ?(envs=[]) ?(deps=[]) ~out ?(ignore=[]) dir =
   Dune.Rules.in_subdir out dir ~f:(fun out () ->
     let dirs = Dir.scan_dirs dir ~ignore in
     let per_dir subdir =
       Dune.Rules.in_subdir out subdir ~f:(fun out () ->
         Dune.Rules.run ~run:["./run.sh"] ~out ~log_file:(subdir ^ ".log")
-          ~deps:
-            [ "run.sh" ]
+          ~deps:(["run.sh"; "(source_tree .)"] @ deps)
+          ~envs
         ())
     in
     List.iter per_dir dirs)
@@ -121,7 +121,8 @@ let test_misc ~out ?(ignore=[]) dir =
         file;
         "../../config/coq_config.py";
         "../prerequisite/ssr_mini_mathcomp.vo";
-        "(package coq-stdlib)";
+        "(package coq-core)";
+        (* "(package coq-stdlib)"; *)
         "%{lib:coq-core.vm:../../stublibs/dllcoqrun_stubs.so}";
         (* printers.sh deps *)
         "../../dev/incdir_dune";
@@ -133,6 +134,7 @@ let test_misc ~out ?(ignore=[]) dir =
         "../../dev/vm_printers.ml";
       ]
       ~envs:[
+        (* TODO why do this here? You can add binaries to the test-suite dune file *)
         "coqdep", "%{bin:coqdep}";
         "coqc", "%{bin:coqc}";
         "coqtop", "%{bin:coqtop}";
@@ -150,44 +152,70 @@ let output_rules out =
   (* Including this argument will allow .csdp.cache to be copied into that test
   directory in a writable state. *)
   let copy_csdp_cache = ".csdp.cache.test-suite" in
+  (* TODO refine coq-core to only include META for plugins *)
+  (* let base_deps = ["(package coq-core)"] in *)
+  let deps = [
+    "(file %{project_root}/theories/Init/Prelude.vo)";
+    "(package coq-core)";
+    ] in
+  (* let base_deps = ["../theories/Init/Prelude.vo"; "(package coq-core)"] in *)
 
-  CoqRules.check_dir ~out ~cctx "bugs" ~copy_csdp_cache
+  CoqRules.check_dir ~out ~cctx ~deps "bugs" ~copy_csdp_cache
     (* We disable coqchk for bugs due to anomalies present (coqchk was not run
     for bugs before). #15930 *)
     ~coqchk:false;
-  CoqRules.check_dir ~out ~cctx "coqchk" ~copy_csdp_cache;
-  CoqRules.check_dir ~out ~cctx "failure";
-  CoqRules.check_dir ~out ~cctx "interactive" ~kind:Coqtop;
-  CoqRules.check_dir ~out ~cctx "ltac2";
-  CoqRules.check_dir ~out ~cctx "micromega" ~copy_csdp_cache;
+  CoqRules.check_dir ~out ~cctx ~deps "coqchk" ~copy_csdp_cache;
+  CoqRules.check_dir ~out ~cctx ~deps "failure";
+  CoqRules.check_dir ~out ~cctx ~deps "interactive" ~kind:Coqtop;
+  CoqRules.check_dir ~out ~cctx ~deps "ltac2";
+  CoqRules.check_dir ~out ~cctx ~deps "micromega" ~copy_csdp_cache;
   (* We override cctx here in order to pass these arguments to coqdep uniformly *)
   CoqRules.check_dir ~out ~cctx:(fun lvl -> ["-R"; lvl; "Mods"]) "modules";
   (* TODO: Broken *)
-  CoqRules.check_dir ~out ~cctx "output" ~output:MainJob ~copy_csdp_cache
+  CoqRules.check_dir ~out ~cctx ~deps "output" ~output:MainJob ~copy_csdp_cache
     ~args:["-test-mode"; "-async-proofs-cache"; "force"]
     (* Load.v is broken because we call coqdep in one directory and run coqc in another. *)
     ~ignore:["Load.v"];
-  CoqRules.check_dir ~out ~cctx "output-coqchk" ~output:CheckJob;
-  CoqRules.check_dir ~out ~cctx "output-coqtop" ~kind:Coqtop ~output:MainJob;
-  CoqRules.check_dir ~out ~cctx "output-failure" ~output:MainJob ~args:["-test-mode"; "-async-proofs-cache"; "force"] ~exit_codes:[1];
-  CoqRules.check_dir ~out ~cctx "primitive/arrays";
-  CoqRules.check_dir ~out ~cctx "primitive/float";
-  CoqRules.check_dir ~out ~cctx "primitive/sint63";
-  CoqRules.check_dir ~out ~cctx "primitive/uint63";
-  CoqRules.check_dir ~out ~cctx "ssr";
-  CoqRules.check_dir ~out ~cctx "stm" ~args:["-async-proofs"; "on"];
-  CoqRules.check_dir ~out ~cctx "success"
+  CoqRules.check_dir ~out ~cctx ~deps "output-coqchk" ~output:CheckJob;
+  CoqRules.check_dir ~out ~cctx ~deps "output-coqtop" ~kind:Coqtop ~output:MainJob;
+  CoqRules.check_dir ~out ~cctx ~deps "output-failure" ~output:MainJob ~args:["-test-mode"; "-async-proofs-cache"; "force"] ~exit_codes:[1];
+  CoqRules.check_dir ~out ~cctx ~deps "primitive/arrays";
+  CoqRules.check_dir ~out ~cctx ~deps "primitive/float";
+  CoqRules.check_dir ~out ~cctx ~deps "primitive/sint63";
+  CoqRules.check_dir ~out ~cctx ~deps "primitive/uint63";
+  CoqRules.check_dir ~out ~cctx ~deps "ssr";
+  CoqRules.check_dir ~out ~cctx ~deps "stm" ~args:["-async-proofs"; "on"];
+  CoqRules.check_dir ~out ~cctx ~deps "success"
     (* Ignore due to coq/coq#16010 *)
     ~ignore:["PartialImport.v"; "ImportCat.v"];
-  CoqRules.check_dir ~out ~cctx "vio" ~kind:Vio;
-  CoqRules.check_dir ~out ~cctx "vio" ~kind:Vio2vo;
+  CoqRules.check_dir ~out ~cctx ~deps "vio" ~kind:Vio;
+  CoqRules.check_dir ~out ~cctx ~deps "vio" ~kind:Vio2vo;
   (* Other tests *)
   test_in_subdir ~out "coqwc" ~run:(fun file -> ["coqwc"; file]);
   test_ide ~out;
-  CoqRules.check_dir ~out ~cctx "coqdoc" ~args:["-Q"; "coqdoc"; "Coqdoc"];
+  CoqRules.check_dir ~out ~cctx ~deps "coqdoc" ~args:["-Q"; "coqdoc"; "Coqdoc"];
   test_coqdoc ~out "coqdoc";
-  test_tool ~out "coq-makefile" ~ignore:["template";];
-  test_tool ~out "tools" ~ignore:["gen_rules"];
+  test_tool ~out "coq-makefile" ~ignore:["template"]
+    ~deps:[
+      "%{bin:coq_makefile}";
+      "%{project_root}/tools/CoqMakefile.in";
+      "%{project_root}/theories/Init/Prelude.vo";
+      "%{project_root}/theories/Lists/List.vo";
+      "%{project_root}/theories/ZArith/ZArith.vo";
+      "(source_tree ../template)";
+
+      ]
+    ~envs:[
+      "CoqMakefile_in", "%{project_root}/tools/CoqMakefile.in";
+      "TTOOLSDIR", "%{project_root}/tools";
+      ];
+  test_tool ~out "tools" ~ignore:["gen_rules"]
+    ~deps:[
+      "%{project_root}/dev/tools/update-compat.py";
+      "%{project_root}/dev/header.ml";
+      "%{project_root}/doc/stdlib/index-list.html.template";
+      ];
+
   test_misc ~out "misc";
   ()
 
