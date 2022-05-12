@@ -11,14 +11,6 @@
 (* gen_rules: generate dune build rules for Coq's test-suite            *)
 (* It is desirable that this file can be bootstrapped alone             *)
 
-(* Common context - This will be passed to coqdep and coqc *)
-let cctx lvl = [
-  "-boot";
-  "-I"; Filename.concat lvl "../../install/default/lib";
-  "-R"; Filename.concat lvl "../theories" ; "Coq";
-  "-R"; Filename.concat lvl "prerequisite"; "TestSuite";
-  "-Q"; Filename.concat lvl "../user-contrib/Ltac2"; "Ltac2" ]
-
 let in_subdir_foreach_ext ~out ?(ext=".v") ?(ignore=[]) f dir =
   Dune.Rules.in_subdir out dir ~f:(fun _ () ->
     let files = Dir.scan_files_by_ext ~ext ~ignore dir in
@@ -42,10 +34,13 @@ let test_ide ~out ~deps =
     "-q" ;
     "-async-proofs" ; "on" ;
     "-async-proofs-tactic-error-resilience" ; "off";
-    "-async-proofs-command-error-resilience" ; "off"
-      ]
-    @ CoqRules.vfile_header ~dir file
-    @ cctx lvl
+    "-async-proofs-command-error-resilience" ; "off";
+    "-boot";
+    "-I"; Filename.concat lvl "../../install/default/lib";
+    "-R"; Filename.concat lvl "../theories" ; "Coq";
+    "-R"; Filename.concat lvl "prerequisite"; "TestSuite";
+    "-Q"; Filename.concat lvl "../user-contrib/Ltac2"; "Ltac2";
+    ] @ CoqRules.vfile_header ~dir file
     |> String.concat " "
   in
   (* NOTE: it is very important for the arguments to be quoted, so args will have to be flattened *)
@@ -138,7 +133,7 @@ let test_misc ~out ?(ignore=[]) dir =
         "../../dev/include";
         "../../dev/top_printers.ml";
         "../../dev/vm_printers.ml";
-        (* coqtop_print-mod-uid.sh *)
+        (* coqtop_print-mod-uid.sh deps *)
         "../prerequisite/admit.vo";
       ]
       ~envs:[
@@ -148,23 +143,31 @@ let test_misc ~out ?(ignore=[]) dir =
     ()) dir
 
 let output_rules out =
-
   let open CoqRules.Compilation.Kind in
   let open CoqRules.Compilation.Output in
+  (* Common context - This will be passed to coqdep and coqc *)
+  let cctx lvl = [
+    "-boot";
+    "-I"; Filename.concat lvl "../../install/default/lib";
+    "-R"; Filename.concat lvl "../theories" ; "Coq";
+    "-R"; Filename.concat lvl "prerequisite"; "TestSuite";
+    "-Q"; Filename.concat lvl "../user-contrib/Ltac2"; "Ltac2";
+    ] in
   (* Including this argument will allow .csdp.cache to be copied into that test
   directory in a writable state. *)
   let copy_csdp_cache = ".csdp.cache.test-suite" in
   (* Some standard deps to pass to test rules *)
+  (* TODO: refine these *)
   let deps = [
     "(glob_files %{project_root}/test-suite/prerequisite/*.vo)";
     "(file %{project_root}/user-contrib/Ltac2/Ltac2.vo)";
     "(file %{project_root}/theories/Init/Prelude.vo)";
     "(package coq-core)";
-    ] in
+    ]
+  in
   (* We set COQLIB here *)
-  (* Weirdly coqchk complains without COQLIB *)
   let envs = [
-    "COQLIB", "%{project_root}"
+    "COQLIB", "%{project_root}";
     ] in
   (* let base_deps = ["../theories/Init/Prelude.vo"; "(package coq-core)"] in *)
 
@@ -178,9 +181,11 @@ let output_rules out =
   CoqRules.check_dir ~out ~cctx ~deps ~envs "ltac2";
   CoqRules.check_dir ~out ~cctx ~deps ~envs "micromega" ~copy_csdp_cache;
   (* We override cctx here in order to pass these arguments to coqdep uniformly *)
-  CoqRules.check_dir ~out ~cctx:(fun lvl -> ["-R"; lvl; "Mods"]) "modules";
+  CoqRules.check_dir ~out ~cctx:(fun lvl -> ["-R"; lvl; "Mods"]) ~envs ~deps "modules";
   (* TODO: Broken *)
-  CoqRules.check_dir ~out ~cctx ~deps ~envs "output" ~output:MainJob ~copy_csdp_cache
+  CoqRules.check_dir ~out ~cctx ~envs "output" ~output:MainJob ~copy_csdp_cache
+    (* Needed by output/Partac.v, for some reason the env stanza doesn't supply this bin :( *)
+    ~deps:("%{bin:coqtacticworker.opt}" :: deps)
     ~args:["-test-mode"; "-async-proofs-cache"; "force"]
     (* Load.v is broken because we call coqdep in one directory and run coqc in another. *)
     ~ignore:["Load.v"];
