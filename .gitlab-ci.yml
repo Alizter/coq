@@ -163,7 +163,7 @@ before_script:
   needs:
     - not-a-real-job
   script:
-    - make -f Makefile.dune world
+    - make -f Makefile.dune test
   artifacts:
     name: "$CI_JOB_NAME.logs"
     when: on_failure
