@@ -197,8 +197,10 @@ let output_rules out =
   CoqRules.check_dir ~out ~cctx ~deps ~envs "primitive/sint63";
   CoqRules.check_dir ~out ~cctx ~deps ~envs "primitive/uint63";
   CoqRules.check_dir ~out ~cctx ~deps ~envs "ssr";
-  CoqRules.check_dir ~out ~cctx ~deps ~envs "stm" ~args:["-async-proofs"; "on"];
-  CoqRules.check_dir ~out ~cctx ~deps ~envs "success"
+  CoqRules.check_dir ~out ~cctx ~envs "stm" ~args:["-async-proofs"; "on"]
+    ~deps:("%{bin:coqproofworker.opt}" :: deps);
+  CoqRules.check_dir ~out ~cctx ~envs "success"
+    ~deps:("%{bin:coqtacticworker.opt}" :: deps)
     (* Ignore due to coq/coq#16010 *)
     ~ignore:["PartialImport.v"; "ImportCat.v"];
   CoqRules.check_dir ~out ~cctx ~deps ~envs "vio" ~kind:Vio;
