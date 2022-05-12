@@ -284,7 +284,7 @@ let generate_rule ~out ~cctx ~dir ~lvl ~args ~base_deps ~deps ~envs ~exit_codes 
   (vfile_dep_info : Coqdeplib.Common.Dep_info.t) =
 
   let open Coqdeplib.Common in
-  let vfile_long =  vfile_dep_info.Dep_info.name ^ ".v" in
+  let vfile_long = vfile_dep_info.Dep_info.name ^ ".v" in
   let vfile =
     let regex = Str.regexp (Str.quote @@ dir ^ "/") in
     Str.global_replace regex "" vfile_long
