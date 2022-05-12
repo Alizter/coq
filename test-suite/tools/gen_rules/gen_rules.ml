@@ -172,9 +172,9 @@ let output_rules out =
   (* let base_deps = ["../theories/Init/Prelude.vo"; "(package coq-core)"] in *)
 
   CoqRules.check_dir ~out ~cctx ~deps "bugs" ~copy_csdp_cache
-    (* We disable coqchk for bugs due to anomalies present (coqchk was not run
-    for bugs before). #15930 *)
-    ~coqchk:false;
+    (* coqchk will fail on bug_12138.v see coq/coq#15930 *)
+    (* coqdep cannot parse bug_12138.v *)
+    ~ignore:["bug_2923.v"; "bug_12138.v"];
   CoqRules.check_dir ~out ~cctx ~deps ~envs "coqchk" ~copy_csdp_cache;
   CoqRules.check_dir ~out ~cctx ~deps ~envs "failure";
   CoqRules.check_dir ~out ~cctx ~deps ~envs "interactive" ~kind:Coqtop;
@@ -188,6 +188,7 @@ let output_rules out =
     ~deps:("%{bin:coqtacticworker.opt}" :: deps)
     ~args:["-test-mode"; "-async-proofs-cache"; "force"]
     (* Load.v is broken because we call coqdep in one directory and run coqc in another. *)
+    (* bug_12138.v cannot be parsed by coqdep *)
     ~ignore:["Load.v"];
   CoqRules.check_dir ~out ~cctx ~deps ~envs "output-coqchk" ~output:CheckJob;
   CoqRules.check_dir ~out ~cctx ~deps ~envs "output-coqtop" ~output:MainJob ~kind:Coqtop;
