@@ -135,11 +135,7 @@ let test_misc ~out ?(ignore=[]) dir =
         "../../dev/vm_printers.ml";
         (* coqtop_print-mod-uid.sh deps *)
         "../prerequisite/admit.vo";
-      ]
-      ~envs:[
-        (* "COQLIB", "%{project_root}"; *)
-        (* "OCAMLPATH", "%{project_root}/../install/default/lib/"; *)
-        ] ();
+      ] ();
     ()) dir
 
 let output_rules out =
