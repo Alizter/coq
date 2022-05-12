@@ -139,8 +139,17 @@ let test_misc ~out ?(ignore=[]) dir =
     ()) dir
 
   let test_complexity ~out dir =
-
+    (* TODO: Complexity tests *)
+    (* 1. Fetch bogomips value *)
+    (* 2. parse test file for expected time *)
+    (* 3. run test file and record actual time  *)
+    (* 4. caclulate time acceptance *)
     ()
+
+(* TODO: check coqc interactive mode - there is a coqc interactive mode which
+    runs coqc with different parameters, make sure that those are used in the
+    correct tests
+*)
 
 let output_rules out =
   let open CoqRules.Compilation.Kind in
@@ -159,6 +168,7 @@ let output_rules out =
   (* Some standard deps to pass to test rules *)
   (* TODO: refine these *)
   let deps = [
+    (* "(sandbox always)"; *)
     "(glob_files %{project_root}/test-suite/prerequisite/*.vo)";
     "(file %{project_root}/user-contrib/Ltac2/Ltac2.vo)";
     "(file %{project_root}/theories/Init/Prelude.vo)";
@@ -170,6 +180,8 @@ let output_rules out =
     "COQLIB", "%{project_root}";
     ] in
   (* let base_deps = ["../theories/Init/Prelude.vo"; "(package coq-core)"] in *)
+
+  (* TODO: output-modulo-time *)
 
   CoqRules.check_dir ~out ~cctx ~deps "bugs" ~copy_csdp_cache
     (* coqchk will fail on bug_12138.v see coq/coq#15930 *)
@@ -271,10 +283,3 @@ let () =
     Format.eprintf "%s@\n%s@\n%!" exn bt;
     let exception Gen_rules_Anomaly in
     raise Gen_rules_Anomaly
-
-(* TODOS:
-(* ADD: linter - check theere is a rule for every test *)
-(* FIX: Cannot run test-suite directly from clean build *)
-(* TODO: complexity *)
-(* TODO: output-modulo-time *)
-*)
