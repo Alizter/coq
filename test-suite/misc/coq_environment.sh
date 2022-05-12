@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
 # Make
-coqc="$(realpath "$coqc")"
-coq_makefile="$(realpath "$coq_makefile")"
 CoqMakefile_in="$(realpath "../../tools/CoqMakefile.in")"
 
 TMP=`mktemp -d`
@@ -16,8 +14,8 @@ OCAMLFIND="$TMP/overridden"
 FOOBAR="one more"
 EOT
 
-cp $coqc ./coqc
-cp $coq_makefile ./coq_makefile
+cp $(which coqc) ./coqc
+cp $(which coq_makefile) ./coq_makefile
 mkdir -p overridden/tools/
 cp $CoqMakefile_in overridden/tools/CoqMakefile.in
 

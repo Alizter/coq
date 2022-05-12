@@ -120,12 +120,12 @@ module Rules = struct
       Rule.pp out rule_diff
 
   (** Run rule, [~run] is a list of string consisting of a command and its arguments. *)
-  let run ~run ~out ?log_file ?in_file ?(alias=Some "runtest") ?(envs=[]) ?(exit_codes=[]) ?(targets=[]) ?(deps=[]) () =
+  let run ~run ~out ?log_file ?(log_outputs=Action.Outputs.Outputs) ?in_file ?(alias=Some "runtest") ?(envs=[]) ?(exit_codes=[]) ?(targets=[]) ?(deps=[]) () =
     let action =
       Action.Run run
       |> Action.with_stdin_from_opt in_file
       |> Action.with_accepted_exit_codes_list exit_codes
-      |> Action.with_outputs_to_opt Action.Outputs.Outputs log_file
+      |> Action.with_outputs_to_opt log_outputs log_file
       |> Action.setenv_batch envs
     in
     Rule.pp out Rule.{ targets; deps; action; alias }
@@ -135,27 +135,27 @@ module Rules = struct
     Format.fprintf fmt "@[<1>(subdir %s@,@[<v>%a@])@]@," dir f ()
 
   (** Variant of run that takes a list of runs and pipes them *)
-  let run_pipe ~runs ~out ?log_file ?in_file ?(alias=Some "runtest") ?(envs=[]) ?(exit_codes=[]) ?(targets=[]) ?(deps=[]) () =
+  let run_pipe ~runs ~out ?log_file ?(log_outputs=Action.Outputs.Outputs) ?in_file ?(alias=Some "runtest") ?(envs=[]) ?(exit_codes=[]) ?(targets=[]) ?(deps=[]) () =
     let action =
       runs
       |> List.map (fun x -> Action.Run x)
       |> fun x -> Action.Pipe_outputs x
       |> Action.with_stdin_from_opt in_file
       |> Action.with_accepted_exit_codes_list exit_codes
-      |> Action.with_outputs_to_opt Action.Outputs.Outputs log_file
+      |> Action.with_outputs_to_opt log_outputs log_file
       |> Action.setenv_batch envs
     in
     Rule.pp out Rule.{ targets; deps; action; alias }
 
   (** Variant of run that takes a list of runs *)
-  let run_progn ~runs ~out ?log_file ?in_file ?(alias=Some "runtest") ?(envs=[]) ?(exit_codes=[]) ?(targets=[]) ?(deps=[]) () =
+  let run_progn ~runs ~out ?log_file ?(log_outputs=Action.Outputs.Outputs) ?in_file ?(alias=Some "runtest") ?(envs=[]) ?(exit_codes=[]) ?(targets=[]) ?(deps=[]) () =
     let action =
       runs
       |> List.map (fun x -> Action.Run x)
       |> fun x -> Action.Progn x
       |> Action.with_stdin_from_opt in_file
       |> Action.with_accepted_exit_codes_list exit_codes
-      |> Action.with_outputs_to_opt Action.Outputs.Outputs log_file
+      |> Action.with_outputs_to_opt log_outputs log_file
       |> Action.setenv_batch envs
     in
     Rule.pp out Rule.{ targets; deps; action; alias }

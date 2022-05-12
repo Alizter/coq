@@ -39,7 +39,17 @@
  (action (run ./tools/gen_rules/gen_rules.exe)))
 
 (env (_
- (binaries (ide/fake_ide.exe as fake_ide))
+ (binaries
+  ide/fake_ide.exe
+  ../../install/default/bin/coqdep
+  ../../install/default/bin/coqc
+  ../../install/default/bin/coqtop
+  ../../install/default/bin/coqdoc
+  ../../install/default/bin/coq_makefile
+  ../../install/default/bin/coqtop.byte
+  ../../install/default/bin/votour
+  ../../install/default/bin/coqchk
+  )
  ))
 
 (include test_suite_rules.sexp)
