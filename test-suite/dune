@@ -30,10 +30,8 @@
 
   (source_tree ../theories)
   (source_tree ../user-contrib)
-  ../theories/Init/Prelude.vo
 
- ; ; TODO: refine to requiring meta file
-  (package coq-core)
+  ../../install/default/lib/coq-core/META
   )
  (mode promote)
  (action (run ./tools/gen_rules/gen_rules.exe)))
@@ -49,6 +47,9 @@
   ../../install/default/bin/coqtop.byte
   ../../install/default/bin/votour
   ../../install/default/bin/coqchk
+  ../../install/default/bin/coqtacticworker.opt
+  ../../install/default/bin/coqqueryworker.opt
+  ../../install/default/bin/coqproofworker.opt
   )
  ))
 
