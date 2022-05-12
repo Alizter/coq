@@ -6,9 +6,9 @@ a=$(uname)
 if [ "$a" = "Darwin" ] || [ "$a" = "Linux" ]; then
 rm -f deps/théorèmes/*.v
 tmpoutput=$(mktemp /tmp/coqcheck.XXXXXX)
-$coqc -R deps AlphaBêta deps/αβ/γδ.v
+coqc -R deps AlphaBêta deps/αβ/γδ.v
 R=$?
-$coqc -R deps AlphaBêta deps/αβ/εζ.v
+coqc -R deps AlphaBêta deps/αβ/εζ.v
 S=$?
 if [ $R = 0 ] && [ $S = 0 ]; then
     exit 0

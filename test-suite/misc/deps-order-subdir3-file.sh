@@ -17,11 +17,11 @@ if [ $R != 0 ]; then
     exit 1
 fi
 times
-$coqc -Q deps/Theory3 Theory deps/Theory3/Subtheory1/File1.v
-$coqc -Q deps/Theory3 Theory deps/Theory3/Subtheory1/Subsubtheory2/File1.v
-$coqc -Q deps/Theory3 Theory deps/Theory3/Subtheory1/Subsubtheory2/File1.v
-$coqc -Q deps/Theory3 Theory deps/Theory3/Subtheory2/File1.v
-$coqc -Q deps/Theory3 Theory deps/Theory3/File2.v
+coqc -Q deps/Theory3 Theory deps/Theory3/Subtheory1/File1.v
+coqc -Q deps/Theory3 Theory deps/Theory3/Subtheory1/Subsubtheory2/File1.v
+coqc -Q deps/Theory3 Theory deps/Theory3/Subtheory1/Subsubtheory2/File1.v
+coqc -Q deps/Theory3 Theory deps/Theory3/Subtheory2/File1.v
+coqc -Q deps/Theory3 Theory deps/Theory3/File2.v
 S=$?
 if [ $S = 0 ]; then
     printf "Unexpected coqc success.\n"
