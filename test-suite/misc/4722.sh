@@ -7,7 +7,7 @@ ln -sf toto 4722/tata
 touch bug_4722.v
 
 # run test
-$coqc "-R" "4722" "Foo" -top Top bug_4722.v
+coqc "-R" "4722" "Foo" -top Top bug_4722.v
 
 # clean up test files
 rm 4722/tata

@@ -1,10 +1,10 @@
 #!/bin/sh
 
-command -v "$coqtop_byte" || { echo "Missing coqtop.byte"; exit 1; }
+command -v "coqtop_byte" || { echo "Missing coqtop.byte"; exit 1; }
 
 f=$(mktemp)
 {
-    printf 'Drop.\n#directory "../../dev";;\n#use "include";;\n#quit;;\n' | "$coqtop_byte" -q
+    printf 'Drop.\n#directory "../../dev";;\n#use "include";;\n#quit;;\n' | "coqtop_byte" -q
 } 2>&1 | tee "$f"
 
 echo $CAML_LD_LIBRARY_PATH
