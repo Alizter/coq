@@ -138,6 +138,10 @@ let test_misc ~out ?(ignore=[]) dir =
       ] ();
     ()) dir
 
+  let test_complexity ~out dir =
+
+    ()
+
 let output_rules out =
   let open CoqRules.Compilation.Kind in
   let open CoqRules.Compilation.Output in
@@ -204,6 +208,8 @@ let output_rules out =
   CoqRules.check_dir ~out ~cctx ~deps ~envs "vio" ~kind:Vio2vo;
 
   (* Other tests *)
+
+  test_complexity ~out "complexity";
 
   test_in_subdir ~out "coqwc" ~run:(fun file -> ["coqwc"; file]);
 
