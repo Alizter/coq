@@ -9,7 +9,7 @@ dotest=true
 if [ $dotest = false ]; then exit 0; fi
 rm -f deps/Theory3/*.vo deps/Theory3/Subtheory?/*.vo deps/Theory3/Subtheory?/Subsubtheory?/*.vo
 tmpoutput=$(mktemp /tmp/coqcheck.XXXXXX)
-(cd deps; ../$coqdep -f _CoqTheory3Project) > "$tmpoutput" 2>&1
+(cd deps; coqdep -f _CoqTheory3Project) > "$tmpoutput" 2>&1
 diff -u --strip-trailing-cr deps/Theory3Deps.out $tmpoutput
 R=$?
 if [ $R != 0 ]; then

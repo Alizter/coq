@@ -2,6 +2,4 @@
 
 set -e
 
-export PATH=$BIN:$PATH
-
-${coqc#"$BIN"} aux7704.v
+coqc aux7704.v
