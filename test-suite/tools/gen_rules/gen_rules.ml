@@ -138,12 +138,38 @@ let test_misc ~out ?(ignore=[]) dir =
       ] ();
     ()) dir
 
-  let test_complexity ~out dir =
-    (* TODO: Complexity tests *)
-    (* 1. Fetch bogomips value *)
-    (* 2. parse test file for expected time *)
-    (* 3. run test file and record actual time  *)
-    (* 4. caclulate time acceptance *)
+  (* It is dubious how useful these tests are, but these are ported from the
+  makefile nontheless. TODO: get rid of and do something useful. *)
+  let test_complexity ~out ~cctx ?(envs=[]) ?(deps=[]) ?(ignore=[]) dir =
+    (* Fetch bogomips value *)
+    let run cmd =
+      let inp = Unix.open_process_in cmd in
+      let r = input_line inp in
+      close_in inp; r
+    in
+    (* TODO: what if this doesn't work? Windows? *)
+    let bogomips = run "./tools/bogomips.sh" in
+    (* Run tests *)
+    CoqRules.check_dir ~out ~cctx ~envs dir
+      (* ~output:CoqRules.Compilation.Output.MainJob *)
+      ~deps:([
+        "%{bin:coqtacticworker.opt}";
+        ] @ deps)
+      ~args:["-test-mode"; "-async-proofs-cache"; "force"];
+    (* Run complexity.sh on test *)
+    in_subdir_foreach_ext ~out ~ext:".v" ~ignore
+      (fun file ->
+        let vofile = file ^ "o" in
+        let log_file = file ^ ".log" in
+        Dune.Rules.run ~out
+          ~deps:[
+            vofile;
+            "../tools/complexity.sh";
+            ]
+          ~log_file:(file ^ ".complexity.log")
+          ~envs:["BOGOMIPS", bogomips]
+          ~run:["../tools/complexity.sh"; file; log_file] ()
+      ) dir;
     ()
 
 (* TODO: check coqc interactive mode - there is a coqc interactive mode which
@@ -168,6 +194,7 @@ let output_rules out =
   (* Some standard deps to pass to test rules *)
   (* TODO: refine these *)
   let deps = [
+    (* TODO: this would be nice to have *)
     (* "(sandbox always)"; *)
     "(glob_files %{project_root}/test-suite/prerequisite/*.vo)";
     "(file %{project_root}/user-contrib/Ltac2/Ltac2.vo)";
@@ -183,8 +210,8 @@ let output_rules out =
 
   (* TODO: output-modulo-time *)
 
-  CoqRules.check_dir ~out ~cctx ~deps "bugs" ~copy_csdp_cache
-    (* coqchk will fail on bug_12138.v see coq/coq#15930 *)
+  CoqRules.check_dir ~out ~cctx ~deps ~envs "bugs" ~copy_csdp_cache
+    (* coqchk will fail on bug_2923.v see coq/coq#15930 *)
     (* coqdep cannot parse bug_12138.v *)
     ~ignore:["bug_2923.v"; "bug_12138.v"];
   CoqRules.check_dir ~out ~cctx ~deps ~envs "coqchk" ~copy_csdp_cache;
@@ -221,7 +248,8 @@ let output_rules out =
 
   (* Other tests *)
 
-  test_complexity ~out "complexity";
+  (* Am I causing problems? Just comment me out. *)
+  test_complexity ~out ~cctx ~deps ~envs "complexity";
 
   test_in_subdir ~out "coqwc" ~run:(fun file -> ["coqwc"; file]);
 
