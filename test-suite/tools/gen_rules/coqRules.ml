@@ -48,7 +48,7 @@ let rec chk_filter = function
   | [] -> []
 
 (** coqc rule no vo targets, no log *)
-let _coqc_rule ~out ~envs ~exit_codes ~args ~deps vfile =
+let coqc_rule ~out ~envs ~exit_codes ~args ~deps vfile =
   let run = "%{bin:coqc}" :: args @ [vfile] in
   Dune.Rules.run ~out ~envs ~run ~exit_codes ~deps ()
 
@@ -148,9 +148,9 @@ let coqtop_log_rule ~out ~envs ~exit_codes ~args ~deps ?(log_ext=".log") vfile =
   Dune.Rules.run ~out ~envs ~run ~exit_codes ~deps ~targets ~log_file ~in_file:vfile ()
 
 (* Preprocessing for output log *)
-let with_outputs_to_rule ~out vfile =
-  let log_file = vfile ^ ".log" in
-  let log_pre_file = vfile ^ ".log.pre" in
+let with_outputs_to_rule ~out ?(ext=".log") vfile =
+  let log_file = vfile ^ ext in
+  let log_pre_file = vfile ^ ext ^ ".pre" in
   let targets = [log_file] in
   let deps = [log_pre_file] in
   let run = ["../tools/amend-output-log.sh"; log_pre_file] in
@@ -248,7 +248,7 @@ let generate_build_rule ~out ~envs ~exit_codes ~args ~deps ~chk_args ~success ~o
     ()
   (* checking output of coqchk *)
   | true, Output.CheckJob, Kind.Vo ->
-    coqc_vo_rule ~out ~envs ~exit_codes ~args ~deps vfile;
+    coqc_vo_log_rule ~out ~envs ~exit_codes ~args ~deps vfile ~log_ext:".coqc.log";
     coqchk_log_rule ~out ~envs ~exit_codes ~chk_args ~deps ~log_ext:".log.pre" vfile;
     (* TODO are these right? *)
     with_outputs_to_rule ~out vfile;
