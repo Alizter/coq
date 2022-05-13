@@ -167,7 +167,7 @@ before_script:
   needs:
     - not-a-real-job
   script:
-    - make -f Makefile.dune test
+    - make -f Makefile.dune test DUNEOPT="--display=short --always-show-command-line"
   artifacts:
     name: "$CI_JOB_NAME.logs"
     when: on_failure
