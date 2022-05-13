@@ -3,7 +3,7 @@
  (targets test_suite_rules.sexp)
  (deps
   (source_tree bugs)
-  ; (source_tree complexity)
+  (source_tree complexity)
   (source_tree coq-makefile)
   (source_tree coqchk)
   (source_tree coqdoc)
