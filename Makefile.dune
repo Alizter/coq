@@ -141,12 +141,12 @@ vio: dunestrap
 watch:
 	dune build $(DUNEOPT) $(NONDOC_INSTALL_TARGETS) -w
 
-check:
+check: | rules
 	dune build $(DUNEOPT) @check
 
 test test-suite: dunestrap
 	dune build @test-gen $(DUNEOPT)
-	dune test $(DUNEOPT) --always-show-command-line
+	dune test $(DUNEOPT)
 
 refman-html: dunestrap
 	dune build --no-buffer @refman-html
@@ -157,7 +157,7 @@ refman-pdf: dunestrap
 stdlib-html: dunestrap
 	dune build @stdlib-html
 
-apidoc:
+apidoc: | rules
 	dune build $(DUNEOPT) @doc
 
 release: theories/dune
@@ -170,7 +170,7 @@ install:
 	@echo "where P is any of the packages defined by opam files in the root dir"
 	@false
 
-fmt:
+fmt: | rules
 	dune build @fmt --auto-promote
 
 ocheck:
@@ -179,7 +179,7 @@ ocheck:
 obuild: dunestrap
 	dune build $(DUNEOPT) @default --workspace=dev/dune-workspace.all
 
-ireport:
+ireport: | rules
 	dune clean
 	dune build $(DUNEOPT) @install --profile=ireport
 
@@ -193,7 +193,7 @@ DOC_GRAM:=_build/default/doc/tools/docgram/doc_grammar.exe
 
 # not worth figuring out dependencies, just leave it to dune
 .PHONY: $(DOC_GRAM)
-$(DOC_GRAM):
+$(DOC_GRAM): | rules
 	dune build $(DUNEOPT) $@
 
 include doc/Makefile.docgram
