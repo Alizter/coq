@@ -84,7 +84,7 @@ before_script:
     expire_in: 1 month
   script:
     - dev/ci/gitlab-section.sh start coq.rules coq.rules
-    - make rules # ensure that `make rules` is run so that dune runs later
+    - make -f Makefile.dune rules # ensure that `make rules` is run so that dune runs later
     - dev/ci/gitlab-section.sh end coq.rules
 
     - dev/ci/gitlab-section.sh start coq.clean coq.clean
