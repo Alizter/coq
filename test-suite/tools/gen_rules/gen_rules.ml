@@ -207,6 +207,8 @@ let output_rules out =
     "(glob_files %{project_root}/user-contrib/Ltac2/*.vo)";
     (* Plugins *)
     "(glob_files %{project_root}/../install/default/lib/coq-core/plugins/*/*)";
+    (* We need to rely on moduels in the kernel for native *)
+    "(glob_files %{project_root}/../install/default/lib/coq-core/kernel/*)";
     (* The entire package (for META file) (can we dep on just META?) *)
     "(package coq-core)";
     ]
@@ -223,6 +225,8 @@ let output_rules out =
   (* let sb = "(sandbox always)" :: deps in *)
   (* DEBUG: Rules for debugging test-suite rule generation *)
   (* CoqRules.check_dir ~out ~cctx ~deps:sb ~envs "debug" ~copy_csdp_cache ~args:["-bt"]; *)
+  CoqRules.check_dir ~out ~cctx ~deps ~envs "debug" ~copy_csdp_cache ~args:["-bt"];
+
 
   CoqRules.check_dir ~out ~cctx ~deps ~envs "bugs" ~copy_csdp_cache
     (* coqchk will fail on bug_2923.v see coq/coq#15930 *)
