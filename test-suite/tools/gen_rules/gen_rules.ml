@@ -115,7 +115,9 @@ let test_misc ~out ?(ignore=[]) dir =
       ~deps:[
         file;
         (* We need all files in misc as deps *)
-        (* These could be finer, but at this point its better to just rereun them all *)
+        (* These could be finer, but at this point its better to just rereun
+        them all. In the future we could make a lot of tests in misc into cram
+        tests which would allow for finer deps than we currently have. *)
         "(source_tree .)";
         "../../config/coq_config.py";
         "../prerequisite/ssr_mini_mathcomp.vo";
@@ -194,11 +196,18 @@ let output_rules out =
   (* Some standard deps to pass to test rules *)
   (* TODO: refine these *)
   let deps = [
-    (* TODO: this would be nice to have *)
+    (* TODO: this would be nice to have - impossible at the moment because we
+    depend on things in the install directory *)
     (* "(sandbox always)"; *)
+    (* Prerequisites *)
     "(glob_files %{project_root}/test-suite/prerequisite/*.vo)";
-    "(file %{project_root}/user-contrib/Ltac2/Ltac2.vo)";
-    "(file %{project_root}/theories/Init/Prelude.vo)";
+    (* Init *)
+    "(glob_files %{project_root}/theories/Init/*.vo)";
+    (* ltac2 *)
+    "(glob_files %{project_root}/user-contrib/Ltac2/*.vo)";
+    (* Plugins *)
+    "(glob_files %{project_root}/../install/default/lib/coq-core/plugins/*/*)";
+    (* The entire package (for META file) (can we dep on just META?) *)
     "(package coq-core)";
     ]
   in
@@ -209,6 +218,11 @@ let output_rules out =
   (* let base_deps = ["../theories/Init/Prelude.vo"; "(package coq-core)"] in *)
 
   (* TODO: output-modulo-time *)
+
+  (* DEBUG: allow sandboxing for well behaved rules *)
+  (* let sb = "(sandbox always)" :: deps in *)
+  (* DEBUG: Rules for debugging test-suite rule generation *)
+  (* CoqRules.check_dir ~out ~cctx ~deps:sb ~envs "debug" ~copy_csdp_cache ~args:["-bt"]; *)
 
   CoqRules.check_dir ~out ~cctx ~deps ~envs "bugs" ~copy_csdp_cache
     (* coqchk will fail on bug_2923.v see coq/coq#15930 *)

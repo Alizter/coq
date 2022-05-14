@@ -2,6 +2,10 @@
  (alias test-gen)
  (targets test_suite_rules.sexp)
  (deps
+  ; TODO: REMOVE
+  (source_tree debug)
+  (sandbox always)
+
   (source_tree bugs)
   (source_tree complexity)
   (source_tree coq-makefile)
