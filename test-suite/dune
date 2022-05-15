@@ -2,10 +2,7 @@
  (alias test-gen)
  (targets test_suite_rules.sexp)
  (deps
-  ; TODO: REMOVE
-  (source_tree debug)
   (sandbox always)
-
   (source_tree bugs)
   (source_tree complexity)
   (source_tree coq-makefile)
@@ -23,7 +20,7 @@
   (source_tree output-coqchk)
   (source_tree output-coqtop)
   (source_tree output-failure)
-  ; (source_tree output-modulo-time)
+  (source_tree output-modulo-time)
   (source_tree prerequisite)
   (source_tree primitive)
   (source_tree ssr)
@@ -31,7 +28,6 @@
   (source_tree success)
   (source_tree tools)
   (source_tree vio)
-
   (source_tree ../theories)
   (source_tree ../user-contrib)
 

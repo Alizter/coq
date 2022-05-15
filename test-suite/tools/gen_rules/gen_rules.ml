@@ -45,7 +45,6 @@ let test_ide ~out ~deps =
   in
   (* NOTE: it is very important for the arguments to be quoted, so args will have to be flattened *)
   let run = fun file -> ["fake_ide"; "%{bin:coqidetop.opt}"; file; "\"" ^ args file ^ "\""] in
-  (* TODO: test output *)
   test_in_subdir dir ~out ~run ~ext:".fake" ~deps
 
 let coqdoc_html_with_diff_rule ~dir ~out file  =
@@ -140,9 +139,8 @@ let test_misc ~out ?(ignore=[]) dir =
       ] ();
     ()) dir
 
-  (* It is dubious how useful these tests are, but these are ported from the
-  makefile nontheless. TODO: get rid of and do something useful. *)
   let test_complexity ~out ~cctx ?(envs=[]) ?(deps=[]) ?(ignore=[]) dir =
+    (* Is this really a useful metric? *)
     (* Fetch bogomips value *)
     let run cmd =
       let inp = Unix.open_process_in cmd in
@@ -174,11 +172,6 @@ let test_misc ~out ?(ignore=[]) dir =
       ) dir;
     ()
 
-(* TODO: check coqc interactive mode - there is a coqc interactive mode which
-    runs coqc with different parameters, make sure that those are used in the
-    correct tests
-*)
-
 let output_rules out =
   let open CoqRules.Compilation.Kind in
   let open CoqRules.Compilation.Output in
@@ -196,8 +189,7 @@ let output_rules out =
   (* Some standard deps to pass to test rules *)
   (* TODO: refine these *)
   let deps = [
-    (* TODO: this would be nice to have - impossible at the moment because we
-    depend on things in the install directory *)
+    (* TODO: this would be nice to have *)
     (* "(sandbox always)"; *)
     (* Prerequisites *)
     "(glob_files %{project_root}/test-suite/prerequisite/*.vo)";
@@ -206,9 +198,7 @@ let output_rules out =
     (* ltac2 *)
     "(glob_files %{project_root}/user-contrib/Ltac2/*.vo)";
     (* Plugins *)
-    "(glob_files %{project_root}/../install/default/lib/coq-core/plugins/*/*)";
-    (* We need to rely on moduels in the kernel for native *)
-    "(glob_files %{project_root}/../install/default/lib/coq-core/kernel/*)";
+    "(glob_files %{project_root}/plugins/*/*)";
     (* The entire package (for META file) (can we dep on just META?) *)
     "(package coq-core)";
     ]
@@ -217,20 +207,10 @@ let output_rules out =
   let envs = [
     "COQLIB", "%{project_root}";
     ] in
-  (* let base_deps = ["../theories/Init/Prelude.vo"; "(package coq-core)"] in *)
-
-  (* TODO: output-modulo-time *)
-
-  (* DEBUG: allow sandboxing for well behaved rules *)
-  (* let sb = "(sandbox always)" :: deps in *)
-  (* DEBUG: Rules for debugging test-suite rule generation *)
-  (* CoqRules.check_dir ~out ~cctx ~deps:sb ~envs "debug" ~copy_csdp_cache ~args:["-bt"]; *)
-  CoqRules.check_dir ~out ~cctx ~deps ~envs "debug" ~copy_csdp_cache ~args:["-bt"];
-
 
   CoqRules.check_dir ~out ~cctx ~deps ~envs "bugs" ~copy_csdp_cache
-    (* coqchk will fail on bug_2923.v see coq/coq#15930 *)
-    (* coqdep cannot parse bug_12138.v *)
+    (* TODO: coqchk will fail on bug_2923.v see coq/coq#15930 *)
+    (* TODO: coqdep cannot parse bug_12138.v *)
     ~ignore:["bug_2923.v"; "bug_12138.v"];
   CoqRules.check_dir ~out ~cctx ~deps ~envs "coqchk" ~copy_csdp_cache;
   CoqRules.check_dir ~out ~cctx ~deps ~envs "failure";
@@ -239,17 +219,17 @@ let output_rules out =
   CoqRules.check_dir ~out ~cctx ~deps ~envs "micromega" ~copy_csdp_cache;
   (* We override cctx here in order to pass these arguments to coqdep uniformly *)
   CoqRules.check_dir ~out ~cctx:(fun lvl -> ["-R"; lvl; "Mods"]) ~envs ~deps "modules";
-  (* TODO: Broken *)
   CoqRules.check_dir ~out ~cctx ~envs "output" ~output:MainJob ~copy_csdp_cache
     (* Needed by output/Partac.v, for some reason the env stanza doesn't supply this bin :( *)
     ~deps:("%{bin:coqtacticworker.opt}" :: deps)
     ~args:["-test-mode"; "-async-proofs-cache"; "force"]
-    (* Load.v is broken because we call coqdep in one directory and run coqc in another. *)
-    (* bug_12138.v cannot be parsed by coqdep *)
+    (* TODO: Load.v is broken because we call coqdep in one directory and run coqc in another. *)
     ~ignore:["Load.v"];
   CoqRules.check_dir ~out ~cctx ~deps ~envs "output-coqchk" ~output:CheckJob;
   CoqRules.check_dir ~out ~cctx ~deps ~envs "output-coqtop" ~output:MainJob ~kind:Coqtop;
-  CoqRules.check_dir ~out ~cctx ~deps ~envs "output-failure" ~output:MainJob ~args:["-test-mode"; "-async-proofs-cache"; "force"] ~exit_codes:[1];
+  CoqRules.check_dir ~out ~cctx ~deps ~envs "output-failure" ~output:MainJob
+    ~args:["-test-mode"; "-async-proofs-cache"; "force"] ~exit_codes:[1];
+  CoqRules.check_dir ~out ~cctx ~deps ~envs "output-modulo-time" ~output:MainJobModTime;
   CoqRules.check_dir ~out ~cctx ~deps ~envs "primitive/arrays";
   CoqRules.check_dir ~out ~cctx ~deps ~envs "primitive/float";
   CoqRules.check_dir ~out ~cctx ~deps ~envs "primitive/sint63";
@@ -266,7 +246,6 @@ let output_rules out =
 
   (* Other tests *)
 
-  (* Am I causing problems? Just comment me out. *)
   test_complexity ~out ~cctx ~deps ~envs "complexity";
 
   test_in_subdir ~out "coqwc" ~run:(fun file -> ["coqwc"; file]);
