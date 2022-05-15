@@ -148,12 +148,12 @@ let coqtop_log_rule ~out ~envs ~exit_codes ~args ~deps ?(log_ext=".log") vfile =
   Dune.Rules.run ~out ~envs ~run ~exit_codes ~deps ~targets ~log_file ~in_file:vfile ()
 
 (* Preprocessing for output log *)
-let with_outputs_to_rule ~out ?(ext=".log") vfile =
+let log_preprocess_rule ~out ?(ext=".log") ~script vfile =
   let log_file = vfile ^ ext in
   let log_pre_file = vfile ^ ext ^ ".pre" in
   let targets = [log_file] in
   let deps = [log_pre_file] in
-  let run = ["../tools/amend-output-log.sh"; log_pre_file] in
+  let run = [script; log_pre_file] in
   Dune.Rules.run ~out ~run ~deps ~targets ~log_file ~in_file:vfile ()
 
 let diff_rule ~out ?(out_ext=".out") ?(log_ext=".log") vfile =
@@ -184,10 +184,11 @@ let csdp_cache_rule ~out ~lvl ?copy_csdp_cache () =
 module Compilation = struct
   module Output = struct
     (* The type of output - dictates which logs we will diff *)
-    type t = None | MainJob | CheckJob
+    type t = None | MainJob | MainJobModTime | CheckJob
     let to_string = function
       | None -> "None"
       | MainJob -> "MainJob"
+      | MainJobModTime -> "MainJob"
       | CheckJob -> "CheckJob"
   end
 
@@ -232,7 +233,7 @@ let generate_build_rule ~out ~envs ~exit_codes ~args ~deps ~chk_args ~success ~o
     coqc_vio_log_rule ~out ~envs ~exit_codes ~args ~deps vfile
   | true, Output.MainJob, Kind.Vio ->
     coqc_vio_log_rule ~out ~envs ~exit_codes ~args ~deps ~log_ext:".log.pre" vfile;
-    with_outputs_to_rule ~out vfile;
+    log_preprocess_rule ~out ~script:"../tools/amend-output-log.sh" vfile;
     diff_rule ~out vfile;
     ()
   (* vio2vo *)
@@ -245,7 +246,7 @@ let generate_build_rule ~out ~envs ~exit_codes ~args ~deps ~chk_args ~success ~o
     coqc_vos_log_rule ~out ~envs ~exit_codes ~args ~deps vfile
   | true, Output.MainJob, Kind.Vos ->
     coqc_vos_log_rule ~out ~envs ~exit_codes ~args ~deps ~log_ext:".log.pre" vfile;
-    with_outputs_to_rule ~out vfile;
+    log_preprocess_rule ~out ~script:"../tools/amend-output-log.sh" vfile;
     diff_rule ~out vfile;
     ()
   (* vok *)
@@ -262,7 +263,14 @@ let generate_build_rule ~out ~envs ~exit_codes ~args ~deps ~chk_args ~success ~o
   (* output rule *)
   | true, Output.MainJob, Kind.Vo ->
     coqc_vo_log_rule ~out ~envs ~exit_codes ~args ~deps ~log_ext:".log.pre" vfile;
-    with_outputs_to_rule ~out vfile;
+    log_preprocess_rule ~out ~script:"../tools/amend-output-log.sh" vfile;
+    diff_rule ~out vfile;
+    if coqchk then coqchk_log_rule ~out ~envs ~exit_codes ~chk_args ~deps vfile;
+    ()
+  (* coqc output rule modulo time *)
+  | true, Output.MainJobModTime, Kind.Vo ->
+    coqc_vo_log_rule ~out ~envs ~exit_codes ~args ~deps ~log_ext:".log.pre" vfile;
+    log_preprocess_rule ~out ~script:"../tools/modulo-time-output-log.sh" vfile;
     diff_rule ~out vfile;
     if coqchk then coqchk_log_rule ~out ~envs ~exit_codes ~chk_args ~deps vfile;
     ()
@@ -270,14 +278,13 @@ let generate_build_rule ~out ~envs ~exit_codes ~args ~deps ~chk_args ~success ~o
   | true, Output.CheckJob, Kind.Vo ->
     coqc_vo_log_rule ~out ~envs ~exit_codes ~args ~deps vfile ~log_ext:".coqc.log";
     coqchk_log_rule ~out ~envs ~exit_codes ~chk_args ~deps ~log_ext:".log.pre" vfile;
-    (* TODO are these right? *)
-    with_outputs_to_rule ~out vfile;
+    log_preprocess_rule ~out ~script:"../tools/amend-output-log.sh" vfile;
     diff_rule ~out vfile;
     ()
   (* failing output rule *)
   | false, Output.MainJob, Kind.Vo ->
     coqc_log_rule ~out ~envs ~exit_codes ~args ~deps ~log_ext:".log.pre" vfile;
-    with_outputs_to_rule ~out vfile;
+    log_preprocess_rule ~out ~script:"../tools/amend-output-log.sh" vfile;
     diff_rule ~out vfile;
     ()
   (* coqtop rule *)
@@ -287,15 +294,7 @@ let generate_build_rule ~out ~envs ~exit_codes ~args ~deps ~chk_args ~success ~o
   (* coqtop output rule *)
   | true, Output.MainJob, Kind.Coqtop ->
     coqtop_log_rule ~out ~envs ~exit_codes ~args ~deps ~log_ext:".log.pre" vfile;
-    let log_file = vfile ^ ".log" in
-    let log_pre_file = vfile ^ ".log.pre" in
-    Dune.Rules.run_pipe ~out:out ~deps:[log_pre_file] ~targets:[log_file]
-      ~runs:
-        [ ["grep"; "-v"; "\"Welcome to Coq\""; log_pre_file]
-        ; ["grep"; "-v"; "\"Loading ML file\""]
-        ; ["grep"; "-v"; "\"Skipping rcfile loading\""]
-        ; ["grep"; "-v"; "\"^<W>\""] ]
-      ~log_file:(vfile ^ ".log") ();
+    log_preprocess_rule ~out ~script:"../tools/coqtop-output-log.sh" vfile;
     diff_rule ~out vfile;
     ()
   | arguments -> error_unsupported_build_rule arguments ()
@@ -315,7 +314,6 @@ let generate_rule ~out ~cctx ~dir ~lvl ~args ~base_deps ~deps ~envs ~exit_codes 
     let f = function
     | Dep.Require s -> Dep.Require s
     | Dep.Other s ->
-        (* TODO: not just META *)
         (* Printf.printf "vfile: %s META: %s\n" vfile s; *)
         Dep.Other (Str.replace_first (Str.regexp ".*/lib/coq-core") "../../install/default/lib/coq-core" s)
     in
