@@ -38,13 +38,23 @@ let rec extra_deps = function
   | _ :: s -> extra_deps s
   | [] -> []
 
-let rec chk_filter = function
+let rec coqchk_filter = function
   (* Arguments that coqchk understands *)
-  | "-R" :: dir :: name :: l -> "-R" :: dir :: name :: chk_filter l
-  | "-Q" :: dir :: name :: l -> "-Q" :: dir :: name :: chk_filter l
-  | "-impredicative-set" :: l -> "-impredicative-set" :: chk_filter l
-  | "-indices-matter" :: l -> "-indices-matter" :: chk_filter l
-  | _ :: l -> chk_filter l
+  | "-R" :: dir :: name :: l -> "-R" :: dir :: name :: coqchk_filter l
+  | "-Q" :: dir :: name :: l -> "-Q" :: dir :: name :: coqchk_filter l
+  | "-impredicative-set" :: l -> "-impredicative-set" :: coqchk_filter l
+  | "-indices-matter" :: l -> "-indices-matter" :: coqchk_filter l
+  | _ :: l -> coqchk_filter l
+  | [] -> []
+
+let rec coqdep_filter = function
+  (* Arguments that coqdep understands *)
+  | "-R" :: dir :: name :: l -> "-R" :: dir :: name :: coqdep_filter l
+  | "-Q" :: dir :: name :: l -> "-Q" :: dir :: name :: coqdep_filter l
+  | "-I" :: dir :: l -> "-I" :: dir :: coqdep_filter l
+  | "-boot" :: l -> "-boot" :: coqdep_filter l
+  (* TODO: not finished *)
+  | _ :: l -> coqdep_filter l
   | [] -> []
 
 (** coqc rule no vo targets, no log *)
@@ -326,7 +336,7 @@ let generate_rule ~out ~cctx ~dir ~lvl ~args ~base_deps ~deps ~envs ~exit_codes 
   (* lvl adjustment done here *)
   let deps = deps @ (base_deps @ extra_deps args @ vfile_deps |> List.map (fun x -> lvl ^ "/" ^ x)) in
   let args = cctx @ args in
-  let chk_args = chk_filter args in
+  let chk_args = coqchk_filter args in
   let success =
     match exit_codes with
     | [] -> true
@@ -340,7 +350,7 @@ let check_dir ~out ~cctx ?(ignore=[]) ?copy_csdp_cache
   (* Scan for all .v files in directory ignoring as necessary *)
   let vfiles = Dir.scan_files_by_ext ~ext:".v" ~ignore dir in
   (* Run coqdep to get deps *)
-  let coq_deps = coqdep_files ~cctx:(cctx ".") ~dir vfiles () in
+  let coq_deps = coqdep_files ~cctx:(coqdep_filter @@ cctx ".") ~dir vfiles () in
   (* The lvl can be computed from the dir *)
   let lvl = Dir.back_to_root dir in
   (* If the csdp cache copy is set then we add the special alias as a dep *)

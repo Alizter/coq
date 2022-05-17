@@ -56,19 +56,21 @@ rescorrected=$(expr \( $res \* $bogomips + 6120 - 1 \) / 6120)
 # We now check that the result is less than the expected time upto a scaling
 # factor.
 
-ok=$(expr \( $res \* $bogomips \) "<" \( $exp \* 6120 \))
+result=$(expr \( $res \* $bogomips \))
+expected=$(expr \( $exp \* 6120 \))
+
+ok=$(expr $result "<" $expected)
 
 if [ "$ok" -eq "1" ]; then
-  echo "Success!"
+  # echo "Success! Complexity test: $vfile"
   exit 0
 fi
 
->&2 echo "Failure!"
+>&2 echo "*** Failure! Complexity test: $vfile"
 
-echo "bogomips = $bogomips"
-echo "vfile = $vfile"
-echo "logfile = $logfile"
-echo "res = $res"
+>&2 echo "result = $result"
+>&2 echo "expected = $expected"
+>&2 echo "bogomips = $bogomips"
 
 exit 1
 

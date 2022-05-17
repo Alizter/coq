@@ -166,7 +166,6 @@ let test_misc ~out ?(ignore=[]) dir =
             vofile;
             "../tools/complexity.sh";
             ]
-          ~log_file:(file ^ ".complexity.log")
           ~envs:["BOGOMIPS", bogomips]
           ~run:["../tools/complexity.sh"; file; log_file] ()
       ) dir;
@@ -178,7 +177,7 @@ let output_rules out =
   (* Common context - This will be passed to coqdep and coqc *)
   let cctx lvl = [
     "-boot";
-    "-I"; Filename.concat lvl "../../install/default/lib";
+    "-I"; Filename.concat lvl "..";
     "-R"; Filename.concat lvl "../theories" ; "Coq";
     "-R"; Filename.concat lvl "prerequisite"; "TestSuite";
     "-Q"; Filename.concat lvl "../user-contrib/Ltac2"; "Ltac2";
@@ -189,7 +188,9 @@ let output_rules out =
   (* Some standard deps to pass to test rules *)
   (* TODO: refine these *)
   let deps = [
-    (* TODO: this would be nice to have *)
+    (* Enabling sandboxing is slower and takes up more space, however it allows
+    you to prove the soundness of the rules. As of writing, due to unknown
+    issues with dynlink many jobs will fail when sandboxed but not all. *)
     (* "(sandbox always)"; *)
     (* Prerequisites *)
     "(glob_files %{project_root}/test-suite/prerequisite/*.vo)";
@@ -201,6 +202,9 @@ let output_rules out =
     "(glob_files %{project_root}/plugins/*/*)";
     (* The entire package (for META file) (can we dep on just META?) *)
     "(package coq-core)";
+    (* These binaries occasionally get invoked *)
+    "%{bin:coqtacticworker.opt}";
+    "%{bin:coqproofworker.opt}";
     ]
   in
   (* We set COQLIB here *)
@@ -220,8 +224,6 @@ let output_rules out =
   (* We override cctx here in order to pass these arguments to coqdep uniformly *)
   CoqRules.check_dir ~out ~cctx:(fun lvl -> ["-R"; lvl; "Mods"]) ~envs ~deps "modules";
   CoqRules.check_dir ~out ~cctx ~envs "output" ~output:MainJob ~copy_csdp_cache
-    (* Needed by output/Partac.v, for some reason the env stanza doesn't supply this bin :( *)
-    ~deps:("%{bin:coqtacticworker.opt}" :: deps)
     ~args:["-test-mode"; "-async-proofs-cache"; "force"]
     (* TODO: Load.v is broken because we call coqdep in one directory and run coqc in another. *)
     ~ignore:["Load.v"];
@@ -235,15 +237,16 @@ let output_rules out =
   CoqRules.check_dir ~out ~cctx ~deps ~envs "primitive/sint63";
   CoqRules.check_dir ~out ~cctx ~deps ~envs "primitive/uint63";
   CoqRules.check_dir ~out ~cctx ~deps ~envs "ssr";
-  CoqRules.check_dir ~out ~cctx ~envs "stm"
-    ~args:["-async-proofs"; "on"] ~deps:("%{bin:coqproofworker.opt}" :: deps);
-  CoqRules.check_dir ~out ~cctx ~envs "success" ~deps:("%{bin:coqtacticworker.opt}" :: deps);
+  CoqRules.check_dir ~out ~cctx ~envs ~deps "stm" ~args:["-async-proofs"; "on"];
+  CoqRules.check_dir ~out ~cctx ~envs ~deps "success";
   CoqRules.check_dir ~out ~cctx ~deps ~envs "vio" ~kind:Vio;
   CoqRules.check_dir ~out ~cctx ~deps ~envs "vio" ~kind:Vio2vo;
 
   (* Other tests *)
 
-  test_complexity ~out ~cctx ~deps ~envs "complexity";
+  test_complexity ~out ~cctx ~deps ~envs "complexity"
+    (* This fails sporadically *)
+    ~ignore:["pretyping.v"];
 
   test_in_subdir ~out "coqwc" ~run:(fun file -> ["coqwc"; file]);
 
