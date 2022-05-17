@@ -63,7 +63,8 @@ let coqdoc_html_with_diff_rule ~dir ~out file  =
     @ CoqRules.vfile_header ~dir ~name:"coqdoc-prog-args" file
   in
   let run = "%{bin:coqdoc}" :: args @ [file] in
-  Dune.Rules.run ~run ~out ~log_file ~targets:[doc_file] ~deps:[file; vofile; globfile] ();
+  Dune.Rules.run ~run ~out ~log_file ~targets:[doc_file]
+    ~deps:[file; vofile; globfile; "(package coq-core)"] ();
   Dune.Rules.diff ~out out_file doc_file
 
 let coqdoc_latex_with_diff_rule ~dir ~out file  =
@@ -83,7 +84,8 @@ let coqdoc_latex_with_diff_rule ~dir ~out file  =
     @ CoqRules.vfile_header ~dir ~name:"coqdoc-prog-args" file
   in
   Dune.Rules.run ~out ~run:("%{bin:coqdoc}" :: args @ [file])
-    ~log_file ~targets:[doc_file] ~deps:[file; vofile; globfile] ();
+    ~log_file ~targets:[doc_file]
+    ~deps:[file; vofile; globfile; "(package coq-core)"] ();
   (* We need to scrub the .tex file of comments begining %% *)
   Dune.Rules.run ~out ~run:["grep"; "-v"; "\"^%%\""; doc_file]
     ~log_file:doc_file_scrub ~deps:[doc_file] ();
@@ -178,6 +180,7 @@ let output_rules out =
   let cctx lvl = [
     "-boot";
     "-I"; Filename.concat lvl "..";
+    "-I"; Filename.concat lvl "../../install/default/lib/coq-core";
     "-R"; Filename.concat lvl "../theories" ; "Coq";
     "-R"; Filename.concat lvl "prerequisite"; "TestSuite";
     "-Q"; Filename.concat lvl "../user-contrib/Ltac2"; "Ltac2";
@@ -222,8 +225,11 @@ let output_rules out =
   CoqRules.check_dir ~out ~cctx ~deps ~envs "ltac2";
   CoqRules.check_dir ~out ~cctx ~deps ~envs "micromega" ~copy_csdp_cache;
   (* We override cctx here in order to pass these arguments to coqdep uniformly *)
-  CoqRules.check_dir ~out ~cctx:(fun lvl -> ["-R"; lvl; "Mods"]) ~envs ~deps "modules";
-  CoqRules.check_dir ~out ~cctx ~envs "output" ~output:MainJob ~copy_csdp_cache
+  begin
+  let cctx lvl = ["-R"; lvl; "Mods"] in
+  CoqRules.check_dir ~out ~cctx ~deps ~envs "modules"
+  end;
+  CoqRules.check_dir ~out ~cctx ~deps ~envs "output" ~output:MainJob ~copy_csdp_cache
     ~args:["-test-mode"; "-async-proofs-cache"; "force"]
     (* TODO: Load.v is broken because we call coqdep in one directory and run coqc in another. *)
     ~ignore:["Load.v"];
@@ -237,8 +243,8 @@ let output_rules out =
   CoqRules.check_dir ~out ~cctx ~deps ~envs "primitive/sint63";
   CoqRules.check_dir ~out ~cctx ~deps ~envs "primitive/uint63";
   CoqRules.check_dir ~out ~cctx ~deps ~envs "ssr";
-  CoqRules.check_dir ~out ~cctx ~envs ~deps "stm" ~args:["-async-proofs"; "on"];
-  CoqRules.check_dir ~out ~cctx ~envs ~deps "success";
+  CoqRules.check_dir ~out ~cctx ~deps ~envs "stm" ~args:["-async-proofs"; "on"];
+  CoqRules.check_dir ~out ~cctx ~deps ~envs "success";
   CoqRules.check_dir ~out ~cctx ~deps ~envs "vio" ~kind:Vio;
   CoqRules.check_dir ~out ~cctx ~deps ~envs "vio" ~kind:Vio2vo;
 
