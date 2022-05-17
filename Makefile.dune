@@ -144,8 +144,10 @@ watch:
 check: | rules
 	dune build $(DUNEOPT) @check
 
-test test-suite: dunestrap
+test-gen: dunestrap
 	dune build @test-gen $(DUNEOPT)
+
+test test-suite: test-gen
 	dune test $(DUNEOPT)
 
 refman-html: dunestrap
