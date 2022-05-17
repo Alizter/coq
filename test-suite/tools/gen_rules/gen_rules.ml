@@ -273,11 +273,10 @@ let output_rules out =
     ~deps:[
       "%{bin:coq_makefile}";
       "%{project_root}/tools/CoqMakefile.in";
-      "%{project_root}/theories/Init/Prelude.vo";
-      "%{project_root}/theories/Lists/List.vo";
-      "%{project_root}/theories/ZArith/ZArith.vo";
       "(source_tree ../template)";
       "(package coq-core)";
+      (* TODO: refine this *)
+      "(package coq-stdlib)";
       ]
     ~envs:[
       "CoqMakefile_in", "%{project_root}/tools/CoqMakefile.in";
