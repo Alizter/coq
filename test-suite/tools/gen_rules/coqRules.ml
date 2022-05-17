@@ -9,7 +9,8 @@ let coqdep_files ~dir files ~cctx () =
   deps
 
 let strip_quotes str =
-  if Str.string_match (Str.regexp "\"\\(.*\\)\"") str 0 then
+  if not (String.contains str ' ') && Str.string_match (Str.regexp "\"\\(.*\\)\"") str 0
+  then
     Str.matched_group 1 str
   else
     str
@@ -23,10 +24,30 @@ let vfile_header ~dir ?(name="coq-prog-args") vfile =
     with End_of_file -> Format.eprintf "error parsing header: %s@\n%!" vfile; ""
   in
   close_in inc;
+  let explode s = List.init (String.length s) (String.get s) in
+  let split s =
+    let rec split_space acc word = function
+      | [] -> List.rev (List.rev word :: acc)
+      | ' ' :: xs -> split_space (List.rev word :: acc) [] xs
+      | '"' :: xs -> find_quote acc ('"' :: word) xs
+      | x :: xs -> split_space acc (x :: word) xs
+    and find_quote acc word = function
+      | [] -> List.rev (List.rev word :: acc)
+      | '"' :: xs -> split_space acc ('"' :: word) xs
+      | x :: xs -> find_quote acc (x :: word) xs
+    in
+    split_space [] [] s
+  in
   if Str.string_match (Str.regexp (sf ".*%s: (\\([^)]*\\)).*" name)) line 0 then
     (* These arguments are surrounded by quotes so we need to unquote them *)
     Str.matched_group 1 line
-    |> Str.split (Str.regexp " ")
+    (* Turn into a list of chars *)
+    |> explode
+    (* Split via spaces but not between quotes *)
+    |> split
+    (* Map list of list of chars to list of strings *)
+    |> List.map (fun x -> String.of_seq (List.to_seq x))
+
     |> List.map strip_quotes
   else []
 
