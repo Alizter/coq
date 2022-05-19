@@ -8,7 +8,7 @@
 (*         *     (see LICENSE file for the text of the license)         *)
 (************************************************************************)
 
-(** The basic parts of coqdep are in [Common]. *)
+(** The basic parts of coqdep are in [Coqdeplib.Common]. *)
 open Coqdeplib
 
 let coqdep () =
