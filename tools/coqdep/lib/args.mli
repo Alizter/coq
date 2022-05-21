@@ -13,6 +13,7 @@ type t =
   ; sort : bool
   ; vos : bool
   ; noglob : bool
+  ; noinit : bool
   ; coqproject : string option
   ; ml_path : string list
   ; vo_path : (bool * string * string) list
@@ -21,6 +22,15 @@ type t =
   ; files : string list
   }
 
-val make : unit -> t
+  val make : bool ->
+    bool ->
+    bool ->
+    bool ->
+    bool ->
+    string option ->
+    string list ->
+    (bool * string * string) list ->
+    Options.Dynlink.t -> string list -> string list -> t
+val init : unit -> t
 val usage : unit -> 'a
 val parse : t -> string list -> t

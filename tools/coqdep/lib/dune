@@ -1,5 +1,10 @@
 (library
  (name coqdeplib)
- (libraries coq-core.boot coq-core.lib findlib.internal))
+ (libraries
+  coq-core.boot
+  coq-core.lib
+  findlib.internal
+  cmdliner
+  cmdliner_compat))
 
 (ocamllex lexer)

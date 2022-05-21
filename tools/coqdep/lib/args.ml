@@ -13,6 +13,7 @@ type t =
   ; sort : bool
   ; vos : bool
   ; noglob : bool
+  ; noinit : bool
   ; coqproject : string option
   ; ml_path : string list
   ; vo_path : (bool * string * string) list
@@ -21,11 +22,12 @@ type t =
   ; files : string list
   }
 
-let make () =
+let init () =
   { boot = false
   ; sort = false
   ; vos = false
   ; noglob = false
+  ; noinit = false
   ; coqproject = None
   ; ml_path = []
   ; vo_path = []
@@ -33,6 +35,9 @@ let make () =
   ; meta_files = []
   ; files = []
   }
+
+let make boot sort vos noglob noinit coqproject ml_path vo_path dyndep meta_files files =
+  {boot; sort; vos; noglob; noinit; coqproject; ml_path; vo_path; dyndep; meta_files; files}
 
 
 let usage () =
