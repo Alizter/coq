@@ -89,6 +89,12 @@ let ml_path =
   let docv = "dir" in
   Arg.(value & opt_all string [] & info ["I"] ~doc ~docv)
 
+let _vo_path =
+  let doc = "Add (non-recursively) dir to OCaml path." in
+  let docv = "dir" in
+
+  Arg.(value & opt_all string [] & info ["I"] ~doc ~docv)
+
 let cmd =
   let doc = "compute inter-module dependencies for Coq programs" in
   let man_xrefs =
