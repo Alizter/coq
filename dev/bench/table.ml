@@ -29,7 +29,7 @@ let vert_split (ls : 'a list list) =
   | [] -> failwith "vert_split"
   | x :: l -> (x, l)
   in
-  let ls = List.map split ls in
+  let ls = Tail_list.map split ls in
   List.split ls
 
 let justify align n s =
@@ -71,7 +71,7 @@ let print_separator vkind col_size =
   let () = assert (0 < len) in
   let map n = dashes n in
   angle `Lft vkind ^ pad ^
-  String.concat (pad ^ angle `Mid vkind ^ pad) (List.map map col_size) ^
+  String.concat (pad ^ angle `Mid vkind ^ pad) (Tail_list.map map col_size) ^
   pad ^ angle `Rgt vkind
 
 let print_blank col_size =
@@ -79,7 +79,7 @@ let print_blank col_size =
   let () = assert (0 < len) in
   let pad = String.make row_padding ' ' in
   let map n = String.make n ' ' in
-  "│" ^ pad ^ String.concat (pad ^ "│" ^ pad) (List.map map col_size) ^ pad ^ "│"
+  "│" ^ pad ^ String.concat (pad ^ "│" ^ pad) (Tail_list.map map col_size) ^ pad ^ "│"
 
 let print_row row =
   let len = List.length row in
@@ -87,11 +87,11 @@ let print_row row =
   let pad = String.make row_padding ' ' in
   "│" ^ pad ^ String.concat (pad ^ "│" ^ pad) row ^ pad ^ "│"
 
-let default_align_headers = List.map (fun _ -> Align.Middle)
-let default_align_top = List.map @@ List.map (fun _ -> Align.Middle)
+let default_align_headers = Tail_list.map (fun _ -> Align.Middle)
+let default_align_top = Tail_list.map @@ Tail_list.map (fun _ -> Align.Middle)
 let default_align_rows rows =
   List.hd rows
-  |> List.map @@ List.map (fun _ -> Align.Right)
+  |> Tail_list.map @@ Tail_list.map (fun _ -> Align.Right)
 
 (* Invariant : all rows must have the same shape *)
 
@@ -105,14 +105,14 @@ let print (headers : header list) (top : row) (rows : row list)
   let shape = ref None in
   let check row =
     let () = homogeneous (List.length row = ncolums) in
-    let rshape : int list = List.map (fun data -> List.length data) row in
+    let rshape : int list = Tail_list.map (fun data -> List.length data) row in
     match !shape with
     | None -> shape := Some rshape
     | Some s -> homogeneous (rshape = s)
   in
   let () = List.iter check rows in
   (* TODO: check is broken please fix *)
-  (* let () = List.iter check (List.map (List.map (fun _ -> [])) align_rows) in *)
+  (* let () = List.iter check (Tail_list.map (Tail_list.map (fun _ -> [])) align_rows) in *)
   let () = homogeneous (List.length align_headers = ncolums) in
   (* Compute layout *)
   let rec layout n (rows : row list) =
@@ -122,11 +122,11 @@ let print (headers : header list) (top : row) (rows : row list)
       let ans = layout (n - 1) rows in
       let data = ref None in
       let iter args =
-        let size = List.map String.length args in
+        let size = Tail_list.map String.length args in
         match !data with
         | None -> data := Some size
         | Some s ->
-          data := Some (List.map2 (fun len1 len2 -> max len1 len2) s size)
+          data := Some (Tail_list.map2 (fun len1 len2 -> max len1 len2) s size)
       in
       let () = List.iter iter col in
       let data = match !data with None -> [] | Some s -> s in
@@ -140,12 +140,12 @@ let print (headers : header list) (top : row) (rows : row list)
     in
     max (String.length hd) data_size
   in
-  let col_size = List.map2 map headers layout in
+  let col_size = Tail_list.map2 map headers layout in
   (* Justify the data *)
   let headers = map3 justify align_headers col_size headers in
-  let top = List.map2 (justify Align.Middle) col_size (map3 justify_row align_top layout top) in
+  let top = Tail_list.map2 (justify Align.Middle) col_size (map3 justify_row align_top layout top) in
 
-  let rows = List.map (fun row -> List.map2 (justify Align.Right) col_size (map3 justify_row align_rows layout row)) rows in
+  let rows = Tail_list.map (fun row -> Tail_list.map2 (justify Align.Right) col_size (map3 justify_row align_rows layout row)) rows in
   (* Print the table *)
   let lines =
     print_separator `Top col_size ::
@@ -153,7 +153,7 @@ let print (headers : header list) (top : row) (rows : row list)
     print_blank col_size ::
     print_row top ::
     print_separator `Mid col_size ::
-    List.map print_row rows @
+    Tail_list.map print_row rows @
     print_separator `Bot col_size ::
     []
   in

@@ -1,11 +1,13 @@
 
+open Bench_util
+
 (** Recursively list .html files' relative directories in given directory *)
 let list_html_files dir =
   let rec loop result = function
     | f :: fs when Sys.is_directory f ->
         Sys.readdir f
         |> Array.to_list
-        |> List.map (Filename.concat f)
+        |> Tail_list.map (Filename.concat f)
         |> List.append fs
         |> loop result
     | f :: fs ->
@@ -97,8 +99,8 @@ let main () =
     (* Do we want to do a unique sort? *)
     (* |> List.sort_uniq (fun (_,_,x,_,_,_) (_,_,y,_,_,_) -> Float.compare x y) *)
     |> List.sort (fun (_,_,x,_,_,_) (_,_,y,_,_,_) -> Float.compare x y)
-    |> List.map list_timing_data
-    |> List.map (fun x -> [ x ])
+    |> Tail_list.map list_timing_data
+    |> Tail_list.map (fun x -> [ x ])
   in
   (* What is a good number to choose? *)
   let num = 25 in

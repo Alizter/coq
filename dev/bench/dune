@@ -1,13 +1,13 @@
 (library
- (name table)
- (modules table))
+ (name bench_util)
+ (modules tail_list table))
 
 (executable
  (name render_results)
  (modules render_results)
- (libraries unix table))
+ (libraries unix bench_util))
 
 (executable
  (name render_line_results)
  (modules render_line_results)
- (libraries unix table str))
+ (libraries unix str bench_util))

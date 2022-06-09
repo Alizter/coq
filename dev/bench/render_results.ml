@@ -16,10 +16,8 @@
  *)
 
 open Printf
-;;
 
 let _ = Printexc.record_backtrace true
-;;
 
 type ('a,'b) pkg_timings = {
   user_time  : 'a;
@@ -28,7 +26,6 @@ type ('a,'b) pkg_timings = {
   num_mem    : 'b;
   num_faults : 'b;
 }
-;;
 
 let reduce_pkg_timings (m_f : 'a list -> 'c) (m_a : 'b list -> 'd) (t : ('a,'b) pkg_timings list) : ('c,'d) pkg_timings =
   { user_time  = m_f @@ List.map (fun x -> x.user_time)  t
@@ -37,7 +34,6 @@ let reduce_pkg_timings (m_f : 'a list -> 'c) (m_a : 'b list -> 'd) (t : ('a,'b) 
   ; num_mem    = m_a @@ List.map (fun x -> x.num_mem)    t
   ; num_faults = m_a @@ List.map (fun x -> x.num_faults) t
   }
-;;
 
 (******************************************************************************)
 (* BEGIN Copied from batteries, to remove *)
@@ -282,7 +278,7 @@ coq_opam_packages
     let descr = ["NEW"; "OLD"; "PDIFF"] in
     let top = [ [ "package_name" ]; descr; descr; descr; descr; descr ] in
 
-    printf "%s%!" (Table.print headers top measurements ())
+    printf "%s%!" (Bench_util.Table.print headers top measurements ())
 ;
 
 (* ejgallego: disable this as it is very verbose and brings up little info in the log. *)
