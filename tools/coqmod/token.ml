@@ -108,21 +108,27 @@ module Declare = struct
 end
 
 module Load = struct
-  type load_type = Logical of Module.t | Physical of string
+  module Logical = struct
+    type t = {loc : Loc.t; logical_name : Module.t}
 
-  type t = {loc : Loc.t; load : load_type}
+    let to_string t =
+      Loc.to_string t.loc ^ " " ^ "Logical " ^ Module.to_string t.logical_name
 
-  let load_type_to_string = function
-    | Logical m -> "Logical " ^ Module.to_string m
-    | Physical path -> "Physical " ^ "\"" ^ path ^ "\""
+    let to_sexp t =
+      let open Csexp in
+      List [Atom "Logical"; Loc.to_sexp t.loc; Module.to_sexp t.logical_name]
+  end
 
-  let to_string t = Loc.to_string t.loc ^ " " ^ load_type_to_string t.load
+  module Physical = struct
+    type t = {loc : Loc.t; path : string}
 
-  let to_sexp t =
-    let open Csexp in
-    match t.load with
-    | Logical m -> List [Atom "Logical"; Loc.to_sexp t.loc; Module.to_sexp m]
-    | Physical path -> List [Atom "Physical"; Loc.to_sexp t.loc; Atom path]
+    let to_string t =
+      Loc.to_string t.loc ^ " " ^ "Physical " ^ "\"" ^ t.path ^ "\""
+
+    let to_sexp t =
+      let open Csexp in
+      List [Atom "Physical"; Loc.to_sexp t.loc; Atom t.path]
+  end
 end
 
 module ExtraDep = struct
@@ -143,30 +149,42 @@ module ExtraDep = struct
       ]
 end
 
-type t =
-  | Require of Require.t
-  | Declare of Declare.t
-  | Load of Load.t
-  | ExtraDep of ExtraDep.t
-  | Document of t list
+type t = {
+  requires : Require.t list;
+  declares : Declare.t list;
+  ph_loads : Load.Physical.t list;
+  lo_loads : Load.Logical.t list;
+  extrdeps : ExtraDep.t list;
+}
 
-let rec to_string = function
-  | Require t -> Require.to_string t
-  | Declare t -> Declare.to_string t
-  | Load t -> Load.to_string t
-  | ExtraDep t -> ExtraDep.to_string t
-  | Document ts ->
-      ["Begin Document"] @ List.map to_string ts @ ["End Document"]
-      |> String.concat "\n"
+let empty =
+  {requires = []; declares = []; ph_loads = []; lo_loads = []; extrdeps = []}
 
-let rec to_sexp = function
-  | Require t -> Require.to_sexp t
-  | Declare t -> Declare.to_sexp t
-  | Load t -> Load.to_sexp t
-  | ExtraDep t -> ExtraDep.to_sexp t
-  | Document ts ->
-      let open Csexp in
-      List (Atom "Document" :: List.map to_sexp ts)
+let to_string t =
+  [
+    ["Begin Document"];
+    List.map Require.to_string t.requires;
+    List.map Declare.to_string t.declares;
+    List.map Load.Physical.to_string t.ph_loads;
+    List.map Load.Logical.to_string t.lo_loads;
+    List.map ExtraDep.to_string t.extrdeps;
+    ["End Document"];
+  ]
+  |> List.flatten |> String.concat "\n"
+
+let to_sexp t =
+  [
+    List.map Require.to_sexp t.requires;
+    List.map Declare.to_sexp t.declares;
+    List.map Load.Physical.to_sexp t.ph_loads;
+    List.map Load.Logical.to_sexp t.lo_loads;
+    List.map ExtraDep.to_sexp t.extrdeps;
+  ]
+  |> List.filter (function [] -> false | _ -> true)
+  |> List.flatten
+  |> fun x ->
+  let open Csexp in
+  List (Atom "Document" :: x)
 
 module Sexp = struct
   open Csexp

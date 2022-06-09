@@ -69,24 +69,24 @@ let locality = "Local" | "Global" | "#[local]" | "#[global]"
 let comment_begin = "(*"
 let comment_end = "*)"
 
-rule parse_coq = parse
+rule parse_coq t = parse
   (* All newlines must be manually processed in order to have good locations *)
-  | newline       { Lexing.new_line lexbuf; parse_coq lexbuf }
-  | whitespace+   { parse_coq lexbuf }
-  | comment_begin { parse_comment lexbuf; parse_coq lexbuf }
+  | newline       { Lexing.new_line lexbuf; parse_coq t lexbuf }
+  | whitespace+   { parse_coq t lexbuf }
+  | comment_begin { parse_comment lexbuf; parse_coq t lexbuf }
   | eof           { raise End_of_file }
   (* Noops - These are ignored on purpose *)
-  | locality      { parse_coq lexbuf }
-  | "Time"        { parse_coq lexbuf }
-  | "Timeout"     { parse_timeout lexbuf }
-  | "Comments"    { parse_vernac_comments lexbuf }
+  | locality      { parse_coq t lexbuf }
+  | "Time"        { parse_coq t lexbuf }
+  | "Timeout"     { parse_timeout t lexbuf }
+  | "Comments"    { parse_vernac_comments t lexbuf }
   (* Entry points to more sophisticated parsing *)
-  | "Declare"     { parse_declare (Lexing.lexeme_start_p lexbuf) lexbuf }
-  | "Load"        { parse_load lexbuf }
-  | "Require"     { parse_require_modifiers (Lexing.lexeme_start_p lexbuf) None lexbuf }
-  | "From"        { parse_from (Lexing.lexeme_start_p lexbuf) lexbuf }
+  | "Declare"     { parse_declare t (Lexing.lexeme_start_p lexbuf) lexbuf }
+  | "Load"        { parse_load t lexbuf }
+  | "Require"     { parse_require_modifiers t (Lexing.lexeme_start_p lexbuf) None lexbuf }
+  | "From"        { parse_from t (Lexing.lexeme_start_p lexbuf) lexbuf }
   (* Everything else *)
-  | _             { skip_to_dot lexbuf; parse_coq lexbuf }
+  | _             { skip_to_dot lexbuf; parse_coq t lexbuf }
 
 (* Parsing comments *)
 and parse_comment = parse
@@ -106,63 +106,62 @@ and skip_to_dot = parse
   | _                         { skip_to_dot lexbuf }
 
 (* Parser for [Declare ML Module "mod.ule1" "mod.ule2"] *)
-and parse_declare start = parse
-  | newline       { Lexing.new_line lexbuf; parse_declare start lexbuf }
-  | whitespace+   { parse_declare start lexbuf }
-  | comment_begin { parse_comment lexbuf; parse_declare start lexbuf }
-  | "ML"          { parse_declare_ml start lexbuf }
+and parse_declare t start = parse
+  | newline       { Lexing.new_line lexbuf; parse_declare t start lexbuf }
+  | whitespace+   { parse_declare t start lexbuf }
+  | comment_begin { parse_comment lexbuf; parse_declare t start lexbuf }
+  | "ML"          { parse_declare_ml t start lexbuf }
   | _             { syntax_error lexbuf ~who:"parse_declare" ~desc:(msg_unable lexbuf) }
-and parse_declare_ml start = parse
-  | newline       { Lexing.new_line lexbuf; parse_declare_ml start lexbuf }
-  | whitespace+   { parse_declare_ml start lexbuf }
-  | comment_begin { parse_comment lexbuf; parse_declare_ml start lexbuf }
-  | "Module"      { parse_ml_modules start [] lexbuf }
+and parse_declare_ml t start = parse
+  | newline       { Lexing.new_line lexbuf; parse_declare_ml t start lexbuf }
+  | whitespace+   { parse_declare_ml t start lexbuf }
+  | comment_begin { parse_comment lexbuf; parse_declare_ml t start lexbuf }
+  | "Module"      { parse_ml_modules t start [] lexbuf }
   | _             { syntax_error lexbuf ~who:"parse_declare_ml" ~desc:(msg_unable lexbuf) }
-and parse_ml_modules start modules = parse
-  | newline       { Lexing.new_line lexbuf; parse_ml_modules start modules lexbuf }
-  | whitespace+   { parse_ml_modules start modules lexbuf }
-  | comment_begin { parse_comment lexbuf; parse_ml_modules start modules lexbuf }
+and parse_ml_modules t start modules = parse
+  | newline       { Lexing.new_line lexbuf; parse_ml_modules t start modules lexbuf }
+  | whitespace+   { parse_ml_modules t start modules lexbuf }
+  | comment_begin { parse_comment lexbuf; parse_ml_modules t start modules lexbuf }
   | '"'           { let modules =
                       let start = Lexing.lexeme_end_p lexbuf in
-                      parse_quoted_ml_module start lexbuf :: modules
+                      parse_quoted_ml_module t start lexbuf :: modules
                     in
-                    parse_ml_modules start modules lexbuf }
+                    parse_ml_modules t start modules lexbuf }
   | '.'           { let loc = Loc.{start; finish = Lexing.lexeme_start_p lexbuf} in
-                    if List.length modules = 0 then syntax_error lexbuf ~who:"parse_ml_modules";
-                    Declare Declare.{loc; ml_modules = List.rev modules } }
+                    let declare = Declare.{loc; ml_modules = List.rev modules } in
+                    {t with declares = declare :: t.declares } }
   | eof           { syntax_error lexbuf ~who:"parse_ml_modules" ~desc:msg_eof ~hint:hint_eof_term }
   | _             { syntax_error lexbuf ~who:"parse_ml_modules" ~desc:(msg_unable lexbuf) }
-and parse_quoted_ml_module start = parse
+and parse_quoted_ml_module t start = parse
   (* We reuse the Coq module name regex even though this is an OCaml name *)
   | coq_qualid    { let loc = Loc.{start; finish = Lexing.lexeme_end_p lexbuf} in
-                    let logical_name = Lexing.lexeme lexbuf in
-                    parse_quote lexbuf;
-                    Module.{loc; logical_name} }
+                    let declare = Module.{loc; logical_name = Lexing.lexeme lexbuf} in
+                    parse_quote lexbuf; {t with declares = declare :: t.declares} }
   | _             { syntax_error lexbuf ~who:"parse_quoted_ml_module" ~desc:(msg_unable lexbuf) }
 and parse_quote = parse
   | '"'           { () }
   | _             { syntax_error lexbuf ~who:"parse_quote" ~desc:"Expected a '\"'." }
 
 (* The Timeout 1234 command is a no op for us, but requires parsing an extra token *)
-and parse_timeout = parse
-  | newline       { Lexing.new_line lexbuf; parse_timeout lexbuf }
-  | whitespace+   { parse_timeout lexbuf }
-  | comment_begin { parse_comment lexbuf; parse_timeout lexbuf }
-  | ['0'-'9']+    { parse_coq lexbuf }
+and parse_timeout t = parse
+  | newline       { Lexing.new_line lexbuf; parse_timeout t lexbuf }
+  | whitespace+   { parse_timeout t lexbuf }
+  | comment_begin { parse_comment lexbuf; parse_timeout t lexbuf }
+  | ['0'-'9']+    { parse_coq t lexbuf }
   | eof           { syntax_error lexbuf ~who:"parse_timeout" ~desc:msg_eof }
   | _             { syntax_error lexbuf ~who:"parse_timeout" ~desc:(msg_unable lexbuf) }
 
 (** Parser for Require with modifiers *)
-and parse_require_modifiers start from = parse
-  | newline       { Lexing.new_line lexbuf; parse_require_modifiers start from lexbuf }
-  | whitespace    { parse_require_modifiers start from lexbuf }
-  | comment_begin { parse_comment lexbuf; parse_require_modifiers start from lexbuf }
-  | "Import"      { parse_require_modifiers start from lexbuf }
-  | "Export"      { parse_require_modifiers start from lexbuf }
-  | "-"           { parse_require_modifiers start from lexbuf }
-  | "("           { skip_parenthesized lexbuf; parse_require_modifiers start from lexbuf }
-  | eof           { syntax_error lexbuf ~who:"parse_require_modifers" ~desc:msg_eof }
-  | _             { backtrack lexbuf; parse_require start from [] lexbuf }
+and parse_require_modifiers t start from = parse
+  | newline       { Lexing.new_line lexbuf; parse_require_modifiers t start from lexbuf }
+  | whitespace    { parse_require_modifiers t start from lexbuf }
+  | comment_begin { parse_comment lexbuf; parse_require_modifiers t start from lexbuf }
+  | "Import"      { parse_require_modifiers t start from lexbuf }
+  | "Export"      { parse_require_modifiers t start from lexbuf }
+  | "-"           { parse_require_modifiers t start from lexbuf }
+  | "("           { skip_parenthesized lexbuf; parse_require_modifiers t start from lexbuf }
+  | eof           { syntax_error lexbuf ~who:"parse_require_modifiers" ~desc:msg_eof }
+  | _             { backtrack lexbuf; parse_require t start from [] lexbuf }
 (** Utility for skipping parenthesized items (used for import categories) *)
 and skip_parenthesized = parse
   | newline       { Lexing.new_line lexbuf; skip_parenthesized lexbuf }
@@ -173,81 +172,78 @@ and skip_parenthesized = parse
   | eof           { raise End_of_file }
   | _             { skip_parenthesized lexbuf }
 (* Parser for Require + modules *)
-and parse_require start from modules = parse
-  | newline       { Lexing.new_line lexbuf; parse_require start from modules lexbuf }
-  | whitespace    { parse_require start from modules lexbuf }
-  | comment_begin { parse_comment lexbuf; parse_require start from modules lexbuf }
-  | "("           { skip_parenthesized lexbuf; parse_require start from modules lexbuf }
+and parse_require t start from modules = parse
+  | newline       { Lexing.new_line lexbuf; parse_require t start from modules lexbuf }
+  | whitespace    { parse_require t start from modules lexbuf }
+  | comment_begin { parse_comment lexbuf; parse_require t start from modules lexbuf }
+  | "("           { skip_parenthesized lexbuf; parse_require t start from modules lexbuf }
   | coq_qualid    { let loc = Loc.of_lexbuf lexbuf in
                     let logical_name = Lexing.lexeme lexbuf in
                     let modules = Module.{loc; logical_name} :: modules in
-                    parse_require start from modules lexbuf }
+                    parse_require t start from modules lexbuf }
   | '.'           { let loc = Loc.{start; finish = Lexing.lexeme_start_p lexbuf} in
-                    Require Require.{loc; from; modules = List.rev modules } }
+                    {t with requires = Require.{loc; from; modules = List.rev modules } :: t.requires} }
   | eof           { syntax_error lexbuf ~who:"parse_require" ~desc:msg_eof ~hint:hint_eof_term }
   | _             { syntax_error lexbuf ~who:"parse_require" ~desc:(msg_unable lexbuf) }
 
 (* From ... Require Import parsing rules *)
-and parse_from start = parse
-  | newline       { Lexing.new_line lexbuf; parse_from start lexbuf }
-  | comment_begin { parse_comment lexbuf; parse_from start lexbuf }
-  | whitespace    { parse_from start lexbuf }
+and parse_from t start = parse
+  | newline       { Lexing.new_line lexbuf; parse_from t start lexbuf }
+  | comment_begin { parse_comment lexbuf; parse_from t start lexbuf }
+  | whitespace    { parse_from t start lexbuf }
   | coq_qualid    { let from = get_module lexbuf in
-                    parse_from_require_or_extradep start from lexbuf }
-  | eof           { syntax_error lexbuf ~who:"parse_from" ~desc:msg_eof }
-  | _             { syntax_error lexbuf ~who:"parse_from" ~desc:(msg_unable lexbuf) }
-and parse_from_require_or_extradep start from = parse
-  | newline       { Lexing.new_line lexbuf; parse_from_require_or_extradep start from lexbuf }
-  | comment_begin { parse_comment lexbuf; parse_from_require_or_extradep start from lexbuf }
-  | whitespace    { parse_from_require_or_extradep start from lexbuf }
-  | "Require"     { parse_require_modifiers start (Some from) lexbuf }
-  | "Extra"       { parse_dependency start from lexbuf }
+                    parse_from_require_or_extradep t start from lexbuf }
+  | eof           { syntax_error lexbuf ~who:"parse_from t" ~desc:msg_eof }
+  | _             { syntax_error lexbuf ~who:"parse_from t" ~desc:(msg_unable lexbuf) }
+and parse_from_require_or_extradep t start from = parse
+  | newline       { Lexing.new_line lexbuf; parse_from_require_or_extradep t start from lexbuf }
+  | comment_begin { parse_comment lexbuf; parse_from_require_or_extradep t start from lexbuf }
+  | whitespace    { parse_from_require_or_extradep t start from lexbuf }
+  | "Require"     { parse_require_modifiers t start (Some from) lexbuf }
+  | "Extra"       { parse_dependency t start from lexbuf }
   | eof           { syntax_error lexbuf ~who:"parse_from_require_or_extradep" ~desc:msg_eof }
   | _             { syntax_error lexbuf ~who:"parse_from_require_or_extradep" ~desc:(msg_unable lexbuf) }
 
 (* From ... Extra Dependency ... as ... parsing rules *)
-and parse_dependency start from = parse
-  | newline       { Lexing.new_line lexbuf; parse_dependency start from lexbuf }
-  | comment_begin { parse_comment lexbuf; parse_dependency start from lexbuf }
-  | whitespace    { parse_dependency start from lexbuf }
-  | "Dependency"  { parse_dependency_file start from lexbuf }
+and parse_dependency t start from = parse
+  | newline       { Lexing.new_line lexbuf; parse_dependency t start from lexbuf }
+  | comment_begin { parse_comment lexbuf; parse_dependency t start from lexbuf }
+  | whitespace    { parse_dependency t start from lexbuf }
+  | "Dependency"  { parse_dependency_file t start from lexbuf }
   | eof           { syntax_error lexbuf ~who:"parse_dependency" ~desc:msg_eof }
   | _             { syntax_error lexbuf ~who:"parse_dependency" ~desc:(msg_unable lexbuf) }
-and parse_dependency_file start from = parse
-  | newline       { Lexing.new_line lexbuf; parse_dependency_file start from lexbuf }
-  | comment_begin { parse_comment lexbuf; parse_dependency_file start from lexbuf }
-  | whitespace    { parse_dependency_file start from lexbuf }
-  | quoted        { let open ExtraDep in
-                    let loc = Loc.{start; finish = Lexing.lexeme_end_p lexbuf} in
+and parse_dependency_file t start from = parse
+  | newline       { Lexing.new_line lexbuf; parse_dependency_file t start from lexbuf }
+  | comment_begin { parse_comment lexbuf; parse_dependency_file t start from lexbuf }
+  | whitespace    { parse_dependency_file t start from lexbuf }
+  | quoted        { let loc = Loc.{start; finish = Lexing.lexeme_end_p lexbuf} in
                     let file = unquote_vfile_string (Lexing.lexeme lexbuf) in
-                    skip_to_dot lexbuf; ExtraDep {loc;from;file} }
+                    skip_to_dot lexbuf; {t with extrdeps = ExtraDep.{loc;from;file} :: t.extrdeps } }
   | eof           { syntax_error lexbuf ~who:"parse_dependency_file" ~desc:msg_eof }
   | _             { syntax_error lexbuf ~who:"parse_dependency_file" ~desc:(msg_unable lexbuf) }
 
 (* Parsing load file *)
-and parse_load = parse
-  | newline       { Lexing.new_line lexbuf; parse_load lexbuf }
-  | comment_begin { parse_comment lexbuf; parse_load lexbuf }
-  | whitespace    { parse_load lexbuf }
-  | quoted        { let open Load in
-                    let loc = Loc.of_lexbuf lexbuf in
-                    let load = Physical (unquote_vfile_string (Lexing.lexeme lexbuf)) in
-                    skip_to_dot lexbuf; Load {loc;load} }
-  | coq_qualid    { let open Load in
-                    let loc = Loc.of_lexbuf lexbuf in
-                    let load = Logical (get_module lexbuf) in
-                    skip_to_dot lexbuf; Load {loc;load} }
+and parse_load t = parse
+  | newline       { Lexing.new_line lexbuf; parse_load t lexbuf }
+  | comment_begin { parse_comment lexbuf; parse_load t lexbuf }
+  | whitespace    { parse_load t lexbuf }
+  | coq_qualid    { let loc = Loc.of_lexbuf lexbuf in
+                    let load = Load.Logical.{loc; logical_name = get_module lexbuf} in
+                    skip_to_dot lexbuf; {t with lo_loads = load :: t.lo_loads} }
+  | quoted        { let loc = Loc.of_lexbuf lexbuf in
+                    let load = Load.Physical.{loc; path = unquote_vfile_string (Lexing.lexeme lexbuf)} in
+                    skip_to_dot lexbuf; {t with ph_loads = load :: t.ph_loads} }
   | eof           { syntax_error lexbuf ~who:"parse_load" ~desc:msg_eof }
   | _             { syntax_error lexbuf ~who:"parse_load" ~desc:(msg_unable lexbuf) }
 
 (* Vernac Commments parser *)
-and parse_vernac_comments = parse
-  | newline       { Lexing.new_line lexbuf; parse_vernac_comments lexbuf }
+and parse_vernac_comments t = parse
+  | newline       { Lexing.new_line lexbuf; parse_vernac_comments t lexbuf }
   (* This is a backwards compatible way of declaring extra dependencies. *)
-  | "From"        { parse_from (Lexing.lexeme_start_p lexbuf) lexbuf }
-  | '.'           { parse_coq lexbuf }
+  | "From"        { parse_from t (Lexing.lexeme_start_p lexbuf) lexbuf }
+  | '.'           { parse_coq t lexbuf }
   | eof           { syntax_error lexbuf ~who:"parse_vernac_comments" ~desc:msg_eof ~hint:hint_eof_term }
-  | _             { parse_vernac_comments lexbuf }
+  | _             { parse_vernac_comments t lexbuf }
 
 {
 

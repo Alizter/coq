@@ -8,8 +8,8 @@
 (*         *     (see LICENSE file for the text of the license)         *)
 (************************************************************************)
 
-let rec read_buffer buf acc =
-  match Lexer.parse_coq buf with
+let rec read_buffer t buf acc =
+  match Lexer.parse_coq t buf with
   | line -> read_buffer buf (line :: acc)
   | exception Lexer.End_of_file -> Token.Document (List.rev acc)
 
@@ -27,7 +27,8 @@ let find_dependencies ~format f =
     | "sexp" -> Token.to_sexp tok |> Token.Sexp.pp Format.std_formatter
     | f -> Error.unknwon_output_format f
   in
-  let toks = read_buffer buf [] in
+  let t = Token.empty in
+  let toks = read_buffer t buf [] in
   close_in chan; print toks
 
 let main () =
