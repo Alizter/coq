@@ -31,7 +31,7 @@
   (source_tree ../theories)
   (source_tree ../user-contrib)
 
-  ../../install/default/lib/coq-core/META
+  ; ../../install/default/lib/coq-core/META
   )
  (mode promote)
  (action (run ./tools/gen_rules/gen_rules.exe)))

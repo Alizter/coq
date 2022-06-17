@@ -1,10 +1,10 @@
 
 let coqdep_files ~dir files ~cctx () =
   let files = List.map (Filename.concat dir) files in
-  let args = List.concat [cctx; files] in
   let open Coqdeplib in
-  let v_files,state  = Common.init args in
-  List.iter Common.treat_file_command_line v_files;
+  let args = List.concat [cctx; files] |> Args.parse (Args.make ())  in
+  let state = Common.init args in
+  (* List.iter Common.treat_file_command_line v_files; *)
   let deps = Common.compute_deps state in
   deps
 
@@ -332,9 +332,9 @@ let generate_build_rule ~out ~envs ~exit_codes ~args ~deps ~chk_args ~success ~o
 
 
 let generate_rule ~out ~cctx ~dir ~lvl ~args ~base_deps ~deps ~envs ~exit_codes ~output ~kind ~coqchk
-  (vfile_dep_info : Coqdeplib.Common.Dep_info.t) =
-
-  let open Coqdeplib.Common in
+  vfile_dep_info =
+  let open Coqdeplib in
+  let open Dep_info in
   let vfile_long = vfile_dep_info.Dep_info.name ^ ".v" in
   let vfile =
     let regex = Str.regexp (Str.quote @@ dir ^ "/") in
@@ -342,16 +342,20 @@ let generate_rule ~out ~cctx ~dir ~lvl ~args ~base_deps ~deps ~envs ~exit_codes 
   in
   (* Adjust paths to META *)
   let vfile_deps =
-    let f = function
-    | Dep.Require s -> Dep.Require s
-    | Dep.Other s ->
+    let f =
+      function
+      | Dep.Other s ->
         (* Printf.printf "vfile: %s META: %s\n" vfile s; *)
         Dep.Other (Str.replace_first (Str.regexp ".*/lib/coq-core") "../../install/default/lib/coq-core" s)
-    in
-    List.map f vfile_dep_info.Dep_info.deps
+      | d -> d
+    in  
+    List.map f vfile_dep_info.deps
   in
   (* Dependencies are the .vo files given by coqdep and the original .v file *)
-  let vfile_deps = vfile_long :: List.map (Dep.to_string ~suffix:".vo") vfile_deps in
+  let vfile_deps = vfile_long :: List.filter_map (
+    function
+    | Dep.Require s -> Some (s ^ ".vo")
+    | _ -> None) vfile_deps in
   (* parse the header of the .v file for extra arguments *)
   let args = vfile_header ~dir vfile @ args in
   (* lvl adjustment done here *)
