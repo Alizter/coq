@@ -113,7 +113,7 @@ struct
    *)
   let warn_masking_absolute =
     CWarnings.create ~name:"masking-absolute-name" ~category:"deprecated"
-      (fun n -> str ("Trying to mask the absolute name \"" ^ U.to_string n ^ "\"!"))
+      (fun n -> Pp.str ("Trying to mask the absolute name \"" ^ U.to_string n ^ "\"!"))
 
   type user_name = U.t
 
