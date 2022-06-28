@@ -3,6 +3,8 @@
 (* See LICENSE for more information                                     *)
 (************************************************************************)
 
+let debug = false
+
 let coqdep_files ~dir files ~cctx () =
   let files = List.map (Filename.concat dir) files in
   let open Coqdeplib in
@@ -353,7 +355,7 @@ let generate_rule ~out ~cctx ~dir ~lvl ~args ~base_deps ~deps ~envs ~exit_codes 
         (* Printf.printf "vfile: %s META: %s\n" vfile s; *)
         Dep.Other (Str.replace_first (Str.regexp ".*/lib/coq-core") "../../install/default/lib/coq-core" s)
       | d -> d
-    in  
+    in
     List.map f vfile_dep_info.deps
   in
   (* Dependencies are the .vo files given by coqdep and the original .v file *)
@@ -365,6 +367,10 @@ let generate_rule ~out ~cctx ~dir ~lvl ~args ~base_deps ~deps ~envs ~exit_codes 
   let args = vfile_header ~dir vfile @ args in
   (* lvl adjustment done here *)
   let deps = deps @ (base_deps @ extra_deps args @ vfile_deps |> List.map (fun x -> lvl ^ "/" ^ x)) in
+
+  if debug then
+    Format.eprintf "deps / vdeps for file %s: %d/%d@\n%!" vfile (List.length deps) (List.length vfile_deps);
+
   let args = cctx @ args in
   let chk_args = coqchk_filter args in
   let success =
@@ -388,12 +394,12 @@ let check_dir ~out ~cctx ?(ignore=[]) ?copy_csdp_cache
 
   Format.eprintf "number of deps in %s : %d@\n%!" dir (List.length vfiles);
 
-
   (* The lvl can be computed from the dir *)
   let lvl = Dir.back_to_root dir in
 
   (* If the csdp cache copy is set then we add the special alias as a dep *)
   let deps = match copy_csdp_cache with None -> deps | Some _ -> "(alias csdp-cache)" :: deps in
+
   Dune.Rules.in_subdir out dir
     ~f:(fun out () ->
       List.iter (generate_rule ~cctx:(cctx lvl) ~lvl ~args ~base_deps ~deps ~output ~kind ~coqchk ~envs ~exit_codes ~out ~dir) coq_deps;
