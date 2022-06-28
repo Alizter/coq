@@ -1,3 +1,327 @@
+(subdir prerequisite
+ (rule
+  (alias runtest)
+  (targets .bind_univs.aux
+           bind_univs.vo
+           bind_univs.glob
+           bind_univs.v.log)
+  (deps (glob_files %{project_root}/theories/Init/*.vo)
+        (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
+        (glob_files %{project_root}/plugins/*/*)
+        (package coq-core)
+        %{bin:coqtacticworker.opt}
+        %{bin:coqproofworker.opt}
+        ../prerequisite/bind_univs.v)
+  (action
+   (setenv COQLIB %{project_root}
+   (with-outputs-to bind_univs.v.log
+    (run %{bin:coqc} -boot -R ../../theories Coq -R ../prerequisite TestSuite
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax bind_univs.v)))))
+ (rule
+  (alias runtest)
+  (targets bind_univs.v.chk.log)
+  (deps bind_univs.vo
+        (glob_files %{project_root}/theories/Init/*.vo)
+        (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
+        (glob_files %{project_root}/plugins/*/*)
+        (package coq-core)
+        %{bin:coqtacticworker.opt}
+        %{bin:coqproofworker.opt}
+        ../prerequisite/bind_univs.v)
+  (action
+   (setenv COQLIB %{project_root}
+   (with-outputs-to bind_univs.v.chk.log
+    (run %{bin:coqchk} -silent -o -R ../../theories Coq -R ../prerequisite
+     TestSuite -Q ../../user-contrib/Ltac2 Ltac2 -norec bind_univs.vo)))))
+ (rule
+  (alias runtest)
+  (targets .ssr_ssrsyntax1.aux
+           ssr_ssrsyntax1.vo
+           ssr_ssrsyntax1.glob
+           ssr_ssrsyntax1.v.log)
+  (deps (glob_files %{project_root}/theories/Init/*.vo)
+        (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
+        (glob_files %{project_root}/plugins/*/*)
+        (package coq-core)
+        %{bin:coqtacticworker.opt}
+        %{bin:coqproofworker.opt}
+        ../prerequisite/ssr_ssrsyntax1.v
+        .././../theories/ssr/ssreflect.vo
+        .././../theories/Arith/Arith.vo)
+  (action
+   (setenv COQLIB %{project_root}
+   (with-outputs-to ssr_ssrsyntax1.v.log
+    (run %{bin:coqc} -boot -R ../../theories Coq -R ../prerequisite TestSuite
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax ssr_ssrsyntax1.v)))))
+ (rule
+  (alias runtest)
+  (targets ssr_ssrsyntax1.v.chk.log)
+  (deps ssr_ssrsyntax1.vo
+        (glob_files %{project_root}/theories/Init/*.vo)
+        (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
+        (glob_files %{project_root}/plugins/*/*)
+        (package coq-core)
+        %{bin:coqtacticworker.opt}
+        %{bin:coqproofworker.opt}
+        ../prerequisite/ssr_ssrsyntax1.v
+        .././../theories/ssr/ssreflect.vo
+        .././../theories/Arith/Arith.vo)
+  (action
+   (setenv COQLIB %{project_root}
+   (with-outputs-to ssr_ssrsyntax1.v.chk.log
+    (run %{bin:coqchk} -silent -o -R ../../theories Coq -R ../prerequisite
+     TestSuite -Q ../../user-contrib/Ltac2 Ltac2 -norec ssr_ssrsyntax1.vo)))))
+ (rule
+  (alias runtest)
+  (targets .make_local.aux
+           make_local.vo
+           make_local.glob
+           make_local.v.log)
+  (deps (glob_files %{project_root}/theories/Init/*.vo)
+        (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
+        (glob_files %{project_root}/plugins/*/*)
+        (package coq-core)
+        %{bin:coqtacticworker.opt}
+        %{bin:coqproofworker.opt}
+        ../prerequisite/make_local.v)
+  (action
+   (setenv COQLIB %{project_root}
+   (with-outputs-to make_local.v.log
+    (run %{bin:coqc} -boot -R ../../theories Coq -R ../prerequisite TestSuite
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax make_local.v)))))
+ (rule
+  (alias runtest)
+  (targets make_local.v.chk.log)
+  (deps make_local.vo
+        (glob_files %{project_root}/theories/Init/*.vo)
+        (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
+        (glob_files %{project_root}/plugins/*/*)
+        (package coq-core)
+        %{bin:coqtacticworker.opt}
+        %{bin:coqproofworker.opt}
+        ../prerequisite/make_local.v)
+  (action
+   (setenv COQLIB %{project_root}
+   (with-outputs-to make_local.v.chk.log
+    (run %{bin:coqchk} -silent -o -R ../../theories Coq -R ../prerequisite
+     TestSuite -Q ../../user-contrib/Ltac2 Ltac2 -norec make_local.vo)))))
+ (rule
+  (alias runtest)
+  (targets .admit.aux
+           admit.vo
+           admit.glob
+           admit.v.log)
+  (deps (glob_files %{project_root}/theories/Init/*.vo)
+        (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
+        (glob_files %{project_root}/plugins/*/*)
+        (package coq-core)
+        %{bin:coqtacticworker.opt}
+        %{bin:coqproofworker.opt}
+        ../prerequisite/admit.v)
+  (action
+   (setenv COQLIB %{project_root}
+   (with-outputs-to admit.v.log
+    (run %{bin:coqc} -boot -R ../../theories Coq -R ../prerequisite TestSuite
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax admit.v)))))
+ (rule
+  (alias runtest)
+  (targets admit.v.chk.log)
+  (deps admit.vo
+        (glob_files %{project_root}/theories/Init/*.vo)
+        (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
+        (glob_files %{project_root}/plugins/*/*)
+        (package coq-core)
+        %{bin:coqtacticworker.opt}
+        %{bin:coqproofworker.opt}
+        ../prerequisite/admit.v)
+  (action
+   (setenv COQLIB %{project_root}
+   (with-outputs-to admit.v.chk.log
+    (run %{bin:coqchk} -silent -o -R ../../theories Coq -R ../prerequisite
+     TestSuite -Q ../../user-contrib/Ltac2 Ltac2 -norec admit.vo)))))
+ (rule
+  (alias runtest)
+  (targets .module_bug8416.aux
+           module_bug8416.vo
+           module_bug8416.glob
+           module_bug8416.v.log)
+  (deps (glob_files %{project_root}/theories/Init/*.vo)
+        (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
+        (glob_files %{project_root}/plugins/*/*)
+        (package coq-core)
+        %{bin:coqtacticworker.opt}
+        %{bin:coqproofworker.opt}
+        ../prerequisite/module_bug8416.v)
+  (action
+   (setenv COQLIB %{project_root}
+   (with-outputs-to module_bug8416.v.log
+    (run %{bin:coqc} -boot -R ../../theories Coq -R ../prerequisite TestSuite
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax module_bug8416.v)))))
+ (rule
+  (alias runtest)
+  (targets module_bug8416.v.chk.log)
+  (deps module_bug8416.vo
+        (glob_files %{project_root}/theories/Init/*.vo)
+        (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
+        (glob_files %{project_root}/plugins/*/*)
+        (package coq-core)
+        %{bin:coqtacticworker.opt}
+        %{bin:coqproofworker.opt}
+        ../prerequisite/module_bug8416.v)
+  (action
+   (setenv COQLIB %{project_root}
+   (with-outputs-to module_bug8416.v.chk.log
+    (run %{bin:coqchk} -silent -o -R ../../theories Coq -R ../prerequisite
+     TestSuite -Q ../../user-contrib/Ltac2 Ltac2 -norec module_bug8416.vo)))))
+ (rule
+  (alias runtest)
+  (targets .module_bug7192.aux
+           module_bug7192.vo
+           module_bug7192.glob
+           module_bug7192.v.log)
+  (deps (glob_files %{project_root}/theories/Init/*.vo)
+        (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
+        (glob_files %{project_root}/plugins/*/*)
+        (package coq-core)
+        %{bin:coqtacticworker.opt}
+        %{bin:coqproofworker.opt}
+        ../prerequisite/module_bug7192.v)
+  (action
+   (setenv COQLIB %{project_root}
+   (with-outputs-to module_bug7192.v.log
+    (run %{bin:coqc} -boot -R ../../theories Coq -R ../prerequisite TestSuite
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax module_bug7192.v)))))
+ (rule
+  (alias runtest)
+  (targets module_bug7192.v.chk.log)
+  (deps module_bug7192.vo
+        (glob_files %{project_root}/theories/Init/*.vo)
+        (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
+        (glob_files %{project_root}/plugins/*/*)
+        (package coq-core)
+        %{bin:coqtacticworker.opt}
+        %{bin:coqproofworker.opt}
+        ../prerequisite/module_bug7192.v)
+  (action
+   (setenv COQLIB %{project_root}
+   (with-outputs-to module_bug7192.v.chk.log
+    (run %{bin:coqchk} -silent -o -R ../../theories Coq -R ../prerequisite
+     TestSuite -Q ../../user-contrib/Ltac2 Ltac2 -norec module_bug7192.vo)))))
+ (rule
+  (alias runtest)
+  (targets .make_notation.aux
+           make_notation.vo
+           make_notation.glob
+           make_notation.v.log)
+  (deps (glob_files %{project_root}/theories/Init/*.vo)
+        (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
+        (glob_files %{project_root}/plugins/*/*)
+        (package coq-core)
+        %{bin:coqtacticworker.opt}
+        %{bin:coqproofworker.opt}
+        ../prerequisite/make_notation.v)
+  (action
+   (setenv COQLIB %{project_root}
+   (with-outputs-to make_notation.v.log
+    (run %{bin:coqc} -boot -R ../../theories Coq -R ../prerequisite TestSuite
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax make_notation.v)))))
+ (rule
+  (alias runtest)
+  (targets make_notation.v.chk.log)
+  (deps make_notation.vo
+        (glob_files %{project_root}/theories/Init/*.vo)
+        (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
+        (glob_files %{project_root}/plugins/*/*)
+        (package coq-core)
+        %{bin:coqtacticworker.opt}
+        %{bin:coqproofworker.opt}
+        ../prerequisite/make_notation.v)
+  (action
+   (setenv COQLIB %{project_root}
+   (with-outputs-to make_notation.v.chk.log
+    (run %{bin:coqchk} -silent -o -R ../../theories Coq -R ../prerequisite
+     TestSuite -Q ../../user-contrib/Ltac2 Ltac2 -norec make_notation.vo)))))
+ (rule
+  (alias runtest)
+  (targets .ssr_mini_mathcomp.aux
+           ssr_mini_mathcomp.vo
+           ssr_mini_mathcomp.glob
+           ssr_mini_mathcomp.v.log)
+  (deps (glob_files %{project_root}/theories/Init/*.vo)
+        (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
+        (glob_files %{project_root}/plugins/*/*)
+        (package coq-core)
+        %{bin:coqtacticworker.opt}
+        %{bin:coqproofworker.opt}
+        ../prerequisite/ssr_mini_mathcomp.v
+        .././../theories/ssr/ssreflect.vo
+        .././../theories/ssr/ssrfun.vo
+        .././../theories/ssr/ssrbool.vo)
+  (action
+   (setenv COQLIB %{project_root}
+   (with-outputs-to ssr_mini_mathcomp.v.log
+    (run %{bin:coqc} -boot -R ../../theories Coq -R ../prerequisite TestSuite
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax ssr_mini_mathcomp.v)))))
+ (rule
+  (alias runtest)
+  (targets ssr_mini_mathcomp.v.chk.log)
+  (deps ssr_mini_mathcomp.vo
+        (glob_files %{project_root}/theories/Init/*.vo)
+        (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
+        (glob_files %{project_root}/plugins/*/*)
+        (package coq-core)
+        %{bin:coqtacticworker.opt}
+        %{bin:coqproofworker.opt}
+        ../prerequisite/ssr_mini_mathcomp.v
+        .././../theories/ssr/ssreflect.vo
+        .././../theories/ssr/ssrfun.vo
+        .././../theories/ssr/ssrbool.vo)
+  (action
+   (setenv COQLIB %{project_root}
+   (with-outputs-to ssr_mini_mathcomp.v.chk.log
+    (run %{bin:coqchk} -silent -o -R ../../theories Coq -R ../prerequisite
+     TestSuite -Q ../../user-contrib/Ltac2 Ltac2 -norec ssr_mini_mathcomp.vo)))))
+ )
 (subdir bugs
  (rule
   (alias runtest)
@@ -6,7 +330,6 @@
            bug_5277.glob
            bug_5277.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29,7 +352,6 @@
   (targets bug_5277.v.chk.log)
   (deps bug_5277.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49,7 +371,6 @@
            bug_4354.glob
            bug_4354.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -72,7 +393,6 @@
   (targets bug_4354.v.chk.log)
   (deps bug_4354.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -92,7 +412,6 @@
            bug_3484.glob
            bug_3484.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -116,7 +435,6 @@
   (targets bug_3484.v.chk.log)
   (deps bug_3484.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -137,7 +455,6 @@
            bug_5683.glob
            bug_5683.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -162,7 +479,6 @@
   (targets bug_5683.v.chk.log)
   (deps bug_5683.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -184,7 +500,6 @@
            bug_4103.glob
            bug_4103.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -207,7 +522,6 @@
   (targets bug_4103.v.chk.log)
   (deps bug_4103.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -227,7 +541,6 @@
            bug_2353.glob
            bug_2353.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -250,7 +563,6 @@
   (targets bug_2353.v.chk.log)
   (deps bug_2353.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -270,7 +582,6 @@
            bug_3023.glob
            bug_3023.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -293,7 +604,6 @@
   (targets bug_3023.v.chk.log)
   (deps bug_3023.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -313,7 +623,6 @@
            bug_3649.glob
            bug_3649.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -336,7 +645,6 @@
   (targets bug_3649.v.chk.log)
   (deps bug_3649.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -356,7 +664,6 @@
            bug_5761.glob
            bug_5761.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -379,7 +686,6 @@
   (targets bug_5761.v.chk.log)
   (deps bug_5761.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -399,7 +705,6 @@
            bug_2839.glob
            bug_2839.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -422,7 +727,6 @@
   (targets bug_2839.v.chk.log)
   (deps bug_2839.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -442,7 +746,6 @@
            bug_9652.glob
            bug_9652.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -466,7 +769,6 @@
   (targets bug_9652.v.chk.log)
   (deps bug_9652.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -487,7 +789,6 @@
            bug_5377.glob
            bug_5377.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -510,7 +811,6 @@
   (targets bug_5377.v.chk.log)
   (deps bug_5377.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -530,7 +830,6 @@
            HoTT_coq_091.glob
            HoTT_coq_091.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -553,7 +852,6 @@
   (targets HoTT_coq_091.v.chk.log)
   (deps HoTT_coq_091.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -573,7 +871,6 @@
            bug_4202.glob
            bug_4202.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -596,7 +893,6 @@
   (targets bug_4202.v.chk.log)
   (deps bug_4202.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -616,7 +912,6 @@
            bug_2406.glob
            bug_2406.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -639,7 +934,6 @@
   (targets bug_2406.v.chk.log)
   (deps bug_2406.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -659,7 +953,6 @@
            bug_11039.glob
            bug_11039.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -682,7 +975,6 @@
   (targets bug_11039.v.chk.log)
   (deps bug_11039.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -702,7 +994,6 @@
            bug_1780.glob
            bug_1780.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -725,7 +1016,6 @@
   (targets bug_1780.v.chk.log)
   (deps bug_1780.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -745,7 +1035,6 @@
            bug_4292.glob
            bug_4292.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -768,7 +1057,6 @@
   (targets bug_4292.v.chk.log)
   (deps bug_4292.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -788,7 +1076,6 @@
            HoTT_coq_041.glob
            HoTT_coq_041.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -811,7 +1098,6 @@
   (targets HoTT_coq_041.v.chk.log)
   (deps HoTT_coq_041.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -831,7 +1117,6 @@
            bug_3286.glob
            bug_3286.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -855,7 +1140,6 @@
   (targets bug_3286.v.chk.log)
   (deps bug_3286.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -876,7 +1160,6 @@
            bug_4596.glob
            bug_4596.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -901,7 +1184,6 @@
   (targets bug_4596.v.chk.log)
   (deps bug_4596.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -923,7 +1205,6 @@
            bug_7700.glob
            bug_7700.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -946,7 +1227,6 @@
   (targets bug_7700.v.chk.log)
   (deps bug_7700.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -966,7 +1246,6 @@
            bug_11941.glob
            bug_11941.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -989,7 +1268,6 @@
   (targets bug_11941.v.chk.log)
   (deps bug_11941.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1009,7 +1287,6 @@
            bug_6770.glob
            bug_6770.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1032,7 +1309,6 @@
   (targets bug_6770.v.chk.log)
   (deps bug_6770.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1052,7 +1328,6 @@
            bug_3783.glob
            bug_3783.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1077,7 +1352,6 @@
   (targets bug_3783.v.chk.log)
   (deps bug_3783.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1098,7 +1372,6 @@
            bug_10504.glob
            bug_10504.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1121,7 +1394,6 @@
   (targets bug_10504.v.chk.log)
   (deps bug_10504.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1141,7 +1413,6 @@
            bug_16140.glob
            bug_16140.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1164,7 +1435,6 @@
   (targets bug_16140.v.chk.log)
   (deps bug_16140.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1184,7 +1454,6 @@
            bug_8288.glob
            bug_8288.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1207,7 +1476,6 @@
   (targets bug_8288.v.chk.log)
   (deps bug_8288.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1227,7 +1495,6 @@
            bug_4877.glob
            bug_4877.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1250,7 +1517,6 @@
   (targets bug_4877.v.chk.log)
   (deps bug_4877.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1270,7 +1536,6 @@
            bug_13950.glob
            bug_13950.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1293,7 +1558,6 @@
   (targets bug_13950.v.chk.log)
   (deps bug_13950.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1313,7 +1577,6 @@
            bug_11890.glob
            bug_11890.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1339,7 +1602,6 @@
   (targets bug_11890.v.chk.log)
   (deps bug_11890.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1362,7 +1624,6 @@
            bug_13278.glob
            bug_13278.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1385,7 +1646,6 @@
   (targets bug_13278.v.chk.log)
   (deps bug_13278.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1405,7 +1665,6 @@
            bug_14505.glob
            bug_14505.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1428,7 +1687,6 @@
   (targets bug_14505.v.chk.log)
   (deps bug_14505.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1448,7 +1706,6 @@
            bug_4781.glob
            bug_4781.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1471,7 +1728,6 @@
   (targets bug_4781.v.chk.log)
   (deps bug_4781.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1491,7 +1747,6 @@
            bug_15042.glob
            bug_15042.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1514,7 +1769,6 @@
   (targets bug_15042.v.chk.log)
   (deps bug_15042.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1534,7 +1788,6 @@
            bug_15568.glob
            bug_15568.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1559,7 +1812,6 @@
   (targets bug_15568.v.chk.log)
   (deps bug_15568.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1581,7 +1833,6 @@
            bug_4318.glob
            bug_4318.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1604,7 +1855,6 @@
   (targets bug_4318.v.chk.log)
   (deps bug_4318.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1624,7 +1874,6 @@
            bug_4869.glob
            bug_4869.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1647,7 +1896,6 @@
   (targets bug_4869.v.chk.log)
   (deps bug_4869.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1667,7 +1915,6 @@
            bug_2319.glob
            bug_2319.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1690,7 +1937,6 @@
   (targets bug_2319.v.chk.log)
   (deps bug_2319.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1710,7 +1956,6 @@
            bug_4718.glob
            bug_4718.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1733,7 +1978,6 @@
   (targets bug_4718.v.chk.log)
   (deps bug_4718.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1753,7 +1997,6 @@
            bug_12001.glob
            bug_12001.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1776,7 +2019,6 @@
   (targets bug_12001.v.chk.log)
   (deps bug_12001.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1796,7 +2038,6 @@
            bug_4713.glob
            bug_4713.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1819,7 +2060,6 @@
   (targets bug_4713.v.chk.log)
   (deps bug_4713.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1839,7 +2079,6 @@
            bug_3375.glob
            bug_3375.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1864,7 +2103,6 @@
   (targets bug_3375.v.chk.log)
   (deps bug_3375.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1886,7 +2124,6 @@
            bug_13303.glob
            bug_13303.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1909,7 +2146,6 @@
   (targets bug_13303.v.chk.log)
   (deps bug_13303.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1929,7 +2165,6 @@
            bug_15554.glob
            bug_15554.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1952,7 +2187,6 @@
   (targets bug_15554.v.chk.log)
   (deps bug_15554.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1972,7 +2206,6 @@
            bug_3808.glob
            bug_3808.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -1995,7 +2228,6 @@
   (targets bug_3808.v.chk.log)
   (deps bug_3808.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2015,7 +2247,6 @@
            bug_4679.glob
            bug_4679.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2039,7 +2270,6 @@
   (targets bug_4679.v.chk.log)
   (deps bug_4679.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2060,7 +2290,6 @@
            bug_4097.glob
            bug_4097.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2084,7 +2313,6 @@
   (targets bug_4097.v.chk.log)
   (deps bug_4097.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2105,7 +2333,6 @@
            bug_3975.glob
            bug_3975.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2128,7 +2355,6 @@
   (targets bug_3975.v.chk.log)
   (deps bug_3975.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2148,7 +2374,6 @@
            bug_3782.glob
            bug_3782.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2172,7 +2397,6 @@
   (targets bug_3782.v.chk.log)
   (deps bug_3782.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2193,7 +2417,6 @@
            bug_4121.glob
            bug_4121.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2216,7 +2439,6 @@
   (targets bug_4121.v.chk.log)
   (deps bug_4121.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2236,7 +2458,6 @@
            bug_11011.glob
            bug_11011.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2262,7 +2483,6 @@
   (targets bug_11011.v.chk.log)
   (deps bug_11011.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2285,7 +2505,6 @@
            bug_15567.glob
            bug_15567.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2308,7 +2527,6 @@
   (targets bug_15567.v.chk.log)
   (deps bug_15567.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2328,7 +2546,6 @@
            bug_2668.glob
            bug_2668.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2353,7 +2570,6 @@
   (targets bug_2668.v.chk.log)
   (deps bug_2668.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2375,7 +2591,6 @@
            bug_13946.glob
            bug_13946.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2398,7 +2613,6 @@
   (targets bug_13946.v.chk.log)
   (deps bug_13946.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2418,7 +2632,6 @@
            bug_9494.glob
            bug_9494.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2441,7 +2654,6 @@
   (targets bug_9494.v.chk.log)
   (deps bug_9494.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2461,7 +2673,6 @@
            bug_9750.glob
            bug_9750.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2484,7 +2695,6 @@
   (targets bug_9750.v.chk.log)
   (deps bug_9750.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2504,7 +2714,6 @@
            bug_4390.glob
            bug_4390.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2527,7 +2736,6 @@
   (targets bug_4390.v.chk.log)
   (deps bug_4390.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2547,7 +2755,6 @@
            bug_3998.glob
            bug_3998.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2570,7 +2777,6 @@
   (targets bug_3998.v.chk.log)
   (deps bug_3998.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2590,7 +2796,6 @@
            bug_4232.glob
            bug_4232.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2616,7 +2821,6 @@
   (targets bug_4232.v.chk.log)
   (deps bug_4232.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2639,7 +2843,6 @@
            bug_3527.glob
            bug_3527.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2662,7 +2865,6 @@
   (targets bug_3527.v.chk.log)
   (deps bug_3527.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2682,7 +2884,6 @@
            HoTT_coq_084.glob
            HoTT_coq_084.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2705,7 +2906,6 @@
   (targets HoTT_coq_084.v.chk.log)
   (deps HoTT_coq_084.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2725,7 +2925,6 @@
            bug_3054.glob
            bug_3054.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2748,7 +2947,6 @@
   (targets bug_3054.v.chk.log)
   (deps bug_3054.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2768,7 +2966,6 @@
            bug_2945.glob
            bug_2945.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2791,7 +2988,6 @@
   (targets bug_2945.v.chk.log)
   (deps bug_2945.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2811,7 +3007,6 @@
            bug_9580.glob
            bug_9580.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2837,7 +3032,6 @@
   (targets bug_9580.v.chk.log)
   (deps bug_9580.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2860,7 +3054,6 @@
            bug_2303.glob
            bug_2303.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2883,7 +3076,6 @@
   (targets bug_2303.v.chk.log)
   (deps bug_2303.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2903,7 +3095,6 @@
            HoTT_coq_101.glob
            HoTT_coq_101.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2927,7 +3118,6 @@
   (targets HoTT_coq_101.v.chk.log)
   (deps HoTT_coq_101.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2948,7 +3138,6 @@
            bug_7811.glob
            bug_7811.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2973,7 +3162,6 @@
   (targets bug_7811.v.chk.log)
   (deps bug_7811.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -2995,7 +3183,6 @@
            bug_1931.glob
            bug_1931.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3018,7 +3205,6 @@
   (targets bug_1931.v.chk.log)
   (deps bug_1931.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3038,7 +3224,6 @@
            bug_3648.glob
            bug_3648.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3061,7 +3246,6 @@
   (targets bug_3648.v.chk.log)
   (deps bug_3648.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3081,7 +3265,6 @@
            bug_3628.glob
            bug_3628.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3104,7 +3287,6 @@
   (targets bug_3628.v.chk.log)
   (deps bug_3628.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3124,7 +3306,6 @@
            bug_11727.glob
            bug_11727.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3147,7 +3328,6 @@
   (targets bug_11727.v.chk.log)
   (deps bug_11727.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3167,7 +3347,6 @@
            bug_3654.glob
            bug_3654.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3190,7 +3369,6 @@
   (targets bug_3654.v.chk.log)
   (deps bug_3654.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3210,7 +3388,6 @@
            bug_8848.glob
            bug_8848.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3234,7 +3411,6 @@
   (targets bug_8848.v.chk.log)
   (deps bug_8848.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3255,7 +3431,6 @@
            bug_2473.glob
            bug_2473.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3283,7 +3458,6 @@
   (targets bug_2473.v.chk.log)
   (deps bug_2473.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3308,7 +3482,6 @@
            bug_2123.glob
            bug_2123.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3331,7 +3504,6 @@
   (targets bug_2123.v.chk.log)
   (deps bug_2123.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3351,7 +3523,6 @@
            bug_1850.glob
            bug_1850.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3374,7 +3545,6 @@
   (targets bug_1850.v.chk.log)
   (deps bug_1850.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3394,7 +3564,6 @@
            HoTT_coq_016.glob
            HoTT_coq_016.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3417,7 +3586,6 @@
   (targets HoTT_coq_016.v.chk.log)
   (deps HoTT_coq_016.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3437,7 +3605,6 @@
            bug_5208.glob
            bug_5208.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3464,7 +3631,6 @@
   (targets bug_5208.v.chk.log)
   (deps bug_5208.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3488,7 +3654,6 @@
            bug_10264.glob
            bug_10264.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3512,7 +3677,6 @@
   (targets bug_10264.v.chk.log)
   (deps bug_10264.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3533,7 +3697,6 @@
            bug_9644.glob
            bug_9644.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3556,7 +3719,6 @@
   (targets bug_9644.v.chk.log)
   (deps bug_9644.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3576,7 +3738,6 @@
            bug_3322.glob
            bug_3322.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3600,7 +3761,6 @@
   (targets bug_3322.v.chk.log)
   (deps bug_3322.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3621,7 +3781,6 @@
            bug_3623.glob
            bug_3623.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3645,7 +3804,6 @@
   (targets bug_3623.v.chk.log)
   (deps bug_3623.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3666,7 +3824,6 @@
            bug_5203.glob
            bug_5203.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3689,7 +3846,6 @@
   (targets bug_5203.v.chk.log)
   (deps bug_5203.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3709,7 +3865,6 @@
            bug_4234.glob
            bug_4234.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3732,7 +3887,6 @@
   (targets bug_4234.v.chk.log)
   (deps bug_4234.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3752,7 +3906,6 @@
            bug_5036.glob
            bug_5036.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3775,7 +3928,6 @@
   (targets bug_5036.v.chk.log)
   (deps bug_5036.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3795,7 +3947,6 @@
            HoTT_coq_023.glob
            HoTT_coq_023.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3818,7 +3969,6 @@
   (targets HoTT_coq_023.v.chk.log)
   (deps HoTT_coq_023.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3838,7 +3988,6 @@
            bug_4859.glob
            bug_4859.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3861,7 +4010,6 @@
   (targets bug_4859.v.chk.log)
   (deps bug_4859.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3881,7 +4029,6 @@
            HoTT_coq_020.glob
            HoTT_coq_020.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3905,7 +4052,6 @@
   (targets HoTT_coq_020.v.chk.log)
   (deps HoTT_coq_020.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3926,7 +4072,6 @@
            bug_9375.glob
            bug_9375.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3949,7 +4094,6 @@
   (targets bug_9375.v.chk.log)
   (deps bug_9375.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3969,7 +4113,6 @@
            bug_3467.glob
            bug_3467.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -3992,7 +4135,6 @@
   (targets bug_3467.v.chk.log)
   (deps bug_3467.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4012,7 +4154,6 @@
            bug_5765.glob
            bug_5765.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4035,7 +4176,6 @@
   (targets bug_5765.v.chk.log)
   (deps bug_5765.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4055,7 +4195,6 @@
            bug_5696.glob
            bug_5696.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4078,7 +4217,6 @@
   (targets bug_5696.v.chk.log)
   (deps bug_5696.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4098,7 +4236,6 @@
            bug_3323.glob
            bug_3323.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4122,7 +4259,6 @@
   (targets bug_3323.v.chk.log)
   (deps bug_3323.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4143,7 +4279,6 @@
            bug_2117.glob
            bug_2117.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4166,7 +4301,6 @@
   (targets bug_2117.v.chk.log)
   (deps bug_2117.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4186,7 +4320,6 @@
            bug_5608.glob
            bug_5608.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4209,7 +4342,6 @@
   (targets bug_5608.v.chk.log)
   (deps bug_5608.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4229,7 +4361,6 @@
            bug_8119.glob
            bug_8119.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4253,7 +4384,6 @@
   (targets bug_8119.v.chk.log)
   (deps bug_8119.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4274,7 +4404,6 @@
            bug_4397.glob
            bug_4397.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4298,7 +4427,6 @@
   (targets bug_4397.v.chk.log)
   (deps bug_4397.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4319,7 +4447,6 @@
            bug_3662.glob
            bug_3662.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4342,7 +4469,6 @@
   (targets bug_3662.v.chk.log)
   (deps bug_3662.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4362,7 +4488,6 @@
            bug_7631.glob
            bug_7631.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4385,7 +4510,6 @@
   (targets bug_7631.v.chk.log)
   (deps bug_7631.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4405,7 +4529,6 @@
            bug_11846.glob
            bug_11846.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4429,7 +4552,6 @@
   (targets bug_11846.v.chk.log)
   (deps bug_11846.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4450,7 +4572,6 @@
            bug_3539.glob
            bug_3539.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4474,7 +4595,6 @@
   (targets bug_3539.v.chk.log)
   (deps bug_3539.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4495,7 +4615,6 @@
            bug_2830.glob
            bug_2830.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4523,7 +4642,6 @@
   (targets bug_2830.v.chk.log)
   (deps bug_2830.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4548,7 +4666,6 @@
            bug_3408.glob
            bug_3408.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4572,7 +4689,6 @@
   (targets bug_3408.v.chk.log)
   (deps bug_3408.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4593,7 +4709,6 @@
            bug_10796.glob
            bug_10796.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4617,7 +4732,6 @@
   (targets bug_10796.v.chk.log)
   (deps bug_10796.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4638,7 +4752,6 @@
            bug_8106.glob
            bug_8106.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4661,7 +4774,6 @@
   (targets bug_8106.v.chk.log)
   (deps bug_8106.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4681,7 +4793,6 @@
            bug_2996.glob
            bug_2996.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4705,7 +4816,6 @@
   (targets bug_2996.v.chk.log)
   (deps bug_2996.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4726,7 +4836,6 @@
            bug_13348.glob
            bug_13348.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4749,7 +4858,6 @@
   (targets bug_13348.v.chk.log)
   (deps bug_13348.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4769,7 +4877,6 @@
            bug_13586.glob
            bug_13586.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4792,7 +4899,6 @@
   (targets bug_13586.v.chk.log)
   (deps bug_13586.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4812,7 +4918,6 @@
            bug_2136.glob
            bug_2136.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4838,7 +4943,6 @@
   (targets bug_2136.v.chk.log)
   (deps bug_2136.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4861,7 +4965,6 @@
            bug_5281.glob
            bug_5281.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4884,7 +4987,6 @@
   (targets bug_5281.v.chk.log)
   (deps bug_5281.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4904,7 +5006,6 @@
            bug_3209.glob
            bug_3209.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4927,7 +5028,6 @@
   (targets bug_3209.v.chk.log)
   (deps bug_3209.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4947,7 +5047,6 @@
            bug_13654.glob
            bug_13654.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4970,7 +5069,6 @@
   (targets bug_13654.v.chk.log)
   (deps bug_13654.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -4990,7 +5088,6 @@
            bug_12895.glob
            bug_12895.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5013,7 +5110,6 @@
   (targets bug_12895.v.chk.log)
   (deps bug_12895.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5033,7 +5129,6 @@
            bug_2680.glob
            bug_2680.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5056,7 +5151,6 @@
   (targets bug_2680.v.chk.log)
   (deps bug_2680.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5076,7 +5170,6 @@
            bug_7113.glob
            bug_7113.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5100,7 +5193,6 @@
   (targets bug_7113.v.chk.log)
   (deps bug_7113.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5121,7 +5213,6 @@
            bug_2990.glob
            bug_2990.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5144,7 +5235,6 @@
   (targets bug_2990.v.chk.log)
   (deps bug_2990.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5164,7 +5254,6 @@
            bug_5078.glob
            bug_5078.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5187,7 +5276,6 @@
   (targets bug_5078.v.chk.log)
   (deps bug_5078.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5207,7 +5295,6 @@
            bug_3468.glob
            bug_3468.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5230,7 +5317,6 @@
   (targets bug_3468.v.chk.log)
   (deps bug_3468.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5250,7 +5336,6 @@
            bug_7780.glob
            bug_7780.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5273,7 +5358,6 @@
   (targets bug_7780.v.chk.log)
   (deps bug_7780.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5293,7 +5377,6 @@
            bug_9741.glob
            bug_9741.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5318,7 +5401,6 @@
   (targets bug_9741.v.chk.log)
   (deps bug_9741.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5340,7 +5422,6 @@
            bug_3922.glob
            bug_3922.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5364,7 +5445,6 @@
   (targets bug_3922.v.chk.log)
   (deps bug_3922.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5385,7 +5465,6 @@
            bug_1507.glob
            bug_1507.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5408,7 +5487,6 @@
   (targets bug_1507.v.chk.log)
   (deps bug_1507.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5428,7 +5506,6 @@
            bug_2021.glob
            bug_2021.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5451,7 +5528,6 @@
   (targets bug_2021.v.chk.log)
   (deps bug_2021.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5471,7 +5547,6 @@
            bug_5521.glob
            bug_5521.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5498,7 +5573,6 @@
   (targets bug_5521.v.chk.log)
   (deps bug_5521.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5522,7 +5596,6 @@
            bug_13896.glob
            bug_13896.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5545,7 +5618,6 @@
   (targets bug_13896.v.chk.log)
   (deps bug_13896.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5565,7 +5637,6 @@
            bug_9369.glob
            bug_9369.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5588,7 +5659,6 @@
   (targets bug_9369.v.chk.log)
   (deps bug_9369.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5608,7 +5678,6 @@
            bug_2994.glob
            bug_2994.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5631,7 +5700,6 @@
   (targets bug_2994.v.chk.log)
   (deps bug_2994.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5651,7 +5719,6 @@
            bug_6157.glob
            bug_6157.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5674,7 +5741,6 @@
   (targets bug_6157.v.chk.log)
   (deps bug_6157.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5694,7 +5760,6 @@
            bug_4467.glob
            bug_4467.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5717,7 +5782,6 @@
   (targets bug_4467.v.chk.log)
   (deps bug_4467.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5737,7 +5801,6 @@
            bug_2127.glob
            bug_2127.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5760,7 +5823,6 @@
   (targets bug_2127.v.chk.log)
   (deps bug_2127.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5780,7 +5842,6 @@
            bug_3807.glob
            bug_3807.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5803,7 +5864,6 @@
   (targets bug_3807.v.chk.log)
   (deps bug_3807.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5823,7 +5883,6 @@
            bug_8270.glob
            bug_8270.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5846,7 +5905,6 @@
   (targets bug_8270.v.chk.log)
   (deps bug_8270.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5866,7 +5924,6 @@
            bug_2836.glob
            bug_2836.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5889,7 +5946,6 @@
   (targets bug_2836.v.chk.log)
   (deps bug_2836.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5909,7 +5965,6 @@
            bug_3953.glob
            bug_3953.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5932,7 +5987,6 @@
   (targets bug_3953.v.chk.log)
   (deps bug_3953.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5952,7 +6006,6 @@
            bug_4301.glob
            bug_4301.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5975,7 +6028,6 @@
   (targets bug_4301.v.chk.log)
   (deps bug_4301.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -5995,7 +6047,6 @@
            bug_14100.glob
            bug_14100.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6019,7 +6070,6 @@
   (targets bug_14100.v.chk.log)
   (deps bug_14100.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6040,7 +6090,6 @@
            bug_4529.glob
            bug_4529.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6064,7 +6113,6 @@
   (targets bug_4529.v.chk.log)
   (deps bug_4529.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6085,7 +6133,6 @@
            bug_5345.glob
            bug_5345.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6108,7 +6155,6 @@
   (targets bug_5345.v.chk.log)
   (deps bug_5345.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6128,7 +6174,6 @@
            bug_11515.glob
            bug_11515.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6152,7 +6197,6 @@
   (targets bug_11515.v.chk.log)
   (deps bug_11515.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6173,7 +6217,6 @@
            bug_3281.glob
            bug_3281.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6196,7 +6239,6 @@
   (targets bug_3281.v.chk.log)
   (deps bug_3281.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6216,7 +6258,6 @@
            bug_9663.glob
            bug_9663.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6239,7 +6280,6 @@
   (targets bug_9663.v.chk.log)
   (deps bug_9663.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6259,7 +6299,6 @@
            bug_4893.glob
            bug_4893.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6282,7 +6321,6 @@
   (targets bug_4893.v.chk.log)
   (deps bug_4893.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6302,7 +6340,6 @@
            bug_6378.glob
            bug_6378.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6326,7 +6363,6 @@
   (targets bug_6378.v.chk.log)
   (deps bug_6378.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6347,7 +6383,6 @@
            bug_5797.glob
            bug_5797.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6372,7 +6407,6 @@
   (targets bug_5797.v.chk.log)
   (deps bug_5797.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6394,7 +6428,6 @@
            bug_4095.glob
            bug_4095.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6418,7 +6451,6 @@
   (targets bug_4095.v.chk.log)
   (deps bug_4095.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6439,7 +6471,6 @@
            bug_3298.glob
            bug_3298.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6463,7 +6494,6 @@
   (targets bug_3298.v.chk.log)
   (deps bug_3298.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6484,7 +6514,6 @@
            bug_4251.glob
            bug_4251.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6507,7 +6536,6 @@
   (targets bug_4251.v.chk.log)
   (deps bug_4251.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6527,7 +6555,6 @@
            bug_16173.glob
            bug_16173.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6551,7 +6578,6 @@
   (targets bug_16173.v.chk.log)
   (deps bug_16173.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6572,7 +6598,6 @@
            bug_3338.glob
            bug_3338.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6596,7 +6621,6 @@
   (targets bug_3338.v.chk.log)
   (deps bug_3338.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6617,7 +6641,6 @@
            bug_3542.glob
            bug_3542.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6640,7 +6663,6 @@
   (targets bug_3542.v.chk.log)
   (deps bug_3542.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6660,7 +6682,6 @@
            bug_10778.glob
            bug_10778.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6683,7 +6704,6 @@
   (targets bug_10778.v.chk.log)
   (deps bug_10778.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6703,7 +6723,6 @@
            bug_4012.glob
            bug_4012.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6726,7 +6745,6 @@
   (targets bug_4012.v.chk.log)
   (deps bug_4012.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6746,7 +6764,6 @@
            bug_11321.glob
            bug_11321.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6770,7 +6787,6 @@
   (targets bug_11321.v.chk.log)
   (deps bug_11321.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6791,7 +6807,6 @@
            bug_3390.glob
            bug_3390.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6814,7 +6829,6 @@
   (targets bug_3390.v.chk.log)
   (deps bug_3390.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6834,7 +6848,6 @@
            bug_4710.glob
            bug_4710.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6858,7 +6871,6 @@
   (targets bug_4710.v.chk.log)
   (deps bug_4710.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6879,7 +6891,6 @@
            bug_3989.glob
            bug_3989.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6902,7 +6913,6 @@
   (targets bug_3989.v.chk.log)
   (deps bug_3989.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6922,7 +6932,6 @@
            bug_1703.glob
            bug_1703.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6945,7 +6954,6 @@
   (targets bug_1703.v.chk.log)
   (deps bug_1703.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6965,7 +6973,6 @@
            bug_13246.glob
            bug_13246.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -6991,7 +6998,6 @@
   (targets bug_13246.v.chk.log)
   (deps bug_13246.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7014,7 +7020,6 @@
            bug_2729.glob
            bug_2729.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7038,7 +7043,6 @@
   (targets bug_2729.v.chk.log)
   (deps bug_2729.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7059,7 +7063,6 @@
            bug_1696.glob
            bug_1696.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7083,7 +7086,6 @@
   (targets bug_1696.v.chk.log)
   (deps bug_1696.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7104,7 +7106,6 @@
            bug_6661.glob
            bug_6661.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7130,7 +7131,6 @@
   (targets bug_6661.v.chk.log)
   (deps bug_6661.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7153,7 +7153,6 @@
            bug_3260.glob
            bug_3260.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7177,7 +7176,6 @@
   (targets bug_3260.v.chk.log)
   (deps bug_3260.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7198,7 +7196,6 @@
            bug_2006.glob
            bug_2006.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7221,7 +7218,6 @@
   (targets bug_2006.v.chk.log)
   (deps bug_2006.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7241,7 +7237,6 @@
            bug_9598.glob
            bug_9598.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7264,7 +7259,6 @@
   (targets bug_9598.v.chk.log)
   (deps bug_9598.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7284,7 +7278,6 @@
            bug_2310.glob
            bug_2310.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7307,7 +7300,6 @@
   (targets bug_2310.v.chk.log)
   (deps bug_2310.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7327,7 +7319,6 @@
            bug_14652.glob
            bug_14652.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7350,7 +7341,6 @@
   (targets bug_14652.v.chk.log)
   (deps bug_14652.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7370,7 +7360,6 @@
            bug_2105.glob
            bug_2105.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7393,7 +7382,6 @@
   (targets bug_2105.v.chk.log)
   (deps bug_2105.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7413,7 +7401,6 @@
            bug_9631.glob
            bug_9631.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7436,7 +7423,6 @@
   (targets bug_9631.v.chk.log)
   (deps bug_9631.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7456,7 +7442,6 @@
            bug_13330.glob
            bug_13330.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7479,7 +7464,6 @@
   (targets bug_13330.v.chk.log)
   (deps bug_13330.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7499,7 +7483,6 @@
            bug_6677.glob
            bug_6677.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7522,7 +7505,6 @@
   (targets bug_6677.v.chk.log)
   (deps bug_6677.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7542,7 +7524,6 @@
            bug_5219.glob
            bug_5219.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7565,7 +7546,6 @@
   (targets bug_5219.v.chk.log)
   (deps bug_5219.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7585,7 +7565,6 @@
            bug_5205.glob
            bug_5205.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7608,7 +7587,6 @@
   (targets bug_5205.v.chk.log)
   (deps bug_5205.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7628,7 +7606,6 @@
            bug_14014.glob
            bug_14014.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7651,7 +7628,6 @@
   (targets bug_14014.v.chk.log)
   (deps bug_14014.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7671,7 +7647,6 @@
            bug_5304.glob
            bug_5304.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7694,7 +7669,6 @@
   (targets bug_5304.v.chk.log)
   (deps bug_5304.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7714,7 +7688,6 @@
            HoTT_coq_097.glob
            HoTT_coq_097.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7738,7 +7711,6 @@
   (targets HoTT_coq_097.v.chk.log)
   (deps HoTT_coq_097.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7759,7 +7731,6 @@
            bug_15455.glob
            bug_15455.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7782,7 +7753,6 @@
   (targets bug_15455.v.chk.log)
   (deps bug_15455.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7802,7 +7772,6 @@
            bug_14529.glob
            bug_14529.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7825,7 +7794,6 @@
   (targets bug_14529.v.chk.log)
   (deps bug_14529.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7845,7 +7813,6 @@
            bug_9508.glob
            bug_9508.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7868,7 +7835,6 @@
   (targets bug_9508.v.chk.log)
   (deps bug_9508.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7888,7 +7854,6 @@
            HoTT_coq_027.glob
            HoTT_coq_027.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7911,7 +7876,6 @@
   (targets HoTT_coq_027.v.chk.log)
   (deps HoTT_coq_027.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7931,7 +7895,6 @@
            bug_10189.glob
            bug_10189.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7954,7 +7917,6 @@
   (targets bug_10189.v.chk.log)
   (deps bug_10189.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7974,7 +7936,6 @@
            bug_11552.glob
            bug_11552.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -7998,7 +7959,6 @@
   (targets bug_11552.v.chk.log)
   (deps bug_11552.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8019,7 +7979,6 @@
            bug_3641.glob
            bug_3641.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8042,7 +8001,6 @@
   (targets bug_3641.v.chk.log)
   (deps bug_3641.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8062,7 +8020,6 @@
            bug_9684.glob
            bug_9684.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8085,7 +8042,6 @@
   (targets bug_9684.v.chk.log)
   (deps bug_9684.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8105,7 +8061,6 @@
            bug_13171.glob
            bug_13171.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8128,7 +8083,6 @@
   (targets bug_13171.v.chk.log)
   (deps bug_13171.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8148,7 +8102,6 @@
            bug_11360.glob
            bug_11360.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8171,7 +8124,6 @@
   (targets bug_11360.v.chk.log)
   (deps bug_11360.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8191,7 +8143,6 @@
            bug_2814.glob
            bug_2814.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8215,7 +8166,6 @@
   (targets bug_2814.v.chk.log)
   (deps bug_2814.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8236,7 +8186,6 @@
            bug_13933.glob
            bug_13933.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8259,7 +8208,6 @@
   (targets bug_13933.v.chk.log)
   (deps bug_13933.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8279,7 +8227,6 @@
            bug_2350.glob
            bug_2350.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8302,7 +8249,6 @@
   (targets bug_2350.v.chk.log)
   (deps bug_2350.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8322,7 +8268,6 @@
            bug_3036.glob
            bug_3036.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8348,7 +8293,6 @@
   (targets bug_3036.v.chk.log)
   (deps bug_3036.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8371,7 +8315,6 @@
            bug_3546.glob
            bug_3546.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8394,7 +8337,6 @@
   (targets bug_3546.v.chk.log)
   (deps bug_3546.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8414,7 +8356,6 @@
            bug_4673.glob
            bug_4673.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8439,7 +8380,6 @@
   (targets bug_4673.v.chk.log)
   (deps bug_4673.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8461,7 +8401,6 @@
            bug_4717.glob
            bug_4717.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8486,7 +8425,6 @@
   (targets bug_4717.v.chk.log)
   (deps bug_4717.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8508,7 +8446,6 @@
            bug_9930.glob
            bug_9930.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8531,7 +8468,6 @@
   (targets bug_9930.v.chk.log)
   (deps bug_9930.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8551,7 +8487,6 @@
            bug_4684.glob
            bug_4684.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8576,7 +8511,6 @@
   (targets bug_4684.v.chk.log)
   (deps bug_4684.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8598,7 +8532,6 @@
            bug_1568.glob
            bug_1568.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8621,7 +8554,6 @@
   (targets bug_1568.v.chk.log)
   (deps bug_1568.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8641,7 +8573,6 @@
            bug_1918.glob
            bug_1918.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8665,7 +8596,6 @@
   (targets bug_1918.v.chk.log)
   (deps bug_1918.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8686,7 +8616,6 @@
            bug_2629.glob
            bug_2629.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8709,7 +8638,6 @@
   (targets bug_2629.v.chk.log)
   (deps bug_2629.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8729,7 +8657,6 @@
            bug_3746.glob
            bug_3746.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8752,7 +8679,6 @@
   (targets bug_3746.v.chk.log)
   (deps bug_3746.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8772,7 +8698,6 @@
            HoTT_coq_121.glob
            HoTT_coq_121.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8796,7 +8721,6 @@
   (targets HoTT_coq_121.v.chk.log)
   (deps HoTT_coq_121.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8817,7 +8741,6 @@
            bug_10031.glob
            bug_10031.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8842,7 +8765,6 @@
   (targets bug_10031.v.chk.log)
   (deps bug_10031.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8864,7 +8786,6 @@
            bug_7059.glob
            bug_7059.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8887,7 +8808,6 @@
   (targets bug_7059.v.chk.log)
   (deps bug_7059.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8907,7 +8827,6 @@
            HoTT_coq_050.glob
            HoTT_coq_050.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8930,7 +8849,6 @@
   (targets HoTT_coq_050.v.chk.log)
   (deps HoTT_coq_050.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8950,7 +8868,6 @@
            bug_11722.glob
            bug_11722.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8974,7 +8891,6 @@
   (targets bug_11722.v.chk.log)
   (deps bug_11722.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -8995,7 +8911,6 @@
            bug_9000.glob
            bug_9000.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9018,7 +8933,6 @@
   (targets bug_9000.v.chk.log)
   (deps bug_9000.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9038,7 +8952,6 @@
            bug_5618.glob
            bug_5618.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9062,7 +8975,6 @@
   (targets bug_5618.v.chk.log)
   (deps bug_5618.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9083,7 +8995,6 @@
            bug_2016.glob
            bug_2016.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9107,7 +9018,6 @@
   (targets bug_2016.v.chk.log)
   (deps bug_2016.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9128,7 +9038,6 @@
            bug_8369.glob
            bug_8369.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9151,7 +9060,6 @@
   (targets bug_8369.v.chk.log)
   (deps bug_8369.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9171,7 +9079,6 @@
            bug_14003.glob
            bug_14003.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9195,7 +9102,6 @@
   (targets bug_14003.v.chk.log)
   (deps bug_14003.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9216,7 +9122,6 @@
            bug_13249.glob
            bug_13249.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9239,7 +9144,6 @@
   (targets bug_13249.v.chk.log)
   (deps bug_13249.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9259,7 +9163,6 @@
            bug_3262.glob
            bug_3262.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9285,7 +9188,6 @@
   (targets bug_3262.v.chk.log)
   (deps bug_3262.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9308,7 +9210,6 @@
            bug_1341.glob
            bug_1341.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9332,7 +9233,6 @@
   (targets bug_1341.v.chk.log)
   (deps bug_1341.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9353,7 +9253,6 @@
            bug_3692.glob
            bug_3692.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9376,7 +9275,6 @@
   (targets bug_3692.v.chk.log)
   (deps bug_3692.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9396,7 +9294,6 @@
            bug_3943.glob
            bug_3943.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9419,7 +9316,6 @@
   (targets bug_3943.v.chk.log)
   (deps bug_3943.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9439,7 +9335,6 @@
            bug_12566_1.glob
            bug_12566_1.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9462,7 +9357,6 @@
   (targets bug_12566_1.v.chk.log)
   (deps bug_12566_1.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9482,7 +9376,6 @@
            bug_2137.glob
            bug_2137.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9508,7 +9401,6 @@
   (targets bug_2137.v.chk.log)
   (deps bug_2137.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9531,7 +9423,6 @@
            bug_3028.glob
            bug_3028.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9554,7 +9445,6 @@
   (targets bug_3028.v.chk.log)
   (deps bug_3028.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9574,7 +9464,6 @@
            bug_7854.glob
            bug_7854.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9597,7 +9486,6 @@
   (targets bug_7854.v.chk.log)
   (deps bug_7854.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9617,7 +9505,6 @@
            bug_4663.glob
            bug_4663.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9640,7 +9527,6 @@
   (targets bug_4663.v.chk.log)
   (deps bug_4663.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9660,7 +9546,6 @@
            bug_9453.glob
            bug_9453.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9683,7 +9568,6 @@
   (targets bug_9453.v.chk.log)
   (deps bug_9453.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9703,7 +9587,6 @@
            bug_5749.glob
            bug_5749.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9726,7 +9609,6 @@
   (targets bug_5749.v.chk.log)
   (deps bug_5749.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9746,7 +9628,6 @@
            bug_14360.glob
            bug_14360.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9769,7 +9650,6 @@
   (targets bug_14360.v.chk.log)
   (deps bug_14360.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9789,7 +9669,6 @@
            bug_8951.glob
            bug_8951.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9812,7 +9691,6 @@
   (targets bug_8951.v.chk.log)
   (deps bug_8951.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9832,7 +9710,6 @@
            bug_4580.glob
            bug_4580.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9856,7 +9733,6 @@
   (targets bug_4580.v.chk.log)
   (deps bug_4580.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9877,7 +9753,6 @@
            bug_2320.glob
            bug_2320.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9900,7 +9775,6 @@
   (targets bug_2320.v.chk.log)
   (deps bug_2320.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9920,7 +9794,6 @@
            bug_3297.glob
            bug_3297.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9943,7 +9816,6 @@
   (targets bug_3297.v.chk.log)
   (deps bug_3297.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9963,7 +9835,6 @@
            bug_15978.glob
            bug_15978.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -9986,7 +9857,6 @@
   (targets bug_15978.v.chk.log)
   (deps bug_15978.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10006,7 +9876,6 @@
            HoTT_coq_089.glob
            HoTT_coq_089.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10029,7 +9898,6 @@
   (targets HoTT_coq_089.v.chk.log)
   (deps HoTT_coq_089.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10049,7 +9917,6 @@
            bug_3660.glob
            bug_3660.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10073,7 +9940,6 @@
   (targets bug_3660.v.chk.log)
   (deps bug_3660.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10094,7 +9960,6 @@
            bug_3051.glob
            bug_3051.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10117,7 +9982,6 @@
   (targets bug_3051.v.chk.log)
   (deps bug_3051.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10137,7 +10001,6 @@
            bug_4708.glob
            bug_4708.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10160,7 +10023,6 @@
   (targets bug_4708.v.chk.log)
   (deps bug_4708.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10180,7 +10042,6 @@
            bug_1977.glob
            bug_1977.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10203,7 +10064,6 @@
   (targets bug_1977.v.chk.log)
   (deps bug_1977.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10223,7 +10083,6 @@
            bug_4544.glob
            bug_4544.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10249,7 +10108,6 @@
   (targets bug_4544.v.chk.log)
   (deps bug_4544.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10272,7 +10130,6 @@
            bug_3387.glob
            bug_3387.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10295,7 +10152,6 @@
   (targets bug_3387.v.chk.log)
   (deps bug_3387.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10315,7 +10171,6 @@
            bug_4818.glob
            bug_4818.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10339,7 +10194,6 @@
   (targets bug_4818.v.chk.log)
   (deps bug_4818.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10360,7 +10214,6 @@
            bug_6323.glob
            bug_6323.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10383,7 +10236,6 @@
   (targets bug_6323.v.chk.log)
   (deps bug_6323.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10403,7 +10255,6 @@
            bug_7795.glob
            bug_7795.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10427,7 +10278,6 @@
   (targets bug_7795.v.chk.log)
   (deps bug_7795.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10448,7 +10298,6 @@
            bug_3210.glob
            bug_3210.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10471,7 +10320,6 @@
   (targets bug_3210.v.chk.log)
   (deps bug_3210.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10491,7 +10339,6 @@
            bug_4746.glob
            bug_4746.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10514,7 +10361,6 @@
   (targets bug_4746.v.chk.log)
   (deps bug_4746.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10534,7 +10380,6 @@
            bug_9240.glob
            bug_9240.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10557,7 +10402,6 @@
   (targets bug_9240.v.chk.log)
   (deps bug_9240.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10577,7 +10421,6 @@
            bug_5127.glob
            bug_5127.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10601,7 +10444,6 @@
   (targets bug_5127.v.chk.log)
   (deps bug_5127.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10621,7 +10463,6 @@
            bug_14704.glob
            bug_14704.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10644,7 +10485,6 @@
   (targets bug_14704.v.chk.log)
   (deps bug_14704.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10664,7 +10504,6 @@
            bug_5692.glob
            bug_5692.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10689,7 +10528,6 @@
   (targets bug_5692.v.chk.log)
   (deps bug_5692.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10711,7 +10549,6 @@
            bug_3477.glob
            bug_3477.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10734,7 +10571,6 @@
   (targets bug_3477.v.chk.log)
   (deps bug_3477.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10754,7 +10590,6 @@
            bug_3037.glob
            bug_3037.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10779,7 +10614,6 @@
   (targets bug_3037.v.chk.log)
   (deps bug_3037.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10801,7 +10635,6 @@
            bug_13966.glob
            bug_13966.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10824,7 +10657,6 @@
   (targets bug_13966.v.chk.log)
   (deps bug_13966.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10844,7 +10676,6 @@
            bug_4294.glob
            bug_4294.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10868,7 +10699,6 @@
   (targets bug_4294.v.chk.log)
   (deps bug_4294.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10889,7 +10719,6 @@
            bug_3230.glob
            bug_3230.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10912,7 +10741,6 @@
   (targets bug_3230.v.chk.log)
   (deps bug_3230.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10932,7 +10760,6 @@
            bug_14221.glob
            bug_14221.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10956,7 +10783,6 @@
   (targets bug_14221.v.chk.log)
   (deps bug_14221.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -10977,7 +10803,6 @@
            bug_15161.glob
            bug_15161.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11000,7 +10825,6 @@
   (targets bug_15161.v.chk.log)
   (deps bug_15161.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11020,7 +10844,6 @@
            bug_11168.glob
            bug_11168.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11043,7 +10866,6 @@
   (targets bug_11168.v.chk.log)
   (deps bug_11168.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11063,7 +10885,6 @@
            bug_12196.glob
            bug_12196.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11086,7 +10907,6 @@
   (targets bug_12196.v.chk.log)
   (deps bug_12196.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11106,7 +10926,6 @@
            bug_3637.glob
            bug_3637.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11129,7 +10948,6 @@
   (targets bug_3637.v.chk.log)
   (deps bug_3637.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11149,7 +10967,6 @@
            bug_1483.glob
            bug_1483.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11173,7 +10990,6 @@
   (targets bug_1483.v.chk.log)
   (deps bug_1483.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11194,7 +11010,6 @@
            bug_5043.glob
            bug_5043.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11217,7 +11032,6 @@
   (targets bug_5043.v.chk.log)
   (deps bug_5043.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11237,7 +11051,6 @@
            HoTT_coq_053.glob
            HoTT_coq_053.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11261,7 +11074,6 @@
   (targets HoTT_coq_053.v.chk.log)
   (deps HoTT_coq_053.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11282,7 +11094,6 @@
            HoTT_coq_080.glob
            HoTT_coq_080.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11305,7 +11116,6 @@
   (targets HoTT_coq_080.v.chk.log)
   (deps HoTT_coq_080.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11325,7 +11135,6 @@
            bug_3661.glob
            bug_3661.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11348,7 +11157,6 @@
   (targets bug_3661.v.chk.log)
   (deps bug_3661.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11368,7 +11176,6 @@
            bug_3017.glob
            bug_3017.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11391,7 +11198,6 @@
   (targets bug_3017.v.chk.log)
   (deps bug_3017.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11411,7 +11217,6 @@
            bug_3670.glob
            bug_3670.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11434,7 +11239,6 @@
   (targets bug_3670.v.chk.log)
   (deps bug_3670.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11454,7 +11258,6 @@
            bug_4383.glob
            bug_4383.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11477,7 +11280,6 @@
   (targets bug_4383.v.chk.log)
   (deps bug_4383.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11497,7 +11299,6 @@
            bug_1981.glob
            bug_1981.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11520,7 +11321,6 @@
   (targets bug_1981.v.chk.log)
   (deps bug_1981.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11540,7 +11340,6 @@
            bug_12917.glob
            bug_12917.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11563,7 +11362,6 @@
   (targets bug_12917.v.chk.log)
   (deps bug_12917.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11583,7 +11381,6 @@
            bug_9640.glob
            bug_9640.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11606,7 +11403,6 @@
   (targets bug_9640.v.chk.log)
   (deps bug_9640.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11626,7 +11422,6 @@
            bug_3810.glob
            bug_3810.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11649,7 +11444,6 @@
   (targets bug_3810.v.chk.log)
   (deps bug_3810.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11669,7 +11463,6 @@
            bug_15122.glob
            bug_15122.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11693,7 +11486,6 @@
   (targets bug_15122.v.chk.log)
   (deps bug_15122.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11714,7 +11506,6 @@
            bug_8215.glob
            bug_8215.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11737,7 +11528,6 @@
   (targets bug_8215.v.chk.log)
   (deps bug_8215.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11757,7 +11547,6 @@
            bug_13216.glob
            bug_13216.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11780,7 +11569,6 @@
   (targets bug_13216.v.chk.log)
   (deps bug_13216.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11800,7 +11588,6 @@
            bug_3402.glob
            bug_3402.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11823,7 +11610,6 @@
   (targets bug_3402.v.chk.log)
   (deps bug_3402.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11843,7 +11629,6 @@
            bug_11845.glob
            bug_11845.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11866,7 +11651,6 @@
   (targets bug_11845.v.chk.log)
   (deps bug_11845.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11886,7 +11670,6 @@
            bug_4622.glob
            bug_4622.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11909,7 +11692,6 @@
   (targets bug_4622.v.chk.log)
   (deps bug_4622.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11929,7 +11711,6 @@
            bug_4628.glob
            bug_4628.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11952,7 +11733,6 @@
   (targets bug_4628.v.chk.log)
   (deps bug_4628.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11972,7 +11752,6 @@
            bug_14678.glob
            bug_14678.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -11996,7 +11775,6 @@
   (targets bug_14678.v.chk.log)
   (deps bug_14678.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12017,7 +11795,6 @@
            bug_2817.glob
            bug_2817.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12040,7 +11817,6 @@
   (targets bug_2817.v.chk.log)
   (deps bug_2817.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12060,7 +11836,6 @@
            bug_12365.glob
            bug_12365.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12083,7 +11858,6 @@
   (targets bug_12365.v.chk.log)
   (deps bug_12365.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12103,7 +11877,6 @@
            bug_1901.glob
            bug_1901.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12127,7 +11900,6 @@
   (targets bug_1901.v.chk.log)
   (deps bug_1901.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12148,7 +11920,6 @@
            bug_1944.glob
            bug_1944.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12171,7 +11942,6 @@
   (targets bug_1944.v.chk.log)
   (deps bug_1944.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12191,7 +11961,6 @@
            bug_3337.glob
            bug_3337.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12215,7 +11984,6 @@
   (targets bug_3337.v.chk.log)
   (deps bug_3337.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12236,7 +12004,6 @@
            bug_5095.glob
            bug_5095.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12259,7 +12026,6 @@
   (targets bug_5095.v.chk.log)
   (deps bug_5095.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12279,7 +12045,6 @@
            bug_2966.glob
            bug_2966.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12303,7 +12068,6 @@
   (targets bug_2966.v.chk.log)
   (deps bug_2966.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12324,7 +12088,6 @@
            bug_3978.glob
            bug_3978.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12349,7 +12112,6 @@
   (targets bug_3978.v.chk.log)
   (deps bug_3978.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12371,7 +12133,6 @@
            HoTT_coq_028.glob
            HoTT_coq_028.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12394,7 +12155,6 @@
   (targets HoTT_coq_028.v.chk.log)
   (deps HoTT_coq_028.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12414,7 +12174,6 @@
            bug_6313.glob
            bug_6313.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12437,7 +12196,6 @@
   (targets bug_6313.v.chk.log)
   (deps bug_6313.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12457,7 +12215,6 @@
            bug_13841.glob
            bug_13841.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12480,7 +12237,6 @@
   (targets bug_13841.v.chk.log)
   (deps bug_13841.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12500,7 +12256,6 @@
            bug_4116.glob
            bug_4116.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12523,7 +12278,6 @@
   (targets bug_4116.v.chk.log)
   (deps bug_4116.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12543,7 +12297,6 @@
            bug_11935.glob
            bug_11935.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12566,7 +12319,6 @@
   (targets bug_11935.v.chk.log)
   (deps bug_11935.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12586,7 +12338,6 @@
            bug_1634.glob
            bug_1634.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12611,7 +12362,6 @@
   (targets bug_1634.v.chk.log)
   (deps bug_1634.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12633,7 +12383,6 @@
            bug_6775.glob
            bug_6775.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12656,7 +12405,6 @@
   (targets bug_6775.v.chk.log)
   (deps bug_6775.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12676,7 +12424,6 @@
            bug_12928.glob
            bug_12928.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12699,7 +12446,6 @@
   (targets bug_12928.v.chk.log)
   (deps bug_12928.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12719,7 +12465,6 @@
            bug_2800.glob
            bug_2800.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12743,7 +12488,6 @@
   (targets bug_2800.v.chk.log)
   (deps bug_2800.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12764,7 +12508,6 @@
            bug_5666.glob
            bug_5666.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12787,7 +12530,6 @@
   (targets bug_5666.v.chk.log)
   (deps bug_5666.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12807,7 +12549,6 @@
            bug_1551.glob
            bug_1551.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12830,7 +12571,6 @@
   (targets bug_1551.v.chk.log)
   (deps bug_1551.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12850,7 +12590,6 @@
            bug_5622.glob
            bug_5622.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12873,7 +12612,6 @@
   (targets bug_5622.v.chk.log)
   (deps bug_5622.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12893,7 +12631,6 @@
            bug_2017.glob
            bug_2017.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12916,7 +12653,6 @@
   (targets bug_2017.v.chk.log)
   (deps bug_2017.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12936,7 +12672,6 @@
            bug_15288.glob
            bug_15288.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12959,7 +12694,6 @@
   (targets bug_15288.v.chk.log)
   (deps bug_15288.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -12979,7 +12713,6 @@
            bug_7712.glob
            bug_7712.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13002,7 +12735,6 @@
   (targets bug_7712.v.chk.log)
   (deps bug_7712.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13022,7 +12754,6 @@
            bug_13157.glob
            bug_13157.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13045,7 +12776,6 @@
   (targets bug_13157.v.chk.log)
   (deps bug_13157.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13065,7 +12795,6 @@
            bug_4816.glob
            bug_4816.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13089,7 +12818,6 @@
   (targets bug_4816.v.chk.log)
   (deps bug_4816.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13110,7 +12838,6 @@
            HoTT_coq_081.glob
            HoTT_coq_081.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13133,7 +12860,6 @@
   (targets HoTT_coq_081.v.chk.log)
   (deps HoTT_coq_081.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13153,7 +12879,6 @@
            bug_12418.glob
            bug_12418.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13176,7 +12901,6 @@
   (targets bug_12418.v.chk.log)
   (deps bug_12418.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13196,7 +12920,6 @@
            bug_7867.glob
            bug_7867.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13219,7 +12942,6 @@
   (targets bug_7867.v.chk.log)
   (deps bug_7867.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13239,7 +12961,6 @@
            bug_15883.glob
            bug_15883.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13262,7 +12983,6 @@
   (targets bug_15883.v.chk.log)
   (deps bug_15883.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13282,7 +13002,6 @@
            bug_9344.glob
            bug_9344.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13305,7 +13024,6 @@
   (targets bug_9344.v.chk.log)
   (deps bug_9344.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13323,7 +13041,6 @@
   (targets bug_11342.vos
            bug_11342.vos.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13348,7 +13065,6 @@
            bug_4378.glob
            bug_4378.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13371,7 +13087,6 @@
   (targets bug_4378.v.chk.log)
   (deps bug_4378.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13391,7 +13106,6 @@
            HoTT_coq_055.glob
            HoTT_coq_055.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13415,7 +13129,6 @@
   (targets HoTT_coq_055.v.chk.log)
   (deps HoTT_coq_055.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13436,7 +13149,6 @@
            bug_5757.glob
            bug_5757.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13459,7 +13171,6 @@
   (targets bug_5757.v.chk.log)
   (deps bug_5757.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13479,7 +13190,6 @@
            bug_10533.glob
            bug_10533.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13504,7 +13214,6 @@
   (targets bug_10533.v.chk.log)
   (deps bug_10533.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13526,7 +13235,6 @@
            bug_4203.glob
            bug_4203.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13549,7 +13257,6 @@
   (targets bug_4203.v.chk.log)
   (deps bug_4203.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13569,7 +13276,6 @@
            bug_3469.glob
            bug_3469.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13592,7 +13298,6 @@
   (targets bug_3469.v.chk.log)
   (deps bug_3469.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13612,7 +13317,6 @@
            bug_3974.glob
            bug_3974.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13635,7 +13339,6 @@
   (targets bug_3974.v.chk.log)
   (deps bug_3974.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13655,7 +13358,6 @@
            bug_9633.glob
            bug_9633.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13678,7 +13380,6 @@
   (targets bug_9633.v.chk.log)
   (deps bug_9633.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13698,7 +13399,6 @@
            bug_2467.glob
            bug_2467.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13722,7 +13422,6 @@
   (targets bug_2467.v.chk.log)
   (deps bug_2467.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13743,7 +13442,6 @@
            bug_2846.glob
            bug_2846.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13766,7 +13464,6 @@
   (targets bug_2846.v.chk.log)
   (deps bug_2846.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13786,7 +13483,6 @@
            bug_16144.glob
            bug_16144.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13809,7 +13505,6 @@
   (targets bug_16144.v.chk.log)
   (deps bug_16144.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13829,7 +13524,6 @@
            bug_3821.glob
            bug_3821.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13852,7 +13546,6 @@
   (targets bug_3821.v.chk.log)
   (deps bug_3821.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13872,7 +13565,6 @@
            bug_4576.glob
            bug_4576.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13895,7 +13587,6 @@
   (targets bug_4576.v.chk.log)
   (deps bug_4576.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13915,7 +13606,6 @@
            bug_3698.glob
            bug_3698.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13939,7 +13629,6 @@
   (targets bug_3698.v.chk.log)
   (deps bug_3698.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13960,7 +13649,6 @@
            bug_3481.glob
            bug_3481.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -13983,7 +13671,6 @@
   (targets bug_3481.v.chk.log)
   (deps bug_3481.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14003,7 +13690,6 @@
            bug_3658.glob
            bug_3658.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14027,7 +13713,6 @@
   (targets bug_3658.v.chk.log)
   (deps bug_3658.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14048,7 +13733,6 @@
            bug_2810.glob
            bug_2810.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14071,7 +13755,6 @@
   (targets bug_2810.v.chk.log)
   (deps bug_2810.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14091,7 +13774,6 @@
            bug_3777.glob
            bug_3777.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14114,7 +13796,6 @@
   (targets bug_3777.v.chk.log)
   (deps bug_3777.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14134,7 +13815,6 @@
            bug_5365.glob
            bug_5365.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14157,7 +13837,6 @@
   (targets bug_5365.v.chk.log)
   (deps bug_5365.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14177,7 +13856,6 @@
            bug_13169.glob
            bug_13169.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14200,7 +13878,6 @@
   (targets bug_13169.v.chk.log)
   (deps bug_13169.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14220,7 +13897,6 @@
            bug_3633.glob
            bug_3633.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14243,7 +13919,6 @@
   (targets bug_3633.v.chk.log)
   (deps bug_3633.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14263,7 +13938,6 @@
            bug_4216.glob
            bug_4216.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14286,7 +13960,6 @@
   (targets bug_4216.v.chk.log)
   (deps bug_4216.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14306,7 +13979,6 @@
            HoTT_coq_083.glob
            HoTT_coq_083.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14329,7 +14001,6 @@
   (targets HoTT_coq_083.v.chk.log)
   (deps HoTT_coq_083.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14349,7 +14020,6 @@
            bug_3071.glob
            bug_3071.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14372,7 +14042,6 @@
   (targets bug_3071.v.chk.log)
   (deps bug_3071.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14392,7 +14061,6 @@
            bug_4771.glob
            bug_4771.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14415,7 +14083,6 @@
   (targets bug_4771.v.chk.log)
   (deps bug_4771.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14435,7 +14102,6 @@
            bug_4456.glob
            bug_4456.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14462,7 +14128,6 @@
   (targets bug_4456.v.chk.log)
   (deps bug_4456.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14486,7 +14151,6 @@
            bug_3416.glob
            bug_3416.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14509,7 +14173,6 @@
   (targets bug_3416.v.chk.log)
   (deps bug_3416.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14529,7 +14192,6 @@
            bug_3326.glob
            bug_3326.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14552,7 +14214,6 @@
   (targets bug_3326.v.chk.log)
   (deps bug_3326.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14572,7 +14233,6 @@
            bug_3324.glob
            bug_3324.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14596,7 +14256,6 @@
   (targets bug_3324.v.chk.log)
   (deps bug_3324.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14617,7 +14276,6 @@
            bug_3142.glob
            bug_3142.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14640,7 +14298,6 @@
   (targets bug_3142.v.chk.log)
   (deps bug_3142.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14660,7 +14317,6 @@
            bug_3377.glob
            bug_3377.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14683,7 +14339,6 @@
   (targets bug_3377.v.chk.log)
   (deps bug_3377.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14703,7 +14358,6 @@
            bug_5707.glob
            bug_5707.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14726,7 +14380,6 @@
   (targets bug_5707.v.chk.log)
   (deps bug_5707.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14746,7 +14399,6 @@
            bug_3350.glob
            bug_3350.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14773,7 +14425,6 @@
   (targets bug_3350.v.chk.log)
   (deps bug_3350.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14797,7 +14448,6 @@
            bug_4661.glob
            bug_4661.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14820,7 +14470,6 @@
   (targets bug_4661.v.chk.log)
   (deps bug_4661.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14840,7 +14489,6 @@
            bug_1683.glob
            bug_1683.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14864,7 +14512,6 @@
   (targets bug_1683.v.chk.log)
   (deps bug_1683.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14885,7 +14532,6 @@
            bug_9527.glob
            bug_9527.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14908,7 +14554,6 @@
   (targets bug_9527.v.chk.log)
   (deps bug_9527.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14928,7 +14573,6 @@
            bug_9517.glob
            bug_9517.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14951,7 +14595,6 @@
   (targets bug_9517.v.chk.log)
   (deps bug_9517.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14971,7 +14614,6 @@
            bug_3686.glob
            bug_3686.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -14995,7 +14637,6 @@
   (targets bug_3686.v.chk.log)
   (deps bug_3686.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15016,7 +14657,6 @@
            bug_2955.glob
            bug_2955.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15040,7 +14680,6 @@
   (targets bug_2955.v.chk.log)
   (deps bug_2955.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15061,7 +14700,6 @@
            bug_3690.glob
            bug_3690.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15084,7 +14722,6 @@
   (targets bug_3690.v.chk.log)
   (deps bug_3690.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15104,7 +14741,6 @@
            bug_4464.glob
            bug_4464.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15127,7 +14763,6 @@
   (targets bug_4464.v.chk.log)
   (deps bug_4464.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15147,7 +14782,6 @@
            bug_3068.glob
            bug_3068.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15171,7 +14805,6 @@
   (targets bug_3068.v.chk.log)
   (deps bug_3068.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15192,7 +14825,6 @@
            bug_3563.glob
            bug_3563.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15215,7 +14847,6 @@
   (targets bug_3563.v.chk.log)
   (deps bug_3563.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15235,7 +14866,6 @@
            bug_3664.glob
            bug_3664.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15259,7 +14889,6 @@
   (targets bug_3664.v.chk.log)
   (deps bug_3664.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15280,7 +14909,6 @@
            bug_2139.glob
            bug_2139.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15303,7 +14931,6 @@
   (targets bug_2139.v.chk.log)
   (deps bug_2139.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15323,7 +14950,6 @@
            bug_14725.glob
            bug_14725.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15348,7 +14974,6 @@
   (targets bug_14725.v.chk.log)
   (deps bug_14725.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15370,7 +14995,6 @@
            bug_10088.glob
            bug_10088.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15395,7 +15019,6 @@
   (targets bug_10088.v.chk.log)
   (deps bug_10088.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15417,7 +15040,6 @@
            bug_1477.glob
            bug_1477.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15440,7 +15062,6 @@
   (targets bug_1477.v.chk.log)
   (deps bug_1477.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15460,7 +15081,6 @@
            bug_6534.glob
            bug_6534.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15483,7 +15103,6 @@
   (targets bug_6534.v.chk.log)
   (deps bug_6534.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15503,7 +15122,6 @@
            bug_9300.glob
            bug_9300.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15526,7 +15144,6 @@
   (targets bug_9300.v.chk.log)
   (deps bug_9300.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15546,7 +15163,6 @@
            bug_4412.glob
            bug_4412.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15571,7 +15187,6 @@
   (targets bug_4412.v.chk.log)
   (deps bug_4412.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15593,7 +15208,6 @@
            bug_7228.glob
            bug_7228.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15617,7 +15231,6 @@
   (targets bug_7228.v.chk.log)
   (deps bug_7228.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15638,7 +15251,6 @@
            bug_4325.glob
            bug_4325.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15661,7 +15273,6 @@
   (targets bug_4325.v.chk.log)
   (deps bug_4325.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15681,7 +15292,6 @@
            bug_10762.glob
            bug_10762.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15704,7 +15314,6 @@
   (targets bug_10762.v.chk.log)
   (deps bug_10762.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15724,7 +15333,6 @@
            bug_3743.glob
            bug_3743.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15748,7 +15356,6 @@
   (targets bug_3743.v.chk.log)
   (deps bug_3743.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15769,7 +15376,6 @@
            bug_3647.glob
            bug_3647.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15794,7 +15400,6 @@
   (targets bug_3647.v.chk.log)
   (deps bug_3647.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15816,7 +15421,6 @@
            bug_4969.glob
            bug_4969.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15840,7 +15444,6 @@
   (targets bug_4969.v.chk.log)
   (deps bug_4969.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15861,7 +15464,6 @@
            bug_14009.glob
            bug_14009.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15884,7 +15486,6 @@
   (targets bug_14009.v.chk.log)
   (deps bug_14009.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15904,7 +15505,6 @@
            HoTT_coq_049.glob
            HoTT_coq_049.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15928,7 +15528,6 @@
   (targets HoTT_coq_049.v.chk.log)
   (deps HoTT_coq_049.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15949,7 +15548,6 @@
            bug_4001.glob
            bug_4001.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15972,7 +15570,6 @@
   (targets bug_4001.v.chk.log)
   (deps bug_4001.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -15992,7 +15589,6 @@
            bug_14731.glob
            bug_14731.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16016,7 +15612,6 @@
   (targets bug_14731.v.chk.log)
   (deps bug_14731.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16037,7 +15632,6 @@
            HoTT_coq_057.glob
            HoTT_coq_057.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16061,7 +15655,6 @@
   (targets HoTT_coq_057.v.chk.log)
   (deps HoTT_coq_057.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16082,7 +15675,6 @@
            bug_9229.glob
            bug_9229.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16105,7 +15697,6 @@
   (targets bug_9229.v.chk.log)
   (deps bug_9229.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16125,7 +15716,6 @@
            bug_3001.glob
            bug_3001.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16148,7 +15738,6 @@
   (targets bug_3001.v.chk.log)
   (deps bug_3001.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16168,7 +15757,6 @@
            bug_7092.glob
            bug_7092.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16191,7 +15779,6 @@
   (targets bug_7092.v.chk.log)
   (deps bug_7092.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16211,7 +15798,6 @@
            HoTT_coq_052.glob
            HoTT_coq_052.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16234,7 +15820,6 @@
   (targets HoTT_coq_052.v.chk.log)
   (deps HoTT_coq_052.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16254,7 +15839,6 @@
            bug_4018.glob
            bug_4018.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16277,7 +15861,6 @@
   (targets bug_4018.v.chk.log)
   (deps bug_4018.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16297,7 +15880,6 @@
            bug_14722.glob
            bug_14722.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16320,7 +15902,6 @@
   (targets bug_14722.v.chk.log)
   (deps bug_14722.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16340,7 +15921,6 @@
            bug_12551.glob
            bug_12551.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16363,7 +15943,6 @@
   (targets bug_12551.v.chk.log)
   (deps bug_12551.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16383,7 +15962,6 @@
            bug_4363.glob
            bug_4363.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16406,7 +15984,6 @@
   (targets bug_4363.v.chk.log)
   (deps bug_4363.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16426,7 +16003,6 @@
            bug_7195.glob
            bug_7195.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16449,7 +16025,6 @@
   (targets bug_7195.v.chk.log)
   (deps bug_7195.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16469,7 +16044,6 @@
            bug_5750.glob
            bug_5750.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16492,7 +16066,6 @@
   (targets bug_5750.v.chk.log)
   (deps bug_5750.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16512,7 +16085,6 @@
            bug_7723.glob
            bug_7723.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16536,7 +16108,6 @@
   (targets bug_7723.v.chk.log)
   (deps bug_7723.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16557,7 +16128,6 @@
            bug_5486.glob
            bug_5486.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16580,7 +16150,6 @@
   (targets bug_5486.v.chk.log)
   (deps bug_5486.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16600,7 +16169,6 @@
            bug_13162.glob
            bug_13162.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16623,7 +16191,6 @@
   (targets bug_13162.v.chk.log)
   (deps bug_13162.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16643,7 +16210,6 @@
            bug_4221.glob
            bug_4221.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16666,7 +16232,6 @@
   (targets bug_4221.v.chk.log)
   (deps bug_4221.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16686,7 +16251,6 @@
            bug_1900.glob
            bug_1900.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16709,7 +16273,6 @@
   (targets bug_1900.v.chk.log)
   (deps bug_1900.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16729,7 +16292,6 @@
            bug_14662.glob
            bug_14662.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16752,7 +16314,6 @@
   (targets bug_14662.v.chk.log)
   (deps bug_14662.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16772,7 +16333,6 @@
            bug_4511.glob
            bug_4511.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16795,7 +16355,6 @@
   (targets bug_4511.v.chk.log)
   (deps bug_4511.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16815,7 +16374,6 @@
            bug_5011.glob
            bug_5011.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16838,7 +16396,6 @@
   (targets bug_5011.v.chk.log)
   (deps bug_5011.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16858,7 +16415,6 @@
            bug_4955.glob
            bug_4955.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16881,7 +16437,6 @@
   (targets bug_4955.v.chk.log)
   (deps bug_4955.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16901,7 +16456,6 @@
            bug_5322.glob
            bug_5322.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16924,7 +16478,6 @@
   (targets bug_5322.v.chk.log)
   (deps bug_5322.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16944,7 +16497,6 @@
            bug_4555.glob
            bug_4555.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16967,7 +16519,6 @@
   (targets bug_4555.v.chk.log)
   (deps bug_4555.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -16987,7 +16538,6 @@
            bug_3373.glob
            bug_3373.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17011,7 +16561,6 @@
   (targets bug_3373.v.chk.log)
   (deps bug_3373.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17032,7 +16581,6 @@
            bug_13960.glob
            bug_13960.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17056,7 +16604,6 @@
   (targets bug_13960.v.chk.log)
   (deps bug_13960.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17077,7 +16624,6 @@
            bug_4305.glob
            bug_4305.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17100,7 +16646,6 @@
   (targets bug_4305.v.chk.log)
   (deps bug_4305.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17120,7 +16665,6 @@
            bug_3667.glob
            bug_3667.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17143,7 +16687,6 @@
   (targets bug_3667.v.chk.log)
   (deps bug_3667.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17163,7 +16706,6 @@
            bug_3062.glob
            bug_3062.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17186,7 +16728,6 @@
   (targets bug_3062.v.chk.log)
   (deps bug_3062.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17206,7 +16747,6 @@
            bug_1582.glob
            bug_1582.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17230,7 +16770,6 @@
   (targets bug_1582.v.chk.log)
   (deps bug_1582.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17251,7 +16790,6 @@
            bug_4193.glob
            bug_4193.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17274,7 +16812,6 @@
   (targets bug_4193.v.chk.log)
   (deps bug_4193.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17294,7 +16831,6 @@
            HoTT_coq_036.glob
            HoTT_coq_036.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17317,7 +16853,6 @@
   (targets HoTT_coq_036.v.chk.log)
   (deps HoTT_coq_036.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17337,7 +16872,6 @@
            bug_5346.glob
            bug_5346.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17360,7 +16894,6 @@
   (targets bug_5346.v.chk.log)
   (deps bug_5346.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17380,7 +16913,6 @@
            bug_2930.glob
            bug_2930.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17404,7 +16936,6 @@
   (targets bug_2930.v.chk.log)
   (deps bug_2930.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17425,7 +16956,6 @@
            bug_5476.glob
            bug_5476.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17449,7 +16979,6 @@
   (targets bug_5476.v.chk.log)
   (deps bug_5476.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17470,7 +16999,6 @@
            bug_6951.glob
            bug_6951.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17493,7 +17021,6 @@
   (targets bug_6951.v.chk.log)
   (deps bug_6951.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17513,7 +17040,6 @@
            bug_4754.glob
            bug_4754.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17538,7 +17064,6 @@
   (targets bug_4754.v.chk.log)
   (deps bug_4754.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17560,7 +17085,6 @@
            bug_11140.glob
            bug_11140.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17583,7 +17107,6 @@
   (targets bug_11140.v.chk.log)
   (deps bug_11140.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17603,7 +17126,6 @@
            bug_4764.glob
            bug_4764.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17626,7 +17148,6 @@
   (targets bug_4764.v.chk.log)
   (deps bug_4764.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17646,7 +17167,6 @@
            bug_3330.glob
            bug_3330.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17670,7 +17190,6 @@
   (targets bug_3330.v.chk.log)
   (deps bug_3330.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17691,7 +17210,6 @@
            bug_3682.glob
            bug_3682.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17715,7 +17233,6 @@
   (targets bug_3682.v.chk.log)
   (deps bug_3682.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17736,7 +17253,6 @@
            bug_2616.glob
            bug_2616.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17759,7 +17275,6 @@
   (targets bug_2616.v.chk.log)
   (deps bug_2616.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17779,7 +17294,6 @@
            bug_5066.glob
            bug_5066.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17803,7 +17317,6 @@
   (targets bug_5066.v.chk.log)
   (deps bug_5066.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17824,7 +17337,6 @@
            bug_4624.glob
            bug_4624.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17847,7 +17359,6 @@
   (targets bug_4624.v.chk.log)
   (deps bug_4624.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17867,7 +17378,6 @@
            bug_4762.glob
            bug_4762.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17890,7 +17400,6 @@
   (targets bug_4762.v.chk.log)
   (deps bug_4762.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17910,7 +17419,6 @@
            bug_2951.glob
            bug_2951.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17933,7 +17441,6 @@
   (targets bug_2951.v.chk.log)
   (deps bug_2951.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17953,7 +17460,6 @@
            bug_5786.glob
            bug_5786.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17976,7 +17482,6 @@
   (targets bug_5786.v.chk.log)
   (deps bug_5786.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -17996,7 +17501,6 @@
            bug_3249.glob
            bug_3249.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18019,7 +17523,6 @@
   (targets bug_3249.v.chk.log)
   (deps bug_3249.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18039,7 +17542,6 @@
            bug_3259.glob
            bug_3259.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18063,7 +17565,6 @@
   (targets bug_3259.v.chk.log)
   (deps bug_3259.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18084,7 +17585,6 @@
            bug_1791.glob
            bug_1791.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18108,7 +17608,6 @@
   (targets bug_1791.v.chk.log)
   (deps bug_1791.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18129,7 +17628,6 @@
            bug_12930.glob
            bug_12930.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18152,7 +17650,6 @@
   (targets bug_12930.v.chk.log)
   (deps bug_12930.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18172,7 +17669,6 @@
            bug_6490.glob
            bug_6490.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18195,7 +17691,6 @@
   (targets bug_6490.v.chk.log)
   (deps bug_6490.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18215,7 +17710,6 @@
            bug_3392.glob
            bug_3392.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18239,7 +17733,6 @@
   (targets bug_3392.v.chk.log)
   (deps bug_3392.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18260,7 +17753,6 @@
            HoTT_coq_116.glob
            HoTT_coq_116.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18283,7 +17775,6 @@
   (targets HoTT_coq_116.v.chk.log)
   (deps HoTT_coq_116.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18303,7 +17794,6 @@
            bug_10298.glob
            bug_10298.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18326,7 +17816,6 @@
   (targets bug_10298.v.chk.log)
   (deps bug_10298.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18346,7 +17835,6 @@
            bug_6278.glob
            bug_6278.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18372,7 +17860,6 @@
   (targets bug_6278.v.chk.log)
   (deps bug_6278.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18395,7 +17882,6 @@
            bug_1773.glob
            bug_1773.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18418,7 +17904,6 @@
   (targets bug_1773.v.chk.log)
   (deps bug_1773.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18438,7 +17923,6 @@
            bug_16043.glob
            bug_16043.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18463,7 +17947,6 @@
   (targets bug_16043.v.chk.log)
   (deps bug_16043.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18485,7 +17968,6 @@
            bug_5526.glob
            bug_5526.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18508,7 +17990,6 @@
   (targets bug_5526.v.chk.log)
   (deps bug_5526.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18528,7 +18009,6 @@
            bug_8004.glob
            bug_8004.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18554,7 +18034,6 @@
   (targets bug_8004.v.chk.log)
   (deps bug_8004.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18577,7 +18056,6 @@
            bug_6617.glob
            bug_6617.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18600,7 +18078,6 @@
   (targets bug_6617.v.chk.log)
   (deps bug_6617.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18620,7 +18097,6 @@
            bug_8224.glob
            bug_8224.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18643,7 +18119,6 @@
   (targets bug_8224.v.chk.log)
   (deps bug_8224.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18663,7 +18138,6 @@
            bug_9294.glob
            bug_9294.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18687,7 +18161,6 @@
   (targets bug_9294.v.chk.log)
   (deps bug_9294.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18708,7 +18181,6 @@
            bug_4632.glob
            bug_4632.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18733,7 +18205,6 @@
   (targets bug_4632.v.chk.log)
   (deps bug_4632.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18755,7 +18226,6 @@
            bug_1784.glob
            bug_1784.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18782,7 +18252,6 @@
   (targets bug_1784.v.chk.log)
   (deps bug_1784.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18806,7 +18275,6 @@
            bug_1501.glob
            bug_1501.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18832,7 +18300,6 @@
   (targets bug_1501.v.chk.log)
   (deps bug_1501.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18855,7 +18322,6 @@
            bug_3732.glob
            bug_3732.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18880,7 +18346,6 @@
   (targets bug_3732.v.chk.log)
   (deps bug_3732.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18902,7 +18367,6 @@
            bug_4725.glob
            bug_4725.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18931,7 +18395,6 @@
   (targets bug_4725.v.chk.log)
   (deps bug_4725.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18957,7 +18420,6 @@
            bug_13129.glob
            bug_13129.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -18982,7 +18444,6 @@
   (targets bug_13129.v.chk.log)
   (deps bug_13129.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19004,7 +18465,6 @@
            bug_9521.glob
            bug_9521.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19027,7 +18487,6 @@
   (targets bug_9521.v.chk.log)
   (deps bug_9521.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19047,7 +18506,6 @@
            bug_1774.glob
            bug_1774.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19070,7 +18528,6 @@
   (targets bug_1774.v.chk.log)
   (deps bug_1774.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19090,7 +18547,6 @@
            bug_5764.glob
            bug_5764.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19113,7 +18569,6 @@
   (targets bug_5764.v.chk.log)
   (deps bug_5764.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19133,7 +18588,6 @@
            bug_13086.glob
            bug_13086.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19156,7 +18610,6 @@
   (targets bug_13086.v.chk.log)
   (deps bug_13086.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19176,7 +18629,6 @@
            bug_3899.glob
            bug_3899.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19199,7 +18651,6 @@
   (targets bug_3899.v.chk.log)
   (deps bug_3899.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19219,7 +18670,6 @@
            bug_10560.glob
            bug_10560.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19243,7 +18693,6 @@
   (targets bug_10560.v.chk.log)
   (deps bug_10560.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19264,7 +18713,6 @@
            bug_13307.glob
            bug_13307.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19292,7 +18740,6 @@
   (targets bug_13307.v.chk.log)
   (deps bug_13307.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19317,7 +18764,6 @@
            bug_12860.glob
            bug_12860.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19343,7 +18789,6 @@
   (targets bug_12860.v.chk.log)
   (deps bug_12860.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19366,7 +18811,6 @@
            bug_3890.glob
            bug_3890.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19389,7 +18833,6 @@
   (targets bug_3890.v.chk.log)
   (deps bug_3890.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19409,7 +18852,6 @@
            bug_14734.glob
            bug_14734.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19433,7 +18875,6 @@
   (targets bug_14734.v.chk.log)
   (deps bug_14734.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19453,7 +18894,6 @@
            bug_2141.glob
            bug_2141.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19479,7 +18919,6 @@
   (targets bug_2141.v.chk.log)
   (deps bug_2141.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19502,7 +18941,6 @@
            bug_5077.glob
            bug_5077.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19525,7 +18963,6 @@
   (targets bug_5077.v.chk.log)
   (deps bug_5077.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19545,7 +18982,6 @@
            bug_4726.glob
            bug_4726.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19568,7 +19004,6 @@
   (targets bug_4726.v.chk.log)
   (deps bug_4726.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19588,7 +19023,6 @@
            bug_14300.glob
            bug_14300.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19611,7 +19045,6 @@
   (targets bug_14300.v.chk.log)
   (deps bug_14300.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19631,7 +19064,6 @@
            HoTT_coq_007.glob
            HoTT_coq_007.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19655,7 +19087,6 @@
   (targets HoTT_coq_007.v.chk.log)
   (deps HoTT_coq_007.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19676,7 +19107,6 @@
            bug_6191.glob
            bug_6191.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19703,7 +19133,6 @@
   (targets bug_6191.v.chk.log)
   (deps bug_6191.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19727,7 +19156,6 @@
            bug_5255.glob
            bug_5255.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19750,7 +19178,6 @@
   (targets bug_5255.v.chk.log)
   (deps bug_5255.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19770,7 +19197,6 @@
            bug_1543.glob
            bug_1543.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19793,7 +19219,6 @@
   (targets bug_1543.v.chk.log)
   (deps bug_1543.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19813,7 +19238,6 @@
            bug_2360.glob
            bug_2360.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19836,7 +19260,6 @@
   (targets bug_2360.v.chk.log)
   (deps bug_2360.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19856,7 +19279,6 @@
            HoTT_coq_110.glob
            HoTT_coq_110.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19879,7 +19301,6 @@
   (targets HoTT_coq_110.v.chk.log)
   (deps HoTT_coq_110.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19899,7 +19320,6 @@
            bug_14125.glob
            bug_14125.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19922,7 +19342,6 @@
   (targets bug_14125.v.chk.log)
   (deps bug_14125.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19942,7 +19361,6 @@
            bug_2608.glob
            bug_2608.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19965,7 +19383,6 @@
   (targets bug_2608.v.chk.log)
   (deps bug_2608.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -19985,7 +19402,6 @@
            bug_3510.glob
            bug_3510.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20008,7 +19424,6 @@
   (targets bug_3510.v.chk.log)
   (deps bug_3510.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20028,7 +19443,6 @@
            bug_13413.glob
            bug_13413.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20051,7 +19465,6 @@
   (targets bug_13413.v.chk.log)
   (deps bug_13413.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20071,7 +19484,6 @@
            bug_5286.glob
            bug_5286.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20094,7 +19506,6 @@
   (targets bug_5286.v.chk.log)
   (deps bug_5286.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20114,7 +19525,6 @@
            bug_5371.glob
            bug_5371.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20137,7 +19547,6 @@
   (targets bug_5371.v.chk.log)
   (deps bug_5371.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20157,7 +19566,6 @@
            bug_3282.glob
            bug_3282.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20180,7 +19588,6 @@
   (targets bug_3282.v.chk.log)
   (deps bug_3282.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20200,7 +19607,6 @@
            bug_2428.glob
            bug_2428.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20223,7 +19629,6 @@
   (targets bug_2428.v.chk.log)
   (deps bug_2428.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20243,7 +19648,6 @@
            bug_1844.glob
            bug_1844.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20267,7 +19671,6 @@
   (targets bug_1844.v.chk.log)
   (deps bug_1844.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20288,7 +19691,6 @@
            bug_12763.glob
            bug_12763.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20311,7 +19713,6 @@
   (targets bug_12763.v.chk.log)
   (deps bug_12763.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20331,7 +19732,6 @@
            bug_4372.glob
            bug_4372.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20354,7 +19754,6 @@
   (targets bug_4372.v.chk.log)
   (deps bug_4372.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20374,7 +19773,6 @@
            bug_1935.glob
            bug_1935.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20398,7 +19796,6 @@
   (targets bug_1935.v.chk.log)
   (deps bug_1935.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20419,7 +19816,6 @@
            bug_808_2411.glob
            bug_808_2411.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20442,7 +19838,6 @@
   (targets bug_808_2411.v.chk.log)
   (deps bug_808_2411.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20462,7 +19857,6 @@
            bug_8908.glob
            bug_8908.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20485,7 +19879,6 @@
   (targets bug_8908.v.chk.log)
   (deps bug_8908.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20505,7 +19898,6 @@
            bug_6375.glob
            bug_6375.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20528,7 +19920,6 @@
   (targets bug_6375.v.chk.log)
   (deps bug_6375.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20548,7 +19939,6 @@
            bug_3566.glob
            bug_3566.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20571,7 +19961,6 @@
   (targets bug_3566.v.chk.log)
   (deps bug_3566.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20591,7 +19980,6 @@
            bug_3166.glob
            bug_3166.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20614,7 +20002,6 @@
   (targets bug_3166.v.chk.log)
   (deps bug_3166.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20634,7 +20021,6 @@
            bug_2001.glob
            bug_2001.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20657,7 +20043,6 @@
   (targets bug_2001.v.chk.log)
   (deps bug_2001.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20677,7 +20062,6 @@
            bug_2854.glob
            bug_2854.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20700,7 +20084,6 @@
   (targets bug_2854.v.chk.log)
   (deps bug_2854.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20720,7 +20103,6 @@
            bug_3164.glob
            bug_3164.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20744,7 +20126,6 @@
   (targets bug_3164.v.chk.log)
   (deps bug_3164.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20765,7 +20146,6 @@
            bug_3314.glob
            bug_3314.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20789,7 +20169,6 @@
   (targets bug_3314.v.chk.log)
   (deps bug_3314.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20810,7 +20189,6 @@
            bug_11048.glob
            bug_11048.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20833,7 +20211,6 @@
   (targets bug_11048.v.chk.log)
   (deps bug_11048.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20853,7 +20230,6 @@
            bug_4190.glob
            bug_4190.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20876,7 +20252,6 @@
   (targets bug_4190.v.chk.log)
   (deps bug_4190.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20896,7 +20271,6 @@
            bug_2447.glob
            bug_2447.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20919,7 +20293,6 @@
   (targets bug_2447.v.chk.log)
   (deps bug_2447.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20939,7 +20312,6 @@
            bug_6385.glob
            bug_6385.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20962,7 +20334,6 @@
   (targets bug_6385.v.chk.log)
   (deps bug_6385.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -20982,7 +20353,6 @@
            bug_14712.glob
            bug_14712.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21005,7 +20375,6 @@
   (targets bug_14712.v.chk.log)
   (deps bug_14712.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21025,7 +20394,6 @@
            bug_7011.glob
            bug_7011.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21048,7 +20416,6 @@
   (targets bug_7011.v.chk.log)
   (deps bug_7011.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21068,7 +20435,6 @@
            bug_4769.glob
            bug_4769.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21091,7 +20457,6 @@
   (targets bug_4769.v.chk.log)
   (deps bug_4769.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21111,7 +20476,6 @@
            bug_7554.glob
            bug_7554.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21135,7 +20499,6 @@
   (targets bug_7554.v.chk.log)
   (deps bug_7554.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21156,7 +20519,6 @@
            bug_1718.glob
            bug_1718.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21179,7 +20541,6 @@
   (targets bug_1718.v.chk.log)
   (deps bug_1718.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21199,7 +20560,6 @@
            bug_5315.glob
            bug_5315.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21223,7 +20583,6 @@
   (targets bug_5315.v.chk.log)
   (deps bug_5315.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21244,7 +20603,6 @@
            bug_4217.glob
            bug_4217.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21267,7 +20625,6 @@
   (targets bug_4217.v.chk.log)
   (deps bug_4217.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21287,7 +20644,6 @@
            bug_4250.glob
            bug_4250.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21312,7 +20668,6 @@
   (targets bug_4250.v.chk.log)
   (deps bug_4250.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21334,7 +20689,6 @@
            bug_2883.glob
            bug_2883.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21360,7 +20714,6 @@
   (targets bug_2883.v.chk.log)
   (deps bug_2883.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21383,7 +20736,6 @@
            HoTT_coq_044.glob
            HoTT_coq_044.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21409,7 +20761,6 @@
   (targets HoTT_coq_044.v.chk.log)
   (deps HoTT_coq_044.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21432,7 +20783,6 @@
            bug_6631.glob
            bug_6631.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21456,7 +20806,6 @@
   (targets bug_6631.v.chk.log)
   (deps bug_6631.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21477,7 +20826,6 @@
            bug_7615.glob
            bug_7615.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21501,7 +20849,6 @@
   (targets bug_7615.v.chk.log)
   (deps bug_7615.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21522,7 +20869,6 @@
            bug_16057.glob
            bug_16057.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21545,7 +20891,6 @@
   (targets bug_16057.v.chk.log)
   (deps bug_16057.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21565,7 +20910,6 @@
            bug_13131.glob
            bug_13131.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21588,7 +20932,6 @@
   (targets bug_13131.v.chk.log)
   (deps bug_13131.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21608,7 +20951,6 @@
            bug_11677.glob
            bug_11677.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21634,7 +20976,6 @@
   (targets bug_11677.v.chk.log)
   (deps bug_11677.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21657,7 +20998,6 @@
            bug_9595.glob
            bug_9595.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21680,7 +21020,6 @@
   (targets bug_9595.v.chk.log)
   (deps bug_9595.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21700,7 +21039,6 @@
            bug_2837.glob
            bug_2837.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21724,7 +21062,6 @@
   (targets bug_2837.v.chk.log)
   (deps bug_2837.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21745,7 +21082,6 @@
            bug_3656.glob
            bug_3656.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21768,7 +21104,6 @@
   (targets bug_3656.v.chk.log)
   (deps bug_3656.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21788,7 +21123,6 @@
            bug_8794.glob
            bug_8794.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21811,7 +21145,6 @@
   (targets bug_8794.v.chk.log)
   (deps bug_8794.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21831,7 +21164,6 @@
            bug_7916.glob
            bug_7916.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21860,7 +21192,6 @@
   (targets bug_7916.v.chk.log)
   (deps bug_7916.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21886,7 +21217,6 @@
            bug_3755.glob
            bug_3755.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21909,7 +21239,6 @@
   (targets bug_3755.v.chk.log)
   (deps bug_3755.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21929,7 +21258,6 @@
            bug_15843.glob
            bug_15843.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21952,7 +21280,6 @@
   (targets bug_15843.v.chk.log)
   (deps bug_15843.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21972,7 +21299,6 @@
            bug_13732.glob
            bug_13732.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -21995,7 +21321,6 @@
   (targets bug_13732.v.chk.log)
   (deps bug_13732.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22015,7 +21340,6 @@
            bug_3427.glob
            bug_3427.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22039,7 +21363,6 @@
   (targets bug_3427.v.chk.log)
   (deps bug_3427.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22060,7 +21383,6 @@
            bug_11585.glob
            bug_11585.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22083,7 +21405,6 @@
   (targets bug_11585.v.chk.log)
   (deps bug_11585.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22103,7 +21424,6 @@
            bug_1865.glob
            bug_1865.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22126,7 +21446,6 @@
   (targets bug_1865.v.chk.log)
   (deps bug_1865.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22146,7 +21465,6 @@
            bug_4670.glob
            bug_4670.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22170,7 +21488,6 @@
   (targets bug_4670.v.chk.log)
   (deps bug_4670.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22191,7 +21508,6 @@
            bug_5347.glob
            bug_5347.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22214,7 +21530,6 @@
   (targets bug_5347.v.chk.log)
   (deps bug_5347.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22234,7 +21549,6 @@
            bug_3923.glob
            bug_3923.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22258,7 +21572,6 @@
   (targets bug_3923.v.chk.log)
   (deps bug_3923.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22279,7 +21592,6 @@
            bug_12414.glob
            bug_12414.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22302,7 +21614,6 @@
   (targets bug_12414.v.chk.log)
   (deps bug_12414.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22322,7 +21633,6 @@
            bug_5940.glob
            bug_5940.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22346,7 +21656,6 @@
   (targets bug_5940.v.chk.log)
   (deps bug_5940.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22367,7 +21676,6 @@
            bug_13363.glob
            bug_13363.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22390,7 +21698,6 @@
   (targets bug_13363.v.chk.log)
   (deps bug_13363.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22410,7 +21717,6 @@
            HoTT_coq_098.glob
            HoTT_coq_098.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22434,7 +21740,6 @@
   (targets HoTT_coq_098.v.chk.log)
   (deps HoTT_coq_098.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22455,7 +21760,6 @@
            bug_15501.glob
            bug_15501.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22478,7 +21782,6 @@
   (targets bug_15501.v.chk.log)
   (deps bug_15501.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22498,7 +21801,6 @@
            bug_4415.glob
            bug_4415.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22521,7 +21823,6 @@
   (targets bug_4415.v.chk.log)
   (deps bug_4415.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22541,7 +21842,6 @@
            bug_14708.glob
            bug_14708.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22564,7 +21864,6 @@
   (targets bug_14708.v.chk.log)
   (deps bug_14708.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22584,7 +21883,6 @@
            bug_14011.glob
            bug_14011.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22608,7 +21906,6 @@
   (targets bug_14011.v.chk.log)
   (deps bug_14011.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22629,7 +21926,6 @@
            bug_4623.glob
            bug_4623.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22652,7 +21948,6 @@
   (targets bug_4623.v.chk.log)
   (deps bug_4623.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22672,7 +21967,6 @@
            bug_3487.glob
            bug_3487.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22695,7 +21989,6 @@
   (targets bug_3487.v.chk.log)
   (deps bug_3487.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22715,7 +22008,6 @@
            bug_9583.glob
            bug_9583.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22738,7 +22030,6 @@
   (targets bug_9583.v.chk.log)
   (deps bug_9583.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22758,7 +22049,6 @@
            bug_3146.glob
            bug_3146.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22781,7 +22071,6 @@
   (targets bug_3146.v.chk.log)
   (deps bug_3146.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22801,7 +22090,6 @@
            bug_4925.glob
            bug_4925.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22824,7 +22112,6 @@
   (targets bug_4925.v.chk.log)
   (deps bug_4925.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22844,7 +22131,6 @@
            bug_2230.glob
            bug_2230.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22867,7 +22153,6 @@
   (targets bug_2230.v.chk.log)
   (deps bug_2230.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22887,7 +22172,6 @@
            bug_7675_1.glob
            bug_7675_1.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22912,7 +22196,6 @@
   (targets bug_7675_1.v.chk.log)
   (deps bug_7675_1.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22934,7 +22217,6 @@
            bug_3928.glob
            bug_3928.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22957,7 +22239,6 @@
   (targets bug_3928.v.chk.log)
   (deps bug_3928.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -22977,7 +22258,6 @@
            bug_8739.glob
            bug_8739.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23001,7 +22281,6 @@
   (targets bug_8739.v.chk.log)
   (deps bug_8739.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23022,7 +22301,6 @@
            bug_5198.glob
            bug_5198.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23045,7 +22323,6 @@
   (targets bug_5198.v.chk.log)
   (deps bug_5198.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23065,7 +22342,6 @@
            bug_3590.glob
            bug_3590.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23088,7 +22364,6 @@
   (targets bug_3590.v.chk.log)
   (deps bug_3590.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23108,7 +22383,6 @@
            bug_2615.glob
            bug_2615.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23132,7 +22406,6 @@
   (targets bug_2615.v.chk.log)
   (deps bug_2615.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23153,7 +22426,6 @@
            bug_8121.glob
            bug_8121.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23177,7 +22449,6 @@
   (targets bug_8121.v.chk.log)
   (deps bug_8121.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23198,7 +22469,6 @@
            bug_3624.glob
            bug_3624.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23221,7 +22491,6 @@
   (targets bug_3624.v.chk.log)
   (deps bug_3624.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23241,7 +22510,6 @@
            bug_3305.glob
            bug_3305.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23265,7 +22533,6 @@
   (targets bug_3305.v.chk.log)
   (deps bug_3305.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23286,7 +22553,6 @@
            bug_8432.glob
            bug_8432.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23310,7 +22576,6 @@
   (targets bug_8432.v.chk.log)
   (deps bug_8432.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23331,7 +22596,6 @@
            bug_4612.glob
            bug_4612.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23354,7 +22618,6 @@
   (targets bug_4612.v.chk.log)
   (deps bug_4612.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23374,7 +22637,6 @@
            HoTT_coq_088.glob
            HoTT_coq_088.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23398,7 +22660,6 @@
   (targets HoTT_coq_088.v.chk.log)
   (deps HoTT_coq_088.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23419,7 +22680,6 @@
            bug_4416.glob
            bug_4416.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23442,7 +22702,6 @@
   (targets bug_4416.v.chk.log)
   (deps bug_4416.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23462,7 +22721,6 @@
            bug_3321.glob
            bug_3321.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23486,7 +22744,6 @@
   (targets bug_3321.v.chk.log)
   (deps bug_3321.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23507,7 +22764,6 @@
            HoTT_coq_122.glob
            HoTT_coq_122.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23530,7 +22786,6 @@
   (targets HoTT_coq_122.v.chk.log)
   (deps HoTT_coq_122.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23550,7 +22805,6 @@
            bug_4582.glob
            bug_4582.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23574,7 +22828,6 @@
   (targets bug_4582.v.chk.log)
   (deps bug_4582.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23595,7 +22848,6 @@
            bug_7076.glob
            bug_7076.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23618,7 +22870,6 @@
   (targets bug_7076.v.chk.log)
   (deps bug_7076.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23638,7 +22889,6 @@
            bug_13003.glob
            bug_13003.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23661,7 +22911,6 @@
   (targets bug_13003.v.chk.log)
   (deps bug_13003.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23681,7 +22930,6 @@
            bug_7957.glob
            bug_7957.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23704,7 +22952,6 @@
   (targets bug_7957.v.chk.log)
   (deps bug_7957.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23724,7 +22971,6 @@
            bug_4634.glob
            bug_4634.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23747,7 +22993,6 @@
   (targets bug_4634.v.chk.log)
   (deps bug_4634.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23767,7 +23012,6 @@
            bug_3993.glob
            bug_3993.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23790,7 +23034,6 @@
   (targets bug_3993.v.chk.log)
   (deps bug_3993.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23810,7 +23053,6 @@
            bug_3228.glob
            bug_3228.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23833,7 +23075,6 @@
   (targets bug_3228.v.chk.log)
   (deps bug_3228.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23853,7 +23094,6 @@
            bug_1547.glob
            bug_1547.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23877,7 +23117,6 @@
   (targets bug_1547.v.chk.log)
   (deps bug_1547.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23898,7 +23137,6 @@
            bug_sprop_13.glob
            bug_sprop_13.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23922,7 +23160,6 @@
   (targets bug_sprop_13.v.chk.log)
   (deps bug_sprop_13.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23942,7 +23179,6 @@
            bug_9490.glob
            bug_9490.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23965,7 +23201,6 @@
   (targets bug_9490.v.chk.log)
   (deps bug_9490.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -23985,7 +23220,6 @@
            bug_3070.glob
            bug_3070.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24008,7 +23242,6 @@
   (targets bug_3070.v.chk.log)
   (deps bug_3070.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24028,7 +23261,6 @@
            bug_15048.glob
            bug_15048.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24051,7 +23283,6 @@
   (targets bug_15048.v.chk.log)
   (deps bug_15048.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24071,7 +23302,6 @@
            bug_12534.glob
            bug_12534.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24094,7 +23324,6 @@
   (targets bug_12534.v.chk.log)
   (deps bug_12534.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24114,7 +23343,6 @@
            bug_4865.glob
            bug_4865.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24137,7 +23365,6 @@
   (targets bug_4865.v.chk.log)
   (deps bug_4865.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24157,7 +23384,6 @@
            bug_5617.glob
            bug_5617.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24180,7 +23406,6 @@
   (targets bug_5617.v.chk.log)
   (deps bug_5617.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24200,7 +23425,6 @@
            bug_13276.glob
            bug_13276.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24224,7 +23448,6 @@
   (targets bug_13276.v.chk.log)
   (deps bug_13276.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24245,7 +23468,6 @@
            bug_5741.glob
            bug_5741.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24268,7 +23490,6 @@
   (targets bug_5741.v.chk.log)
   (deps bug_5741.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24288,7 +23509,6 @@
            bug_11730.glob
            bug_11730.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24311,7 +23531,6 @@
   (targets bug_11730.v.chk.log)
   (deps bug_11730.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24331,7 +23550,6 @@
            bug_4863.glob
            bug_4863.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24355,7 +23573,6 @@
   (targets bug_4863.v.chk.log)
   (deps bug_4863.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24376,7 +23593,6 @@
            bug_3788.glob
            bug_3788.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24399,7 +23615,6 @@
   (targets bug_3788.v.chk.log)
   (deps bug_3788.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24419,7 +23634,6 @@
            bug_12240.glob
            bug_12240.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24444,7 +23658,6 @@
   (targets bug_12240.v.chk.log)
   (deps bug_12240.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24466,7 +23679,6 @@
            bug_4966.glob
            bug_4966.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24489,7 +23701,6 @@
   (targets bug_4966.v.chk.log)
   (deps bug_4966.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24509,7 +23720,6 @@
            bug_8819.glob
            bug_8819.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24532,7 +23742,6 @@
   (targets bug_8819.v.chk.log)
   (deps bug_8819.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24552,7 +23761,6 @@
            bug_3289.glob
            bug_3289.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24575,7 +23783,6 @@
   (targets bug_3289.v.chk.log)
   (deps bug_3289.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24595,7 +23802,6 @@
            bug_4283.glob
            bug_4283.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24619,7 +23825,6 @@
   (targets bug_4283.v.chk.log)
   (deps bug_4283.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24640,7 +23845,6 @@
            bug_15469.glob
            bug_15469.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24664,7 +23868,6 @@
   (targets bug_15469.v.chk.log)
   (deps bug_15469.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24685,7 +23888,6 @@
            bug_12944.glob
            bug_12944.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24708,7 +23910,6 @@
   (targets bug_12944.v.chk.log)
   (deps bug_12944.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24728,7 +23929,6 @@
            bug_3287.glob
            bug_3287.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24752,7 +23952,6 @@
   (targets bug_3287.v.chk.log)
   (deps bug_3287.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24773,7 +23972,6 @@
            bug_4046.glob
            bug_4046.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24796,7 +23994,6 @@
   (targets bug_4046.v.chk.log)
   (deps bug_4046.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24816,7 +24013,6 @@
            bug_3593.glob
            bug_3593.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24839,7 +24035,6 @@
   (targets bug_3593.v.chk.log)
   (deps bug_3593.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24859,7 +24054,6 @@
            bug_8885.glob
            bug_8885.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24883,7 +24077,6 @@
   (targets bug_8885.v.chk.log)
   (deps bug_8885.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24904,7 +24097,6 @@
            bug_1912.glob
            bug_1912.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24929,7 +24121,6 @@
   (targets bug_1912.v.chk.log)
   (deps bug_1912.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24951,7 +24142,6 @@
            bug_15195.glob
            bug_15195.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24974,7 +24164,6 @@
   (targets bug_15195.v.chk.log)
   (deps bug_15195.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -24994,7 +24183,6 @@
            bug_5414.glob
            bug_5414.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25017,7 +24205,6 @@
   (targets bug_5414.v.chk.log)
   (deps bug_5414.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25037,7 +24224,6 @@
            bug_3560.glob
            bug_3560.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25060,7 +24246,6 @@
   (targets bug_3560.v.chk.log)
   (deps bug_3560.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25080,7 +24265,6 @@
            bug_1446.glob
            bug_1446.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25103,7 +24287,6 @@
   (targets bug_1446.v.chk.log)
   (deps bug_1446.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25123,7 +24306,6 @@
            HoTT_coq_079.glob
            HoTT_coq_079.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25146,7 +24328,6 @@
   (targets HoTT_coq_079.v.chk.log)
   (deps HoTT_coq_079.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25166,7 +24347,6 @@
            bug_4404.glob
            bug_4404.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25189,7 +24369,6 @@
   (targets bug_4404.v.chk.log)
   (deps bug_4404.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25209,7 +24388,6 @@
            bug_4450.glob
            bug_4450.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25232,7 +24410,6 @@
   (targets bug_4450.v.chk.log)
   (deps bug_4450.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25252,7 +24429,6 @@
            bug_3285.glob
            bug_3285.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25275,7 +24451,6 @@
   (targets bug_3285.v.chk.log)
   (deps bug_3285.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25295,7 +24470,6 @@
            HoTT_coq_104.glob
            HoTT_coq_104.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25319,7 +24493,6 @@
   (targets HoTT_coq_104.v.chk.log)
   (deps HoTT_coq_104.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25340,7 +24513,6 @@
            bug_15177.glob
            bug_15177.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25363,7 +24535,6 @@
   (targets bug_15177.v.chk.log)
   (deps bug_15177.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25383,7 +24554,6 @@
            bug_4503.glob
            bug_4503.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25407,7 +24577,6 @@
   (targets bug_4503.v.chk.log)
   (deps bug_4503.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25428,7 +24597,6 @@
            bug_15070.glob
            bug_15070.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25454,7 +24622,6 @@
   (targets bug_15070.v.chk.log)
   (deps bug_15070.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25477,7 +24644,6 @@
            bug_3453.glob
            bug_3453.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25500,7 +24666,6 @@
   (targets bug_3453.v.chk.log)
   (deps bug_3453.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25520,7 +24685,6 @@
            bug_14131.glob
            bug_14131.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25543,7 +24707,6 @@
   (targets bug_14131.v.chk.log)
   (deps bug_14131.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25563,7 +24726,6 @@
            bug_4132.glob
            bug_4132.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25588,7 +24750,6 @@
   (targets bug_4132.v.chk.log)
   (deps bug_4132.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25610,7 +24771,6 @@
            bug_2193.glob
            bug_2193.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25633,7 +24793,6 @@
   (targets bug_2193.v.chk.log)
   (deps bug_2193.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25653,7 +24812,6 @@
            bug_4346.glob
            bug_4346.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25676,7 +24834,6 @@
   (targets bug_4346.v.chk.log)
   (deps bug_4346.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25696,7 +24853,6 @@
            bug_3251.glob
            bug_3251.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25719,7 +24875,6 @@
   (targets bug_3251.v.chk.log)
   (deps bug_3251.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25739,7 +24894,6 @@
            bug_3495.glob
            bug_3495.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25763,7 +24917,6 @@
   (targets bug_3495.v.chk.log)
   (deps bug_3495.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25784,7 +24937,6 @@
            bug_2300.glob
            bug_2300.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25807,7 +24959,6 @@
   (targets bug_2300.v.chk.log)
   (deps bug_2300.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25827,7 +24978,6 @@
            bug_3562.glob
            bug_3562.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25850,7 +25000,6 @@
   (targets bug_3562.v.chk.log)
   (deps bug_3562.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25870,7 +25019,6 @@
            bug_3531.glob
            bug_3531.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25895,7 +25043,6 @@
   (targets bug_3531.v.chk.log)
   (deps bug_3531.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25917,7 +25064,6 @@
            bug_13698.glob
            bug_13698.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25941,7 +25087,6 @@
   (targets bug_13698.v.chk.log)
   (deps bug_13698.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25962,7 +25107,6 @@
            bug_14648.glob
            bug_14648.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -25985,7 +25129,6 @@
   (targets bug_14648.v.chk.log)
   (deps bug_14648.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26005,7 +25148,6 @@
            bug_3352.glob
            bug_3352.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26028,7 +25170,6 @@
   (targets bug_3352.v.chk.log)
   (deps bug_3352.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26048,7 +25189,6 @@
            bug_5501.glob
            bug_5501.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26071,7 +25211,6 @@
   (targets bug_5501.v.chk.log)
   (deps bug_5501.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26091,7 +25230,6 @@
            bug_3490.glob
            bug_3490.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26114,7 +25252,6 @@
   (targets bug_3490.v.chk.log)
   (deps bug_3490.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26134,7 +25271,6 @@
            bug_5045.glob
            bug_5045.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26157,7 +25293,6 @@
   (targets bug_5045.v.chk.log)
   (deps bug_5045.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26177,7 +25312,6 @@
            HoTT_coq_114.glob
            HoTT_coq_114.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26200,7 +25334,6 @@
   (targets HoTT_coq_114.v.chk.log)
   (deps HoTT_coq_114.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26220,7 +25353,6 @@
            bug_3329.glob
            bug_3329.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26244,7 +25376,6 @@
   (targets bug_3329.v.chk.log)
   (deps bug_3329.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26265,7 +25396,6 @@
            bug_4165.glob
            bug_4165.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26288,7 +25418,6 @@
   (targets bug_4165.v.chk.log)
   (deps bug_4165.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26308,7 +25437,6 @@
            bug_11402.glob
            bug_11402.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26331,7 +25459,6 @@
   (targets bug_11402.v.chk.log)
   (deps bug_11402.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26351,7 +25478,6 @@
            bug_4574.glob
            bug_4574.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26375,7 +25501,6 @@
   (targets bug_4574.v.chk.log)
   (deps bug_4574.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26396,7 +25521,6 @@
            bug_5539.glob
            bug_5539.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26419,7 +25543,6 @@
   (targets bug_5539.v.chk.log)
   (deps bug_5539.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26439,7 +25562,6 @@
            bug_4509.glob
            bug_4509.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26462,7 +25584,6 @@
   (targets bug_4509.v.chk.log)
   (deps bug_4509.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26482,7 +25603,6 @@
            bug_3892.glob
            bug_3892.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26505,7 +25625,6 @@
   (targets bug_3892.v.chk.log)
   (deps bug_3892.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26525,7 +25644,6 @@
            bug_3957.glob
            bug_3957.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26548,7 +25666,6 @@
   (targets bug_3957.v.chk.log)
   (deps bug_3957.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26568,7 +25685,6 @@
            bug_5578.glob
            bug_5578.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26591,7 +25707,6 @@
   (targets bug_5578.v.chk.log)
   (deps bug_5578.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26611,7 +25726,6 @@
            HoTT_coq_111.glob
            HoTT_coq_111.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26634,7 +25748,6 @@
   (targets HoTT_coq_111.v.chk.log)
   (deps HoTT_coq_111.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26654,7 +25767,6 @@
            bug_8553.glob
            bug_8553.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26677,7 +25789,6 @@
   (targets bug_8553.v.chk.log)
   (deps bug_8553.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26697,7 +25808,6 @@
            bug_9809.glob
            bug_9809.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26720,7 +25830,6 @@
   (targets bug_9809.v.chk.log)
   (deps bug_9809.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26740,7 +25849,6 @@
            bug_13493.glob
            bug_13493.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26763,7 +25871,6 @@
   (targets bug_13493.v.chk.log)
   (deps bug_13493.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26783,7 +25890,6 @@
            bug_12390.glob
            bug_12390.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26806,7 +25912,6 @@
   (targets bug_12390.v.chk.log)
   (deps bug_12390.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26826,7 +25931,6 @@
            bug_4785.glob
            bug_4785.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26851,7 +25955,6 @@
   (targets bug_4785.v.chk.log)
   (deps bug_4785.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26873,7 +25976,6 @@
            bug_4616.glob
            bug_4616.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26897,7 +25999,6 @@
   (targets bug_4616.v.chk.log)
   (deps bug_4616.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26918,7 +26019,6 @@
            bug_3509.glob
            bug_3509.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26941,7 +26041,6 @@
   (targets bug_3509.v.chk.log)
   (deps bug_3509.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26961,7 +26060,6 @@
            bug_9971.glob
            bug_9971.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -26984,7 +26082,6 @@
   (targets bug_9971.v.chk.log)
   (deps bug_9971.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27004,7 +26101,6 @@
            bug_5300.glob
            bug_5300.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27027,7 +26123,6 @@
   (targets bug_5300.v.chk.log)
   (deps bug_5300.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27047,7 +26142,6 @@
            bug_4347.glob
            bug_4347.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27070,7 +26164,6 @@
   (targets bug_4347.v.chk.log)
   (deps bug_4347.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27090,7 +26183,6 @@
            bug_7967.glob
            bug_7967.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27113,7 +26205,6 @@
   (targets bug_7967.v.chk.log)
   (deps bug_7967.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27133,7 +26224,6 @@
            bug_3948.glob
            bug_3948.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27156,7 +26246,6 @@
   (targets bug_3948.v.chk.log)
   (deps bug_3948.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27176,7 +26265,6 @@
            bug_3417.glob
            bug_3417.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27200,7 +26288,6 @@
   (targets bug_3417.v.chk.log)
   (deps bug_3417.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27221,7 +26308,6 @@
            bug_12970.glob
            bug_12970.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27244,7 +26330,6 @@
   (targets bug_12970.v.chk.log)
   (deps bug_12970.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27264,7 +26349,6 @@
            bug_3594.glob
            bug_3594.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27287,7 +26371,6 @@
   (targets bug_3594.v.chk.log)
   (deps bug_3594.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27307,7 +26390,6 @@
            bug_9313.glob
            bug_9313.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27330,7 +26412,6 @@
   (targets bug_9313.v.chk.log)
   (deps bug_9313.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27350,7 +26431,6 @@
            HoTT_coq_113.glob
            HoTT_coq_113.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27374,7 +26454,6 @@
   (targets HoTT_coq_113.v.chk.log)
   (deps HoTT_coq_113.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27395,7 +26474,6 @@
            bug_5188.glob
            bug_5188.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27418,7 +26496,6 @@
   (targets bug_5188.v.chk.log)
   (deps bug_5188.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27438,7 +26515,6 @@
            bug_2149.glob
            bug_2149.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27461,7 +26537,6 @@
   (targets bug_2149.v.chk.log)
   (deps bug_2149.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27481,7 +26556,6 @@
            bug_3212.glob
            bug_3212.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27504,7 +26578,6 @@
   (targets bug_3212.v.chk.log)
   (deps bug_3212.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27524,7 +26597,6 @@
            HoTT_coq_054.glob
            HoTT_coq_054.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27547,7 +26619,6 @@
   (targets HoTT_coq_054.v.chk.log)
   (deps HoTT_coq_054.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27567,7 +26638,6 @@
            HoTT_coq_042.glob
            HoTT_coq_042.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27591,7 +26661,6 @@
   (targets HoTT_coq_042.v.chk.log)
   (deps HoTT_coq_042.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27612,7 +26681,6 @@
            bug_4293.glob
            bug_4293.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27635,7 +26703,6 @@
   (targets bug_4293.v.chk.log)
   (deps bug_4293.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27655,7 +26722,6 @@
            bug_10300.glob
            bug_10300.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27678,7 +26744,6 @@
   (targets bug_10300.v.chk.log)
   (deps bug_10300.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27698,7 +26763,6 @@
            bug_3008.glob
            bug_3008.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27721,7 +26785,6 @@
   (targets bug_3008.v.chk.log)
   (deps bug_3008.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27741,7 +26804,6 @@
            bug_12975.glob
            bug_12975.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27764,7 +26826,6 @@
   (targets bug_12975.v.chk.log)
   (deps bug_12975.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27784,7 +26845,6 @@
            bug_11576.glob
            bug_11576.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27807,7 +26867,6 @@
   (targets bug_11576.v.chk.log)
   (deps bug_11576.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27827,7 +26886,6 @@
            bug_11421.glob
            bug_11421.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27850,7 +26908,6 @@
   (targets bug_11421.v.chk.log)
   (deps bug_11421.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27870,7 +26927,6 @@
            bug_3736.glob
            bug_3736.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27893,7 +26949,6 @@
   (targets bug_3736.v.chk.log)
   (deps bug_3736.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27913,7 +26968,6 @@
            bug_2417.glob
            bug_2417.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27936,7 +26990,6 @@
   (targets bug_2417.v.chk.log)
   (deps bug_2417.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27956,7 +27009,6 @@
            bug_3804.glob
            bug_3804.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27979,7 +27031,6 @@
   (targets bug_3804.v.chk.log)
   (deps bug_3804.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -27999,7 +27050,6 @@
            HoTT_coq_058.glob
            HoTT_coq_058.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28023,7 +27073,6 @@
   (targets HoTT_coq_058.v.chk.log)
   (deps HoTT_coq_058.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28044,7 +27093,6 @@
            bug_2818.glob
            bug_2818.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28067,7 +27115,6 @@
   (targets bug_2818.v.chk.log)
   (deps bug_2818.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28087,7 +27134,6 @@
            bug_10923.glob
            bug_10923.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28112,7 +27158,6 @@
   (targets bug_10923.v.chk.log)
   (deps bug_10923.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28134,7 +27179,6 @@
            bug_2590.glob
            bug_2590.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28162,7 +27206,6 @@
   (targets bug_2590.v.chk.log)
   (deps bug_2590.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28187,7 +27230,6 @@
            bug_11866.glob
            bug_11866.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28211,7 +27253,6 @@
   (targets bug_11866.v.chk.log)
   (deps bug_11866.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28232,7 +27273,6 @@
            bug_2083.glob
            bug_2083.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28258,7 +27298,6 @@
   (targets bug_2083.v.chk.log)
   (deps bug_2083.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28281,7 +27320,6 @@
            bug_1584.glob
            bug_1584.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28305,7 +27343,6 @@
   (targets bug_1584.v.chk.log)
   (deps bug_1584.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28326,7 +27363,6 @@
            bug_9348.glob
            bug_9348.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28349,7 +27385,6 @@
   (targets bug_9348.v.chk.log)
   (deps bug_9348.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28369,7 +27404,6 @@
            bug_5233.glob
            bug_5233.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28392,7 +27426,6 @@
   (targets bug_5233.v.chk.log)
   (deps bug_5233.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28412,7 +27445,6 @@
            bug_1411.glob
            bug_1411.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28437,7 +27469,6 @@
   (targets bug_1411.v.chk.log)
   (deps bug_1411.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28459,7 +27490,6 @@
            HoTT_coq_048.glob
            HoTT_coq_048.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28482,7 +27512,6 @@
   (targets HoTT_coq_048.v.chk.log)
   (deps HoTT_coq_048.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28502,7 +27531,6 @@
            bug_2995.glob
            bug_2995.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28525,7 +27553,6 @@
   (targets bug_2995.v.chk.log)
   (deps bug_2995.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28545,7 +27572,6 @@
            bug_3428.glob
            bug_3428.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28568,7 +27594,6 @@
   (targets bug_3428.v.chk.log)
   (deps bug_3428.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28588,7 +27613,6 @@
            bug_3786.glob
            bug_3786.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28614,7 +27638,6 @@
   (targets bug_3786.v.chk.log)
   (deps bug_3786.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28637,7 +27660,6 @@
            bug_6529.glob
            bug_6529.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28662,7 +27684,6 @@
   (targets bug_6529.v.chk.log)
   (deps bug_6529.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28684,7 +27705,6 @@
            bug_8785.glob
            bug_8785.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28707,7 +27727,6 @@
   (targets bug_8785.v.chk.log)
   (deps bug_8785.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28727,7 +27746,6 @@
            bug_3556.glob
            bug_3556.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28751,7 +27769,6 @@
   (targets bug_3556.v.chk.log)
   (deps bug_3556.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28772,7 +27789,6 @@
            bug_4420.glob
            bug_4420.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28795,7 +27811,6 @@
   (targets bug_4420.v.chk.log)
   (deps bug_4420.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28815,7 +27830,6 @@
            bug_1963.glob
            bug_1963.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28839,7 +27853,6 @@
   (targets bug_1963.v.chk.log)
   (deps bug_1963.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28860,7 +27873,6 @@
            bug_3554.glob
            bug_3554.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28883,7 +27895,6 @@
   (targets bug_3554.v.chk.log)
   (deps bug_3554.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28903,7 +27914,6 @@
            HoTT_coq_012.glob
            HoTT_coq_012.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28927,7 +27937,6 @@
   (targets HoTT_coq_012.v.chk.log)
   (deps HoTT_coq_012.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28948,7 +27957,6 @@
            bug_12529.glob
            bug_12529.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28971,7 +27979,6 @@
   (targets bug_12529.v.chk.log)
   (deps bug_12529.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -28991,7 +27998,6 @@
            bug_13209.glob
            bug_13209.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29014,7 +28020,6 @@
   (targets bug_13209.v.chk.log)
   (deps bug_13209.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29034,7 +28039,6 @@
            bug_4593.glob
            bug_4593.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29057,7 +28061,6 @@
   (targets bug_4593.v.chk.log)
   (deps bug_4593.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29077,7 +28080,6 @@
            bug_14211.glob
            bug_14211.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29100,7 +28102,6 @@
   (targets bug_14211.v.chk.log)
   (deps bug_14211.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29120,7 +28121,6 @@
            bug_1779.glob
            bug_1779.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29144,7 +28144,6 @@
   (targets bug_1779.v.chk.log)
   (deps bug_1779.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29165,7 +28164,6 @@
            bug_5500.glob
            bug_5500.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29188,7 +28186,6 @@
   (targets bug_5500.v.chk.log)
   (deps bug_5500.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29208,7 +28205,6 @@
            bug_3022.glob
            bug_3022.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29231,7 +28227,6 @@
   (targets bug_3022.v.chk.log)
   (deps bug_3022.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29251,7 +28246,6 @@
            bug_5460.glob
            bug_5460.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29274,7 +28268,6 @@
   (targets bug_5460.v.chk.log)
   (deps bug_5460.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29294,7 +28287,6 @@
            bug_3257.glob
            bug_3257.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29320,7 +28312,6 @@
   (targets bug_3257.v.chk.log)
   (deps bug_3257.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29343,7 +28334,6 @@
            HoTT_coq_123.glob
            HoTT_coq_123.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29367,7 +28357,6 @@
   (targets HoTT_coq_123.v.chk.log)
   (deps HoTT_coq_123.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29388,7 +28377,6 @@
            bug_3895.glob
            bug_3895.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29411,7 +28399,6 @@
   (targets bug_3895.v.chk.log)
   (deps bug_3895.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29431,7 +28418,6 @@
            HoTT_coq_099.glob
            HoTT_coq_099.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29455,7 +28441,6 @@
   (targets HoTT_coq_099.v.chk.log)
   (deps HoTT_coq_099.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29476,7 +28461,6 @@
            bug_13581.glob
            bug_13581.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29500,7 +28484,6 @@
   (targets bug_13581.v.chk.log)
   (deps bug_13581.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29521,7 +28504,6 @@
            bug_3266.glob
            bug_3266.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29544,7 +28526,6 @@
   (targets bug_3266.v.chk.log)
   (deps bug_3266.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29564,7 +28545,6 @@
            bug_14781.glob
            bug_14781.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29587,7 +28567,6 @@
   (targets bug_14781.v.chk.log)
   (deps bug_14781.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29607,7 +28586,6 @@
            HoTT_coq_059.glob
            HoTT_coq_059.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29631,7 +28609,6 @@
   (targets HoTT_coq_059.v.chk.log)
   (deps HoTT_coq_059.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29652,7 +28629,6 @@
            bug_3347.glob
            bug_3347.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29676,7 +28652,6 @@
   (targets bug_3347.v.chk.log)
   (deps bug_3347.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29697,7 +28672,6 @@
            bug_7421.glob
            bug_7421.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29720,7 +28694,6 @@
   (targets bug_7421.v.chk.log)
   (deps bug_7421.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29740,7 +28713,6 @@
            bug_5449.glob
            bug_5449.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29764,7 +28736,6 @@
   (targets bug_5449.v.chk.log)
   (deps bug_5449.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29785,7 +28756,6 @@
            HoTT_coq_071.glob
            HoTT_coq_071.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29808,7 +28778,6 @@
   (targets HoTT_coq_071.v.chk.log)
   (deps HoTT_coq_071.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29828,7 +28797,6 @@
            bug_1416.glob
            bug_1416.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29851,7 +28819,6 @@
   (targets bug_1416.v.chk.log)
   (deps bug_1416.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29871,7 +28838,6 @@
            bug_7903.glob
            bug_7903.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29894,7 +28860,6 @@
   (targets bug_7903.v.chk.log)
   (deps bug_7903.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29914,7 +28879,6 @@
            bug_9329.glob
            bug_9329.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29937,7 +28901,6 @@
   (targets bug_9329.v.chk.log)
   (deps bug_9329.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29957,7 +28920,6 @@
            bug_1834.glob
            bug_1834.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -29980,7 +28942,6 @@
   (targets bug_1834.v.chk.log)
   (deps bug_1834.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30000,7 +28961,6 @@
            bug_9166.glob
            bug_9166.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30023,7 +28983,6 @@
   (targets bug_9166.v.chk.log)
   (deps bug_9166.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30043,7 +29002,6 @@
            bug_5215.glob
            bug_5215.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30068,7 +29026,6 @@
   (targets bug_5215.v.chk.log)
   (deps bug_5215.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30090,7 +29047,6 @@
            bug_2713.glob
            bug_2713.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30113,7 +29069,6 @@
   (targets bug_2713.v.chk.log)
   (deps bug_2713.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30133,7 +29088,6 @@
            bug_10903.glob
            bug_10903.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30157,7 +29111,6 @@
   (targets bug_10903.v.chk.log)
   (deps bug_10903.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30177,7 +29130,6 @@
            bug_5845.glob
            bug_5845.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30200,7 +29152,6 @@
   (targets bug_5845.v.chk.log)
   (deps bug_5845.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30220,7 +29171,6 @@
            bug_5744.glob
            bug_5744.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30244,7 +29194,6 @@
   (targets bug_5744.v.chk.log)
   (deps bug_5744.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30265,7 +29214,6 @@
            bug_5713.glob
            bug_5713.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30289,7 +29237,6 @@
   (targets bug_5713.v.chk.log)
   (deps bug_5713.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30310,7 +29257,6 @@
            bug_4254.glob
            bug_4254.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30333,7 +29279,6 @@
   (targets bug_4254.v.chk.log)
   (deps bug_4254.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30353,7 +29298,6 @@
            bug_4484.glob
            bug_4484.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30376,7 +29320,6 @@
   (targets bug_4484.v.chk.log)
   (deps bug_4484.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30396,7 +29339,6 @@
            bug_5697.glob
            bug_5697.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30419,7 +29361,6 @@
   (targets bug_5697.v.chk.log)
   (deps bug_5697.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30439,7 +29380,6 @@
            bug_1776.glob
            bug_1776.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30462,7 +29402,6 @@
   (targets bug_1776.v.chk.log)
   (deps bug_1776.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30482,7 +29421,6 @@
            bug_4495.glob
            bug_4495.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30505,7 +29443,6 @@
   (targets bug_4495.v.chk.log)
   (deps bug_4495.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30525,7 +29462,6 @@
            bug_11549.glob
            bug_11549.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30549,7 +29485,6 @@
   (targets bug_11549.v.chk.log)
   (deps bug_11549.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30570,7 +29505,6 @@
            bug_2464.glob
            bug_2464.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30595,7 +29529,6 @@
   (targets bug_2464.v.chk.log)
   (deps bug_2464.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30617,7 +29550,6 @@
            bug_12651.glob
            bug_12651.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30640,7 +29572,6 @@
   (targets bug_12651.v.chk.log)
   (deps bug_12651.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30660,7 +29591,6 @@
            bug_2251.glob
            bug_2251.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30683,7 +29613,6 @@
   (targets bug_2251.v.chk.log)
   (deps bug_2251.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30703,7 +29632,6 @@
            bug_14441.glob
            bug_14441.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30728,7 +29656,6 @@
   (targets bug_14441.v.chk.log)
   (deps bug_14441.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30750,7 +29677,6 @@
            bug_2733.glob
            bug_2733.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30773,7 +29699,6 @@
   (targets bug_2733.v.chk.log)
   (deps bug_2733.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30793,7 +29718,6 @@
            bug_3825.glob
            bug_3825.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30816,7 +29740,6 @@
   (targets bug_3825.v.chk.log)
   (deps bug_3825.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30836,7 +29759,6 @@
            bug_4316.glob
            bug_4316.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30859,7 +29781,6 @@
   (targets bug_4316.v.chk.log)
   (deps bug_4316.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30879,7 +29800,6 @@
            bug_5097.glob
            bug_5097.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30902,7 +29822,6 @@
   (targets bug_5097.v.chk.log)
   (deps bug_5097.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30922,7 +29841,6 @@
            bug_15448.glob
            bug_15448.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30945,7 +29863,6 @@
   (targets bug_15448.v.chk.log)
   (deps bug_15448.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30965,7 +29882,6 @@
            bug_6976.glob
            bug_6976.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -30988,7 +29904,6 @@
   (targets bug_6976.v.chk.log)
   (deps bug_6976.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31008,7 +29923,6 @@
            bug_3483.glob
            bug_3483.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31031,7 +29945,6 @@
   (targets bug_3483.v.chk.log)
   (deps bug_3483.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31051,7 +29964,6 @@
            bug_5709.glob
            bug_5709.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31074,7 +29986,6 @@
   (targets bug_5709.v.chk.log)
   (deps bug_5709.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31094,7 +30005,6 @@
            bug_2667.glob
            bug_2667.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31117,7 +30027,6 @@
   (targets bug_2667.v.chk.log)
   (deps bug_2667.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31137,7 +30046,6 @@
            bug_4057.glob
            bug_4057.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31161,7 +30069,6 @@
   (targets bug_4057.v.chk.log)
   (deps bug_4057.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31182,7 +30089,6 @@
            bug_8126.glob
            bug_8126.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31205,7 +30111,6 @@
   (targets bug_8126.v.chk.log)
   (deps bug_8126.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31225,7 +30130,6 @@
            bug_7825.glob
            bug_7825.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31248,7 +30152,6 @@
   (targets bug_7825.v.chk.log)
   (deps bug_7825.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31268,7 +30171,6 @@
            bug_15088.glob
            bug_15088.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31291,7 +30193,6 @@
   (targets bug_15088.v.chk.log)
   (deps bug_15088.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31311,7 +30212,6 @@
            bug_3310.glob
            bug_3310.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31334,7 +30234,6 @@
   (targets bug_3310.v.chk.log)
   (deps bug_3310.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31354,7 +30253,6 @@
            bug_5323.glob
            bug_5323.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31377,7 +30275,6 @@
   (targets bug_5323.v.chk.log)
   (deps bug_5323.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31397,7 +30294,6 @@
            bug_3205.glob
            bug_3205.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31420,7 +30316,6 @@
   (targets bug_3205.v.chk.log)
   (deps bug_3205.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31440,7 +30335,6 @@
            HoTT_coq_112.glob
            HoTT_coq_112.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31464,7 +30358,6 @@
   (targets HoTT_coq_112.v.chk.log)
   (deps HoTT_coq_112.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31485,7 +30378,6 @@
            bug_12045.glob
            bug_12045.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31508,7 +30400,6 @@
   (targets bug_12045.v.chk.log)
   (deps bug_12045.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31528,7 +30419,6 @@
            bug_5769.glob
            bug_5769.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31551,7 +30441,6 @@
   (targets bug_5769.v.chk.log)
   (deps bug_5769.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31571,7 +30460,6 @@
            bug_1740.glob
            bug_1740.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31594,7 +30482,6 @@
   (targets bug_1740.v.chk.log)
   (deps bug_1740.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31614,7 +30501,6 @@
            bug_10197.glob
            bug_10197.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31637,7 +30523,6 @@
   (targets bug_10197.v.chk.log)
   (deps bug_10197.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31657,7 +30542,6 @@
            bug_8791.glob
            bug_8791.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31680,7 +30564,6 @@
   (targets bug_8791.v.chk.log)
   (deps bug_8791.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31700,7 +30583,6 @@
            bug_12623.glob
            bug_12623.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31723,7 +30605,6 @@
   (targets bug_12623.v.chk.log)
   (deps bug_12623.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31743,7 +30624,6 @@
            bug_4653.glob
            bug_4653.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31766,7 +30646,6 @@
   (targets bug_4653.v.chk.log)
   (deps bug_4653.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31786,7 +30665,6 @@
            HoTT_coq_107.glob
            HoTT_coq_107.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31812,7 +30690,6 @@
   (targets HoTT_coq_107.v.chk.log)
   (deps HoTT_coq_107.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31835,7 +30712,6 @@
            bug_2613.glob
            bug_2613.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31861,7 +30737,6 @@
   (targets bug_2613.v.chk.log)
   (deps bug_2613.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31884,7 +30759,6 @@
            bug_14057.glob
            bug_14057.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31907,7 +30781,6 @@
   (targets bug_14057.v.chk.log)
   (deps bug_14057.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31927,7 +30800,6 @@
            bug_2584.glob
            bug_2584.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31951,7 +30823,6 @@
   (targets bug_2584.v.chk.log)
   (deps bug_2584.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31972,7 +30843,6 @@
            HoTT_coq_094.glob
            HoTT_coq_094.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -31995,7 +30865,6 @@
   (targets HoTT_coq_094.v.chk.log)
   (deps HoTT_coq_094.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32015,7 +30884,6 @@
            HoTT_coq_082.glob
            HoTT_coq_082.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32038,7 +30906,6 @@
   (targets HoTT_coq_082.v.chk.log)
   (deps HoTT_coq_082.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32058,7 +30925,6 @@
            bug_5445.glob
            bug_5445.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32084,7 +30950,6 @@
   (targets bug_5445.v.chk.log)
   (deps bug_5445.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32107,7 +30972,6 @@
            bug_4078.glob
            bug_4078.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32130,7 +30994,6 @@
   (targets bug_4078.v.chk.log)
   (deps bug_4078.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32150,7 +31013,6 @@
            bug_5161.glob
            bug_5161.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32174,7 +31036,6 @@
   (targets bug_5161.v.chk.log)
   (deps bug_5161.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32195,7 +31056,6 @@
            bug_4284.glob
            bug_4284.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32218,7 +31078,6 @@
   (targets bug_4284.v.chk.log)
   (deps bug_4284.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32238,7 +31097,6 @@
            bug_4957.glob
            bug_4957.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32261,7 +31119,6 @@
   (targets bug_4957.v.chk.log)
   (deps bug_4957.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32281,7 +31138,6 @@
            bug_10669.glob
            bug_10669.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32304,7 +31160,6 @@
   (targets bug_10669.v.chk.log)
   (deps bug_10669.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32324,7 +31179,6 @@
            bug_7462.glob
            bug_7462.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32347,7 +31201,6 @@
   (targets bug_7462.v.chk.log)
   (deps bug_7462.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32367,7 +31220,6 @@
            bug_1238.glob
            bug_1238.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32391,7 +31243,6 @@
   (targets bug_1238.v.chk.log)
   (deps bug_1238.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32412,7 +31263,6 @@
            bug_6956.glob
            bug_6956.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32435,7 +31285,6 @@
   (targets bug_6956.v.chk.log)
   (deps bug_6956.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32455,7 +31304,6 @@
            bug_1962.glob
            bug_1962.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32479,7 +31327,6 @@
   (targets bug_1962.v.chk.log)
   (deps bug_1962.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32500,7 +31347,6 @@
            HoTT_coq_034.glob
            HoTT_coq_034.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32523,7 +31369,6 @@
   (targets HoTT_coq_034.v.chk.log)
   (deps HoTT_coq_034.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32543,7 +31388,6 @@
            bug_3792.glob
            bug_3792.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32566,7 +31410,6 @@
   (targets bug_3792.v.chk.log)
   (deps bug_3792.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32586,7 +31429,6 @@
            bug_4298.glob
            bug_4298.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32609,7 +31451,6 @@
   (targets bug_4298.v.chk.log)
   (deps bug_4298.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32629,7 +31470,6 @@
            bug_3306.glob
            bug_3306.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32652,7 +31492,6 @@
   (targets bug_3306.v.chk.log)
   (deps bug_3306.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32672,7 +31511,6 @@
            HoTT_coq_061.glob
            HoTT_coq_061.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32696,7 +31534,6 @@
   (targets HoTT_coq_061.v.chk.log)
   (deps HoTT_coq_061.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32717,7 +31554,6 @@
            bug_3088.glob
            bug_3088.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32740,7 +31576,6 @@
   (targets bug_3088.v.chk.log)
   (deps bug_3088.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32760,7 +31595,6 @@
            bug_13078.glob
            bug_13078.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32783,7 +31617,6 @@
   (targets bug_13078.v.chk.log)
   (deps bug_13078.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32803,7 +31636,6 @@
            bug_1925.glob
            bug_1925.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32827,7 +31659,6 @@
   (targets bug_1925.v.chk.log)
   (deps bug_1925.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32848,7 +31679,6 @@
            bug_4471.glob
            bug_4471.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32871,7 +31701,6 @@
   (targets bug_4471.v.chk.log)
   (deps bug_4471.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32891,7 +31720,6 @@
            bug_4443.glob
            bug_4443.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32914,7 +31742,6 @@
   (targets bug_4443.v.chk.log)
   (deps bug_4443.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32934,7 +31761,6 @@
            bug_2586.glob
            bug_2586.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32960,7 +31786,6 @@
   (targets bug_2586.v.chk.log)
   (deps bug_2586.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -32983,7 +31808,6 @@
            bug_3188.glob
            bug_3188.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33007,7 +31831,6 @@
   (targets bug_3188.v.chk.log)
   (deps bug_3188.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33028,7 +31851,6 @@
            bug_15356.glob
            bug_15356.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33051,7 +31873,6 @@
   (targets bug_15356.v.chk.log)
   (deps bug_15356.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33071,7 +31892,6 @@
            bug_3681.glob
            bug_3681.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33094,7 +31914,6 @@
   (targets bug_3681.v.chk.log)
   (deps bug_3681.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33114,7 +31933,6 @@
            bug_3653.glob
            bug_3653.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33139,7 +31957,6 @@
   (targets bug_3653.v.chk.log)
   (deps bug_3653.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33161,7 +31978,6 @@
            bug_1711.glob
            bug_1711.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33185,7 +32001,6 @@
   (targets bug_1711.v.chk.log)
   (deps bug_1711.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33206,7 +32021,6 @@
            bug_3666.glob
            bug_3666.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33229,7 +32043,6 @@
   (targets bug_3666.v.chk.log)
   (deps bug_3666.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33249,7 +32062,6 @@
            bug_12348.glob
            bug_12348.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33272,7 +32084,6 @@
   (targets bug_12348.v.chk.log)
   (deps bug_12348.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33292,7 +32103,6 @@
            bug_5717.glob
            bug_5717.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33315,7 +32125,6 @@
   (targets bug_5717.v.chk.log)
   (deps bug_5717.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33335,7 +32144,6 @@
            bug_3638.glob
            bug_3638.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33358,7 +32166,6 @@
   (targets bug_3638.v.chk.log)
   (deps bug_3638.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33378,7 +32185,6 @@
            bug_9014.glob
            bug_9014.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33401,7 +32207,6 @@
   (targets bug_9014.v.chk.log)
   (deps bug_9014.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33421,7 +32226,6 @@
            bug_1419.glob
            bug_1419.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33444,7 +32248,6 @@
   (targets bug_1419.v.chk.log)
   (deps bug_1419.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33464,7 +32267,6 @@
            bug_2245.glob
            bug_2245.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33487,7 +32289,6 @@
   (targets bug_2245.v.chk.log)
   (deps bug_2245.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33507,7 +32308,6 @@
            bug_12787.glob
            bug_12787.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33530,7 +32330,6 @@
   (targets bug_12787.v.chk.log)
   (deps bug_12787.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33550,7 +32349,6 @@
            HoTT_coq_077.glob
            HoTT_coq_077.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33574,7 +32372,6 @@
   (targets HoTT_coq_077.v.chk.log)
   (deps HoTT_coq_077.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33595,7 +32392,6 @@
            bug_12234.glob
            bug_12234.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33618,7 +32414,6 @@
   (targets bug_12234.v.chk.log)
   (deps bug_12234.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33638,7 +32433,6 @@
            bug_3291.glob
            bug_3291.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33662,7 +32456,6 @@
   (targets bug_3291.v.chk.log)
   (deps bug_3291.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33683,7 +32476,6 @@
            bug_2732.glob
            bug_2732.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33706,7 +32498,6 @@
   (targets bug_2732.v.chk.log)
   (deps bug_2732.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33726,7 +32517,6 @@
            bug_4035.glob
            bug_4035.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33750,7 +32540,6 @@
   (targets bug_4035.v.chk.log)
   (deps bug_4035.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33771,7 +32560,6 @@
            bug_4603.glob
            bug_4603.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33794,7 +32582,6 @@
   (targets bug_4603.v.chk.log)
   (deps bug_4603.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33814,7 +32601,6 @@
            bug_1576.glob
            bug_1576.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33837,7 +32623,6 @@
   (targets bug_1576.v.chk.log)
   (deps bug_1576.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33857,7 +32642,6 @@
            bug_3050.glob
            bug_3050.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33880,7 +32664,6 @@
   (targets bug_3050.v.chk.log)
   (deps bug_3050.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33900,7 +32683,6 @@
            bug_7754.glob
            bug_7754.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33923,7 +32705,6 @@
   (targets bug_7754.v.chk.log)
   (deps bug_7754.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33943,7 +32724,6 @@
            bug_1425.glob
            bug_1425.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33967,7 +32747,6 @@
   (targets bug_1425.v.chk.log)
   (deps bug_1425.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -33988,7 +32767,6 @@
            bug_3093.glob
            bug_3093.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34012,7 +32790,6 @@
   (targets bug_3093.v.chk.log)
   (deps bug_3093.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34033,7 +32810,6 @@
            bug_9451.glob
            bug_9451.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34056,7 +32832,6 @@
   (targets bug_9451.v.chk.log)
   (deps bug_9451.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34076,7 +32851,6 @@
            bug_3612.glob
            bug_3612.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34100,7 +32874,6 @@
   (targets bug_3612.v.chk.log)
   (deps bug_3612.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34121,7 +32894,6 @@
            bug_4588.glob
            bug_4588.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34144,7 +32916,6 @@
   (targets bug_4588.v.chk.log)
   (deps bug_4588.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34164,7 +32935,6 @@
            bug_7015.glob
            bug_7015.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34187,7 +32957,6 @@
   (targets bug_7015.v.chk.log)
   (deps bug_7015.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34207,7 +32976,6 @@
            bug_3010b.glob
            bug_3010b.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34230,7 +32998,6 @@
   (targets bug_3010b.v.chk.log)
   (deps bug_3010b.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34250,7 +33017,6 @@
            bug_11133.glob
            bug_11133.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34273,7 +33039,6 @@
   (targets bug_11133.v.chk.log)
   (deps bug_11133.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34293,7 +33058,6 @@
            bug_5523.glob
            bug_5523.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34316,7 +33080,6 @@
   (targets bug_5523.v.chk.log)
   (deps bug_5523.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34336,7 +33099,6 @@
            bug_3045.glob
            bug_3045.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34359,7 +33121,6 @@
   (targets bug_3045.v.chk.log)
   (deps bug_3045.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34379,7 +33140,6 @@
            bug_4413.glob
            bug_4413.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34402,7 +33162,6 @@
   (targets bug_4413.v.chk.log)
   (deps bug_4413.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34422,7 +33181,6 @@
            bug_3900.glob
            bug_3900.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34445,7 +33203,6 @@
   (targets bug_3900.v.chk.log)
   (deps bug_3900.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34465,7 +33222,6 @@
            bug_11553.glob
            bug_11553.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34488,7 +33244,6 @@
   (targets bug_11553.v.chk.log)
   (deps bug_11553.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34508,7 +33263,6 @@
            bug_13059.glob
            bug_13059.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34532,7 +33286,6 @@
   (targets bug_13059.v.chk.log)
   (deps bug_13059.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34553,7 +33306,6 @@
            bug_4276.glob
            bug_4276.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34576,7 +33328,6 @@
   (targets bug_4276.v.chk.log)
   (deps bug_4276.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34596,7 +33347,6 @@
            bug_13366.glob
            bug_13366.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34619,7 +33369,6 @@
   (targets bug_13366.v.chk.log)
   (deps bug_13366.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34639,7 +33388,6 @@
            bug_1905.glob
            bug_1905.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34664,7 +33412,6 @@
   (targets bug_1905.v.chk.log)
   (deps bug_1905.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34686,7 +33433,6 @@
            bug_14420.glob
            bug_14420.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34709,7 +33455,6 @@
   (targets bug_14420.v.chk.log)
   (deps bug_14420.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34729,7 +33474,6 @@
            bug_3315.glob
            bug_3315.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34752,7 +33496,6 @@
   (targets bug_3315.v.chk.log)
   (deps bug_3315.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34772,7 +33515,6 @@
            bug_3317.glob
            bug_3317.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34795,7 +33537,6 @@
   (targets bug_3317.v.chk.log)
   (deps bug_3317.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34815,7 +33556,6 @@
            bug_9432.glob
            bug_9432.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34838,7 +33578,6 @@
   (targets bug_9432.v.chk.log)
   (deps bug_9432.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34858,7 +33597,6 @@
            bug_15838.glob
            bug_15838.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34881,7 +33619,6 @@
   (targets bug_15838.v.chk.log)
   (deps bug_15838.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34901,7 +33638,6 @@
            bug_4858.glob
            bug_4858.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34925,7 +33661,6 @@
   (targets bug_4858.v.chk.log)
   (deps bug_4858.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34946,7 +33681,6 @@
            bug_4479.glob
            bug_4479.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34969,7 +33703,6 @@
   (targets bug_4479.v.chk.log)
   (deps bug_4479.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -34989,7 +33722,6 @@
            bug_8459.glob
            bug_8459.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35013,7 +33745,6 @@
   (targets bug_8459.v.chk.log)
   (deps bug_8459.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35034,7 +33765,6 @@
            bug_13354.glob
            bug_13354.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35057,7 +33787,6 @@
   (targets bug_13354.v.chk.log)
   (deps bug_13354.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35077,7 +33806,6 @@
            bug_5703.glob
            bug_5703.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35100,7 +33828,6 @@
   (targets bug_5703.v.chk.log)
   (deps bug_5703.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35120,7 +33847,6 @@
            HoTT_coq_056.glob
            HoTT_coq_056.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35144,7 +33870,6 @@
   (targets HoTT_coq_056.v.chk.log)
   (deps HoTT_coq_056.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35165,7 +33890,6 @@
            bug_2388.glob
            bug_2388.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35189,7 +33913,6 @@
   (targets bug_2388.v.chk.log)
   (deps bug_2388.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35210,7 +33933,6 @@
            bug_4089.glob
            bug_4089.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35234,7 +33956,6 @@
   (targets bug_4089.v.chk.log)
   (deps bug_4089.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35255,7 +33976,6 @@
            HoTT_coq_043.glob
            HoTT_coq_043.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35281,7 +34001,6 @@
   (targets HoTT_coq_043.v.chk.log)
   (deps HoTT_coq_043.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35304,7 +34023,6 @@
            bug_4151.glob
            bug_4151.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35329,7 +34047,6 @@
   (targets bug_4151.v.chk.log)
   (deps bug_4151.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35351,7 +34068,6 @@
            bug_7068.glob
            bug_7068.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35374,7 +34090,6 @@
   (targets bug_7068.v.chk.log)
   (deps bug_7068.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35394,7 +34109,6 @@
            bug_2108.glob
            bug_2108.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35417,7 +34131,6 @@
   (targets bug_2108.v.chk.log)
   (deps bug_2108.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35437,7 +34150,6 @@
            bug_3929.glob
            bug_3929.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35460,7 +34172,6 @@
   (targets bug_3929.v.chk.log)
   (deps bug_3929.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35480,7 +34191,6 @@
            bug_5197.glob
            bug_5197.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35504,7 +34214,6 @@
   (targets bug_5197.v.chk.log)
   (deps bug_5197.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35525,7 +34234,6 @@
            bug_12257.glob
            bug_12257.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35549,7 +34257,6 @@
   (targets bug_12257.v.chk.log)
   (deps bug_12257.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35570,7 +34277,6 @@
            bug_5328.glob
            bug_5328.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35593,7 +34299,6 @@
   (targets bug_5328.v.chk.log)
   (deps bug_5328.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35613,7 +34318,6 @@
            bug_12889.glob
            bug_12889.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35640,7 +34344,6 @@
   (targets bug_12889.v.chk.log)
   (deps bug_12889.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35664,7 +34367,6 @@
            bug_12571.glob
            bug_12571.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35687,7 +34389,6 @@
   (targets bug_12571.v.chk.log)
   (deps bug_12571.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35707,7 +34408,6 @@
            bug_9367.glob
            bug_9367.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35730,7 +34430,6 @@
   (targets bug_9367.v.chk.log)
   (deps bug_9367.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35750,7 +34449,6 @@
            bug_12947.glob
            bug_12947.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35776,7 +34474,6 @@
   (targets bug_12947.v.chk.log)
   (deps bug_12947.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35799,7 +34496,6 @@
            bug_3454.glob
            bug_3454.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35822,7 +34518,6 @@
   (targets bug_3454.v.chk.log)
   (deps bug_3454.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35842,7 +34537,6 @@
            bug_10917.glob
            bug_10917.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35865,7 +34559,6 @@
   (targets bug_10917.v.chk.log)
   (deps bug_10917.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35885,7 +34578,6 @@
            bug_5671.glob
            bug_5671.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35909,7 +34601,6 @@
   (targets bug_5671.v.chk.log)
   (deps bug_5671.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35930,7 +34621,6 @@
            bug_6129.glob
            bug_6129.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35953,7 +34643,6 @@
   (targets bug_6129.v.chk.log)
   (deps bug_6129.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -35973,7 +34662,6 @@
            bug_4187.glob
            bug_4187.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36000,7 +34688,6 @@
   (targets bug_4187.v.chk.log)
   (deps bug_4187.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36024,7 +34711,6 @@
            bug_2969.glob
            bug_2969.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36048,7 +34734,6 @@
   (targets bug_2969.v.chk.log)
   (deps bug_2969.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36069,7 +34754,6 @@
            bug_4462.glob
            bug_4462.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36093,7 +34777,6 @@
   (targets bug_4462.v.chk.log)
   (deps bug_4462.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36114,7 +34797,6 @@
            bug_8478.glob
            bug_8478.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36137,7 +34819,6 @@
   (targets bug_8478.v.chk.log)
   (deps bug_8478.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36157,7 +34838,6 @@
            bug_5434.glob
            bug_5434.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36180,7 +34860,6 @@
   (targets bug_5434.v.chk.log)
   (deps bug_5434.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36200,7 +34879,6 @@
            bug_3388.glob
            bug_3388.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36223,7 +34901,6 @@
   (targets bug_3388.v.chk.log)
   (deps bug_3388.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36243,7 +34920,6 @@
            bug_2342.glob
            bug_2342.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36266,7 +34942,6 @@
   (targets bug_2342.v.chk.log)
   (deps bug_2342.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36286,7 +34961,6 @@
            bug_2981.glob
            bug_2981.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36309,7 +34983,6 @@
   (targets bug_2981.v.chk.log)
   (deps bug_2981.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36329,7 +35002,6 @@
            bug_10894.glob
            bug_10894.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36352,7 +35024,6 @@
   (targets bug_10894.v.chk.log)
   (deps bug_10894.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36372,7 +35043,6 @@
            bug_3480.glob
            bug_3480.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36396,7 +35066,6 @@
   (targets bug_3480.v.chk.log)
   (deps bug_3480.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36417,7 +35086,6 @@
            bug_2900.glob
            bug_2900.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36442,7 +35110,6 @@
   (targets bug_2900.v.chk.log)
   (deps bug_2900.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36464,7 +35131,6 @@
            bug_4101.glob
            bug_4101.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36487,7 +35153,6 @@
   (targets bug_4101.v.chk.log)
   (deps bug_4101.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36507,7 +35172,6 @@
            bug_3675.glob
            bug_3675.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36530,7 +35194,6 @@
   (targets bug_3675.v.chk.log)
   (deps bug_3675.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36550,7 +35213,6 @@
            bug_7695.glob
            bug_7695.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36574,7 +35236,6 @@
   (targets bug_7695.v.chk.log)
   (deps bug_7695.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36595,7 +35256,6 @@
            bug_2775.glob
            bug_2775.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36618,7 +35278,6 @@
   (targets bug_2775.v.chk.log)
   (deps bug_2775.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36638,7 +35297,6 @@
            bug_8364.glob
            bug_8364.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36661,7 +35319,6 @@
   (targets bug_8364.v.chk.log)
   (deps bug_8364.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36681,7 +35338,6 @@
            bug_4720.glob
            bug_4720.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36705,7 +35361,6 @@
   (targets bug_4720.v.chk.log)
   (deps bug_4720.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36726,7 +35381,6 @@
            bug_1542.glob
            bug_1542.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36749,7 +35403,6 @@
   (targets bug_1542.v.chk.log)
   (deps bug_1542.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36769,7 +35422,6 @@
            bug_2881.glob
            bug_2881.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36792,7 +35444,6 @@
   (targets bug_2881.v.chk.log)
   (deps bug_2881.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36812,7 +35463,6 @@
            bug_3294.glob
            bug_3294.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36835,7 +35485,6 @@
   (targets bug_3294.v.chk.log)
   (deps bug_3294.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36855,7 +35504,6 @@
            bug_2834.glob
            bug_2834.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36878,7 +35526,6 @@
   (targets bug_2834.v.chk.log)
   (deps bug_2834.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36898,7 +35545,6 @@
            HoTT_coq_093.glob
            HoTT_coq_093.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36921,7 +35567,6 @@
   (targets HoTT_coq_093.v.chk.log)
   (deps HoTT_coq_093.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36941,7 +35586,6 @@
            bug_3100.glob
            bug_3100.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36964,7 +35608,6 @@
   (targets bug_3100.v.chk.log)
   (deps bug_3100.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -36984,7 +35627,6 @@
            bug_4214.glob
            bug_4214.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37007,7 +35649,6 @@
   (targets bug_4214.v.chk.log)
   (deps bug_4214.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37027,7 +35668,6 @@
            bug_8532.glob
            bug_8532.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37050,7 +35690,6 @@
   (targets bug_8532.v.chk.log)
   (deps bug_8532.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37070,7 +35709,6 @@
            bug_12625.glob
            bug_12625.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37093,7 +35731,6 @@
   (targets bug_12625.v.chk.log)
   (deps bug_12625.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37113,7 +35750,6 @@
            bug_3896.glob
            bug_3896.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37136,7 +35772,6 @@
   (targets bug_3896.v.chk.log)
   (deps bug_3896.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37156,7 +35791,6 @@
            HoTT_coq_010.glob
            HoTT_coq_010.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37179,7 +35813,6 @@
   (targets HoTT_coq_010.v.chk.log)
   (deps HoTT_coq_010.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37199,7 +35832,6 @@
            bug_5532.glob
            bug_5532.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37222,7 +35854,6 @@
   (targets bug_5532.v.chk.log)
   (deps bug_5532.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37242,7 +35873,6 @@
            bug_3004.glob
            bug_3004.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37265,7 +35895,6 @@
   (targets bug_3004.v.chk.log)
   (deps bug_3004.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37285,7 +35914,6 @@
            bug_3386.glob
            bug_3386.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37308,7 +35936,6 @@
   (targets bug_3386.v.chk.log)
   (deps bug_3386.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37328,7 +35955,6 @@
            bug_15621.glob
            bug_15621.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37351,7 +35977,6 @@
   (targets bug_15621.v.chk.log)
   (deps bug_15621.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37371,7 +35996,6 @@
            bug_3779.glob
            bug_3779.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37394,7 +36018,6 @@
   (targets bug_3779.v.chk.log)
   (deps bug_3779.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37414,7 +36037,6 @@
            bug_5470.glob
            bug_5470.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37437,7 +36059,6 @@
   (targets bug_5470.v.chk.log)
   (deps bug_5470.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37457,7 +36078,6 @@
            bug_7725.glob
            bug_7725.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37480,7 +36100,6 @@
   (targets bug_7725.v.chk.log)
   (deps bug_7725.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37500,7 +36119,6 @@
            bug_13834.glob
            bug_13834.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37523,7 +36141,6 @@
   (targets bug_13834.v.chk.log)
   (deps bug_13834.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37543,7 +36160,6 @@
            bug_12228.glob
            bug_12228.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37566,7 +36182,6 @@
   (targets bug_12228.v.chk.log)
   (deps bug_12228.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37586,7 +36201,6 @@
            bug_9526.glob
            bug_9526.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37609,7 +36223,6 @@
   (targets bug_9526.v.chk.log)
   (deps bug_9526.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37629,7 +36242,6 @@
            bug_5177.glob
            bug_5177.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37653,7 +36265,6 @@
   (targets bug_5177.v.chk.log)
   (deps bug_5177.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37674,7 +36285,6 @@
            bug_3348.glob
            bug_3348.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37698,7 +36308,6 @@
   (targets bug_3348.v.chk.log)
   (deps bug_3348.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37719,7 +36328,6 @@
            HoTT_coq_105.glob
            HoTT_coq_105.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37742,7 +36350,6 @@
   (targets HoTT_coq_105.v.chk.log)
   (deps HoTT_coq_105.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37762,7 +36369,6 @@
            bug_5487.glob
            bug_5487.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37785,7 +36391,6 @@
   (targets bug_5487.v.chk.log)
   (deps bug_5487.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37805,7 +36410,6 @@
            bug_6384.glob
            bug_6384.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37828,7 +36432,6 @@
   (targets bug_6384.v.chk.log)
   (deps bug_6384.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37848,7 +36451,6 @@
            bug_13618.glob
            bug_13618.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37874,7 +36476,6 @@
   (targets bug_13618.v.chk.log)
   (deps bug_13618.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37897,7 +36498,6 @@
            bug_9114.glob
            bug_9114.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37920,7 +36520,6 @@
   (targets bug_9114.v.chk.log)
   (deps bug_9114.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37940,7 +36539,6 @@
            bug_2243.glob
            bug_2243.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37963,7 +36561,6 @@
   (targets bug_2243.v.chk.log)
   (deps bug_2243.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -37983,7 +36580,6 @@
            bug_1704.glob
            bug_1704.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38008,7 +36604,6 @@
   (targets bug_1704.v.chk.log)
   (deps bug_1704.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38030,7 +36625,6 @@
            bug_1754.glob
            bug_1754.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38053,7 +36647,6 @@
   (targets bug_1754.v.chk.log)
   (deps bug_1754.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38073,7 +36666,6 @@
            bug_2876.glob
            bug_2876.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38096,7 +36688,6 @@
   (targets bug_2876.v.chk.log)
   (deps bug_2876.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38116,7 +36707,6 @@
            bug_2750.glob
            bug_2750.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38139,7 +36729,6 @@
   (targets bug_2750.v.chk.log)
   (deps bug_2750.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38159,7 +36748,6 @@
            HoTT_coq_032.glob
            HoTT_coq_032.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38182,7 +36770,6 @@
   (targets HoTT_coq_032.v.chk.log)
   (deps HoTT_coq_032.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38202,7 +36789,6 @@
            bug_2603.glob
            bug_2603.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38225,7 +36811,6 @@
   (targets bug_2603.v.chk.log)
   (deps bug_2603.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38245,7 +36830,6 @@
            bug_2375.glob
            bug_2375.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38268,7 +36852,6 @@
   (targets bug_2375.v.chk.log)
   (deps bug_2375.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38288,7 +36871,6 @@
            bug_3016.glob
            bug_3016.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38311,7 +36893,6 @@
   (targets bug_3016.v.chk.log)
   (deps bug_3016.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38331,7 +36912,6 @@
            bug_4745.glob
            bug_4745.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38355,7 +36935,6 @@
   (targets bug_4745.v.chk.log)
   (deps bug_4745.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38376,7 +36955,6 @@
            bug_3849.glob
            bug_3849.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38399,7 +36977,6 @@
   (targets bug_3849.v.chk.log)
   (deps bug_3849.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38419,7 +36996,6 @@
            bug_10060.glob
            bug_10060.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38442,7 +37018,6 @@
   (targets bug_10060.v.chk.log)
   (deps bug_10060.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38462,7 +37037,6 @@
            bug_3848.glob
            bug_3848.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38486,7 +37060,6 @@
   (targets bug_3848.v.chk.log)
   (deps bug_3848.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38507,7 +37080,6 @@
            bug_5512.glob
            bug_5512.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38530,7 +37102,6 @@
   (targets bug_5512.v.chk.log)
   (deps bug_5512.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38550,7 +37121,6 @@
            bug_3491.glob
            bug_3491.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38573,7 +37143,6 @@
   (targets bug_3491.v.chk.log)
   (deps bug_3491.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38593,7 +37162,6 @@
            bug_7779.glob
            bug_7779.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38616,7 +37184,6 @@
   (targets bug_7779.v.chk.log)
   (deps bug_7779.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38636,7 +37203,6 @@
            bug_5180.glob
            bug_5180.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38659,7 +37225,6 @@
   (targets bug_5180.v.chk.log)
   (deps bug_5180.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38679,7 +37244,6 @@
            bug_5755.glob
            bug_5755.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38702,7 +37266,6 @@
   (targets bug_5755.v.chk.log)
   (deps bug_5755.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38722,7 +37285,6 @@
            bug_3319.glob
            bug_3319.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38746,7 +37308,6 @@
   (targets bug_3319.v.chk.log)
   (deps bug_3319.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38767,7 +37328,6 @@
            bug_3819.glob
            bug_3819.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38790,7 +37350,6 @@
   (targets bug_3819.v.chk.log)
   (deps bug_3819.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38810,7 +37369,6 @@
            bug_3374.glob
            bug_3374.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38834,7 +37392,6 @@
   (targets bug_3374.v.chk.log)
   (deps bug_3374.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38855,7 +37412,6 @@
            bug_10182.glob
            bug_10182.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38879,7 +37435,6 @@
   (targets bug_10182.v.chk.log)
   (deps bug_10182.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38900,7 +37455,6 @@
            bug_2404.glob
            bug_2404.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38925,7 +37479,6 @@
   (targets bug_2404.v.chk.log)
   (deps bug_2404.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38947,7 +37500,6 @@
            bug_3043.glob
            bug_3043.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38970,7 +37522,6 @@
   (targets bug_3043.v.chk.log)
   (deps bug_3043.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -38990,7 +37541,6 @@
            bug_3735.glob
            bug_3735.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39014,7 +37564,6 @@
   (targets bug_3735.v.chk.log)
   (deps bug_3735.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39035,7 +37584,6 @@
            bug_4852.glob
            bug_4852.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39061,7 +37609,6 @@
   (targets bug_4852.v.chk.log)
   (deps bug_4852.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39084,7 +37631,6 @@
            bug_3561.glob
            bug_3561.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39108,7 +37654,6 @@
   (targets bug_3561.v.chk.log)
   (deps bug_3561.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39129,7 +37674,6 @@
            bug_15972.glob
            bug_15972.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39152,7 +37696,6 @@
   (targets bug_15972.v.chk.log)
   (deps bug_15972.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39172,7 +37715,6 @@
            bug_4433.glob
            bug_4433.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39197,7 +37739,6 @@
   (targets bug_4433.v.chk.log)
   (deps bug_4433.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39219,7 +37760,6 @@
            bug_3596.glob
            bug_3596.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39243,7 +37783,6 @@
   (targets bug_3596.v.chk.log)
   (deps bug_3596.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39264,7 +37803,6 @@
            bug_10097.glob
            bug_10097.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39288,7 +37826,6 @@
   (targets bug_10097.v.chk.log)
   (deps bug_10097.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39309,7 +37846,6 @@
            bug_5522.glob
            bug_5522.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39332,7 +37868,6 @@
   (targets bug_5522.v.chk.log)
   (deps bug_5522.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39352,7 +37887,6 @@
            bug_3336.glob
            bug_3336.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39376,7 +37910,6 @@
   (targets bug_3336.v.chk.log)
   (deps bug_3336.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39397,7 +37930,6 @@
            bug_7017.glob
            bug_7017.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39427,7 +37959,6 @@
   (targets bug_7017.v.chk.log)
   (deps bug_7017.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39454,7 +37985,6 @@
            HoTT_coq_035.glob
            HoTT_coq_035.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39478,7 +38008,6 @@
   (targets HoTT_coq_035.v.chk.log)
   (deps HoTT_coq_035.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39499,7 +38028,6 @@
            bug_4157.glob
            bug_4157.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39523,7 +38051,6 @@
   (targets bug_4157.v.chk.log)
   (deps bug_4157.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39543,7 +38070,6 @@
            bug_3956.glob
            bug_3956.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39567,7 +38093,6 @@
   (targets bug_3956.v.chk.log)
   (deps bug_3956.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39588,7 +38113,6 @@
            bug_5550.glob
            bug_5550.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39611,7 +38135,6 @@
   (targets bug_5550.v.chk.log)
   (deps bug_5550.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39631,7 +38154,6 @@
            bug_3284.glob
            bug_3284.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39654,7 +38176,6 @@
   (targets bug_3284.v.chk.log)
   (deps bug_3284.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39674,7 +38195,6 @@
            bug_4191.glob
            bug_4191.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39697,7 +38217,6 @@
   (targets bug_4191.v.chk.log)
   (deps bug_4191.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39717,7 +38236,6 @@
            bug_9532.glob
            bug_9532.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39740,7 +38258,6 @@
   (targets bug_9532.v.chk.log)
   (deps bug_9532.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39760,7 +38277,6 @@
            bug_4638.glob
            bug_4638.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39783,7 +38299,6 @@
   (targets bug_4638.v.chk.log)
   (deps bug_4638.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39803,7 +38318,6 @@
            bug_3242.glob
            bug_3242.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39826,7 +38340,6 @@
   (targets bug_3242.v.chk.log)
   (deps bug_3242.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39846,7 +38359,6 @@
            bug_3618.glob
            bug_3618.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39869,7 +38381,6 @@
   (targets bug_3618.v.chk.log)
   (deps bug_3618.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39889,7 +38400,6 @@
            bug_4161.glob
            bug_4161.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39912,7 +38422,6 @@
   (targets bug_4161.v.chk.log)
   (deps bug_4161.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39932,7 +38441,6 @@
            bug_4328.glob
            bug_4328.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39955,7 +38463,6 @@
   (targets bug_4328.v.chk.log)
   (deps bug_4328.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39975,7 +38482,6 @@
            bug_5396.glob
            bug_5396.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -39998,7 +38504,6 @@
   (targets bug_5396.v.chk.log)
   (deps bug_5396.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40018,7 +38523,6 @@
            bug_15420.glob
            bug_15420.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40041,7 +38545,6 @@
   (targets bug_15420.v.chk.log)
   (deps bug_15420.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40061,7 +38564,6 @@
            bug_1915.glob
            bug_1915.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40085,7 +38587,6 @@
   (targets bug_1915.v.chk.log)
   (deps bug_1915.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40106,7 +38607,6 @@
            bug_5368.glob
            bug_5368.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40129,7 +38629,6 @@
   (targets bug_5368.v.chk.log)
   (deps bug_5368.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40149,7 +38648,6 @@
            bug_10161.glob
            bug_10161.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40172,7 +38670,6 @@
   (targets bug_10161.v.chk.log)
   (deps bug_10161.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40192,7 +38689,6 @@
            bug_13300.glob
            bug_13300.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40215,7 +38711,6 @@
   (targets bug_13300.v.chk.log)
   (deps bug_13300.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40235,7 +38730,6 @@
            bug_5435.glob
            bug_5435.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40258,7 +38752,6 @@
   (targets bug_5435.v.chk.log)
   (deps bug_5435.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40278,7 +38771,6 @@
            bug_1898.glob
            bug_1898.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40301,7 +38793,6 @@
   (targets bug_1898.v.chk.log)
   (deps bug_1898.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40321,7 +38812,6 @@
            bug_4272.glob
            bug_4272.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40344,7 +38834,6 @@
   (targets bug_4272.v.chk.log)
   (deps bug_4272.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40364,7 +38853,6 @@
            bug_3559.glob
            bug_3559.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40388,7 +38876,6 @@
   (targets bug_3559.v.chk.log)
   (deps bug_3559.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40409,7 +38896,6 @@
            bug_4017.glob
            bug_4017.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40432,7 +38918,6 @@
   (targets bug_4017.v.chk.log)
   (deps bug_4017.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40452,7 +38937,6 @@
            bug_5193.glob
            bug_5193.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40475,7 +38959,6 @@
   (targets bug_5193.v.chk.log)
   (deps bug_5193.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40495,7 +38978,6 @@
            HoTT_coq_090.glob
            HoTT_coq_090.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40519,7 +39001,6 @@
   (targets HoTT_coq_090.v.chk.log)
   (deps HoTT_coq_090.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40540,7 +39021,6 @@
            bug_5019.glob
            bug_5019.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40564,7 +39044,6 @@
   (targets bug_5019.v.chk.log)
   (deps bug_5019.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40585,7 +39064,6 @@
            bug_3346.glob
            bug_3346.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40609,7 +39087,6 @@
   (targets bug_3346.v.chk.log)
   (deps bug_3346.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40630,7 +39107,6 @@
            bug_6878.glob
            bug_6878.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40653,7 +39129,6 @@
   (targets bug_6878.v.chk.log)
   (deps bug_6878.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40673,7 +39148,6 @@
            bug_3854.glob
            bug_3854.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40697,7 +39171,6 @@
   (targets bug_3854.v.chk.log)
   (deps bug_3854.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40718,7 +39191,6 @@
            bug_3520.glob
            bug_3520.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40741,7 +39213,6 @@
   (targets bug_3520.v.chk.log)
   (deps bug_3520.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40761,7 +39232,6 @@
            bug_14264.glob
            bug_14264.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40784,7 +39254,6 @@
   (targets bug_14264.v.chk.log)
   (deps bug_14264.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40804,7 +39273,6 @@
            bug_1939.glob
            bug_1939.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40829,7 +39297,6 @@
   (targets bug_1939.v.chk.log)
   (deps bug_1939.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40851,7 +39318,6 @@
            bug_1680.glob
            bug_1680.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40874,7 +39340,6 @@
   (targets bug_1680.v.chk.log)
   (deps bug_1680.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40894,7 +39359,6 @@
            bug_10193.glob
            bug_10193.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40917,7 +39381,6 @@
   (targets bug_10193.v.chk.log)
   (deps bug_10193.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40937,7 +39400,6 @@
            bug_13903.glob
            bug_13903.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40960,7 +39422,6 @@
   (targets bug_13903.v.chk.log)
   (deps bug_13903.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -40980,7 +39441,6 @@
            bug_3217.glob
            bug_3217.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41003,7 +39463,6 @@
   (targets bug_3217.v.chk.log)
   (deps bug_3217.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41023,7 +39482,6 @@
            bug_2135.glob
            bug_2135.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41046,7 +39504,6 @@
   (targets bug_2135.v.chk.log)
   (deps bug_2135.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41066,7 +39523,6 @@
            bug_15451.glob
            bug_15451.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41089,7 +39545,6 @@
   (targets bug_15451.v.chk.log)
   (deps bug_15451.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41109,7 +39564,6 @@
            bug_14446.glob
            bug_14446.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41133,7 +39587,6 @@
   (targets bug_14446.v.chk.log)
   (deps bug_14446.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41154,7 +39607,6 @@
            bug_5153.glob
            bug_5153.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41177,7 +39629,6 @@
   (targets bug_5153.v.chk.log)
   (deps bug_5153.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41197,7 +39648,6 @@
            bug_6202.glob
            bug_6202.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41220,7 +39670,6 @@
   (targets bug_6202.v.chk.log)
   (deps bug_6202.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41240,7 +39689,6 @@
            bug_3461.glob
            bug_3461.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41263,7 +39711,6 @@
   (targets bug_3461.v.chk.log)
   (deps bug_3461.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41283,7 +39730,6 @@
            bug_9696.glob
            bug_9696.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41306,7 +39752,6 @@
   (targets bug_9696.v.chk.log)
   (deps bug_9696.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41326,7 +39771,6 @@
            bug_1362.glob
            bug_1362.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41351,7 +39795,6 @@
   (targets bug_1362.v.chk.log)
   (deps bug_1362.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41373,7 +39816,6 @@
            HoTT_coq_064.glob
            HoTT_coq_064.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41397,7 +39839,6 @@
   (targets HoTT_coq_064.v.chk.log)
   (deps HoTT_coq_064.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41418,7 +39859,6 @@
            bug_1614.glob
            bug_1614.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41443,7 +39883,6 @@
   (targets bug_1614.v.chk.log)
   (deps bug_1614.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41465,7 +39904,6 @@
            bug_9851.glob
            bug_9851.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41489,7 +39927,6 @@
   (targets bug_9851.v.chk.log)
   (deps bug_9851.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41510,7 +39947,6 @@
            bug_3665.glob
            bug_3665.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41533,7 +39969,6 @@
   (targets bug_3665.v.chk.log)
   (deps bug_3665.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41553,7 +39988,6 @@
            bug_3960.glob
            bug_3960.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41577,7 +40011,6 @@
   (targets bug_3960.v.chk.log)
   (deps bug_3960.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41598,7 +40031,6 @@
            bug_9363.glob
            bug_9363.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41621,7 +40053,6 @@
   (targets bug_9363.v.chk.log)
   (deps bug_9363.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41641,7 +40072,6 @@
            bug_3332.glob
            bug_3332.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41664,7 +40094,6 @@
   (targets bug_3332.v.chk.log)
   (deps bug_3332.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41684,7 +40113,6 @@
            bug_7675_3.glob
            bug_7675_3.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41709,7 +40137,6 @@
   (targets bug_7675_3.v.chk.log)
   (deps bug_7675_3.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41731,7 +40158,6 @@
            bug_6297.glob
            bug_6297.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41754,7 +40180,6 @@
   (targets bug_6297.v.chk.log)
   (deps bug_6297.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41774,7 +40199,6 @@
            bug_5145.glob
            bug_5145.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41797,7 +40221,6 @@
   (targets bug_5145.v.chk.log)
   (deps bug_5145.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41817,7 +40240,6 @@
            bug_3652.glob
            bug_3652.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41843,7 +40265,6 @@
   (targets bug_3652.v.chk.log)
   (deps bug_3652.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41866,7 +40287,6 @@
            bug_5096.glob
            bug_5096.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41893,7 +40313,6 @@
   (targets bug_5096.v.chk.log)
   (deps bug_5096.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41916,7 +40335,6 @@
            bug_12649.glob
            bug_12649.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41939,7 +40357,6 @@
   (targets bug_12649.v.chk.log)
   (deps bug_12649.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41959,7 +40376,6 @@
            bug_3616.glob
            bug_3616.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -41982,7 +40398,6 @@
   (targets bug_3616.v.chk.log)
   (deps bug_3616.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42000,7 +40415,6 @@
   (targets bug_6165.vio
            bug_6165.vio.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42025,7 +40439,6 @@
            bug_3668.glob
            bug_3668.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42049,7 +40462,6 @@
   (targets bug_3668.v.chk.log)
   (deps bug_3668.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42070,7 +40482,6 @@
            bug_5726.glob
            bug_5726.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42093,7 +40504,6 @@
   (targets bug_5726.v.chk.log)
   (deps bug_5726.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42113,7 +40523,6 @@
            HoTT_coq_006.glob
            HoTT_coq_006.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42136,7 +40545,6 @@
   (targets HoTT_coq_006.v.chk.log)
   (deps HoTT_coq_006.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42156,7 +40564,6 @@
            bug_1448.glob
            bug_1448.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42183,7 +40590,6 @@
   (targets bug_1448.v.chk.log)
   (deps bug_1448.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42207,7 +40613,6 @@
            bug_3699.glob
            bug_3699.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42231,7 +40636,6 @@
   (targets bug_3699.v.chk.log)
   (deps bug_3699.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42252,7 +40656,6 @@
            bug_3672.glob
            bug_3672.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42275,7 +40678,6 @@
   (targets bug_3672.v.chk.log)
   (deps bug_3672.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42295,7 +40697,6 @@
            bug_1604.glob
            bug_1604.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42319,7 +40720,6 @@
   (targets bug_1604.v.chk.log)
   (deps bug_1604.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42340,7 +40740,6 @@
            bug_4970.glob
            bug_4970.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42363,7 +40762,6 @@
   (targets bug_4970.v.chk.log)
   (deps bug_4970.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42383,7 +40781,6 @@
            bug_5321.glob
            bug_5321.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42406,7 +40803,6 @@
   (targets bug_5321.v.chk.log)
   (deps bug_5321.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42426,7 +40822,6 @@
            bug_14788.glob
            bug_14788.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42449,7 +40844,6 @@
   (targets bug_14788.v.chk.log)
   (deps bug_14788.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42469,7 +40863,6 @@
            bug_3258.glob
            bug_3258.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42497,7 +40890,6 @@
   (targets bug_3258.v.chk.log)
   (deps bug_3258.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42522,7 +40914,6 @@
            bug_3685.glob
            bug_3685.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42546,7 +40937,6 @@
   (targets bug_3685.v.chk.log)
   (deps bug_3685.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42567,7 +40957,6 @@
            bug_3393.glob
            bug_3393.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42591,7 +40980,6 @@
   (targets bug_3393.v.chk.log)
   (deps bug_3393.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42612,7 +41000,6 @@
            bug_4644.glob
            bug_4644.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42637,7 +41024,6 @@
   (targets bug_4644.v.chk.log)
   (deps bug_4644.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42659,7 +41045,6 @@
            bug_2027.glob
            bug_2027.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42682,7 +41067,6 @@
   (targets bug_2027.v.chk.log)
   (deps bug_2027.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42702,7 +41086,6 @@
            bug_7812.glob
            bug_7812.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42725,7 +41108,6 @@
   (targets bug_7812.v.chk.log)
   (deps bug_7812.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42745,7 +41127,6 @@
            bug_1738.glob
            bug_1738.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42769,7 +41150,6 @@
   (targets bug_1738.v.chk.log)
   (deps bug_1738.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42790,7 +41170,6 @@
            bug_15606.glob
            bug_15606.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42813,7 +41192,6 @@
   (targets bug_15606.v.chk.log)
   (deps bug_15606.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42833,7 +41211,6 @@
            bug_6634.glob
            bug_6634.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42857,7 +41234,6 @@
   (targets bug_6634.v.chk.log)
   (deps bug_6634.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42878,7 +41254,6 @@
            bug_3003.glob
            bug_3003.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42901,7 +41276,6 @@
   (targets bug_3003.v.chk.log)
   (deps bug_3003.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42921,7 +41295,6 @@
            bug_5384.glob
            bug_5384.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42946,7 +41319,6 @@
   (targets bug_5384.v.chk.log)
   (deps bug_5384.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42968,7 +41340,6 @@
            bug_3537.glob
            bug_3537.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -42991,7 +41362,6 @@
   (targets bug_3537.v.chk.log)
   (deps bug_3537.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43011,7 +41381,6 @@
            HoTT_coq_085.glob
            HoTT_coq_085.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43034,7 +41403,6 @@
   (targets HoTT_coq_085.v.chk.log)
   (deps HoTT_coq_085.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43054,7 +41422,6 @@
            bug_3355.glob
            bug_3355.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43077,7 +41444,6 @@
   (targets bug_3355.v.chk.log)
   (deps bug_3355.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43097,7 +41463,6 @@
            bug_10176.glob
            bug_10176.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43120,7 +41485,6 @@
   (targets bug_10176.v.chk.log)
   (deps bug_10176.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43140,7 +41504,6 @@
            bug_1322.glob
            bug_1322.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43164,7 +41527,6 @@
   (targets bug_1322.v.chk.log)
   (deps bug_1322.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43185,7 +41547,6 @@
            bug_3115.glob
            bug_3115.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43208,7 +41569,6 @@
   (targets bug_3115.v.chk.log)
   (deps bug_3115.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43228,7 +41588,6 @@
            bug_5547.glob
            bug_5547.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43251,7 +41610,6 @@
   (targets bug_5547.v.chk.log)
   (deps bug_5547.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43271,7 +41629,6 @@
            bug_3567.glob
            bug_3567.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43294,7 +41651,6 @@
   (targets bug_3567.v.chk.log)
   (deps bug_3567.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43314,7 +41670,6 @@
            bug_4519.glob
            bug_4519.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43337,7 +41692,6 @@
   (targets bug_4519.v.chk.log)
   (deps bug_4519.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43357,7 +41711,6 @@
            HoTT_coq_002.glob
            HoTT_coq_002.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43380,7 +41733,6 @@
   (targets HoTT_coq_002.v.chk.log)
   (deps HoTT_coq_002.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43400,7 +41752,6 @@
            HoTT_coq_074.glob
            HoTT_coq_074.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43423,7 +41774,6 @@
   (targets HoTT_coq_074.v.chk.log)
   (deps HoTT_coq_074.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43443,7 +41793,6 @@
            bug_4836.glob
            bug_4836.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43466,7 +41815,6 @@
   (targets bug_4836.v.chk.log)
   (deps bug_4836.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43486,7 +41834,6 @@
            bug_2378.glob
            bug_2378.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43513,7 +41860,6 @@
   (targets bug_2378.v.chk.log)
   (deps bug_2378.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43537,7 +41883,6 @@
            bug_6910.glob
            bug_6910.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43562,7 +41907,6 @@
   (targets bug_6910.v.chk.log)
   (deps bug_6910.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43584,7 +41928,6 @@
            bug_4480.glob
            bug_4480.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43608,7 +41951,6 @@
   (targets bug_4480.v.chk.log)
   (deps bug_4480.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43629,7 +41971,6 @@
            bug_8725.glob
            bug_8725.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43652,7 +41993,6 @@
   (targets bug_8725.v.chk.log)
   (deps bug_8725.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43672,7 +42012,6 @@
            bug_3439.glob
            bug_3439.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43696,7 +42035,6 @@
   (targets bug_3439.v.chk.log)
   (deps bug_3439.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43717,7 +42055,6 @@
            bug_4498.glob
            bug_4498.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43744,7 +42081,6 @@
   (targets bug_4498.v.chk.log)
   (deps bug_4498.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43768,7 +42104,6 @@
            bug_4205.glob
            bug_4205.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43791,7 +42126,6 @@
   (targets bug_4205.v.chk.log)
   (deps bug_4205.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43811,7 +42145,6 @@
            bug_2848.glob
            bug_2848.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43835,7 +42168,6 @@
   (targets bug_2848.v.chk.log)
   (deps bug_2848.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43856,7 +42188,6 @@
            bug_2095.glob
            bug_2095.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43879,7 +42210,6 @@
   (targets bug_2095.v.chk.log)
   (deps bug_2095.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43899,7 +42229,6 @@
            HoTT_coq_103.glob
            HoTT_coq_103.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43922,7 +42251,6 @@
   (targets HoTT_coq_103.v.chk.log)
   (deps HoTT_coq_103.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43942,7 +42270,6 @@
            bug_5215_2.glob
            bug_5215_2.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43966,7 +42293,6 @@
   (targets bug_5215_2.v.chk.log)
   (deps bug_5215_2.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -43987,7 +42313,6 @@
            bug_7061.glob
            bug_7061.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44010,7 +42335,6 @@
   (targets bug_7061.v.chk.log)
   (deps bug_7061.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44030,7 +42354,6 @@
            bug_3916.glob
            bug_3916.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44054,7 +42377,6 @@
   (targets bug_3916.v.chk.log)
   (deps bug_3916.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44075,7 +42397,6 @@
            bug_7986.glob
            bug_7986.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44098,7 +42419,6 @@
   (targets bug_7986.v.chk.log)
   (deps bug_7986.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44118,7 +42438,6 @@
            bug_15197.glob
            bug_15197.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44141,7 +42460,6 @@
   (targets bug_15197.v.chk.log)
   (deps bug_15197.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44161,7 +42479,6 @@
            bug_5359.glob
            bug_5359.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44185,7 +42502,6 @@
   (targets bug_5359.v.chk.log)
   (deps bug_5359.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44206,7 +42522,6 @@
            bug_3264.glob
            bug_3264.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44229,7 +42544,6 @@
   (targets bug_3264.v.chk.log)
   (deps bug_3264.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44249,7 +42563,6 @@
            HoTT_coq_115.glob
            HoTT_coq_115.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44272,7 +42585,6 @@
   (targets HoTT_coq_115.v.chk.log)
   (deps HoTT_coq_115.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44292,7 +42604,6 @@
            bug_3331.glob
            bug_3331.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44315,7 +42626,6 @@
   (targets bug_3331.v.chk.log)
   (deps bug_3331.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44335,7 +42645,6 @@
            bug_4231.glob
            bug_4231.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44358,7 +42667,6 @@
   (targets bug_4231.v.chk.log)
   (deps bug_4231.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44378,7 +42686,6 @@
            bug_15569.glob
            bug_15569.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44402,7 +42709,6 @@
   (targets bug_15569.v.chk.log)
   (deps bug_15569.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44423,7 +42729,6 @@
            bug_10757.glob
            bug_10757.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44449,7 +42754,6 @@
   (targets bug_10757.v.chk.log)
   (deps bug_10757.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44472,7 +42776,6 @@
            bug_5181.glob
            bug_5181.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44495,7 +42798,6 @@
   (targets bug_5181.v.chk.log)
   (deps bug_5181.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44515,7 +42817,6 @@
            bug_4538.glob
            bug_4538.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44538,7 +42839,6 @@
   (targets bug_4538.v.chk.log)
   (deps bug_4538.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44558,7 +42858,6 @@
            bug_15043.glob
            bug_15043.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44583,7 +42882,6 @@
   (targets bug_15043.v.chk.log)
   (deps bug_15043.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44605,7 +42903,6 @@
            HoTT_coq_124.glob
            HoTT_coq_124.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44628,7 +42925,6 @@
   (targets HoTT_coq_124.v.chk.log)
   (deps HoTT_coq_124.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44648,7 +42944,6 @@
            bug_13453.glob
            bug_13453.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44672,7 +42967,6 @@
   (targets bug_13453.v.chk.log)
   (deps bug_13453.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44693,7 +42987,6 @@
            bug_3354.glob
            bug_3354.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44716,7 +43009,6 @@
   (targets bug_3354.v.chk.log)
   (deps bug_3354.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44736,7 +43028,6 @@
            bug_4280.glob
            bug_4280.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44762,7 +43053,6 @@
   (targets bug_4280.v.chk.log)
   (deps bug_4280.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44785,7 +43075,6 @@
            bug_6042.glob
            bug_6042.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44808,7 +43097,6 @@
   (targets bug_6042.v.chk.log)
   (deps bug_6042.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44828,7 +43116,6 @@
            bug_3485.glob
            bug_3485.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44851,7 +43138,6 @@
   (targets bug_3485.v.chk.log)
   (deps bug_3485.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44871,7 +43157,6 @@
            bug_13117.glob
            bug_13117.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44894,7 +43179,6 @@
   (targets bug_13117.v.chk.log)
   (deps bug_13117.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44914,7 +43198,6 @@
            bug_1787.glob
            bug_1787.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44937,7 +43220,6 @@
   (targets bug_1787.v.chk.log)
   (deps bug_1787.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44957,7 +43239,6 @@
            bug_3709.glob
            bug_3709.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -44981,7 +43262,6 @@
   (targets bug_3709.v.chk.log)
   (deps bug_3709.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45002,7 +43282,6 @@
            bug_3320.glob
            bug_3320.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45025,7 +43304,6 @@
   (targets bug_3320.v.chk.log)
   (deps bug_3320.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45045,7 +43323,6 @@
            HoTT_coq_078.glob
            HoTT_coq_078.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45069,7 +43346,6 @@
   (targets HoTT_coq_078.v.chk.log)
   (deps HoTT_coq_078.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45090,7 +43366,6 @@
            bug_2734.glob
            bug_2734.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45116,7 +43391,6 @@
   (targets bug_2734.v.chk.log)
   (deps bug_2734.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45139,7 +43413,6 @@
            bug_10025.glob
            bug_10025.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45163,7 +43436,6 @@
   (targets bug_10025.v.chk.log)
   (deps bug_10025.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45184,7 +43456,6 @@
            bug_8081.glob
            bug_8081.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45207,7 +43478,6 @@
   (targets bug_8081.v.chk.log)
   (deps bug_8081.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45227,7 +43497,6 @@
            bug_8310.glob
            bug_8310.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45250,7 +43519,6 @@
   (targets bug_8310.v.chk.log)
   (deps bug_8310.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45270,7 +43538,6 @@
            bug_2244.glob
            bug_2244.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45293,7 +43560,6 @@
   (targets bug_2244.v.chk.log)
   (deps bug_2244.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45313,7 +43579,6 @@
            bug_3422.glob
            bug_3422.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45337,7 +43602,6 @@
   (targets bug_3422.v.chk.log)
   (deps bug_3422.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45358,7 +43622,6 @@
            bug_11121.glob
            bug_11121.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45381,7 +43644,6 @@
   (targets bug_11121.v.chk.log)
   (deps bug_11121.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45401,7 +43663,6 @@
            bug_11783.glob
            bug_11783.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45425,7 +43686,6 @@
   (targets bug_11783.v.chk.log)
   (deps bug_11783.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45446,7 +43706,6 @@
            HoTT_coq_063.glob
            HoTT_coq_063.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45469,7 +43728,6 @@
   (targets HoTT_coq_063.v.chk.log)
   (deps HoTT_coq_063.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45489,7 +43747,6 @@
            bug_9679.glob
            bug_9679.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45512,7 +43769,6 @@
   (targets bug_9679.v.chk.log)
   (deps bug_9679.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45532,7 +43788,6 @@
            bug_12806.glob
            bug_12806.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45556,7 +43811,6 @@
   (targets bug_12806.v.chk.log)
   (deps bug_12806.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45577,7 +43831,6 @@
            bug_1618.glob
            bug_1618.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45601,7 +43854,6 @@
   (targets bug_1618.v.chk.log)
   (deps bug_1618.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45622,7 +43874,6 @@
            bug_5159.glob
            bug_5159.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45645,7 +43896,6 @@
   (targets bug_5159.v.chk.log)
   (deps bug_5159.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45665,7 +43915,6 @@
            bug_3199.glob
            bug_3199.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45688,7 +43937,6 @@
   (targets bug_3199.v.chk.log)
   (deps bug_3199.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45708,7 +43956,6 @@
            HoTT_coq_117.glob
            HoTT_coq_117.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45731,7 +43978,6 @@
   (targets HoTT_coq_117.v.chk.log)
   (deps HoTT_coq_117.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45751,7 +43997,6 @@
            bug_3325.glob
            bug_3325.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45774,7 +44019,6 @@
   (targets bug_3325.v.chk.log)
   (deps bug_3325.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45794,7 +44038,6 @@
            bug_5706.glob
            bug_5706.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45821,7 +44064,6 @@
   (targets bug_5706.v.chk.log)
   (deps bug_5706.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45845,7 +44087,6 @@
            bug_4782.glob
            bug_4782.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45868,7 +44109,6 @@
   (targets bug_4782.v.chk.log)
   (deps bug_4782.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45888,7 +44128,6 @@
            bug_2828.glob
            bug_2828.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45911,7 +44150,6 @@
   (targets bug_2828.v.chk.log)
   (deps bug_2828.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45931,7 +44169,6 @@
            bug_3886.glob
            bug_3886.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45955,7 +44192,6 @@
   (targets bug_3886.v.chk.log)
   (deps bug_3886.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45976,7 +44212,6 @@
            bug_2164.glob
            bug_2164.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -45999,7 +44234,6 @@
   (targets bug_2164.v.chk.log)
   (deps bug_2164.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46019,7 +44253,6 @@
            bug_3125.glob
            bug_3125.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46042,7 +44275,6 @@
   (targets bug_3125.v.chk.log)
   (deps bug_3125.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46062,7 +44294,6 @@
            bug_5093.glob
            bug_5093.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46085,7 +44316,6 @@
   (targets bug_5093.v.chk.log)
   (deps bug_5093.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46105,7 +44335,6 @@
            bug_14374.glob
            bug_14374.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46129,7 +44358,6 @@
   (targets bug_14374.v.chk.log)
   (deps bug_14374.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46150,7 +44378,6 @@
            bug_3446.glob
            bug_3446.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46173,7 +44400,6 @@
   (targets bug_3446.v.chk.log)
   (deps bug_3446.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46193,7 +44419,6 @@
            bug_1859.glob
            bug_1859.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46218,7 +44443,6 @@
   (targets bug_1859.v.chk.log)
   (deps bug_1859.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46240,7 +44464,6 @@
            bug_3700.glob
            bug_3700.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46263,7 +44486,6 @@
   (targets bug_3700.v.chk.log)
   (deps bug_3700.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46283,7 +44505,6 @@
            bug_3710.glob
            bug_3710.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46306,7 +44527,6 @@
   (targets bug_3710.v.chk.log)
   (deps bug_3710.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46326,7 +44546,6 @@
            HoTT_coq_001.glob
            HoTT_coq_001.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46349,7 +44568,6 @@
   (targets HoTT_coq_001.v.chk.log)
   (deps HoTT_coq_001.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46369,7 +44587,6 @@
            bug_1545.glob
            bug_1545.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46392,7 +44609,6 @@
   (targets bug_1545.v.chk.log)
   (deps bug_1545.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46412,7 +44628,6 @@
            bug_2295.glob
            bug_2295.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46435,7 +44650,6 @@
   (targets bug_2295.v.chk.log)
   (deps bug_2295.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46455,7 +44669,6 @@
            bug_11114.glob
            bug_11114.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46479,7 +44692,6 @@
   (targets bug_11114.v.chk.log)
   (deps bug_11114.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46500,7 +44712,6 @@
            bug_5641.glob
            bug_5641.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46523,7 +44734,6 @@
   (targets bug_5641.v.chk.log)
   (deps bug_5641.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46543,7 +44753,6 @@
            bug_10116.glob
            bug_10116.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46567,7 +44776,6 @@
   (targets bug_10116.v.chk.log)
   (deps bug_10116.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46588,7 +44796,6 @@
            bug_4813.glob
            bug_4813.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46611,7 +44818,6 @@
   (targets bug_4813.v.chk.log)
   (deps bug_4813.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46631,7 +44837,6 @@
            bug_3881.glob
            bug_3881.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46657,7 +44862,6 @@
   (targets bug_3881.v.chk.log)
   (deps bug_3881.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46680,7 +44884,6 @@
            bug_3828.glob
            bug_3828.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46703,7 +44906,6 @@
   (targets bug_3828.v.chk.log)
   (deps bug_3828.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46723,7 +44925,6 @@
            bug_3798.glob
            bug_3798.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46748,7 +44949,6 @@
   (targets bug_3798.v.chk.log)
   (deps bug_3798.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46770,7 +44970,6 @@
            bug_12909.glob
            bug_12909.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46793,7 +44992,6 @@
   (targets bug_12909.v.chk.log)
   (deps bug_12909.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46813,7 +45011,6 @@
            HoTT_coq_068.glob
            HoTT_coq_068.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46836,7 +45033,6 @@
   (targets HoTT_coq_068.v.chk.log)
   (deps HoTT_coq_068.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46856,7 +45052,6 @@
            bug_3267.glob
            bug_3267.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46879,7 +45074,6 @@
   (targets bug_3267.v.chk.log)
   (deps bug_3267.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46899,7 +45093,6 @@
            bug_15099.glob
            bug_15099.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46924,7 +45117,6 @@
   (targets bug_15099.v.chk.log)
   (deps bug_15099.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46946,7 +45138,6 @@
            HoTT_coq_100.glob
            HoTT_coq_100.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46970,7 +45161,6 @@
   (targets HoTT_coq_100.v.chk.log)
   (deps HoTT_coq_100.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -46991,7 +45181,6 @@
            bug_16204.glob
            bug_16204.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47014,7 +45203,6 @@
   (targets bug_16204.v.chk.log)
   (deps bug_16204.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47034,7 +45222,6 @@
            bug_9058.glob
            bug_9058.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47057,7 +45244,6 @@
   (targets bug_9058.v.chk.log)
   (deps bug_9058.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47077,7 +45263,6 @@
            bug_5372.glob
            bug_5372.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47101,7 +45286,6 @@
   (targets bug_5372.v.chk.log)
   (deps bug_5372.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47122,7 +45306,6 @@
            bug_15031.glob
            bug_15031.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47145,7 +45328,6 @@
   (targets bug_15031.v.chk.log)
   (deps bug_15031.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47165,7 +45347,6 @@
            bug_3703.glob
            bug_3703.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47189,7 +45370,6 @@
   (targets bug_3703.v.chk.log)
   (deps bug_3703.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47210,7 +45390,6 @@
            bug_3505.glob
            bug_3505.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47233,7 +45412,6 @@
   (targets bug_3505.v.chk.log)
   (deps bug_3505.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47253,7 +45431,6 @@
            bug_4240.glob
            bug_4240.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47276,7 +45453,6 @@
   (targets bug_4240.v.chk.log)
   (deps bug_4240.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47296,7 +45472,6 @@
            bug_sprop_14.glob
            bug_sprop_14.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47320,7 +45495,6 @@
   (targets bug_sprop_14.v.chk.log)
   (deps bug_sprop_14.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47340,7 +45514,6 @@
            HoTT_coq_062.glob
            HoTT_coq_062.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47364,7 +45537,6 @@
   (targets HoTT_coq_062.v.chk.log)
   (deps HoTT_coq_062.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47385,7 +45557,6 @@
            bug_2181.glob
            bug_2181.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47408,7 +45579,6 @@
   (targets bug_2181.v.chk.log)
   (deps bug_2181.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47428,7 +45598,6 @@
            bug_5598.glob
            bug_5598.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47451,7 +45620,6 @@
   (targets bug_5598.v.chk.log)
   (deps bug_5598.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47471,7 +45639,6 @@
            HoTT_coq_067.glob
            HoTT_coq_067.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47495,7 +45662,6 @@
   (targets HoTT_coq_067.v.chk.log)
   (deps HoTT_coq_067.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47516,7 +45682,6 @@
            bug_7675_2.glob
            bug_7675_2.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47541,7 +45706,6 @@
   (targets bug_7675_2.v.chk.log)
   (deps bug_7675_2.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47563,7 +45727,6 @@
            bug_3920.glob
            bug_3920.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47587,7 +45750,6 @@
   (targets bug_3920.v.chk.log)
   (deps bug_3920.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47608,7 +45770,6 @@
            bug_15410.glob
            bug_15410.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47632,7 +45793,6 @@
   (targets bug_15410.v.chk.log)
   (deps bug_15410.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47653,7 +45813,6 @@
            bug_4198.glob
            bug_4198.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47677,7 +45836,6 @@
   (targets bug_4198.v.chk.log)
   (deps bug_4198.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47698,7 +45856,6 @@
            bug_7904.glob
            bug_7904.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47721,7 +45878,6 @@
   (targets bug_7904.v.chk.log)
   (deps bug_7904.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47741,7 +45897,6 @@
            bug_4690.glob
            bug_4690.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47764,7 +45919,6 @@
   (targets bug_4690.v.chk.log)
   (deps bug_4690.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47784,7 +45938,6 @@
            bug_4780.glob
            bug_4780.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47808,7 +45961,6 @@
   (targets bug_4780.v.chk.log)
   (deps bug_4780.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47828,7 +45980,6 @@
            bug_4034.glob
            bug_4034.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47851,7 +46002,6 @@
   (targets bug_4034.v.chk.log)
   (deps bug_4034.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47871,7 +46021,6 @@
            bug_13456.glob
            bug_13456.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47894,7 +46043,6 @@
   (targets bug_13456.v.chk.log)
   (deps bug_13456.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47914,7 +46062,6 @@
            bug_2362.glob
            bug_2362.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47937,7 +46084,6 @@
   (targets bug_2362.v.chk.log)
   (deps bug_2362.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47957,7 +46103,6 @@
            bug_4709.glob
            bug_4709.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -47981,7 +46126,6 @@
   (targets bug_4709.v.chk.log)
   (deps bug_4709.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48002,7 +46146,6 @@
            bug_5401.glob
            bug_5401.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48025,7 +46168,6 @@
   (targets bug_5401.v.chk.log)
   (deps bug_5401.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48045,7 +46187,6 @@
            HoTT_coq_118.glob
            HoTT_coq_118.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48069,7 +46210,6 @@
   (targets HoTT_coq_118.v.chk.log)
   (deps HoTT_coq_118.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48090,7 +46230,6 @@
            bug_4502.glob
            bug_4502.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48114,7 +46253,6 @@
   (targets bug_4502.v.chk.log)
   (deps bug_4502.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48135,7 +46273,6 @@
            bug_12676.glob
            bug_12676.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48158,7 +46295,6 @@
   (targets bug_12676.v.chk.log)
   (deps bug_12676.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48178,7 +46314,6 @@
            bug_5331.glob
            bug_5331.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48201,7 +46336,6 @@
   (targets bug_5331.v.chk.log)
   (deps bug_5331.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48221,7 +46355,6 @@
            bug_4016.glob
            bug_4016.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48245,7 +46378,6 @@
   (targets bug_4016.v.chk.log)
   (deps bug_4016.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48266,7 +46398,6 @@
            bug_14150.glob
            bug_14150.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48289,7 +46420,6 @@
   (targets bug_14150.v.chk.log)
   (deps bug_14150.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48309,7 +46439,6 @@
            bug_2299.glob
            bug_2299.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48332,7 +46461,6 @@
   (targets bug_2299.v.chk.log)
   (deps bug_2299.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48352,7 +46480,6 @@
            bug_3754.glob
            bug_3754.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48376,7 +46503,6 @@
   (targets bug_3754.v.chk.log)
   (deps bug_3754.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48397,7 +46523,6 @@
            bug_4533.glob
            bug_4533.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48423,7 +46548,6 @@
   (targets bug_4533.v.chk.log)
   (deps bug_4533.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48446,7 +46570,6 @@
            HoTT_coq_120.glob
            HoTT_coq_120.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48470,7 +46593,6 @@
   (targets HoTT_coq_120.v.chk.log)
   (deps HoTT_coq_120.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48491,7 +46613,6 @@
            bug_2089.glob
            bug_2089.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48514,7 +46635,6 @@
   (targets bug_2089.v.chk.log)
   (deps bug_2089.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48534,7 +46654,6 @@
            bug_2946.glob
            bug_2946.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48557,7 +46676,6 @@
   (targets bug_2946.v.chk.log)
   (deps bug_2946.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48577,7 +46695,6 @@
            bug_11161.glob
            bug_11161.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48600,7 +46717,6 @@
   (targets bug_11161.v.chk.log)
   (deps bug_11161.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48620,7 +46736,6 @@
            bug_3265.glob
            bug_3265.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48644,7 +46759,6 @@
   (targets bug_3265.v.chk.log)
   (deps bug_3265.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48665,7 +46779,6 @@
            bug_4763.glob
            bug_4763.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48691,7 +46804,6 @@
   (targets bug_4763.v.chk.log)
   (deps bug_4763.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48714,7 +46826,6 @@
            bug_15916.glob
            bug_15916.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48737,7 +46848,6 @@
   (targets bug_15916.v.chk.log)
   (deps bug_15916.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48757,7 +46867,6 @@
            HoTT_coq_087.glob
            HoTT_coq_087.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48780,7 +46889,6 @@
   (targets HoTT_coq_087.v.chk.log)
   (deps HoTT_coq_087.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48800,7 +46908,6 @@
            bug_2145.glob
            bug_2145.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48825,7 +46932,6 @@
   (targets bug_2145.v.chk.log)
   (deps bug_2145.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48847,7 +46953,6 @@
            bug_3513.glob
            bug_3513.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48871,7 +46976,6 @@
   (targets bug_3513.v.chk.log)
   (deps bug_3513.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48892,7 +46996,6 @@
            bug_3753.glob
            bug_3753.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48915,7 +47018,6 @@
   (targets bug_3753.v.chk.log)
   (deps bug_3753.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48935,7 +47037,6 @@
            bug_11046.glob
            bug_11046.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48959,7 +47060,6 @@
   (targets bug_11046.v.chk.log)
   (deps bug_11046.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -48980,7 +47080,6 @@
            bug_10939.glob
            bug_10939.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49003,7 +47102,6 @@
   (targets bug_10939.v.chk.log)
   (deps bug_10939.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49023,7 +47121,6 @@
            bug_5065.glob
            bug_5065.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49046,7 +47143,6 @@
   (targets bug_5065.v.chk.log)
   (deps bug_5065.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49066,7 +47162,6 @@
            bug_1775.glob
            bug_1775.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49089,7 +47184,6 @@
   (targets bug_1775.v.chk.log)
   (deps bug_1775.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49109,7 +47203,6 @@
            bug_7900.glob
            bug_7900.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49133,7 +47226,6 @@
   (targets bug_7900.v.chk.log)
   (deps bug_7900.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49154,7 +47246,6 @@
            bug_13495.glob
            bug_13495.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49177,7 +47268,6 @@
   (targets bug_13495.v.chk.log)
   (deps bug_13495.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49197,7 +47287,6 @@
            bug_1891.glob
            bug_1891.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49220,7 +47309,6 @@
   (targets bug_1891.v.chk.log)
   (deps bug_1891.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49240,7 +47328,6 @@
            bug_3944.glob
            bug_3944.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49264,7 +47351,6 @@
   (targets bug_3944.v.chk.log)
   (deps bug_3944.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49285,7 +47371,6 @@
            bug_15279.glob
            bug_15279.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49310,7 +47395,6 @@
   (targets bug_15279.v.chk.log)
   (deps bug_15279.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49332,7 +47416,6 @@
            bug_13385.glob
            bug_13385.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49355,7 +47438,6 @@
   (targets bug_13385.v.chk.log)
   (deps bug_13385.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49375,7 +47457,6 @@
            bug_5369.glob
            bug_5369.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49400,7 +47481,6 @@
   (targets bug_5369.v.chk.log)
   (deps bug_5369.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49422,7 +47502,6 @@
            bug_1519.glob
            bug_1519.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49445,7 +47524,6 @@
   (targets bug_1519.v.chk.log)
   (deps bug_1519.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49465,7 +47543,6 @@
            bug_2304.glob
            bug_2304.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49488,7 +47565,6 @@
   (targets bug_2304.v.chk.log)
   (deps bug_2304.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49508,7 +47584,6 @@
            bug_15403.glob
            bug_15403.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49531,7 +47606,6 @@
   (targets bug_15403.v.chk.log)
   (deps bug_15403.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49551,7 +47625,6 @@
            bug_5149.glob
            bug_5149.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49574,7 +47647,6 @@
   (targets bug_5149.v.chk.log)
   (deps bug_5149.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49594,7 +47666,6 @@
            bug_3723.glob
            bug_3723.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49617,7 +47688,6 @@
   (targets bug_3723.v.chk.log)
   (deps bug_3723.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49637,7 +47707,6 @@
            bug_3080.glob
            bug_3080.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49660,7 +47729,6 @@
   (targets bug_3080.v.chk.log)
   (deps bug_3080.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49680,7 +47748,6 @@
            bug_2231.glob
            bug_2231.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49703,7 +47770,6 @@
   (targets bug_2231.v.chk.log)
   (deps bug_2231.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49723,7 +47789,6 @@
            bug_2281.glob
            bug_2281.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49749,7 +47814,6 @@
   (targets bug_2281.v.chk.log)
   (deps bug_2281.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49772,7 +47836,6 @@
            bug_12907.glob
            bug_12907.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49796,7 +47859,6 @@
   (targets bug_12907.v.chk.log)
   (deps bug_12907.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49817,7 +47879,6 @@
            bug_4627.glob
            bug_4627.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49840,7 +47901,6 @@
   (targets bug_4627.v.chk.log)
   (deps bug_4627.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49860,7 +47920,6 @@
            bug_4256.glob
            bug_4256.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49883,7 +47942,6 @@
   (targets bug_4256.v.chk.log)
   (deps bug_4256.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49903,7 +47961,6 @@
            HoTT_coq_108.glob
            HoTT_coq_108.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49927,7 +47984,6 @@
   (targets HoTT_coq_108.v.chk.log)
   (deps HoTT_coq_108.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49948,7 +48004,6 @@
            bug_7674.glob
            bug_7674.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49972,7 +48027,6 @@
   (targets bug_7674.v.chk.log)
   (deps bug_7674.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -49993,7 +48047,6 @@
            bug_6070.glob
            bug_6070.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50016,7 +48069,6 @@
   (targets bug_6070.v.chk.log)
   (deps bug_6070.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50036,7 +48088,6 @@
            bug_14006.glob
            bug_14006.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50061,7 +48112,6 @@
   (targets bug_14006.v.chk.log)
   (deps bug_14006.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50083,7 +48133,6 @@
            bug_3383.glob
            bug_3383.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50106,7 +48155,6 @@
   (targets bug_3383.v.chk.log)
   (deps bug_3383.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50126,7 +48174,6 @@
            bug_4737.glob
            bug_4737.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50149,7 +48196,6 @@
   (targets bug_4737.v.chk.log)
   (deps bug_4737.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50169,7 +48215,6 @@
            bug_2255.glob
            bug_2255.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50192,7 +48237,6 @@
   (targets bug_2255.v.chk.log)
   (deps bug_2255.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50212,7 +48256,6 @@
            bug_2983.glob
            bug_2983.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50235,7 +48278,6 @@
   (targets bug_2983.v.chk.log)
   (deps bug_2983.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50255,7 +48297,6 @@
            bug_2670.glob
            bug_2670.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50278,7 +48319,6 @@
   (targets bug_2670.v.chk.log)
   (deps bug_2670.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50298,7 +48338,6 @@
            bug_10904.glob
            bug_10904.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50321,7 +48360,6 @@
   (targets bug_10904.v.chk.log)
   (deps bug_10904.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50341,7 +48379,6 @@
            bug_3911.glob
            bug_3911.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50364,7 +48401,6 @@
   (targets bug_3911.v.chk.log)
   (deps bug_3911.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50384,7 +48420,6 @@
            bug_12770.glob
            bug_12770.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50411,7 +48446,6 @@
   (targets bug_12770.v.chk.log)
   (deps bug_12770.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50435,7 +48469,6 @@
            bug_16096.glob
            bug_16096.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50459,7 +48492,6 @@
   (targets bug_16096.v.chk.log)
   (deps bug_16096.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50480,7 +48512,6 @@
            bug_1907.glob
            bug_1907.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50503,7 +48534,6 @@
   (targets bug_1907.v.chk.log)
   (deps bug_1907.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50523,7 +48553,6 @@
            HoTT_coq_045.glob
            HoTT_coq_045.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50546,7 +48575,6 @@
   (targets HoTT_coq_045.v.chk.log)
   (deps HoTT_coq_045.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50566,7 +48594,6 @@
            bug_2262.glob
            bug_2262.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50589,7 +48616,6 @@
   (targets bug_2262.v.chk.log)
   (deps bug_2262.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50609,7 +48635,6 @@
            bug_10196.glob
            bug_10196.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50633,7 +48658,6 @@
   (targets bug_10196.v.chk.log)
   (deps bug_10196.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50654,7 +48678,6 @@
            bug_15244.glob
            bug_15244.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50677,7 +48700,6 @@
   (targets bug_15244.v.chk.log)
   (deps bug_15244.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50697,7 +48719,6 @@
            bug_4844.glob
            bug_4844.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50721,7 +48742,6 @@
   (targets bug_4844.v.chk.log)
   (deps bug_4844.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50742,7 +48762,6 @@
            bug_3300.glob
            bug_3300.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50765,7 +48784,6 @@
   (targets bug_3300.v.chk.log)
   (deps bug_3300.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50785,7 +48803,6 @@
            bug_4403.glob
            bug_4403.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50809,7 +48826,6 @@
   (targets bug_4403.v.chk.log)
   (deps bug_4403.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50829,7 +48845,6 @@
            HoTT_coq_037.glob
            HoTT_coq_037.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50852,7 +48867,6 @@
   (targets HoTT_coq_037.v.chk.log)
   (deps HoTT_coq_037.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50872,7 +48886,6 @@
            HoTT_coq_030.glob
            HoTT_coq_030.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50896,7 +48909,6 @@
   (targets HoTT_coq_030.v.chk.log)
   (deps HoTT_coq_030.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50917,7 +48929,6 @@
            HoTT_coq_102.glob
            HoTT_coq_102.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50941,7 +48952,6 @@
   (targets HoTT_coq_102.v.chk.log)
   (deps HoTT_coq_102.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50962,7 +48972,6 @@
            bug_4120.glob
            bug_4120.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -50985,7 +48994,6 @@
   (targets bug_4120.v.chk.log)
   (deps bug_4120.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51005,7 +49013,6 @@
            bug_2250.glob
            bug_2250.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51028,7 +49035,6 @@
   (targets bug_2250.v.chk.log)
   (deps bug_2250.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51048,7 +49054,6 @@
            bug_1302.glob
            bug_1302.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51071,7 +49076,6 @@
   (targets bug_1302.v.chk.log)
   (deps bug_1302.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51091,7 +49095,6 @@
            bug_9201.glob
            bug_9201.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51115,7 +49118,6 @@
   (targets bug_9201.v.chk.log)
   (deps bug_9201.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51136,7 +49138,6 @@
            bug_13178.glob
            bug_13178.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51159,7 +49160,6 @@
   (targets bug_13178.v.chk.log)
   (deps bug_13178.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51179,7 +49179,6 @@
            bug_11504.glob
            bug_11504.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51202,7 +49201,6 @@
   (targets bug_11504.v.chk.log)
   (deps bug_11504.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51222,7 +49220,6 @@
            bug_3344.glob
            bug_3344.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51248,7 +49245,6 @@
   (targets bug_3344.v.chk.log)
   (deps bug_3344.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51271,7 +49267,6 @@
            bug_3684.glob
            bug_3684.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51295,7 +49290,6 @@
   (targets bug_3684.v.chk.log)
   (deps bug_3684.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51316,7 +49310,6 @@
            bug_3000.glob
            bug_3000.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51339,7 +49332,6 @@
   (targets bug_3000.v.chk.log)
   (deps bug_3000.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51359,7 +49351,6 @@
            bug_4527.glob
            bug_4527.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51386,7 +49377,6 @@
   (targets bug_4527.v.chk.log)
   (deps bug_4527.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51410,7 +49400,6 @@
            bug_1951.glob
            bug_1951.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51434,7 +49423,6 @@
   (targets bug_1951.v.chk.log)
   (deps bug_1951.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51455,7 +49443,6 @@
            bug_2347.glob
            bug_2347.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51480,7 +49467,6 @@
   (targets bug_2347.v.chk.log)
   (deps bug_2347.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51502,7 +49488,6 @@
            HoTT_coq_029.glob
            HoTT_coq_029.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51526,7 +49511,6 @@
   (targets HoTT_coq_029.v.chk.log)
   (deps HoTT_coq_029.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51547,7 +49531,6 @@
            bug_4299.glob
            bug_4299.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51570,7 +49553,6 @@
   (targets bug_4299.v.chk.log)
   (deps bug_4299.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51590,7 +49572,6 @@
            bug_10888.glob
            bug_10888.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51613,7 +49594,6 @@
   (targets bug_10888.v.chk.log)
   (deps bug_10888.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51633,7 +49613,6 @@
            bug_4453.glob
            bug_4453.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51656,7 +49635,6 @@
   (targets bug_4453.v.chk.log)
   (deps bug_4453.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51676,7 +49654,6 @@
            bug_2456.glob
            bug_2456.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51700,7 +49677,6 @@
   (targets bug_2456.v.chk.log)
   (deps bug_2456.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51721,7 +49697,6 @@
            bug_8755.glob
            bug_8755.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51744,7 +49719,6 @@
   (targets bug_8755.v.chk.log)
   (deps bug_8755.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51764,7 +49738,6 @@
            bug_15681.glob
            bug_15681.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51788,7 +49761,6 @@
   (targets bug_15681.v.chk.log)
   (deps bug_15681.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51809,7 +49781,6 @@
            bug_4932.glob
            bug_4932.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51832,7 +49803,6 @@
   (targets bug_4932.v.chk.log)
   (deps bug_4932.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51852,7 +49822,6 @@
            bug_12298.glob
            bug_12298.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51875,7 +49844,6 @@
   (targets bug_12298.v.chk.log)
   (deps bug_12298.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51895,7 +49863,6 @@
            bug_3938.glob
            bug_3938.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51921,7 +49888,6 @@
   (targets bug_3938.v.chk.log)
   (deps bug_3938.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51944,7 +49910,6 @@
            bug_14239.glob
            bug_14239.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51969,7 +49934,6 @@
   (targets bug_14239.v.chk.log)
   (deps bug_14239.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -51991,7 +49955,6 @@
            bug_4375.glob
            bug_4375.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52014,7 +49977,6 @@
   (targets bug_4375.v.chk.log)
   (deps bug_4375.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52034,7 +49996,6 @@
            bug_4772.glob
            bug_4772.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52057,7 +50018,6 @@
   (targets bug_4772.v.chk.log)
   (deps bug_4772.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52077,7 +50037,6 @@
            bug_9268.glob
            bug_9268.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52102,7 +50061,6 @@
   (targets bug_9268.v.chk.log)
   (deps bug_9268.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52124,7 +50082,6 @@
            bug_2920.glob
            bug_2920.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52147,7 +50104,6 @@
   (targets bug_2920.v.chk.log)
   (deps bug_2920.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52167,7 +50123,6 @@
            bug_10026.glob
            bug_10026.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52191,7 +50146,6 @@
   (targets bug_10026.v.chk.log)
   (deps bug_10026.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52212,7 +50166,6 @@
            bug_4273.glob
            bug_4273.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52235,7 +50188,6 @@
   (targets bug_4273.v.chk.log)
   (deps bug_4273.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52255,7 +50207,6 @@
            bug_4069.glob
            bug_4069.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52279,7 +50230,6 @@
   (targets bug_4069.v.chk.log)
   (deps bug_4069.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52300,7 +50250,6 @@
            HoTT_coq_014.glob
            HoTT_coq_014.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52324,7 +50273,6 @@
   (targets HoTT_coq_014.v.chk.log)
   (deps HoTT_coq_014.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52345,7 +50293,6 @@
            bug_1643.glob
            bug_1643.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52368,7 +50315,6 @@
   (targets bug_1643.v.chk.log)
   (deps bug_1643.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52388,7 +50334,6 @@
            bug_5719.glob
            bug_5719.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52411,7 +50356,6 @@
   (targets bug_5719.v.chk.log)
   (deps bug_5719.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52431,7 +50375,6 @@
            bug_3640.glob
            bug_3640.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52454,7 +50397,6 @@
   (targets bug_3640.v.chk.log)
   (deps bug_3640.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52474,7 +50416,6 @@
            bug_10972.glob
            bug_10972.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52498,7 +50439,6 @@
   (targets bug_10972.v.chk.log)
   (deps bug_10972.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52519,7 +50459,6 @@
            bug_3482.glob
            bug_3482.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52542,7 +50481,6 @@
   (targets bug_3482.v.chk.log)
   (deps bug_3482.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52562,7 +50500,6 @@
            bug_3657.glob
            bug_3657.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52585,7 +50522,6 @@
   (targets bug_3657.v.chk.log)
   (deps bug_3657.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52605,7 +50541,6 @@
            HoTT_coq_047.glob
            HoTT_coq_047.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52628,7 +50563,6 @@
   (targets HoTT_coq_047.v.chk.log)
   (deps HoTT_coq_047.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52648,7 +50582,6 @@
            bug_3372.glob
            bug_3372.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52671,7 +50604,6 @@
   (targets bug_3372.v.chk.log)
   (deps bug_3372.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52691,7 +50623,6 @@
            bug_4873.glob
            bug_4873.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52716,7 +50647,6 @@
   (targets bug_4873.v.chk.log)
   (deps bug_4873.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52738,7 +50668,6 @@
            bug_5762.glob
            bug_5762.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52762,7 +50691,6 @@
   (targets bug_5762.v.chk.log)
   (deps bug_5762.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52783,7 +50711,6 @@
            bug_1243.glob
            bug_1243.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52808,7 +50735,6 @@
   (targets bug_1243.v.chk.log)
   (deps bug_1243.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52830,7 +50756,6 @@
            HoTT_coq_013.glob
            HoTT_coq_013.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52853,7 +50778,6 @@
   (targets HoTT_coq_013.v.chk.log)
   (deps HoTT_coq_013.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52873,7 +50797,6 @@
            bug_5245.glob
            bug_5245.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52896,7 +50819,6 @@
   (targets bug_5245.v.chk.log)
   (deps bug_5245.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52916,7 +50838,6 @@
            bug_11811.glob
            bug_11811.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52939,7 +50860,6 @@
   (targets bug_11811.v.chk.log)
   (deps bug_11811.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52959,7 +50879,6 @@
            bug_14317.glob
            bug_14317.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -52982,7 +50901,6 @@
   (targets bug_14317.v.chk.log)
   (deps bug_14317.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53002,7 +50920,6 @@
            bug_14651.glob
            bug_14651.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53025,7 +50942,6 @@
   (targets bug_14651.v.chk.log)
   (deps bug_14651.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53045,7 +50961,6 @@
            bug_4306.glob
            bug_4306.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53072,7 +50987,6 @@
   (targets bug_4306.v.chk.log)
   (deps bug_4306.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53096,7 +51010,6 @@
            bug_3382.glob
            bug_3382.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53120,7 +51033,6 @@
   (targets bug_3382.v.chk.log)
   (deps bug_3382.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53141,7 +51053,6 @@
            bug_5123.glob
            bug_5123.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53165,7 +51076,6 @@
   (targets bug_5123.v.chk.log)
   (deps bug_5123.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53186,7 +51096,6 @@
            bug_4149.glob
            bug_4149.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53209,7 +51118,6 @@
   (targets bug_4149.v.chk.log)
   (deps bug_4149.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53229,7 +51137,6 @@
            bug_13755.glob
            bug_13755.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53252,7 +51159,6 @@
   (targets bug_13755.v.chk.log)
   (deps bug_13755.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53272,7 +51178,6 @@
            bug_5752.glob
            bug_5752.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53295,7 +51200,6 @@
   (targets bug_5752.v.chk.log)
   (deps bug_5752.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53315,7 +51219,6 @@
            bug_8672.glob
            bug_8672.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53338,7 +51241,6 @@
   (targets bug_8672.v.chk.log)
   (deps bug_8672.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53358,7 +51260,6 @@
            bug_2307.glob
            bug_2307.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53381,7 +51282,6 @@
   (targets bug_2307.v.chk.log)
   (deps bug_2307.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53401,7 +51301,6 @@
            bug_4904.glob
            bug_4904.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53424,7 +51323,6 @@
   (targets bug_4904.v.chk.log)
   (deps bug_4904.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53444,7 +51342,6 @@
            bug_6774.glob
            bug_6774.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53467,7 +51364,6 @@
   (targets bug_6774.v.chk.log)
   (deps bug_6774.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53487,7 +51383,6 @@
            bug_12011.glob
            bug_12011.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53512,7 +51407,6 @@
   (targets bug_12011.v.chk.log)
   (deps bug_12011.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53534,7 +51428,6 @@
            bug_2602.glob
            bug_2602.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53557,7 +51450,6 @@
   (targets bug_2602.v.chk.log)
   (deps bug_2602.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53577,7 +51469,6 @@
            bug_13109.glob
            bug_13109.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53601,7 +51492,6 @@
   (targets bug_13109.v.chk.log)
   (deps bug_13109.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53622,7 +51512,6 @@
            bug_7392.glob
            bug_7392.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53645,7 +51534,6 @@
   (targets bug_7392.v.chk.log)
   (deps bug_7392.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53665,7 +51553,6 @@
            bug_5012.glob
            bug_5012.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53688,7 +51575,6 @@
   (targets bug_5012.v.chk.log)
   (deps bug_5012.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53708,7 +51594,6 @@
            bug_11816.glob
            bug_11816.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53731,7 +51616,6 @@
   (targets bug_11816.v.chk.log)
   (deps bug_11816.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53751,7 +51635,6 @@
            bug_4287.glob
            bug_4287.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53774,7 +51657,6 @@
   (targets bug_4287.v.chk.log)
   (deps bug_4287.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53794,7 +51676,6 @@
            bug_4031.glob
            bug_4031.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53817,7 +51698,6 @@
   (targets bug_4031.v.chk.log)
   (deps bug_4031.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53837,7 +51717,6 @@
            bug_3815.glob
            bug_3815.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53863,7 +51742,6 @@
   (targets bug_3815.v.chk.log)
   (deps bug_3815.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53886,7 +51764,6 @@
            bug_5790.glob
            bug_5790.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53909,7 +51786,6 @@
   (targets bug_5790.v.chk.log)
   (deps bug_5790.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53929,7 +51805,6 @@
            bug_3584.glob
            bug_3584.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53952,7 +51827,6 @@
   (targets bug_3584.v.chk.log)
   (deps bug_3584.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53972,7 +51846,6 @@
            bug_12528.glob
            bug_12528.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -53995,7 +51868,6 @@
   (targets bug_12528.v.chk.log)
   (deps bug_12528.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54015,7 +51887,6 @@
            bug_4880.glob
            bug_4880.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54040,7 +51911,6 @@
   (targets bug_4880.v.chk.log)
   (deps bug_4880.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54062,7 +51932,6 @@
            bug_9512.glob
            bug_9512.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54087,7 +51956,6 @@
   (targets bug_9512.v.chk.log)
   (deps bug_9512.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54109,7 +51977,6 @@
            bug_4695.glob
            bug_4695.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54132,7 +51999,6 @@
   (targets bug_4695.v.chk.log)
   (deps bug_4695.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54152,7 +52018,6 @@
            bug_2393.glob
            bug_2393.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54176,7 +52041,6 @@
   (targets bug_2393.v.chk.log)
   (deps bug_2393.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54197,7 +52061,6 @@
            bug_12483.glob
            bug_12483.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54221,7 +52084,6 @@
   (targets bug_12483.v.chk.log)
   (deps bug_12483.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54242,7 +52104,6 @@
            bug_8076.glob
            bug_8076.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54265,7 +52126,6 @@
   (targets bug_8076.v.chk.log)
   (deps bug_8076.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54285,7 +52145,6 @@
            bug_1414.glob
            bug_1414.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54311,7 +52170,6 @@
   (targets bug_1414.v.chk.log)
   (deps bug_1414.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54334,7 +52192,6 @@
            bug_12233.glob
            bug_12233.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54357,7 +52214,6 @@
   (targets bug_12233.v.chk.log)
   (deps bug_12233.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54377,7 +52233,6 @@
            bug_10812.glob
            bug_10812.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54400,7 +52255,6 @@
   (targets bug_10812.v.chk.log)
   (deps bug_10812.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54420,7 +52274,6 @@
            bug_4723.glob
            bug_4723.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54444,7 +52297,6 @@
   (targets bug_4723.v.chk.log)
   (deps bug_4723.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54465,7 +52317,6 @@
            bug_3625.glob
            bug_3625.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54489,7 +52340,6 @@
   (targets bug_3625.v.chk.log)
   (deps bug_3625.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54510,7 +52360,6 @@
            bug_12532.glob
            bug_12532.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54533,7 +52382,6 @@
   (targets bug_12532.v.chk.log)
   (deps bug_12532.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54553,7 +52401,6 @@
            bug_15214.glob
            bug_15214.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54576,7 +52423,6 @@
   (targets bug_15214.v.chk.log)
   (deps bug_15214.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54596,7 +52442,6 @@
            bug_8544.glob
            bug_8544.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54620,7 +52465,6 @@
   (targets bug_8544.v.chk.log)
   (deps bug_8544.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54641,7 +52485,6 @@
            bug_10225.glob
            bug_10225.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54664,7 +52507,6 @@
   (targets bug_10225.v.chk.log)
   (deps bug_10225.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54684,7 +52526,6 @@
            bug_16063.glob
            bug_16063.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54707,7 +52548,6 @@
   (targets bug_16063.v.chk.log)
   (deps bug_16063.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54727,7 +52567,6 @@
            bug_3368.glob
            bug_3368.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54750,7 +52589,6 @@
   (targets bug_3368.v.chk.log)
   (deps bug_3368.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54770,7 +52608,6 @@
            bug_7333.glob
            bug_7333.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54793,7 +52630,6 @@
   (targets bug_7333.v.chk.log)
   (deps bug_7333.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54813,7 +52649,6 @@
            HoTT_coq_025.glob
            HoTT_coq_025.v.log)
   (deps (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
@@ -54836,7 +52671,6 @@
   (targets HoTT_coq_025.v.chk.log)
   (deps HoTT_coq_025.vo
         (alias csdp-cache)
-        (glob_files %{project_root}/test-suite/prerequisite/*.vo)
         (glob_files %{project_root}/theories/Init/*.vo)
         (glob_files %{project_root}/user-contrib/Ltac2/*.vo)
         (glob_files %{project_root}/plugins/*/*)
