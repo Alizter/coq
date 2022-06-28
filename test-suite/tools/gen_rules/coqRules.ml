@@ -3,7 +3,8 @@ let coqdep_files ~dir files ~cctx () =
   let files = List.map (Filename.concat dir) files in
   let open Coqdeplib in
   let args = List.concat [cctx; files] |> Args.parse (Args.make ())  in
-  let state = Common.init args in
+  let make_separator_hack = false in
+  let state = Common.init ~make_separator_hack args in
   (* List.iter Common.treat_file_command_line v_files; *)
   let deps = Common.compute_deps state in
   deps
