@@ -72,6 +72,7 @@ let rec coqchk_filter = function
   | "-Q" :: dir :: name :: l -> "-Q" :: dir :: name :: coqchk_filter l
   | "-impredicative-set" :: l -> "-impredicative-set" :: coqchk_filter l
   | "-indices-matter" :: l -> "-indices-matter" :: coqchk_filter l
+  | "-boot" :: l -> "-boot" :: coqchk_filter l
   | _ :: l -> coqchk_filter l
   | [] -> []
 

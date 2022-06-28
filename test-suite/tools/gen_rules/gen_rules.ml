@@ -187,44 +187,22 @@ let output_rules out =
   (* Common context - This will be passed to coqdep and coqc *)
   let cctx lvl =
     [ "-boot"
-    ; "-R"; Filename.concat lvl "../theories" ; "Coq"
     ; "-R"; Filename.concat lvl "prerequisite"; "TestSuite"
+    ; "-R"; Filename.concat lvl "../theories" ; "Coq"
     ; "-Q"; Filename.concat lvl "../user-contrib/Ltac2"; "Ltac2"
     ] @ plugins_cctx lvl
   in
+
   (* Including this argument will allow .csdp.cache to be copied into that test
   directory in a writable state. *)
   let copy_csdp_cache = ".csdp.cache.test-suite" in
+
   (* Some standard deps to pass to test rules *)
-  (* TODO: refine these *)
-  let deps = [
-    (* Enabling sandboxing is slower and takes up more space, however it allows
-    you to prove the soundness of the rules. As of writing, due to unknown
-    issues with dynlink many jobs will fail when sandboxed but not all. *)
-    (* "(sandbox always)"; *)
-    (* Prerequisites *)
-    (* "(glob_files %{project_root}/test-suite/prerequisite/*.vo)"; *)
-    (* Init *)
-    "(glob_files %{project_root}/theories/Init/*.vo)";
-    (* ltac2 *)
-    "(glob_files %{project_root}/user-contrib/Ltac2/*.vo)";
-    (* Plugins *)
-    "(glob_files %{project_root}/plugins/*/*)";
-    (* The entire package (for META file) (can we dep on just META?) *)
-    "(package coq-core)";
-    (* These binaries occasionally get invoked *)
-    "%{bin:coqtacticworker.opt}";
-    "%{bin:coqproofworker.opt}";
-    ]
-  in
-  (* We set COQLIB here *)
-  let envs = [
-    "COQLIB", "%{project_root}";
-    ] in
+  let deps = [] in
 
-  CoqRules.check_dir ~out ~cctx ~deps ~envs ~dir:"prerequisite" ();
+  CoqRules.check_dir ~out ~cctx ~deps ~dir:"prerequisite" ();
 
-  CoqRules.check_dir ~out ~cctx ~deps ~envs ~dir:"bugs" ~copy_csdp_cache
+  CoqRules.check_dir ~out ~cctx ~deps ~dir:"bugs" ~copy_csdp_cache
     ~ignore:[ "bug_2923.v"     (* coqchk will fail on bug_2923.v see coq/coq#15930  *)
             ; "bug_12138.v"    (* coqdep cannot parse bug_12138.v *)
             ] ()
