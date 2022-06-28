@@ -152,12 +152,12 @@ let test_misc ~out ?(ignore=[]) dir =
     (* TODO: what if this doesn't work? Windows? *)
     let bogomips = run "./tools/bogomips.sh" in
     (* Run tests *)
-    CoqRules.check_dir ~out ~cctx ~envs dir
+    CoqRules.check_dir ~out ~cctx ~envs ~dir
       (* ~output:CoqRules.Compilation.Output.MainJob *)
       ~deps:([
         "%{bin:coqtacticworker.opt}";
         ] @ deps)
-      ~args:["-test-mode"; "-async-proofs-cache"; "force"];
+      ~args:["-test-mode"; "-async-proofs-cache"; "force"] ();
     (* Run complexity.sh on test *)
     in_subdir_foreach_ext ~out ~ext:".v" ~ignore
       (fun file ->
@@ -174,8 +174,8 @@ let test_misc ~out ?(ignore=[]) dir =
     ()
 
 let output_rules out =
-  let open CoqRules.Compilation.Kind in
-  let open CoqRules.Compilation.Output in
+  (* let open CoqRules.Compilation.Kind in
+   * let open CoqRules.Compilation.Output in *)
   (* Common context - This will be passed to coqdep and coqc *)
   let cctx lvl = [
     "-boot";
@@ -215,38 +215,40 @@ let output_rules out =
     "COQLIB", "%{project_root}";
     ] in
 
-  CoqRules.check_dir ~out ~cctx ~deps ~envs "bugs" ~copy_csdp_cache
-    (* TODO: coqchk will fail on bug_2923.v see coq/coq#15930 *)
-    (* TODO: coqdep cannot parse bug_12138.v *)
-    ~ignore:["bug_2923.v"; "bug_12138.v"];
-  CoqRules.check_dir ~out ~cctx ~deps ~envs "coqchk" ~copy_csdp_cache;
-  CoqRules.check_dir ~out ~cctx ~deps ~envs "failure";
-  CoqRules.check_dir ~out ~cctx ~deps ~envs "interactive" ~kind:Coqtop;
-  CoqRules.check_dir ~out ~cctx ~deps ~envs "ltac2";
-  CoqRules.check_dir ~out ~cctx ~deps ~envs "micromega" ~copy_csdp_cache;
-  (* We override cctx here in order to pass these arguments to coqdep uniformly *)
-  begin
-  let cctx lvl = ["-R"; lvl; "Mods"] in
-  CoqRules.check_dir ~out ~cctx ~deps ~envs "modules"
-  end;
-  CoqRules.check_dir ~out ~cctx ~deps ~envs "output" ~output:MainJob ~copy_csdp_cache
-    ~args:["-test-mode"; "-async-proofs-cache"; "force"]
-    (* TODO: Load.v is broken because we call coqdep in one directory and run coqc in another. *)
-    ~ignore:["Load.v"];
-  CoqRules.check_dir ~out ~cctx ~deps ~envs "output-coqchk" ~output:CheckJob;
-  CoqRules.check_dir ~out ~cctx ~deps ~envs "output-coqtop" ~output:MainJob ~kind:Coqtop;
-  CoqRules.check_dir ~out ~cctx ~deps ~envs "output-failure" ~output:MainJob
-    ~args:["-test-mode"; "-async-proofs-cache"; "force"] ~exit_codes:[1];
-  CoqRules.check_dir ~out ~cctx ~deps ~envs "output-modulo-time" ~output:MainJobModTime;
-  CoqRules.check_dir ~out ~cctx ~deps ~envs "primitive/arrays";
-  CoqRules.check_dir ~out ~cctx ~deps ~envs "primitive/float";
-  CoqRules.check_dir ~out ~cctx ~deps ~envs "primitive/sint63";
-  CoqRules.check_dir ~out ~cctx ~deps ~envs "primitive/uint63";
-  CoqRules.check_dir ~out ~cctx ~deps ~envs "ssr";
-  CoqRules.check_dir ~out ~cctx ~deps ~envs "stm" ~args:["-async-proofs"; "on"];
-  CoqRules.check_dir ~out ~cctx ~deps ~envs "success";
-  CoqRules.check_dir ~out ~cctx ~deps ~envs "vio" ~kind:Vio;
-  CoqRules.check_dir ~out ~cctx ~deps ~envs "vio" ~kind:Vio2vo;
+  CoqRules.check_dir ~out ~cctx ~deps ~envs ~dir:"bugs" ~copy_csdp_cache
+    ~ignore:[ "bug_2923.v"     (* coqchk will fail on bug_2923.v see coq/coq#15930  *)
+            ; "bug_12138.v"    (* coqdep cannot parse bug_12138.v *)
+            ] ()
+  ;
+
+  (* CoqRules.check_dir ~out ~cctx ~deps ~envs "coqchk" ~copy_csdp_cache;
+   * CoqRules.check_dir ~out ~cctx ~deps ~envs "failure";
+   * CoqRules.check_dir ~out ~cctx ~deps ~envs "interactive" ~kind:Coqtop;
+   * CoqRules.check_dir ~out ~cctx ~deps ~envs "ltac2";
+   * CoqRules.check_dir ~out ~cctx ~deps ~envs "micromega" ~copy_csdp_cache;
+   * (\* We override cctx here in order to pass these arguments to coqdep uniformly *\)
+   * begin
+   * let cctx lvl = ["-R"; lvl; "Mods"] in
+   * CoqRules.check_dir ~out ~cctx ~deps ~envs "modules"
+   * end;
+   * CoqRules.check_dir ~out ~cctx ~deps ~envs "output" ~output:MainJob ~copy_csdp_cache
+   *   ~args:["-test-mode"; "-async-proofs-cache"; "force"]
+   *   (\* TODO: Load.v is broken because we call coqdep in one directory and run coqc in another. *\)
+   *   ~ignore:["Load.v"];
+   * CoqRules.check_dir ~out ~cctx ~deps ~envs "output-coqchk" ~output:CheckJob;
+   * CoqRules.check_dir ~out ~cctx ~deps ~envs "output-coqtop" ~output:MainJob ~kind:Coqtop;
+   * CoqRules.check_dir ~out ~cctx ~deps ~envs "output-failure" ~output:MainJob
+   *   ~args:["-test-mode"; "-async-proofs-cache"; "force"] ~exit_codes:[1];
+   * CoqRules.check_dir ~out ~cctx ~deps ~envs "output-modulo-time" ~output:MainJobModTime;
+   * CoqRules.check_dir ~out ~cctx ~deps ~envs "primitive/arrays";
+   * CoqRules.check_dir ~out ~cctx ~deps ~envs "primitive/float";
+   * CoqRules.check_dir ~out ~cctx ~deps ~envs "primitive/sint63";
+   * CoqRules.check_dir ~out ~cctx ~deps ~envs "primitive/uint63";
+   * CoqRules.check_dir ~out ~cctx ~deps ~envs "ssr";
+   * CoqRules.check_dir ~out ~cctx ~deps ~envs "stm" ~args:["-async-proofs"; "on"];
+   * CoqRules.check_dir ~out ~cctx ~deps ~envs "success";
+   * CoqRules.check_dir ~out ~cctx ~deps ~envs "vio" ~kind:Vio;
+   * CoqRules.check_dir ~out ~cctx ~deps ~envs "vio" ~kind:Vio2vo; *)
 
   (* Other tests *)
 
@@ -265,7 +267,7 @@ let output_rules out =
     "(package coq-core)";
     ];
 
-  CoqRules.check_dir ~out ~cctx ~deps ~envs "coqdoc" ~args:["-Q"; "coqdoc"; "Coqdoc"];
+  CoqRules.check_dir ~out ~cctx ~deps ~envs ~dir:"coqdoc" ~args:["-Q"; "coqdoc"; "Coqdoc"] ();
 
   test_coqdoc ~out "coqdoc";
 
