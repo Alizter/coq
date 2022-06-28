@@ -9,8 +9,9 @@ let coqdep_files ~dir files ~cctx () =
   let files = List.map (Filename.concat dir) files in
   let open Coqdeplib in
   let args = List.concat [cctx; files] |> Args.parse (Args.make ())  in
+  let enable_output_meta = false in
   let make_separator_hack = false in
-  let state = Common.init ~make_separator_hack args in
+  let state = Common.init ~enable_output_meta ~make_separator_hack args in
   List.iter Common.treat_file_command_line files;
   let deps = Common.compute_deps state in
   deps
@@ -367,7 +368,7 @@ let generate_rule ~out ~cctx ~dir ~lvl ~args ~base_deps ~deps ~envs ~exit_codes 
   (* parse the header of the .v file for extra arguments *)
   let args = vfile_header ~dir vfile @ args in
   (* lvl adjustment done here *)
-  let deps = deps @ (base_deps @ extra_deps args @ vfile_deps |> List.map (fun x -> lvl ^ "/" ^ x)) in
+  let deps = deps lvl @ (base_deps @ extra_deps args @ vfile_deps |> List.map (fun x -> lvl ^ "/" ^ x)) in
 
   if debug then
     Format.eprintf "deps / vdeps for file %s: %d/%d@\n%!" vfile (List.length deps) (List.length vfile_deps);
@@ -382,7 +383,7 @@ let generate_rule ~out ~cctx ~dir ~lvl ~args ~base_deps ~deps ~envs ~exit_codes 
   generate_build_rule ~out ~envs ~exit_codes ~args ~chk_args ~deps ~success ~output ~kind ~coqchk vfile
 
 let check_dir ~out ~cctx ?(ignore=[]) ?copy_csdp_cache
-  ?(args=[]) ?(base_deps=[]) ?(deps=[]) ?(envs=[]) ?(exit_codes=[])
+  ?(args=[]) ?(base_deps=[]) ?(deps=(fun _ -> [])) ?(envs=[]) ?(exit_codes=[])
   ?(output=Compilation.Output.None) ?(kind=Compilation.Kind.Vo) ?(coqchk=true) ~dir () =
 
   (* Scan for all .v files in directory ignoring as necessary *)
@@ -401,7 +402,8 @@ let check_dir ~out ~cctx ?(ignore=[]) ?copy_csdp_cache
   let lvl = Dir.back_to_root dir in
 
   (* If the csdp cache copy is set then we add the special alias as a dep *)
-  let deps = match copy_csdp_cache with None -> deps | Some _ -> "(alias csdp-cache)" :: deps in
+  let deps = match copy_csdp_cache with None -> deps | Some _ ->
+    (fun lvl -> "(alias csdp-cache)" :: deps lvl) in
 
   Dune.Rules.in_subdir out dir
     ~f:(fun out () ->
