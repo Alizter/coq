@@ -203,7 +203,7 @@ let output_rules out =
     issues with dynlink many jobs will fail when sandboxed but not all. *)
     (* "(sandbox always)"; *)
     (* Prerequisites *)
-    "(glob_files %{project_root}/test-suite/prerequisite/*.vo)";
+    (* "(glob_files %{project_root}/test-suite/prerequisite/*.vo)"; *)
     (* Init *)
     "(glob_files %{project_root}/theories/Init/*.vo)";
     (* ltac2 *)
@@ -221,6 +221,8 @@ let output_rules out =
   let envs = [
     "COQLIB", "%{project_root}";
     ] in
+
+  CoqRules.check_dir ~out ~cctx ~deps ~envs ~dir:"prerequisite" ();
 
   CoqRules.check_dir ~out ~cctx ~deps ~envs ~dir:"bugs" ~copy_csdp_cache
     ~ignore:[ "bug_2923.v"     (* coqchk will fail on bug_2923.v see coq/coq#15930  *)

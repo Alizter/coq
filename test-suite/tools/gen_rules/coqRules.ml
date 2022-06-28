@@ -387,12 +387,14 @@ let check_dir ~out ~cctx ?(ignore=[]) ?copy_csdp_cache
   (* Scan for all .v files in directory ignoring as necessary *)
   let vfiles = Dir.scan_files_by_ext ~ext:".v" ~ignore dir in
 
-  Format.eprintf "number of files in %s : %d@\n%!" dir (List.length vfiles);
+  if debug then
+    Format.eprintf "number of files in %s : %d@\n%!" dir (List.length vfiles);
 
   (* Run coqdep to get deps *)
   let coq_deps = coqdep_files ~cctx:(coqdep_filter @@ cctx ".") ~dir vfiles () in
 
-  Format.eprintf "number of deps in %s : %d@\n%!" dir (List.length vfiles);
+  if debug then
+    Format.eprintf "number of deps in %s : %d@\n%!" dir (List.length vfiles);
 
   (* The lvl can be computed from the dir *)
   let lvl = Dir.back_to_root dir in
