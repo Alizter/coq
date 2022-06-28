@@ -1,3 +1,7 @@
+(************************************************************************)
+(* This file is licensed under The MIT License                          *)
+(* See LICENSE for more information                                     *)
+(************************************************************************)
 
 let coqdep_files ~dir files ~cctx () =
   let files = List.map (Filename.concat dir) files in
@@ -5,7 +9,7 @@ let coqdep_files ~dir files ~cctx () =
   let args = List.concat [cctx; files] |> Args.parse (Args.make ())  in
   let make_separator_hack = false in
   let state = Common.init ~make_separator_hack args in
-  (* List.iter Common.treat_file_command_line v_files; *)
+  List.iter Common.treat_file_command_line files;
   let deps = Common.compute_deps state in
   deps
 
@@ -80,12 +84,12 @@ let rec coqdep_filter = function
   | [] -> []
 
 (** coqc rule no vo targets, no log *)
-let coqc_rule ~out ~envs ~exit_codes ~args ~deps vfile =
+let _coqc_rule ~out ~envs ~exit_codes ~args ~deps vfile =
   let run = "%{bin:coqc}" :: args @ [vfile] in
   Dune.Rules.run ~out ~envs ~run ~exit_codes ~deps ()
 
 (** coqc rule vo target, no log *)
-let coqc_vo_rule ~out ~envs ~exit_codes ~args ~deps vfile =
+let _coqc_vo_rule ~out ~envs ~exit_codes ~args ~deps vfile =
   let run = "%{bin:coqc}" :: args @ [vfile] in
   let targets = [vfile ^ "o"] in
   Dune.Rules.run ~out ~envs ~run ~exit_codes ~deps ~targets ()
@@ -372,13 +376,22 @@ let generate_rule ~out ~cctx ~dir ~lvl ~args ~base_deps ~deps ~envs ~exit_codes 
 
 let check_dir ~out ~cctx ?(ignore=[]) ?copy_csdp_cache
   ?(args=[]) ?(base_deps=[]) ?(deps=[]) ?(envs=[]) ?(exit_codes=[])
-  ?(output=Compilation.Output.None) ?(kind=Compilation.Kind.Vo) ?(coqchk=true) dir =
+  ?(output=Compilation.Output.None) ?(kind=Compilation.Kind.Vo) ?(coqchk=true) ~dir () =
+
   (* Scan for all .v files in directory ignoring as necessary *)
   let vfiles = Dir.scan_files_by_ext ~ext:".v" ~ignore dir in
+
+  Format.eprintf "number of files in %s : %d@\n%!" dir (List.length vfiles);
+
   (* Run coqdep to get deps *)
   let coq_deps = coqdep_files ~cctx:(coqdep_filter @@ cctx ".") ~dir vfiles () in
+
+  Format.eprintf "number of deps in %s : %d@\n%!" dir (List.length vfiles);
+
+
   (* The lvl can be computed from the dir *)
   let lvl = Dir.back_to_root dir in
+
   (* If the csdp cache copy is set then we add the special alias as a dep *)
   let deps = match copy_csdp_cache with None -> deps | Some _ -> "(alias csdp-cache)" :: deps in
   Dune.Rules.in_subdir out dir
