@@ -31,7 +31,7 @@ val check_dir :
   ?copy_csdp_cache:string ->
   ?args:String.t list ->
   ?base_deps:string list ->
-  ?deps:string list ->
+  ?deps:(string -> string list) ->
   ?envs:(string * string) list ->
   ?exit_codes:int list ->
   ?output:Compilation.Output.t ->
