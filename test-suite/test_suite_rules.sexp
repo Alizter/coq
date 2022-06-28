@@ -41354,6 +41354,9472 @@
      ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
      term_notations.vo))))
  )
+(subdir output
+ (rule
+  (alias runtest)
+  (targets .CoercionOnHole.aux
+           CoercionOnHole.vo
+           CoercionOnHole.glob
+           CoercionOnHole.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/CoercionOnHole.v)
+  (action
+   (with-outputs-to CoercionOnHole.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force CoercionOnHole.v))))
+ (rule
+  (alias runtest)
+  (targets CoercionOnHole.v.log)
+  (deps CoercionOnHole.v.log.pre)
+  (action
+   (with-outputs-to CoercionOnHole.v.log
+    (with-stdin-from CoercionOnHole.v
+     (run ../tools/amend-output-log.sh CoercionOnHole.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps CoercionOnHole.out
+        CoercionOnHole.v.log)
+  (action
+   (diff CoercionOnHole.out CoercionOnHole.v.log)))
+ (rule
+  (alias runtest)
+  (targets CoercionOnHole.v.chk.log)
+  (deps CoercionOnHole.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/CoercionOnHole.v)
+  (action
+   (with-outputs-to CoercionOnHole.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     CoercionOnHole.vo))))
+ (rule
+  (alias runtest)
+  (targets .TypeclassDebug.aux
+           TypeclassDebug.vo
+           TypeclassDebug.glob
+           TypeclassDebug.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/TypeclassDebug.v)
+  (action
+   (with-outputs-to TypeclassDebug.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force TypeclassDebug.v))))
+ (rule
+  (alias runtest)
+  (targets TypeclassDebug.v.log)
+  (deps TypeclassDebug.v.log.pre)
+  (action
+   (with-outputs-to TypeclassDebug.v.log
+    (with-stdin-from TypeclassDebug.v
+     (run ../tools/amend-output-log.sh TypeclassDebug.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps TypeclassDebug.out
+        TypeclassDebug.v.log)
+  (action
+   (diff TypeclassDebug.out TypeclassDebug.v.log)))
+ (rule
+  (alias runtest)
+  (targets TypeclassDebug.v.chk.log)
+  (deps TypeclassDebug.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/TypeclassDebug.v)
+  (action
+   (with-outputs-to TypeclassDebug.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     TypeclassDebug.vo))))
+ (rule
+  (alias runtest)
+  (targets .StringSyntaxPrimitive.aux
+           StringSyntaxPrimitive.vo
+           StringSyntaxPrimitive.glob
+           StringSyntaxPrimitive.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/StringSyntaxPrimitive.v
+        .././../theories/Lists/List.vo
+        .././../theories/Strings/String.vo
+        .././../theories/Strings/Byte.vo
+        .././../theories/Strings/Ascii.vo
+        .././../theories/Array/PArray.vo
+        .././../theories/Floats/PrimFloat.vo
+        .././../theories/Numbers/BinNums.vo
+        .././../theories/Numbers/Cyclic/Int63/Uint63.vo)
+  (action
+   (with-outputs-to StringSyntaxPrimitive.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force StringSyntaxPrimitive.v))))
+ (rule
+  (alias runtest)
+  (targets StringSyntaxPrimitive.v.log)
+  (deps StringSyntaxPrimitive.v.log.pre)
+  (action
+   (with-outputs-to StringSyntaxPrimitive.v.log
+    (with-stdin-from StringSyntaxPrimitive.v
+     (run ../tools/amend-output-log.sh StringSyntaxPrimitive.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps StringSyntaxPrimitive.out
+        StringSyntaxPrimitive.v.log)
+  (action
+   (diff StringSyntaxPrimitive.out StringSyntaxPrimitive.v.log)))
+ (rule
+  (alias runtest)
+  (targets StringSyntaxPrimitive.v.chk.log)
+  (deps StringSyntaxPrimitive.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/StringSyntaxPrimitive.v
+        .././../theories/Lists/List.vo
+        .././../theories/Strings/String.vo
+        .././../theories/Strings/Byte.vo
+        .././../theories/Strings/Ascii.vo
+        .././../theories/Array/PArray.vo
+        .././../theories/Floats/PrimFloat.vo
+        .././../theories/Numbers/BinNums.vo
+        .././../theories/Numbers/Cyclic/Int63/Uint63.vo)
+  (action
+   (with-outputs-to StringSyntaxPrimitive.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     StringSyntaxPrimitive.vo))))
+ (rule
+  (alias runtest)
+  (targets .auto.aux
+           auto.vo
+           auto.glob
+           auto.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/auto.v)
+  (action
+   (with-outputs-to auto.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force auto.v))))
+ (rule
+  (alias runtest)
+  (targets auto.v.log)
+  (deps auto.v.log.pre)
+  (action
+   (with-outputs-to auto.v.log
+    (with-stdin-from auto.v
+     (run ../tools/amend-output-log.sh auto.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps auto.out
+        auto.v.log)
+  (action
+   (diff auto.out auto.v.log)))
+ (rule
+  (alias runtest)
+  (targets auto.v.chk.log)
+  (deps auto.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/auto.v)
+  (action
+   (with-outputs-to auto.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec auto.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_15106.aux
+           bug_15106.vo
+           bug_15106.glob
+           bug_15106.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_15106.v
+        .././../theories/Program/Tactics.vo)
+  (action
+   (with-outputs-to bug_15106.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug_15106.v))))
+ (rule
+  (alias runtest)
+  (targets bug_15106.v.log)
+  (deps bug_15106.v.log.pre)
+  (action
+   (with-outputs-to bug_15106.v.log
+    (with-stdin-from bug_15106.v
+     (run ../tools/amend-output-log.sh bug_15106.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_15106.out
+        bug_15106.v.log)
+  (action
+   (diff bug_15106.out bug_15106.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_15106.v.chk.log)
+  (deps bug_15106.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_15106.v
+        .././../theories/Program/Tactics.vo)
+  (action
+   (with-outputs-to bug_15106.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     bug_15106.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug6404.aux
+           bug6404.vo
+           bug6404.glob
+           bug6404.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug6404.v)
+  (action
+   (with-outputs-to bug6404.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug6404.v))))
+ (rule
+  (alias runtest)
+  (targets bug6404.v.log)
+  (deps bug6404.v.log.pre)
+  (action
+   (with-outputs-to bug6404.v.log
+    (with-stdin-from bug6404.v
+     (run ../tools/amend-output-log.sh bug6404.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug6404.out
+        bug6404.v.log)
+  (action
+   (diff bug6404.out bug6404.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug6404.v.chk.log)
+  (deps bug6404.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug6404.v)
+  (action
+   (with-outputs-to bug6404.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec bug6404.vo))))
+ (rule
+  (alias runtest)
+  (targets .ErrorLocation_12152.aux
+           ErrorLocation_12152.vo
+           ErrorLocation_12152.glob
+           ErrorLocation_12152.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ErrorLocation_12152.v)
+  (action
+   (with-outputs-to ErrorLocation_12152.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force ErrorLocation_12152.v))))
+ (rule
+  (alias runtest)
+  (targets ErrorLocation_12152.v.log)
+  (deps ErrorLocation_12152.v.log.pre)
+  (action
+   (with-outputs-to ErrorLocation_12152.v.log
+    (with-stdin-from ErrorLocation_12152.v
+     (run ../tools/amend-output-log.sh ErrorLocation_12152.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps ErrorLocation_12152.out
+        ErrorLocation_12152.v.log)
+  (action
+   (diff ErrorLocation_12152.out ErrorLocation_12152.v.log)))
+ (rule
+  (alias runtest)
+  (targets ErrorLocation_12152.v.chk.log)
+  (deps ErrorLocation_12152.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ErrorLocation_12152.v)
+  (action
+   (with-outputs-to ErrorLocation_12152.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     ErrorLocation_12152.vo))))
+ (rule
+  (alias runtest)
+  (targets .ltac_missing_args.aux
+           ltac_missing_args.vo
+           ltac_missing_args.glob
+           ltac_missing_args.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ltac_missing_args.v)
+  (action
+   (with-outputs-to ltac_missing_args.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force ltac_missing_args.v))))
+ (rule
+  (alias runtest)
+  (targets ltac_missing_args.v.log)
+  (deps ltac_missing_args.v.log.pre)
+  (action
+   (with-outputs-to ltac_missing_args.v.log
+    (with-stdin-from ltac_missing_args.v
+     (run ../tools/amend-output-log.sh ltac_missing_args.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps ltac_missing_args.out
+        ltac_missing_args.v.log)
+  (action
+   (diff ltac_missing_args.out ltac_missing_args.v.log)))
+ (rule
+  (alias runtest)
+  (targets ltac_missing_args.v.chk.log)
+  (deps ltac_missing_args.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ltac_missing_args.v)
+  (action
+   (with-outputs-to ltac_missing_args.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     ltac_missing_args.vo))))
+ (rule
+  (alias runtest)
+  (targets .Arguments_renaming.aux
+           Arguments_renaming.vo
+           Arguments_renaming.glob
+           Arguments_renaming.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Arguments_renaming.v)
+  (action
+   (with-outputs-to Arguments_renaming.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -top
+     Arguments_renaming -test-mode -async-proofs-cache force
+     Arguments_renaming.v))))
+ (rule
+  (alias runtest)
+  (targets Arguments_renaming.v.log)
+  (deps Arguments_renaming.v.log.pre)
+  (action
+   (with-outputs-to Arguments_renaming.v.log
+    (with-stdin-from Arguments_renaming.v
+     (run ../tools/amend-output-log.sh Arguments_renaming.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Arguments_renaming.out
+        Arguments_renaming.v.log)
+  (action
+   (diff Arguments_renaming.out Arguments_renaming.v.log)))
+ (rule
+  (alias runtest)
+  (targets Arguments_renaming.v.chk.log)
+  (deps Arguments_renaming.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Arguments_renaming.v)
+  (action
+   (with-outputs-to Arguments_renaming.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     Arguments_renaming.vo))))
+ (rule
+  (alias runtest)
+  (targets .onlyprinting.aux
+           onlyprinting.vo
+           onlyprinting.glob
+           onlyprinting.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/onlyprinting.v)
+  (action
+   (with-outputs-to onlyprinting.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force onlyprinting.v))))
+ (rule
+  (alias runtest)
+  (targets onlyprinting.v.log)
+  (deps onlyprinting.v.log.pre)
+  (action
+   (with-outputs-to onlyprinting.v.log
+    (with-stdin-from onlyprinting.v
+     (run ../tools/amend-output-log.sh onlyprinting.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps onlyprinting.out
+        onlyprinting.v.log)
+  (action
+   (diff onlyprinting.out onlyprinting.v.log)))
+ (rule
+  (alias runtest)
+  (targets onlyprinting.v.chk.log)
+  (deps onlyprinting.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/onlyprinting.v)
+  (action
+   (with-outputs-to onlyprinting.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     onlyprinting.vo))))
+ (rule
+  (alias runtest)
+  (targets .UselessSyndef.aux
+           UselessSyndef.vo
+           UselessSyndef.glob
+           UselessSyndef.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/UselessSyndef.v)
+  (action
+   (with-outputs-to UselessSyndef.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force UselessSyndef.v))))
+ (rule
+  (alias runtest)
+  (targets UselessSyndef.v.log)
+  (deps UselessSyndef.v.log.pre)
+  (action
+   (with-outputs-to UselessSyndef.v.log
+    (with-stdin-from UselessSyndef.v
+     (run ../tools/amend-output-log.sh UselessSyndef.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps UselessSyndef.out
+        UselessSyndef.v.log)
+  (action
+   (diff UselessSyndef.out UselessSyndef.v.log)))
+ (rule
+  (alias runtest)
+  (targets UselessSyndef.v.chk.log)
+  (deps UselessSyndef.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/UselessSyndef.v)
+  (action
+   (with-outputs-to UselessSyndef.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     UselessSyndef.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_12908.aux
+           bug_12908.vo
+           bug_12908.glob
+           bug_12908.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_12908.v)
+  (action
+   (with-outputs-to bug_12908.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug_12908.v))))
+ (rule
+  (alias runtest)
+  (targets bug_12908.v.log)
+  (deps bug_12908.v.log.pre)
+  (action
+   (with-outputs-to bug_12908.v.log
+    (with-stdin-from bug_12908.v
+     (run ../tools/amend-output-log.sh bug_12908.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_12908.out
+        bug_12908.v.log)
+  (action
+   (diff bug_12908.out bug_12908.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_12908.v.chk.log)
+  (deps bug_12908.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_12908.v)
+  (action
+   (with-outputs-to bug_12908.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     bug_12908.vo))))
+ (rule
+  (alias runtest)
+  (targets .Notations4.aux
+           Notations4.vo
+           Notations4.glob
+           Notations4.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Notations4.v
+        .././../theories/Numbers/Cyclic/Int63/Uint63.vo)
+  (action
+   (with-outputs-to Notations4.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force Notations4.v))))
+ (rule
+  (alias runtest)
+  (targets Notations4.v.log)
+  (deps Notations4.v.log.pre)
+  (action
+   (with-outputs-to Notations4.v.log
+    (with-stdin-from Notations4.v
+     (run ../tools/amend-output-log.sh Notations4.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Notations4.out
+        Notations4.v.log)
+  (action
+   (diff Notations4.out Notations4.v.log)))
+ (rule
+  (alias runtest)
+  (targets Notations4.v.chk.log)
+  (deps Notations4.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Notations4.v
+        .././../theories/Numbers/Cyclic/Int63/Uint63.vo)
+  (action
+   (with-outputs-to Notations4.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     Notations4.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_4337.aux
+           bug_4337.vo
+           bug_4337.glob
+           bug_4337.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_4337.v)
+  (action
+   (with-outputs-to bug_4337.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug_4337.v))))
+ (rule
+  (alias runtest)
+  (targets bug_4337.v.log)
+  (deps bug_4337.v.log.pre)
+  (action
+   (with-outputs-to bug_4337.v.log
+    (with-stdin-from bug_4337.v
+     (run ../tools/amend-output-log.sh bug_4337.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_4337.out
+        bug_4337.v.log)
+  (action
+   (diff bug_4337.out bug_4337.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_4337.v.chk.log)
+  (deps bug_4337.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_4337.v)
+  (action
+   (with-outputs-to bug_4337.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec bug_4337.vo))))
+ (rule
+  (alias runtest)
+  (targets .simpl.aux
+           simpl.vo
+           simpl.glob
+           simpl.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/simpl.v)
+  (action
+   (with-outputs-to simpl.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force simpl.v))))
+ (rule
+  (alias runtest)
+  (targets simpl.v.log)
+  (deps simpl.v.log.pre)
+  (action
+   (with-outputs-to simpl.v.log
+    (with-stdin-from simpl.v
+     (run ../tools/amend-output-log.sh simpl.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps simpl.out
+        simpl.v.log)
+  (action
+   (diff simpl.out simpl.v.log)))
+ (rule
+  (alias runtest)
+  (targets simpl.v.chk.log)
+  (deps simpl.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/simpl.v)
+  (action
+   (with-outputs-to simpl.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec simpl.vo))))
+ (rule
+  (alias runtest)
+  (targets .Error_msg_diffs.aux
+           Error_msg_diffs.vo
+           Error_msg_diffs.glob
+           Error_msg_diffs.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Error_msg_diffs.v
+        .././../theories/Arith/Arith.vo
+        .././../theories/Lists/List.vo
+        .././../theories/Bool/Bool.vo)
+  (action
+   (with-outputs-to Error_msg_diffs.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -color on -diffs on
+     -async-proofs off -test-mode -async-proofs-cache force
+     Error_msg_diffs.v))))
+ (rule
+  (alias runtest)
+  (targets Error_msg_diffs.v.log)
+  (deps Error_msg_diffs.v.log.pre)
+  (action
+   (with-outputs-to Error_msg_diffs.v.log
+    (with-stdin-from Error_msg_diffs.v
+     (run ../tools/amend-output-log.sh Error_msg_diffs.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Error_msg_diffs.out
+        Error_msg_diffs.v.log)
+  (action
+   (diff Error_msg_diffs.out Error_msg_diffs.v.log)))
+ (rule
+  (alias runtest)
+  (targets Error_msg_diffs.v.chk.log)
+  (deps Error_msg_diffs.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Error_msg_diffs.v
+        .././../theories/Arith/Arith.vo
+        .././../theories/Lists/List.vo
+        .././../theories/Bool/Bool.vo)
+  (action
+   (with-outputs-to Error_msg_diffs.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     Error_msg_diffs.vo))))
+ (rule
+  (alias runtest)
+  (targets .allBytes.aux
+           allBytes.vo
+           allBytes.glob
+           allBytes.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/allBytes.v
+        .././../theories/ZArith/BinInt.vo
+        .././../theories/Lists/List.vo
+        .././../theories/Init/Byte.vo
+        .././../theories/Strings/Byte.vo
+        .././../theories/Strings/String.vo)
+  (action
+   (with-outputs-to allBytes.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force allBytes.v))))
+ (rule
+  (alias runtest)
+  (targets allBytes.v.log)
+  (deps allBytes.v.log.pre)
+  (action
+   (with-outputs-to allBytes.v.log
+    (with-stdin-from allBytes.v
+     (run ../tools/amend-output-log.sh allBytes.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps allBytes.out
+        allBytes.v.log)
+  (action
+   (diff allBytes.out allBytes.v.log)))
+ (rule
+  (alias runtest)
+  (targets allBytes.v.chk.log)
+  (deps allBytes.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/allBytes.v
+        .././../theories/ZArith/BinInt.vo
+        .././../theories/Lists/List.vo
+        .././../theories/Init/Byte.vo
+        .././../theories/Strings/Byte.vo
+        .././../theories/Strings/String.vo)
+  (action
+   (with-outputs-to allBytes.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec allBytes.vo))))
+ (rule
+  (alias runtest)
+  (targets .PrintGrammarConstr.aux
+           PrintGrammarConstr.vo
+           PrintGrammarConstr.glob
+           PrintGrammarConstr.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/PrintGrammarConstr.v)
+  (action
+   (with-outputs-to PrintGrammarConstr.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -nois -test-mode
+     -async-proofs-cache force PrintGrammarConstr.v))))
+ (rule
+  (alias runtest)
+  (targets PrintGrammarConstr.v.log)
+  (deps PrintGrammarConstr.v.log.pre)
+  (action
+   (with-outputs-to PrintGrammarConstr.v.log
+    (with-stdin-from PrintGrammarConstr.v
+     (run ../tools/amend-output-log.sh PrintGrammarConstr.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps PrintGrammarConstr.out
+        PrintGrammarConstr.v.log)
+  (action
+   (diff PrintGrammarConstr.out PrintGrammarConstr.v.log)))
+ (rule
+  (alias runtest)
+  (targets PrintGrammarConstr.v.chk.log)
+  (deps PrintGrammarConstr.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/PrintGrammarConstr.v)
+  (action
+   (with-outputs-to PrintGrammarConstr.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     PrintGrammarConstr.vo))))
+ (rule
+  (alias runtest)
+  (targets .EqNotation.aux
+           EqNotation.vo
+           EqNotation.glob
+           EqNotation.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/EqNotation.v)
+  (action
+   (with-outputs-to EqNotation.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force EqNotation.v))))
+ (rule
+  (alias runtest)
+  (targets EqNotation.v.log)
+  (deps EqNotation.v.log.pre)
+  (action
+   (with-outputs-to EqNotation.v.log
+    (with-stdin-from EqNotation.v
+     (run ../tools/amend-output-log.sh EqNotation.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps EqNotation.out
+        EqNotation.v.log)
+  (action
+   (diff EqNotation.out EqNotation.v.log)))
+ (rule
+  (alias runtest)
+  (targets EqNotation.v.chk.log)
+  (deps EqNotation.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/EqNotation.v)
+  (action
+   (with-outputs-to EqNotation.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     EqNotation.vo))))
+ (rule
+  (alias runtest)
+  (targets .NNumberSyntax.aux
+           NNumberSyntax.vo
+           NNumberSyntax.glob
+           NNumberSyntax.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/NNumberSyntax.v
+        .././../theories/NArith/NArith.vo
+        .././../theories/Arith/Arith.vo)
+  (action
+   (with-outputs-to NNumberSyntax.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force NNumberSyntax.v))))
+ (rule
+  (alias runtest)
+  (targets NNumberSyntax.v.log)
+  (deps NNumberSyntax.v.log.pre)
+  (action
+   (with-outputs-to NNumberSyntax.v.log
+    (with-stdin-from NNumberSyntax.v
+     (run ../tools/amend-output-log.sh NNumberSyntax.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps NNumberSyntax.out
+        NNumberSyntax.v.log)
+  (action
+   (diff NNumberSyntax.out NNumberSyntax.v.log)))
+ (rule
+  (alias runtest)
+  (targets NNumberSyntax.v.chk.log)
+  (deps NNumberSyntax.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/NNumberSyntax.v
+        .././../theories/NArith/NArith.vo
+        .././../theories/Arith/Arith.vo)
+  (action
+   (with-outputs-to NNumberSyntax.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     NNumberSyntax.vo))))
+ (rule
+  (alias runtest)
+  (targets .Search.aux
+           Search.vo
+           Search.glob
+           Search.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Search.v
+        .././../theories/Arith/PeanoNat.vo
+        .././../theories/Classes/Morphisms.vo
+        .././../theories/micromega/Lia.vo
+        .././../theories/Lists/List.vo)
+  (action
+   (with-outputs-to Search.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force Search.v))))
+ (rule
+  (alias runtest)
+  (targets Search.v.log)
+  (deps Search.v.log.pre)
+  (action
+   (with-outputs-to Search.v.log
+    (with-stdin-from Search.v
+     (run ../tools/amend-output-log.sh Search.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Search.out
+        Search.v.log)
+  (action
+   (diff Search.out Search.v.log)))
+ (rule
+  (alias runtest)
+  (targets Search.v.chk.log)
+  (deps Search.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Search.v
+        .././../theories/Arith/PeanoNat.vo
+        .././../theories/Classes/Morphisms.vo
+        .././../theories/micromega/Lia.vo
+        .././../theories/Lists/List.vo)
+  (action
+   (with-outputs-to Search.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec Search.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_12777.aux
+           bug_12777.vo
+           bug_12777.glob
+           bug_12777.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_12777.v)
+  (action
+   (with-outputs-to bug_12777.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug_12777.v))))
+ (rule
+  (alias runtest)
+  (targets bug_12777.v.log)
+  (deps bug_12777.v.log.pre)
+  (action
+   (with-outputs-to bug_12777.v.log
+    (with-stdin-from bug_12777.v
+     (run ../tools/amend-output-log.sh bug_12777.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_12777.out
+        bug_12777.v.log)
+  (action
+   (diff bug_12777.out bug_12777.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_12777.v.chk.log)
+  (deps bug_12777.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_12777.v)
+  (action
+   (with-outputs-to bug_12777.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     bug_12777.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug7191.aux
+           bug7191.vo
+           bug7191.glob
+           bug7191.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug7191.v
+        .././../theories/extraction/Extraction.vo)
+  (action
+   (with-outputs-to bug7191.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug7191.v))))
+ (rule
+  (alias runtest)
+  (targets bug7191.v.log)
+  (deps bug7191.v.log.pre)
+  (action
+   (with-outputs-to bug7191.v.log
+    (with-stdin-from bug7191.v
+     (run ../tools/amend-output-log.sh bug7191.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug7191.out
+        bug7191.v.log)
+  (action
+   (diff bug7191.out bug7191.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug7191.v.chk.log)
+  (deps bug7191.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug7191.v
+        .././../theories/extraction/Extraction.vo)
+  (action
+   (with-outputs-to bug7191.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec bug7191.vo))))
+ (rule
+  (alias runtest)
+  (targets .ltac2_notations_eval_in.aux
+           ltac2_notations_eval_in.vo
+           ltac2_notations_eval_in.glob
+           ltac2_notations_eval_in.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ltac2_notations_eval_in.v
+        .././../user-contrib/Ltac2/Ltac2.vo
+        .././../theories/ZArith/ZArith.vo)
+  (action
+   (with-outputs-to ltac2_notations_eval_in.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force ltac2_notations_eval_in.v))))
+ (rule
+  (alias runtest)
+  (targets ltac2_notations_eval_in.v.log)
+  (deps ltac2_notations_eval_in.v.log.pre)
+  (action
+   (with-outputs-to ltac2_notations_eval_in.v.log
+    (with-stdin-from ltac2_notations_eval_in.v
+     (run ../tools/amend-output-log.sh ltac2_notations_eval_in.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps ltac2_notations_eval_in.out
+        ltac2_notations_eval_in.v.log)
+  (action
+   (diff ltac2_notations_eval_in.out ltac2_notations_eval_in.v.log)))
+ (rule
+  (alias runtest)
+  (targets ltac2_notations_eval_in.v.chk.log)
+  (deps ltac2_notations_eval_in.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ltac2_notations_eval_in.v
+        .././../user-contrib/Ltac2/Ltac2.vo
+        .././../theories/ZArith/ZArith.vo)
+  (action
+   (with-outputs-to ltac2_notations_eval_in.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     ltac2_notations_eval_in.vo))))
+ (rule
+  (alias runtest)
+  (targets .ExistingInstance.aux
+           ExistingInstance.vo
+           ExistingInstance.glob
+           ExistingInstance.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ExistingInstance.v)
+  (action
+   (with-outputs-to ExistingInstance.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force ExistingInstance.v))))
+ (rule
+  (alias runtest)
+  (targets ExistingInstance.v.log)
+  (deps ExistingInstance.v.log.pre)
+  (action
+   (with-outputs-to ExistingInstance.v.log
+    (with-stdin-from ExistingInstance.v
+     (run ../tools/amend-output-log.sh ExistingInstance.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps ExistingInstance.out
+        ExistingInstance.v.log)
+  (action
+   (diff ExistingInstance.out ExistingInstance.v.log)))
+ (rule
+  (alias runtest)
+  (targets ExistingInstance.v.chk.log)
+  (deps ExistingInstance.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ExistingInstance.v)
+  (action
+   (with-outputs-to ExistingInstance.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     ExistingInstance.vo))))
+ (rule
+  (alias runtest)
+  (targets .SchemeNames.aux
+           SchemeNames.vo
+           SchemeNames.glob
+           SchemeNames.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/SchemeNames.v)
+  (action
+   (with-outputs-to SchemeNames.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force SchemeNames.v))))
+ (rule
+  (alias runtest)
+  (targets SchemeNames.v.log)
+  (deps SchemeNames.v.log.pre)
+  (action
+   (with-outputs-to SchemeNames.v.log
+    (with-stdin-from SchemeNames.v
+     (run ../tools/amend-output-log.sh SchemeNames.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps SchemeNames.out
+        SchemeNames.v.log)
+  (action
+   (diff SchemeNames.out SchemeNames.v.log)))
+ (rule
+  (alias runtest)
+  (targets SchemeNames.v.chk.log)
+  (deps SchemeNames.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/SchemeNames.v)
+  (action
+   (with-outputs-to SchemeNames.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     SchemeNames.vo))))
+ (rule
+  (alias runtest)
+  (targets .NatSyntax.aux
+           NatSyntax.vo
+           NatSyntax.glob
+           NatSyntax.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/NatSyntax.v)
+  (action
+   (with-outputs-to NatSyntax.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force NatSyntax.v))))
+ (rule
+  (alias runtest)
+  (targets NatSyntax.v.log)
+  (deps NatSyntax.v.log.pre)
+  (action
+   (with-outputs-to NatSyntax.v.log
+    (with-stdin-from NatSyntax.v
+     (run ../tools/amend-output-log.sh NatSyntax.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps NatSyntax.out
+        NatSyntax.v.log)
+  (action
+   (diff NatSyntax.out NatSyntax.v.log)))
+ (rule
+  (alias runtest)
+  (targets NatSyntax.v.chk.log)
+  (deps NatSyntax.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/NatSyntax.v)
+  (action
+   (with-outputs-to NatSyntax.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     NatSyntax.vo))))
+ (rule
+  (alias runtest)
+  (targets .interleave_options_bad_order.aux
+           interleave_options_bad_order.vo
+           interleave_options_bad_order.glob
+           interleave_options_bad_order.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/interleave_options_bad_order.v)
+  (action
+   (with-outputs-to interleave_options_bad_order.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -unset
+     "Extraction Optimize" -ri Extraction -test-mode -async-proofs-cache
+     force interleave_options_bad_order.v))))
+ (rule
+  (alias runtest)
+  (targets interleave_options_bad_order.v.log)
+  (deps interleave_options_bad_order.v.log.pre)
+  (action
+   (with-outputs-to interleave_options_bad_order.v.log
+    (with-stdin-from interleave_options_bad_order.v
+     (run ../tools/amend-output-log.sh
+      interleave_options_bad_order.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps interleave_options_bad_order.out
+        interleave_options_bad_order.v.log)
+  (action
+   (diff interleave_options_bad_order.out interleave_options_bad_order.v.log)))
+ (rule
+  (alias runtest)
+  (targets interleave_options_bad_order.v.chk.log)
+  (deps interleave_options_bad_order.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/interleave_options_bad_order.v)
+  (action
+   (with-outputs-to interleave_options_bad_order.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     interleave_options_bad_order.vo))))
+ (rule
+  (alias runtest)
+  (targets .relaxed_ambiguous_paths.aux
+           relaxed_ambiguous_paths.vo
+           relaxed_ambiguous_paths.glob
+           relaxed_ambiguous_paths.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/relaxed_ambiguous_paths.v)
+  (action
+   (with-outputs-to relaxed_ambiguous_paths.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force relaxed_ambiguous_paths.v))))
+ (rule
+  (alias runtest)
+  (targets relaxed_ambiguous_paths.v.log)
+  (deps relaxed_ambiguous_paths.v.log.pre)
+  (action
+   (with-outputs-to relaxed_ambiguous_paths.v.log
+    (with-stdin-from relaxed_ambiguous_paths.v
+     (run ../tools/amend-output-log.sh relaxed_ambiguous_paths.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps relaxed_ambiguous_paths.out
+        relaxed_ambiguous_paths.v.log)
+  (action
+   (diff relaxed_ambiguous_paths.out relaxed_ambiguous_paths.v.log)))
+ (rule
+  (alias runtest)
+  (targets relaxed_ambiguous_paths.v.chk.log)
+  (deps relaxed_ambiguous_paths.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/relaxed_ambiguous_paths.v)
+  (action
+   (with-outputs-to relaxed_ambiguous_paths.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     relaxed_ambiguous_paths.vo))))
+ (rule
+  (alias runtest)
+  (targets .Notations5.aux
+           Notations5.vo
+           Notations5.glob
+           Notations5.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Notations5.v)
+  (action
+   (with-outputs-to Notations5.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force Notations5.v))))
+ (rule
+  (alias runtest)
+  (targets Notations5.v.log)
+  (deps Notations5.v.log.pre)
+  (action
+   (with-outputs-to Notations5.v.log
+    (with-stdin-from Notations5.v
+     (run ../tools/amend-output-log.sh Notations5.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Notations5.out
+        Notations5.v.log)
+  (action
+   (diff Notations5.out Notations5.v.log)))
+ (rule
+  (alias runtest)
+  (targets Notations5.v.chk.log)
+  (deps Notations5.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Notations5.v)
+  (action
+   (with-outputs-to Notations5.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     Notations5.vo))))
+ (rule
+  (alias runtest)
+  (targets .PatternsInBinders.aux
+           PatternsInBinders.vo
+           PatternsInBinders.glob
+           PatternsInBinders.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/PatternsInBinders.v
+        .././../theories/Unicode/Utf8.vo)
+  (action
+   (with-outputs-to PatternsInBinders.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force PatternsInBinders.v))))
+ (rule
+  (alias runtest)
+  (targets PatternsInBinders.v.log)
+  (deps PatternsInBinders.v.log.pre)
+  (action
+   (with-outputs-to PatternsInBinders.v.log
+    (with-stdin-from PatternsInBinders.v
+     (run ../tools/amend-output-log.sh PatternsInBinders.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps PatternsInBinders.out
+        PatternsInBinders.v.log)
+  (action
+   (diff PatternsInBinders.out PatternsInBinders.v.log)))
+ (rule
+  (alias runtest)
+  (targets PatternsInBinders.v.chk.log)
+  (deps PatternsInBinders.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/PatternsInBinders.v
+        .././../theories/Unicode/Utf8.vo)
+  (action
+   (with-outputs-to PatternsInBinders.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     PatternsInBinders.vo))))
+ (rule
+  (alias runtest)
+  (targets .primitive_tokens.aux
+           primitive_tokens.vo
+           primitive_tokens.glob
+           primitive_tokens.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/primitive_tokens.v
+        .././../theories/Strings/String.vo)
+  (action
+   (with-outputs-to primitive_tokens.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force primitive_tokens.v))))
+ (rule
+  (alias runtest)
+  (targets primitive_tokens.v.log)
+  (deps primitive_tokens.v.log.pre)
+  (action
+   (with-outputs-to primitive_tokens.v.log
+    (with-stdin-from primitive_tokens.v
+     (run ../tools/amend-output-log.sh primitive_tokens.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps primitive_tokens.out
+        primitive_tokens.v.log)
+  (action
+   (diff primitive_tokens.out primitive_tokens.v.log)))
+ (rule
+  (alias runtest)
+  (targets primitive_tokens.v.chk.log)
+  (deps primitive_tokens.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/primitive_tokens.v
+        .././../theories/Strings/String.vo)
+  (action
+   (with-outputs-to primitive_tokens.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     primitive_tokens.vo))))
+ (rule
+  (alias runtest)
+  (targets .goal_output.aux
+           goal_output.vo
+           goal_output.glob
+           goal_output.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/goal_output.v)
+  (action
+   (with-outputs-to goal_output.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force goal_output.v))))
+ (rule
+  (alias runtest)
+  (targets goal_output.v.log)
+  (deps goal_output.v.log.pre)
+  (action
+   (with-outputs-to goal_output.v.log
+    (with-stdin-from goal_output.v
+     (run ../tools/amend-output-log.sh goal_output.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps goal_output.out
+        goal_output.v.log)
+  (action
+   (diff goal_output.out goal_output.v.log)))
+ (rule
+  (alias runtest)
+  (targets goal_output.v.chk.log)
+  (deps goal_output.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/goal_output.v)
+  (action
+   (with-outputs-to goal_output.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     goal_output.vo))))
+ (rule
+  (alias runtest)
+  (targets .UnboundRef.aux
+           UnboundRef.vo
+           UnboundRef.glob
+           UnboundRef.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/UnboundRef.v)
+  (action
+   (with-outputs-to UnboundRef.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force UnboundRef.v))))
+ (rule
+  (alias runtest)
+  (targets UnboundRef.v.log)
+  (deps UnboundRef.v.log.pre)
+  (action
+   (with-outputs-to UnboundRef.v.log
+    (with-stdin-from UnboundRef.v
+     (run ../tools/amend-output-log.sh UnboundRef.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps UnboundRef.out
+        UnboundRef.v.log)
+  (action
+   (diff UnboundRef.out UnboundRef.v.log)))
+ (rule
+  (alias runtest)
+  (targets UnboundRef.v.chk.log)
+  (deps UnboundRef.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/UnboundRef.v)
+  (action
+   (with-outputs-to UnboundRef.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     UnboundRef.vo))))
+ (rule
+  (alias runtest)
+  (targets .Inductive.aux
+           Inductive.vo
+           Inductive.glob
+           Inductive.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Inductive.v)
+  (action
+   (with-outputs-to Inductive.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force Inductive.v))))
+ (rule
+  (alias runtest)
+  (targets Inductive.v.log)
+  (deps Inductive.v.log.pre)
+  (action
+   (with-outputs-to Inductive.v.log
+    (with-stdin-from Inductive.v
+     (run ../tools/amend-output-log.sh Inductive.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Inductive.out
+        Inductive.v.log)
+  (action
+   (diff Inductive.out Inductive.v.log)))
+ (rule
+  (alias runtest)
+  (targets Inductive.v.chk.log)
+  (deps Inductive.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Inductive.v)
+  (action
+   (with-outputs-to Inductive.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     Inductive.vo))))
+ (rule
+  (alias runtest)
+  (targets .ZNumberSyntax.aux
+           ZNumberSyntax.vo
+           ZNumberSyntax.glob
+           ZNumberSyntax.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ZNumberSyntax.v
+        .././../theories/ZArith/ZArith.vo
+        .././../theories/Arith/Arith.vo)
+  (action
+   (with-outputs-to ZNumberSyntax.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force ZNumberSyntax.v))))
+ (rule
+  (alias runtest)
+  (targets ZNumberSyntax.v.log)
+  (deps ZNumberSyntax.v.log.pre)
+  (action
+   (with-outputs-to ZNumberSyntax.v.log
+    (with-stdin-from ZNumberSyntax.v
+     (run ../tools/amend-output-log.sh ZNumberSyntax.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps ZNumberSyntax.out
+        ZNumberSyntax.v.log)
+  (action
+   (diff ZNumberSyntax.out ZNumberSyntax.v.log)))
+ (rule
+  (alias runtest)
+  (targets ZNumberSyntax.v.chk.log)
+  (deps ZNumberSyntax.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ZNumberSyntax.v
+        .././../theories/ZArith/ZArith.vo
+        .././../theories/Arith/Arith.vo)
+  (action
+   (with-outputs-to ZNumberSyntax.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     ZNumberSyntax.vo))))
+ (rule
+  (alias runtest)
+  (targets .StringSyntax.aux
+           StringSyntax.vo
+           StringSyntax.glob
+           StringSyntax.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/StringSyntax.v
+        .././../theories/Lists/List.vo
+        .././../theories/Strings/String.vo
+        .././../theories/Strings/Byte.vo
+        .././../theories/Strings/Ascii.vo)
+  (action
+   (with-outputs-to StringSyntax.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force StringSyntax.v))))
+ (rule
+  (alias runtest)
+  (targets StringSyntax.v.log)
+  (deps StringSyntax.v.log.pre)
+  (action
+   (with-outputs-to StringSyntax.v.log
+    (with-stdin-from StringSyntax.v
+     (run ../tools/amend-output-log.sh StringSyntax.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps StringSyntax.out
+        StringSyntax.v.log)
+  (action
+   (diff StringSyntax.out StringSyntax.v.log)))
+ (rule
+  (alias runtest)
+  (targets StringSyntax.v.chk.log)
+  (deps StringSyntax.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/StringSyntax.v
+        .././../theories/Lists/List.vo
+        .././../theories/Strings/String.vo
+        .././../theories/Strings/Byte.vo
+        .././../theories/Strings/Ascii.vo)
+  (action
+   (with-outputs-to StringSyntax.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     StringSyntax.vo))))
+ (rule
+  (alias runtest)
+  (targets .ErrorLocation_12255.aux
+           ErrorLocation_12255.vo
+           ErrorLocation_12255.glob
+           ErrorLocation_12255.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ErrorLocation_12255.v)
+  (action
+   (with-outputs-to ErrorLocation_12255.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force ErrorLocation_12255.v))))
+ (rule
+  (alias runtest)
+  (targets ErrorLocation_12255.v.log)
+  (deps ErrorLocation_12255.v.log.pre)
+  (action
+   (with-outputs-to ErrorLocation_12255.v.log
+    (with-stdin-from ErrorLocation_12255.v
+     (run ../tools/amend-output-log.sh ErrorLocation_12255.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps ErrorLocation_12255.out
+        ErrorLocation_12255.v.log)
+  (action
+   (diff ErrorLocation_12255.out ErrorLocation_12255.v.log)))
+ (rule
+  (alias runtest)
+  (targets ErrorLocation_12255.v.chk.log)
+  (deps ErrorLocation_12255.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ErrorLocation_12255.v)
+  (action
+   (with-outputs-to ErrorLocation_12255.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     ErrorLocation_12255.vo))))
+ (rule
+  (alias runtest)
+  (targets .unification.aux
+           unification.vo
+           unification.glob
+           unification.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/unification.v)
+  (action
+   (with-outputs-to unification.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -async-proofs off
+     -test-mode -async-proofs-cache force unification.v))))
+ (rule
+  (alias runtest)
+  (targets unification.v.log)
+  (deps unification.v.log.pre)
+  (action
+   (with-outputs-to unification.v.log
+    (with-stdin-from unification.v
+     (run ../tools/amend-output-log.sh unification.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps unification.out
+        unification.v.log)
+  (action
+   (diff unification.out unification.v.log)))
+ (rule
+  (alias runtest)
+  (targets unification.v.chk.log)
+  (deps unification.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/unification.v)
+  (action
+   (with-outputs-to unification.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     unification.vo))))
+ (rule
+  (alias runtest)
+  (targets .undeclared_key.aux
+           undeclared_key.vo
+           undeclared_key.glob
+           undeclared_key.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/undeclared_key.v)
+  (action
+   (with-outputs-to undeclared_key.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force undeclared_key.v))))
+ (rule
+  (alias runtest)
+  (targets undeclared_key.v.log)
+  (deps undeclared_key.v.log.pre)
+  (action
+   (with-outputs-to undeclared_key.v.log
+    (with-stdin-from undeclared_key.v
+     (run ../tools/amend-output-log.sh undeclared_key.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps undeclared_key.out
+        undeclared_key.v.log)
+  (action
+   (diff undeclared_key.out undeclared_key.v.log)))
+ (rule
+  (alias runtest)
+  (targets undeclared_key.v.chk.log)
+  (deps undeclared_key.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/undeclared_key.v)
+  (action
+   (with-outputs-to undeclared_key.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     undeclared_key.vo))))
+ (rule
+  (alias runtest)
+  (targets .Search_headconcl.aux
+           Search_headconcl.vo
+           Search_headconcl.glob
+           Search_headconcl.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Search_headconcl.v)
+  (action
+   (with-outputs-to Search_headconcl.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force Search_headconcl.v))))
+ (rule
+  (alias runtest)
+  (targets Search_headconcl.v.log)
+  (deps Search_headconcl.v.log.pre)
+  (action
+   (with-outputs-to Search_headconcl.v.log
+    (with-stdin-from Search_headconcl.v
+     (run ../tools/amend-output-log.sh Search_headconcl.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Search_headconcl.out
+        Search_headconcl.v.log)
+  (action
+   (diff Search_headconcl.out Search_headconcl.v.log)))
+ (rule
+  (alias runtest)
+  (targets Search_headconcl.v.chk.log)
+  (deps Search_headconcl.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Search_headconcl.v)
+  (action
+   (with-outputs-to Search_headconcl.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     Search_headconcl.vo))))
+ (rule
+  (alias runtest)
+  (targets .ssr_pred.aux
+           ssr_pred.vo
+           ssr_pred.glob
+           ssr_pred.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ssr_pred.v
+        .././../theories/ssr/ssreflect.vo
+        .././../theories/ssr/ssrfun.vo
+        .././../theories/ssr/ssrbool.vo)
+  (action
+   (with-outputs-to ssr_pred.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force ssr_pred.v))))
+ (rule
+  (alias runtest)
+  (targets ssr_pred.v.log)
+  (deps ssr_pred.v.log.pre)
+  (action
+   (with-outputs-to ssr_pred.v.log
+    (with-stdin-from ssr_pred.v
+     (run ../tools/amend-output-log.sh ssr_pred.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps ssr_pred.out
+        ssr_pred.v.log)
+  (action
+   (diff ssr_pred.out ssr_pred.v.log)))
+ (rule
+  (alias runtest)
+  (targets ssr_pred.v.chk.log)
+  (deps ssr_pred.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ssr_pred.v
+        .././../theories/ssr/ssreflect.vo
+        .././../theories/ssr/ssrfun.vo
+        .././../theories/ssr/ssrbool.vo)
+  (action
+   (with-outputs-to ssr_pred.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec ssr_pred.vo))))
+ (rule
+  (alias runtest)
+  (targets .Intuition.aux
+           Intuition.vo
+           Intuition.glob
+           Intuition.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Intuition.v
+        .././../theories/ZArith/ZArith_base.vo)
+  (action
+   (with-outputs-to Intuition.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force Intuition.v))))
+ (rule
+  (alias runtest)
+  (targets Intuition.v.log)
+  (deps Intuition.v.log.pre)
+  (action
+   (with-outputs-to Intuition.v.log
+    (with-stdin-from Intuition.v
+     (run ../tools/amend-output-log.sh Intuition.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Intuition.out
+        Intuition.v.log)
+  (action
+   (diff Intuition.out Intuition.v.log)))
+ (rule
+  (alias runtest)
+  (targets Intuition.v.chk.log)
+  (deps Intuition.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Intuition.v
+        .././../theories/ZArith/ZArith_base.vo)
+  (action
+   (with-outputs-to Intuition.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     Intuition.vo))))
+ (rule
+  (alias runtest)
+  (targets .ShowUnivs.aux
+           ShowUnivs.vo
+           ShowUnivs.glob
+           ShowUnivs.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ShowUnivs.v)
+  (action
+   (with-outputs-to ShowUnivs.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force ShowUnivs.v))))
+ (rule
+  (alias runtest)
+  (targets ShowUnivs.v.log)
+  (deps ShowUnivs.v.log.pre)
+  (action
+   (with-outputs-to ShowUnivs.v.log
+    (with-stdin-from ShowUnivs.v
+     (run ../tools/amend-output-log.sh ShowUnivs.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps ShowUnivs.out
+        ShowUnivs.v.log)
+  (action
+   (diff ShowUnivs.out ShowUnivs.v.log)))
+ (rule
+  (alias runtest)
+  (targets ShowUnivs.v.chk.log)
+  (deps ShowUnivs.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ShowUnivs.v)
+  (action
+   (with-outputs-to ShowUnivs.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     ShowUnivs.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_13240.aux
+           bug_13240.vo
+           bug_13240.glob
+           bug_13240.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_13240.v
+        .././../theories/ssr/ssreflect.vo)
+  (action
+   (with-outputs-to bug_13240.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug_13240.v))))
+ (rule
+  (alias runtest)
+  (targets bug_13240.v.log)
+  (deps bug_13240.v.log.pre)
+  (action
+   (with-outputs-to bug_13240.v.log
+    (with-stdin-from bug_13240.v
+     (run ../tools/amend-output-log.sh bug_13240.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_13240.out
+        bug_13240.v.log)
+  (action
+   (diff bug_13240.out bug_13240.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_13240.v.chk.log)
+  (deps bug_13240.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_13240.v
+        .././../theories/ssr/ssreflect.vo)
+  (action
+   (with-outputs-to bug_13240.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     bug_13240.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_3810.aux
+           bug_3810.vo
+           bug_3810.glob
+           bug_3810.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_3810.v)
+  (action
+   (with-outputs-to bug_3810.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug_3810.v))))
+ (rule
+  (alias runtest)
+  (targets bug_3810.v.log)
+  (deps bug_3810.v.log.pre)
+  (action
+   (with-outputs-to bug_3810.v.log
+    (with-stdin-from bug_3810.v
+     (run ../tools/amend-output-log.sh bug_3810.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_3810.out
+        bug_3810.v.log)
+  (action
+   (diff bug_3810.out bug_3810.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_3810.v.chk.log)
+  (deps bug_3810.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_3810.v)
+  (action
+   (with-outputs-to bug_3810.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec bug_3810.vo))))
+ (rule
+  (alias runtest)
+  (targets .idtac.aux
+           idtac.vo
+           idtac.glob
+           idtac.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/idtac.v)
+  (action
+   (with-outputs-to idtac.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force idtac.v))))
+ (rule
+  (alias runtest)
+  (targets idtac.v.log)
+  (deps idtac.v.log.pre)
+  (action
+   (with-outputs-to idtac.v.log
+    (with-stdin-from idtac.v
+     (run ../tools/amend-output-log.sh idtac.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps idtac.out
+        idtac.v.log)
+  (action
+   (diff idtac.out idtac.v.log)))
+ (rule
+  (alias runtest)
+  (targets idtac.v.chk.log)
+  (deps idtac.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/idtac.v)
+  (action
+   (with-outputs-to idtac.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec idtac.vo))))
+ (rule
+  (alias runtest)
+  (targets ErrorInModule.vio
+           ErrorInModule.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ErrorInModule.v)
+  (action
+   (with-outputs-to ErrorInModule.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -vio -test-mode
+     -async-proofs-cache force -vio ErrorInModule.v))))
+ (rule
+  (alias runtest)
+  (targets ErrorInModule.v.log)
+  (deps ErrorInModule.v.log.pre)
+  (action
+   (with-outputs-to ErrorInModule.v.log
+    (with-stdin-from ErrorInModule.v
+     (run ../tools/amend-output-log.sh ErrorInModule.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps ErrorInModule.out
+        ErrorInModule.v.log)
+  (action
+   (diff ErrorInModule.out ErrorInModule.v.log)))
+ (rule
+  (alias runtest)
+  (targets .Notations.aux
+           Notations.vo
+           Notations.glob
+           Notations.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Notations.v
+        .././../theories/ZArith/BinInt.vo
+        .././../theories/Lists/List.vo
+        .././../theories/ZArith/ZArith.vo
+        .././prerequisite/make_notation.vo)
+  (action
+   (with-outputs-to Notations.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force Notations.v))))
+ (rule
+  (alias runtest)
+  (targets Notations.v.log)
+  (deps Notations.v.log.pre)
+  (action
+   (with-outputs-to Notations.v.log
+    (with-stdin-from Notations.v
+     (run ../tools/amend-output-log.sh Notations.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Notations.out
+        Notations.v.log)
+  (action
+   (diff Notations.out Notations.v.log)))
+ (rule
+  (alias runtest)
+  (targets Notations.v.chk.log)
+  (deps Notations.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Notations.v
+        .././../theories/ZArith/BinInt.vo
+        .././../theories/Lists/List.vo
+        .././../theories/ZArith/ZArith.vo
+        .././prerequisite/make_notation.vo)
+  (action
+   (with-outputs-to Notations.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     Notations.vo))))
+ (rule
+  (alias runtest)
+  (targets .names.aux
+           names.vo
+           names.glob
+           names.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/names.v)
+  (action
+   (with-outputs-to names.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force names.v))))
+ (rule
+  (alias runtest)
+  (targets names.v.log)
+  (deps names.v.log.pre)
+  (action
+   (with-outputs-to names.v.log
+    (with-stdin-from names.v
+     (run ../tools/amend-output-log.sh names.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps names.out
+        names.v.log)
+  (action
+   (diff names.out names.v.log)))
+ (rule
+  (alias runtest)
+  (targets names.v.chk.log)
+  (deps names.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/names.v)
+  (action
+   (with-outputs-to names.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec names.vo))))
+ (rule
+  (alias runtest)
+  (targets bug_11342.vos
+           bug_11342.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_11342.v
+        ../../theories/Init/Prelude.vos)
+  (action
+   (with-outputs-to bug_11342.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -vos -test-mode
+     -async-proofs-cache force -vos bug_11342.v))))
+ (rule
+  (alias runtest)
+  (targets bug_11342.v.log)
+  (deps bug_11342.v.log.pre)
+  (action
+   (with-outputs-to bug_11342.v.log
+    (with-stdin-from bug_11342.v
+     (run ../tools/amend-output-log.sh bug_11342.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_11342.out
+        bug_11342.v.log)
+  (action
+   (diff bug_11342.out bug_11342.v.log)))
+ (rule
+  (alias runtest)
+  (targets .bug_12159.aux
+           bug_12159.vo
+           bug_12159.glob
+           bug_12159.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_12159.v)
+  (action
+   (with-outputs-to bug_12159.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug_12159.v))))
+ (rule
+  (alias runtest)
+  (targets bug_12159.v.log)
+  (deps bug_12159.v.log.pre)
+  (action
+   (with-outputs-to bug_12159.v.log
+    (with-stdin-from bug_12159.v
+     (run ../tools/amend-output-log.sh bug_12159.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_12159.out
+        bug_12159.v.log)
+  (action
+   (diff bug_12159.out bug_12159.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_12159.v.chk.log)
+  (deps bug_12159.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_12159.v)
+  (action
+   (with-outputs-to bug_12159.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     bug_12159.vo))))
+ (rule
+  (alias runtest)
+  (targets .ltac.aux
+           ltac.vo
+           ltac.glob
+           ltac.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ltac.v)
+  (action
+   (with-outputs-to ltac.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force ltac.v))))
+ (rule
+  (alias runtest)
+  (targets ltac.v.log)
+  (deps ltac.v.log.pre)
+  (action
+   (with-outputs-to ltac.v.log
+    (with-stdin-from ltac.v
+     (run ../tools/amend-output-log.sh ltac.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps ltac.out
+        ltac.v.log)
+  (action
+   (diff ltac.out ltac.v.log)))
+ (rule
+  (alias runtest)
+  (targets ltac.v.chk.log)
+  (deps ltac.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ltac.v)
+  (action
+   (with-outputs-to ltac.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec ltac.vo))))
+ (rule
+  (alias runtest)
+  (targets .Function.aux
+           Function.vo
+           Function.glob
+           Function.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Function.v
+        .././../theories/funind/FunInd.vo
+        .././../theories/Lists/List.vo)
+  (action
+   (with-outputs-to Function.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force Function.v))))
+ (rule
+  (alias runtest)
+  (targets Function.v.log)
+  (deps Function.v.log.pre)
+  (action
+   (with-outputs-to Function.v.log
+    (with-stdin-from Function.v
+     (run ../tools/amend-output-log.sh Function.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Function.out
+        Function.v.log)
+  (action
+   (diff Function.out Function.v.log)))
+ (rule
+  (alias runtest)
+  (targets Function.v.chk.log)
+  (deps Function.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Function.v
+        .././../theories/funind/FunInd.vo
+        .././../theories/Lists/List.vo)
+  (action
+   (with-outputs-to Function.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec Function.vo))))
+ (rule
+  (alias runtest)
+  (targets .notation_principal_scope.aux
+           notation_principal_scope.vo
+           notation_principal_scope.glob
+           notation_principal_scope.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/notation_principal_scope.v)
+  (action
+   (with-outputs-to notation_principal_scope.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force notation_principal_scope.v))))
+ (rule
+  (alias runtest)
+  (targets notation_principal_scope.v.log)
+  (deps notation_principal_scope.v.log.pre)
+  (action
+   (with-outputs-to notation_principal_scope.v.log
+    (with-stdin-from notation_principal_scope.v
+     (run ../tools/amend-output-log.sh notation_principal_scope.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps notation_principal_scope.out
+        notation_principal_scope.v.log)
+  (action
+   (diff notation_principal_scope.out notation_principal_scope.v.log)))
+ (rule
+  (alias runtest)
+  (targets notation_principal_scope.v.chk.log)
+  (deps notation_principal_scope.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/notation_principal_scope.v)
+  (action
+   (with-outputs-to notation_principal_scope.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     notation_principal_scope.vo))))
+ (rule
+  (alias runtest)
+  (targets .PrintInfos.aux
+           PrintInfos.vo
+           PrintInfos.glob
+           PrintInfos.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/PrintInfos.v)
+  (action
+   (with-outputs-to PrintInfos.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -top PrintInfos
+     -test-mode -async-proofs-cache force PrintInfos.v))))
+ (rule
+  (alias runtest)
+  (targets PrintInfos.v.log)
+  (deps PrintInfos.v.log.pre)
+  (action
+   (with-outputs-to PrintInfos.v.log
+    (with-stdin-from PrintInfos.v
+     (run ../tools/amend-output-log.sh PrintInfos.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps PrintInfos.out
+        PrintInfos.v.log)
+  (action
+   (diff PrintInfos.out PrintInfos.v.log)))
+ (rule
+  (alias runtest)
+  (targets PrintInfos.v.chk.log)
+  (deps PrintInfos.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/PrintInfos.v)
+  (action
+   (with-outputs-to PrintInfos.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     PrintInfos.vo))))
+ (rule
+  (alias runtest)
+  (targets .locate.aux
+           locate.vo
+           locate.glob
+           locate.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/locate.v)
+  (action
+   (with-outputs-to locate.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force locate.v))))
+ (rule
+  (alias runtest)
+  (targets locate.v.log)
+  (deps locate.v.log.pre)
+  (action
+   (with-outputs-to locate.v.log
+    (with-stdin-from locate.v
+     (run ../tools/amend-output-log.sh locate.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps locate.out
+        locate.v.log)
+  (action
+   (diff locate.out locate.v.log)))
+ (rule
+  (alias runtest)
+  (targets locate.v.chk.log)
+  (deps locate.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/locate.v)
+  (action
+   (with-outputs-to locate.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec locate.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_13821_native_command_line_warn.aux
+           bug_13821_native_command_line_warn.vo
+           bug_13821_native_command_line_warn.glob
+           bug_13821_native_command_line_warn.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_13821_native_command_line_warn.v)
+  (action
+   (with-outputs-to bug_13821_native_command_line_warn.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -w
+     -deprecated-native-compiler-option -w -native-compiler-disabled
+     -native-compiler ondemand -async-proofs no -test-mode
+     -async-proofs-cache force bug_13821_native_command_line_warn.v))))
+ (rule
+  (alias runtest)
+  (targets bug_13821_native_command_line_warn.v.log)
+  (deps bug_13821_native_command_line_warn.v.log.pre)
+  (action
+   (with-outputs-to bug_13821_native_command_line_warn.v.log
+    (with-stdin-from bug_13821_native_command_line_warn.v
+     (run ../tools/amend-output-log.sh
+      bug_13821_native_command_line_warn.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_13821_native_command_line_warn.out
+        bug_13821_native_command_line_warn.v.log)
+  (action
+   (diff bug_13821_native_command_line_warn.out
+    bug_13821_native_command_line_warn.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_13821_native_command_line_warn.v.chk.log)
+  (deps bug_13821_native_command_line_warn.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_13821_native_command_line_warn.v)
+  (action
+   (with-outputs-to bug_13821_native_command_line_warn.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     bug_13821_native_command_line_warn.vo))))
+ (rule
+  (alias runtest)
+  (targets .Unicode.aux
+           Unicode.vo
+           Unicode.glob
+           Unicode.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Unicode.v
+        .././../theories/Unicode/Utf8.vo)
+  (action
+   (with-outputs-to Unicode.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force Unicode.v))))
+ (rule
+  (alias runtest)
+  (targets Unicode.v.log)
+  (deps Unicode.v.log.pre)
+  (action
+   (with-outputs-to Unicode.v.log
+    (with-stdin-from Unicode.v
+     (run ../tools/amend-output-log.sh Unicode.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Unicode.out
+        Unicode.v.log)
+  (action
+   (diff Unicode.out Unicode.v.log)))
+ (rule
+  (alias runtest)
+  (targets Unicode.v.chk.log)
+  (deps Unicode.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Unicode.v
+        .././../theories/Unicode/Utf8.vo)
+  (action
+   (with-outputs-to Unicode.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec Unicode.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug12442.aux
+           bug12442.vo
+           bug12442.glob
+           bug12442.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug12442.v)
+  (action
+   (with-outputs-to bug12442.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug12442.v))))
+ (rule
+  (alias runtest)
+  (targets bug12442.v.log)
+  (deps bug12442.v.log.pre)
+  (action
+   (with-outputs-to bug12442.v.log
+    (with-stdin-from bug12442.v
+     (run ../tools/amend-output-log.sh bug12442.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug12442.out
+        bug12442.v.log)
+  (action
+   (diff bug12442.out bug12442.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug12442.v.chk.log)
+  (deps bug12442.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug12442.v)
+  (action
+   (with-outputs-to bug12442.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec bug12442.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_13244.aux
+           bug_13244.vo
+           bug_13244.glob
+           bug_13244.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_13244.v
+        .././../theories/ssr/ssrbool.vo)
+  (action
+   (with-outputs-to bug_13244.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug_13244.v))))
+ (rule
+  (alias runtest)
+  (targets bug_13244.v.log)
+  (deps bug_13244.v.log.pre)
+  (action
+   (with-outputs-to bug_13244.v.log
+    (with-stdin-from bug_13244.v
+     (run ../tools/amend-output-log.sh bug_13244.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_13244.out
+        bug_13244.v.log)
+  (action
+   (diff bug_13244.out bug_13244.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_13244.v.chk.log)
+  (deps bug_13244.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_13244.v
+        .././../theories/ssr/ssrbool.vo)
+  (action
+   (with-outputs-to bug_13244.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     bug_13244.vo))))
+ (rule
+  (alias runtest)
+  (targets .coercions_nonuniform.aux
+           coercions_nonuniform.vo
+           coercions_nonuniform.glob
+           coercions_nonuniform.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/coercions_nonuniform.v)
+  (action
+   (with-outputs-to coercions_nonuniform.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force coercions_nonuniform.v))))
+ (rule
+  (alias runtest)
+  (targets coercions_nonuniform.v.log)
+  (deps coercions_nonuniform.v.log.pre)
+  (action
+   (with-outputs-to coercions_nonuniform.v.log
+    (with-stdin-from coercions_nonuniform.v
+     (run ../tools/amend-output-log.sh coercions_nonuniform.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps coercions_nonuniform.out
+        coercions_nonuniform.v.log)
+  (action
+   (diff coercions_nonuniform.out coercions_nonuniform.v.log)))
+ (rule
+  (alias runtest)
+  (targets coercions_nonuniform.v.chk.log)
+  (deps coercions_nonuniform.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/coercions_nonuniform.v)
+  (action
+   (with-outputs-to coercions_nonuniform.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     coercions_nonuniform.vo))))
+ (rule
+  (alias runtest)
+  (targets .Sum.aux
+           Sum.vo
+           Sum.glob
+           Sum.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Sum.v)
+  (action
+   (with-outputs-to Sum.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force Sum.v))))
+ (rule
+  (alias runtest)
+  (targets Sum.v.log)
+  (deps Sum.v.log.pre)
+  (action
+   (with-outputs-to Sum.v.log
+    (with-stdin-from Sum.v (run ../tools/amend-output-log.sh Sum.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Sum.out
+        Sum.v.log)
+  (action
+   (diff Sum.out Sum.v.log)))
+ (rule
+  (alias runtest)
+  (targets Sum.v.chk.log)
+  (deps Sum.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Sum.v)
+  (action
+   (with-outputs-to Sum.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec Sum.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_10824.aux
+           bug_10824.vo
+           bug_10824.glob
+           bug_10824.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_10824.v)
+  (action
+   (with-outputs-to bug_10824.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug_10824.v))))
+ (rule
+  (alias runtest)
+  (targets bug_10824.v.log)
+  (deps bug_10824.v.log.pre)
+  (action
+   (with-outputs-to bug_10824.v.log
+    (with-stdin-from bug_10824.v
+     (run ../tools/amend-output-log.sh bug_10824.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_10824.out
+        bug_10824.v.log)
+  (action
+   (diff bug_10824.out bug_10824.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_10824.v.chk.log)
+  (deps bug_10824.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_10824.v)
+  (action
+   (with-outputs-to bug_10824.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     bug_10824.vo))))
+ (rule
+  (alias runtest)
+  (targets .Utf8Impargs.aux
+           Utf8Impargs.vo
+           Utf8Impargs.glob
+           Utf8Impargs.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Utf8Impargs.v)
+  (action
+   (with-outputs-to Utf8Impargs.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force Utf8Impargs.v))))
+ (rule
+  (alias runtest)
+  (targets Utf8Impargs.v.log)
+  (deps Utf8Impargs.v.log.pre)
+  (action
+   (with-outputs-to Utf8Impargs.v.log
+    (with-stdin-from Utf8Impargs.v
+     (run ../tools/amend-output-log.sh Utf8Impargs.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Utf8Impargs.out
+        Utf8Impargs.v.log)
+  (action
+   (diff Utf8Impargs.out Utf8Impargs.v.log)))
+ (rule
+  (alias runtest)
+  (targets Utf8Impargs.v.chk.log)
+  (deps Utf8Impargs.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Utf8Impargs.v)
+  (action
+   (with-outputs-to Utf8Impargs.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     Utf8Impargs.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_11934.aux
+           bug_11934.vo
+           bug_11934.glob
+           bug_11934.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_11934.v)
+  (action
+   (with-outputs-to bug_11934.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug_11934.v))))
+ (rule
+  (alias runtest)
+  (targets bug_11934.v.log)
+  (deps bug_11934.v.log.pre)
+  (action
+   (with-outputs-to bug_11934.v.log
+    (with-stdin-from bug_11934.v
+     (run ../tools/amend-output-log.sh bug_11934.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_11934.out
+        bug_11934.v.log)
+  (action
+   (diff bug_11934.out bug_11934.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_11934.v.chk.log)
+  (deps bug_11934.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_11934.v)
+  (action
+   (with-outputs-to bug_11934.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     bug_11934.vo))))
+ (rule
+  (alias runtest)
+  (targets .clear.aux
+           clear.vo
+           clear.glob
+           clear.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/clear.v)
+  (action
+   (with-outputs-to clear.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force clear.v))))
+ (rule
+  (alias runtest)
+  (targets clear.v.log)
+  (deps clear.v.log.pre)
+  (action
+   (with-outputs-to clear.v.log
+    (with-stdin-from clear.v
+     (run ../tools/amend-output-log.sh clear.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps clear.out
+        clear.v.log)
+  (action
+   (diff clear.out clear.v.log)))
+ (rule
+  (alias runtest)
+  (targets clear.v.chk.log)
+  (deps clear.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/clear.v)
+  (action
+   (with-outputs-to clear.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec clear.vo))))
+ (rule
+  (alias runtest)
+  (targets .Coercions.aux
+           Coercions.vo
+           Coercions.glob
+           Coercions.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Coercions.v
+        .././../theories/Strings/String.vo)
+  (action
+   (with-outputs-to Coercions.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force Coercions.v))))
+ (rule
+  (alias runtest)
+  (targets Coercions.v.log)
+  (deps Coercions.v.log.pre)
+  (action
+   (with-outputs-to Coercions.v.log
+    (with-stdin-from Coercions.v
+     (run ../tools/amend-output-log.sh Coercions.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Coercions.out
+        Coercions.v.log)
+  (action
+   (diff Coercions.out Coercions.v.log)))
+ (rule
+  (alias runtest)
+  (targets Coercions.v.chk.log)
+  (deps Coercions.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Coercions.v
+        .././../theories/Strings/String.vo)
+  (action
+   (with-outputs-to Coercions.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     Coercions.vo))))
+ (rule
+  (alias runtest)
+  (targets .PrintUnivsSubgraph.aux
+           PrintUnivsSubgraph.vo
+           PrintUnivsSubgraph.glob
+           PrintUnivsSubgraph.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/PrintUnivsSubgraph.v)
+  (action
+   (with-outputs-to PrintUnivsSubgraph.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force PrintUnivsSubgraph.v))))
+ (rule
+  (alias runtest)
+  (targets PrintUnivsSubgraph.v.log)
+  (deps PrintUnivsSubgraph.v.log.pre)
+  (action
+   (with-outputs-to PrintUnivsSubgraph.v.log
+    (with-stdin-from PrintUnivsSubgraph.v
+     (run ../tools/amend-output-log.sh PrintUnivsSubgraph.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps PrintUnivsSubgraph.out
+        PrintUnivsSubgraph.v.log)
+  (action
+   (diff PrintUnivsSubgraph.out PrintUnivsSubgraph.v.log)))
+ (rule
+  (alias runtest)
+  (targets PrintUnivsSubgraph.v.chk.log)
+  (deps PrintUnivsSubgraph.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/PrintUnivsSubgraph.v)
+  (action
+   (with-outputs-to PrintUnivsSubgraph.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     PrintUnivsSubgraph.vo))))
+ (rule
+  (alias runtest)
+  (targets .ArgumentsScope.aux
+           ArgumentsScope.vo
+           ArgumentsScope.glob
+           ArgumentsScope.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ArgumentsScope.v)
+  (action
+   (with-outputs-to ArgumentsScope.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -top ArgumentsScope
+     -test-mode -async-proofs-cache force ArgumentsScope.v))))
+ (rule
+  (alias runtest)
+  (targets ArgumentsScope.v.log)
+  (deps ArgumentsScope.v.log.pre)
+  (action
+   (with-outputs-to ArgumentsScope.v.log
+    (with-stdin-from ArgumentsScope.v
+     (run ../tools/amend-output-log.sh ArgumentsScope.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps ArgumentsScope.out
+        ArgumentsScope.v.log)
+  (action
+   (diff ArgumentsScope.out ArgumentsScope.v.log)))
+ (rule
+  (alias runtest)
+  (targets ArgumentsScope.v.chk.log)
+  (deps ArgumentsScope.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ArgumentsScope.v)
+  (action
+   (with-outputs-to ArgumentsScope.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     ArgumentsScope.vo))))
+ (rule
+  (alias runtest)
+  (targets bug_11608.vos
+           bug_11608.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_11608.v
+        ../../theories/Init/Prelude.vos)
+  (action
+   (with-outputs-to bug_11608.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -vos -test-mode
+     -async-proofs-cache force -vos bug_11608.v))))
+ (rule
+  (alias runtest)
+  (targets bug_11608.v.log)
+  (deps bug_11608.v.log.pre)
+  (action
+   (with-outputs-to bug_11608.v.log
+    (with-stdin-from bug_11608.v
+     (run ../tools/amend-output-log.sh bug_11608.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_11608.out
+        bug_11608.v.log)
+  (action
+   (diff bug_11608.out bug_11608.v.log)))
+ (rule
+  (alias runtest)
+  (targets .ssr_explain_match.aux
+           ssr_explain_match.vo
+           ssr_explain_match.glob
+           ssr_explain_match.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ssr_explain_match.v
+        .././../theories/ssrmatching/ssrmatching.vo
+        .././../theories/ssr/ssreflect.vo
+        .././../theories/ssr/ssrbool.vo
+        .././prerequisite/ssr_mini_mathcomp.vo)
+  (action
+   (with-outputs-to ssr_explain_match.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force ssr_explain_match.v))))
+ (rule
+  (alias runtest)
+  (targets ssr_explain_match.v.log)
+  (deps ssr_explain_match.v.log.pre)
+  (action
+   (with-outputs-to ssr_explain_match.v.log
+    (with-stdin-from ssr_explain_match.v
+     (run ../tools/amend-output-log.sh ssr_explain_match.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps ssr_explain_match.out
+        ssr_explain_match.v.log)
+  (action
+   (diff ssr_explain_match.out ssr_explain_match.v.log)))
+ (rule
+  (alias runtest)
+  (targets ssr_explain_match.v.chk.log)
+  (deps ssr_explain_match.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ssr_explain_match.v
+        .././../theories/ssrmatching/ssrmatching.vo
+        .././../theories/ssr/ssreflect.vo
+        .././../theories/ssr/ssrbool.vo
+        .././prerequisite/ssr_mini_mathcomp.vo)
+  (action
+   (with-outputs-to ssr_explain_match.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     ssr_explain_match.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_9569.aux
+           bug_9569.vo
+           bug_9569.glob
+           bug_9569.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_9569.v)
+  (action
+   (with-outputs-to bug_9569.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug_9569.v))))
+ (rule
+  (alias runtest)
+  (targets bug_9569.v.log)
+  (deps bug_9569.v.log.pre)
+  (action
+   (with-outputs-to bug_9569.v.log
+    (with-stdin-from bug_9569.v
+     (run ../tools/amend-output-log.sh bug_9569.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_9569.out
+        bug_9569.v.log)
+  (action
+   (diff bug_9569.out bug_9569.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_9569.v.chk.log)
+  (deps bug_9569.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_9569.v)
+  (action
+   (with-outputs-to bug_9569.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec bug_9569.vo))))
+ (rule
+  (alias runtest)
+  (targets .InvalidDisjunctiveIntro.aux
+           InvalidDisjunctiveIntro.vo
+           InvalidDisjunctiveIntro.glob
+           InvalidDisjunctiveIntro.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/InvalidDisjunctiveIntro.v)
+  (action
+   (with-outputs-to InvalidDisjunctiveIntro.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force InvalidDisjunctiveIntro.v))))
+ (rule
+  (alias runtest)
+  (targets InvalidDisjunctiveIntro.v.log)
+  (deps InvalidDisjunctiveIntro.v.log.pre)
+  (action
+   (with-outputs-to InvalidDisjunctiveIntro.v.log
+    (with-stdin-from InvalidDisjunctiveIntro.v
+     (run ../tools/amend-output-log.sh InvalidDisjunctiveIntro.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps InvalidDisjunctiveIntro.out
+        InvalidDisjunctiveIntro.v.log)
+  (action
+   (diff InvalidDisjunctiveIntro.out InvalidDisjunctiveIntro.v.log)))
+ (rule
+  (alias runtest)
+  (targets InvalidDisjunctiveIntro.v.chk.log)
+  (deps InvalidDisjunctiveIntro.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/InvalidDisjunctiveIntro.v)
+  (action
+   (with-outputs-to InvalidDisjunctiveIntro.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     InvalidDisjunctiveIntro.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug7348.aux
+           bug7348.vo
+           bug7348.glob
+           bug7348.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug7348.v
+        .././../theories/extraction/Extraction.vo)
+  (action
+   (with-outputs-to bug7348.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug7348.v))))
+ (rule
+  (alias runtest)
+  (targets bug7348.v.log)
+  (deps bug7348.v.log.pre)
+  (action
+   (with-outputs-to bug7348.v.log
+    (with-stdin-from bug7348.v
+     (run ../tools/amend-output-log.sh bug7348.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug7348.out
+        bug7348.v.log)
+  (action
+   (diff bug7348.out bug7348.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug7348.v.chk.log)
+  (deps bug7348.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug7348.v
+        .././../theories/extraction/Extraction.vo)
+  (action
+   (with-outputs-to bug7348.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec bug7348.vo))))
+ (rule
+  (alias runtest)
+  (targets .Int31NumberSyntax.aux
+           Int31NumberSyntax.vo
+           Int31NumberSyntax.glob
+           Int31NumberSyntax.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Int31NumberSyntax.v
+        .././../theories/Numbers/Cyclic/Int31/Int31.vo
+        .././../theories/Numbers/Cyclic/Int31/Cyclic31.vo)
+  (action
+   (with-outputs-to Int31NumberSyntax.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force Int31NumberSyntax.v))))
+ (rule
+  (alias runtest)
+  (targets Int31NumberSyntax.v.log)
+  (deps Int31NumberSyntax.v.log.pre)
+  (action
+   (with-outputs-to Int31NumberSyntax.v.log
+    (with-stdin-from Int31NumberSyntax.v
+     (run ../tools/amend-output-log.sh Int31NumberSyntax.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Int31NumberSyntax.out
+        Int31NumberSyntax.v.log)
+  (action
+   (diff Int31NumberSyntax.out Int31NumberSyntax.v.log)))
+ (rule
+  (alias runtest)
+  (targets Int31NumberSyntax.v.chk.log)
+  (deps Int31NumberSyntax.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Int31NumberSyntax.v
+        .././../theories/Numbers/Cyclic/Int31/Int31.vo
+        .././../theories/Numbers/Cyclic/Int31/Cyclic31.vo)
+  (action
+   (with-outputs-to Int31NumberSyntax.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     Int31NumberSyntax.vo))))
+ (rule
+  (alias runtest)
+  (targets .unifconstraints.aux
+           unifconstraints.vo
+           unifconstraints.glob
+           unifconstraints.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/unifconstraints.v)
+  (action
+   (with-outputs-to unifconstraints.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -async-proofs no
+     -test-mode -async-proofs-cache force unifconstraints.v))))
+ (rule
+  (alias runtest)
+  (targets unifconstraints.v.log)
+  (deps unifconstraints.v.log.pre)
+  (action
+   (with-outputs-to unifconstraints.v.log
+    (with-stdin-from unifconstraints.v
+     (run ../tools/amend-output-log.sh unifconstraints.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps unifconstraints.out
+        unifconstraints.v.log)
+  (action
+   (diff unifconstraints.out unifconstraints.v.log)))
+ (rule
+  (alias runtest)
+  (targets unifconstraints.v.chk.log)
+  (deps unifconstraints.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/unifconstraints.v)
+  (action
+   (with-outputs-to unifconstraints.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     unifconstraints.vo))))
+ (rule
+  (alias runtest)
+  (targets .Nametab.aux
+           Nametab.vo
+           Nametab.glob
+           Nametab.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Nametab.v)
+  (action
+   (with-outputs-to Nametab.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -top Nametab
+     -test-mode -async-proofs-cache force Nametab.v))))
+ (rule
+  (alias runtest)
+  (targets Nametab.v.log)
+  (deps Nametab.v.log.pre)
+  (action
+   (with-outputs-to Nametab.v.log
+    (with-stdin-from Nametab.v
+     (run ../tools/amend-output-log.sh Nametab.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Nametab.out
+        Nametab.v.log)
+  (action
+   (diff Nametab.out Nametab.v.log)))
+ (rule
+  (alias runtest)
+  (targets Nametab.v.chk.log)
+  (deps Nametab.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Nametab.v)
+  (action
+   (with-outputs-to Nametab.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec Nametab.vo))))
+ (rule
+  (alias runtest)
+  (targets .ProofUsingClashWarning.aux
+           ProofUsingClashWarning.vo
+           ProofUsingClashWarning.glob
+           ProofUsingClashWarning.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ProofUsingClashWarning.v)
+  (action
+   (with-outputs-to ProofUsingClashWarning.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force ProofUsingClashWarning.v))))
+ (rule
+  (alias runtest)
+  (targets ProofUsingClashWarning.v.log)
+  (deps ProofUsingClashWarning.v.log.pre)
+  (action
+   (with-outputs-to ProofUsingClashWarning.v.log
+    (with-stdin-from ProofUsingClashWarning.v
+     (run ../tools/amend-output-log.sh ProofUsingClashWarning.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps ProofUsingClashWarning.out
+        ProofUsingClashWarning.v.log)
+  (action
+   (diff ProofUsingClashWarning.out ProofUsingClashWarning.v.log)))
+ (rule
+  (alias runtest)
+  (targets ProofUsingClashWarning.v.chk.log)
+  (deps ProofUsingClashWarning.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ProofUsingClashWarning.v)
+  (action
+   (with-outputs-to ProofUsingClashWarning.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     ProofUsingClashWarning.vo))))
+ (rule
+  (alias runtest)
+  (targets .ErrorLocation_12774.aux
+           ErrorLocation_12774.vo
+           ErrorLocation_12774.glob
+           ErrorLocation_12774.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ErrorLocation_12774.v)
+  (action
+   (with-outputs-to ErrorLocation_12774.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force ErrorLocation_12774.v))))
+ (rule
+  (alias runtest)
+  (targets ErrorLocation_12774.v.log)
+  (deps ErrorLocation_12774.v.log.pre)
+  (action
+   (with-outputs-to ErrorLocation_12774.v.log
+    (with-stdin-from ErrorLocation_12774.v
+     (run ../tools/amend-output-log.sh ErrorLocation_12774.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps ErrorLocation_12774.out
+        ErrorLocation_12774.v.log)
+  (action
+   (diff ErrorLocation_12774.out ErrorLocation_12774.v.log)))
+ (rule
+  (alias runtest)
+  (targets ErrorLocation_12774.v.chk.log)
+  (deps ErrorLocation_12774.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ErrorLocation_12774.v)
+  (action
+   (with-outputs-to ErrorLocation_12774.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     ErrorLocation_12774.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_13004.aux
+           bug_13004.vo
+           bug_13004.glob
+           bug_13004.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_13004.v
+        .././../user-contrib/Ltac2/Ltac2.vo
+        .././../user-contrib/Ltac2/Message.vo)
+  (action
+   (with-outputs-to bug_13004.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug_13004.v))))
+ (rule
+  (alias runtest)
+  (targets bug_13004.v.log)
+  (deps bug_13004.v.log.pre)
+  (action
+   (with-outputs-to bug_13004.v.log
+    (with-stdin-from bug_13004.v
+     (run ../tools/amend-output-log.sh bug_13004.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_13004.out
+        bug_13004.v.log)
+  (action
+   (diff bug_13004.out bug_13004.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_13004.v.chk.log)
+  (deps bug_13004.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_13004.v
+        .././../user-contrib/Ltac2/Ltac2.vo
+        .././../user-contrib/Ltac2/Message.vo)
+  (action
+   (with-outputs-to bug_13004.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     bug_13004.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_13238.aux
+           bug_13238.vo
+           bug_13238.glob
+           bug_13238.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_13238.v
+        .././../theories/ssr/ssreflect.vo)
+  (action
+   (with-outputs-to bug_13238.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug_13238.v))))
+ (rule
+  (alias runtest)
+  (targets bug_13238.v.log)
+  (deps bug_13238.v.log.pre)
+  (action
+   (with-outputs-to bug_13238.v.log
+    (with-stdin-from bug_13238.v
+     (run ../tools/amend-output-log.sh bug_13238.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_13238.out
+        bug_13238.v.log)
+  (action
+   (diff bug_13238.out bug_13238.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_13238.v.chk.log)
+  (deps bug_13238.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_13238.v
+        .././../theories/ssr/ssreflect.vo)
+  (action
+   (with-outputs-to bug_13238.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     bug_13238.vo))))
+ (rule
+  (alias runtest)
+  (targets .NoAxiomFromR.aux
+           NoAxiomFromR.vo
+           NoAxiomFromR.glob
+           NoAxiomFromR.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/NoAxiomFromR.v
+        .././../theories/micromega/Psatz.vo)
+  (action
+   (with-outputs-to NoAxiomFromR.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force NoAxiomFromR.v))))
+ (rule
+  (alias runtest)
+  (targets NoAxiomFromR.v.log)
+  (deps NoAxiomFromR.v.log.pre)
+  (action
+   (with-outputs-to NoAxiomFromR.v.log
+    (with-stdin-from NoAxiomFromR.v
+     (run ../tools/amend-output-log.sh NoAxiomFromR.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps NoAxiomFromR.out
+        NoAxiomFromR.v.log)
+  (action
+   (diff NoAxiomFromR.out NoAxiomFromR.v.log)))
+ (rule
+  (alias runtest)
+  (targets NoAxiomFromR.v.chk.log)
+  (deps NoAxiomFromR.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/NoAxiomFromR.v
+        .././../theories/micromega/Psatz.vo)
+  (action
+   (with-outputs-to NoAxiomFromR.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     NoAxiomFromR.vo))))
+ (rule
+  (alias runtest)
+  (targets .PrintAssumptions.aux
+           PrintAssumptions.vo
+           PrintAssumptions.glob
+           PrintAssumptions.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/PrintAssumptions.v
+        .././../theories/Arith/Arith.vo
+        .././prerequisite/module_bug7192.vo
+        .././prerequisite/module_bug8416.vo)
+  (action
+   (with-outputs-to PrintAssumptions.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force PrintAssumptions.v))))
+ (rule
+  (alias runtest)
+  (targets PrintAssumptions.v.log)
+  (deps PrintAssumptions.v.log.pre)
+  (action
+   (with-outputs-to PrintAssumptions.v.log
+    (with-stdin-from PrintAssumptions.v
+     (run ../tools/amend-output-log.sh PrintAssumptions.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps PrintAssumptions.out
+        PrintAssumptions.v.log)
+  (action
+   (diff PrintAssumptions.out PrintAssumptions.v.log)))
+ (rule
+  (alias runtest)
+  (targets PrintAssumptions.v.chk.log)
+  (deps PrintAssumptions.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/PrintAssumptions.v
+        .././../theories/Arith/Arith.vo
+        .././prerequisite/module_bug7192.vo
+        .././prerequisite/module_bug8416.vo)
+  (action
+   (with-outputs-to PrintAssumptions.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     PrintAssumptions.vo))))
+ (rule
+  (alias runtest)
+  (targets .NotationSyntax.aux
+           NotationSyntax.vo
+           NotationSyntax.glob
+           NotationSyntax.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/NotationSyntax.v)
+  (action
+   (with-outputs-to NotationSyntax.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force NotationSyntax.v))))
+ (rule
+  (alias runtest)
+  (targets NotationSyntax.v.log)
+  (deps NotationSyntax.v.log.pre)
+  (action
+   (with-outputs-to NotationSyntax.v.log
+    (with-stdin-from NotationSyntax.v
+     (run ../tools/amend-output-log.sh NotationSyntax.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps NotationSyntax.out
+        NotationSyntax.v.log)
+  (action
+   (diff NotationSyntax.out NotationSyntax.v.log)))
+ (rule
+  (alias runtest)
+  (targets NotationSyntax.v.chk.log)
+  (deps NotationSyntax.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/NotationSyntax.v)
+  (action
+   (with-outputs-to NotationSyntax.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     NotationSyntax.vo))))
+ (rule
+  (alias runtest)
+  (targets .InductiveMainName.aux
+           InductiveMainName.vo
+           InductiveMainName.glob
+           InductiveMainName.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/InductiveMainName.v)
+  (action
+   (with-outputs-to InductiveMainName.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force InductiveMainName.v))))
+ (rule
+  (alias runtest)
+  (targets InductiveMainName.v.log)
+  (deps InductiveMainName.v.log.pre)
+  (action
+   (with-outputs-to InductiveMainName.v.log
+    (with-stdin-from InductiveMainName.v
+     (run ../tools/amend-output-log.sh InductiveMainName.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps InductiveMainName.out
+        InductiveMainName.v.log)
+  (action
+   (diff InductiveMainName.out InductiveMainName.v.log)))
+ (rule
+  (alias runtest)
+  (targets InductiveMainName.v.chk.log)
+  (deps InductiveMainName.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/InductiveMainName.v)
+  (action
+   (with-outputs-to InductiveMainName.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     InductiveMainName.vo))))
+ (rule
+  (alias runtest)
+  (targets .HintLocality.aux
+           HintLocality.vo
+           HintLocality.glob
+           HintLocality.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/HintLocality.v)
+  (action
+   (with-outputs-to HintLocality.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force HintLocality.v))))
+ (rule
+  (alias runtest)
+  (targets HintLocality.v.log)
+  (deps HintLocality.v.log.pre)
+  (action
+   (with-outputs-to HintLocality.v.log
+    (with-stdin-from HintLocality.v
+     (run ../tools/amend-output-log.sh HintLocality.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps HintLocality.out
+        HintLocality.v.log)
+  (action
+   (diff HintLocality.out HintLocality.v.log)))
+ (rule
+  (alias runtest)
+  (targets HintLocality.v.chk.log)
+  (deps HintLocality.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/HintLocality.v)
+  (action
+   (with-outputs-to HintLocality.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     HintLocality.vo))))
+ (rule
+  (alias runtest)
+  (targets .Extraction_matchs_2413.aux
+           Extraction_matchs_2413.vo
+           Extraction_matchs_2413.glob
+           Extraction_matchs_2413.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Extraction_matchs_2413.v
+        .././../theories/extraction/Extraction.vo)
+  (action
+   (with-outputs-to Extraction_matchs_2413.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force Extraction_matchs_2413.v))))
+ (rule
+  (alias runtest)
+  (targets Extraction_matchs_2413.v.log)
+  (deps Extraction_matchs_2413.v.log.pre)
+  (action
+   (with-outputs-to Extraction_matchs_2413.v.log
+    (with-stdin-from Extraction_matchs_2413.v
+     (run ../tools/amend-output-log.sh Extraction_matchs_2413.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Extraction_matchs_2413.out
+        Extraction_matchs_2413.v.log)
+  (action
+   (diff Extraction_matchs_2413.out Extraction_matchs_2413.v.log)))
+ (rule
+  (alias runtest)
+  (targets Extraction_matchs_2413.v.chk.log)
+  (deps Extraction_matchs_2413.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Extraction_matchs_2413.v
+        .././../theories/extraction/Extraction.vo)
+  (action
+   (with-outputs-to Extraction_matchs_2413.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     Extraction_matchs_2413.vo))))
+ (rule
+  (alias runtest)
+  (targets .SearchRewrite.aux
+           SearchRewrite.vo
+           SearchRewrite.glob
+           SearchRewrite.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/SearchRewrite.v)
+  (action
+   (with-outputs-to SearchRewrite.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force SearchRewrite.v))))
+ (rule
+  (alias runtest)
+  (targets SearchRewrite.v.log)
+  (deps SearchRewrite.v.log.pre)
+  (action
+   (with-outputs-to SearchRewrite.v.log
+    (with-stdin-from SearchRewrite.v
+     (run ../tools/amend-output-log.sh SearchRewrite.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps SearchRewrite.out
+        SearchRewrite.v.log)
+  (action
+   (diff SearchRewrite.out SearchRewrite.v.log)))
+ (rule
+  (alias runtest)
+  (targets SearchRewrite.v.chk.log)
+  (deps SearchRewrite.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/SearchRewrite.v)
+  (action
+   (with-outputs-to SearchRewrite.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     SearchRewrite.vo))))
+ (rule
+  (alias runtest)
+  (targets .Int63NumberSyntax.aux
+           Int63NumberSyntax.vo
+           Int63NumberSyntax.glob
+           Int63NumberSyntax.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Int63NumberSyntax.v
+        .././../theories/Numbers/Cyclic/Int63/PrimInt63.vo
+        .././../theories/Numbers/Cyclic/Int63/Uint63.vo)
+  (action
+   (with-outputs-to Int63NumberSyntax.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force Int63NumberSyntax.v))))
+ (rule
+  (alias runtest)
+  (targets Int63NumberSyntax.v.log)
+  (deps Int63NumberSyntax.v.log.pre)
+  (action
+   (with-outputs-to Int63NumberSyntax.v.log
+    (with-stdin-from Int63NumberSyntax.v
+     (run ../tools/amend-output-log.sh Int63NumberSyntax.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Int63NumberSyntax.out
+        Int63NumberSyntax.v.log)
+  (action
+   (diff Int63NumberSyntax.out Int63NumberSyntax.v.log)))
+ (rule
+  (alias runtest)
+  (targets Int63NumberSyntax.v.chk.log)
+  (deps Int63NumberSyntax.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Int63NumberSyntax.v
+        .././../theories/Numbers/Cyclic/Int63/PrimInt63.vo
+        .././../theories/Numbers/Cyclic/Int63/Uint63.vo)
+  (action
+   (with-outputs-to Int63NumberSyntax.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     Int63NumberSyntax.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_12887.aux
+           bug_12887.vo
+           bug_12887.glob
+           bug_12887.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_12887.v)
+  (action
+   (with-outputs-to bug_12887.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug_12887.v))))
+ (rule
+  (alias runtest)
+  (targets bug_12887.v.log)
+  (deps bug_12887.v.log.pre)
+  (action
+   (with-outputs-to bug_12887.v.log
+    (with-stdin-from bug_12887.v
+     (run ../tools/amend-output-log.sh bug_12887.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_12887.out
+        bug_12887.v.log)
+  (action
+   (diff bug_12887.out bug_12887.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_12887.v.chk.log)
+  (deps bug_12887.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_12887.v)
+  (action
+   (with-outputs-to bug_12887.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     bug_12887.vo))))
+ (rule
+  (alias runtest)
+  (targets .Naming.aux
+           Naming.vo
+           Naming.glob
+           Naming.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Naming.v)
+  (action
+   (with-outputs-to Naming.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force Naming.v))))
+ (rule
+  (alias runtest)
+  (targets Naming.v.log)
+  (deps Naming.v.log.pre)
+  (action
+   (with-outputs-to Naming.v.log
+    (with-stdin-from Naming.v
+     (run ../tools/amend-output-log.sh Naming.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Naming.out
+        Naming.v.log)
+  (action
+   (diff Naming.out Naming.v.log)))
+ (rule
+  (alias runtest)
+  (targets Naming.v.chk.log)
+  (deps Naming.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Naming.v)
+  (action
+   (with-outputs-to Naming.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec Naming.vo))))
+ (rule
+  (alias runtest)
+  (targets .subst.aux
+           subst.vo
+           subst.glob
+           subst.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/subst.v)
+  (action
+   (with-outputs-to subst.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force subst.v))))
+ (rule
+  (alias runtest)
+  (targets subst.v.log)
+  (deps subst.v.log.pre)
+  (action
+   (with-outputs-to subst.v.log
+    (with-stdin-from subst.v
+     (run ../tools/amend-output-log.sh subst.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps subst.out
+        subst.v.log)
+  (action
+   (diff subst.out subst.v.log)))
+ (rule
+  (alias runtest)
+  (targets subst.v.chk.log)
+  (deps subst.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/subst.v)
+  (action
+   (with-outputs-to subst.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec subst.vo))))
+ (rule
+  (alias runtest)
+  (targets .reduction.aux
+           reduction.vo
+           reduction.glob
+           reduction.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/reduction.v)
+  (action
+   (with-outputs-to reduction.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force reduction.v))))
+ (rule
+  (alias runtest)
+  (targets reduction.v.log)
+  (deps reduction.v.log.pre)
+  (action
+   (with-outputs-to reduction.v.log
+    (with-stdin-from reduction.v
+     (run ../tools/amend-output-log.sh reduction.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps reduction.out
+        reduction.v.log)
+  (action
+   (diff reduction.out reduction.v.log)))
+ (rule
+  (alias runtest)
+  (targets reduction.v.chk.log)
+  (deps reduction.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/reduction.v)
+  (action
+   (with-outputs-to reduction.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     reduction.vo))))
+ (rule
+  (alias runtest)
+  (targets .ShowMatch.aux
+           ShowMatch.vo
+           ShowMatch.glob
+           ShowMatch.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ShowMatch.v)
+  (action
+   (with-outputs-to ShowMatch.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force ShowMatch.v))))
+ (rule
+  (alias runtest)
+  (targets ShowMatch.v.log)
+  (deps ShowMatch.v.log.pre)
+  (action
+   (with-outputs-to ShowMatch.v.log
+    (with-stdin-from ShowMatch.v
+     (run ../tools/amend-output-log.sh ShowMatch.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps ShowMatch.out
+        ShowMatch.v.log)
+  (action
+   (diff ShowMatch.out ShowMatch.v.log)))
+ (rule
+  (alias runtest)
+  (targets ShowMatch.v.chk.log)
+  (deps ShowMatch.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ShowMatch.v)
+  (action
+   (with-outputs-to ShowMatch.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     ShowMatch.vo))))
+ (rule
+  (alias runtest)
+  (targets .inference.aux
+           inference.vo
+           inference.glob
+           inference.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/inference.v)
+  (action
+   (with-outputs-to inference.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force inference.v))))
+ (rule
+  (alias runtest)
+  (targets inference.v.log)
+  (deps inference.v.log.pre)
+  (action
+   (with-outputs-to inference.v.log
+    (with-stdin-from inference.v
+     (run ../tools/amend-output-log.sh inference.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps inference.out
+        inference.v.log)
+  (action
+   (diff inference.out inference.v.log)))
+ (rule
+  (alias runtest)
+  (targets inference.v.chk.log)
+  (deps inference.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/inference.v)
+  (action
+   (with-outputs-to inference.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     inference.vo))))
+ (rule
+  (alias runtest)
+  (targets .Emacs_and_diffs.aux
+           Emacs_and_diffs.vo
+           Emacs_and_diffs.glob
+           Emacs_and_diffs.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Emacs_and_diffs.v)
+  (action
+   (with-outputs-to Emacs_and_diffs.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -emacs -test-mode
+     -async-proofs-cache force Emacs_and_diffs.v))))
+ (rule
+  (alias runtest)
+  (targets Emacs_and_diffs.v.log)
+  (deps Emacs_and_diffs.v.log.pre)
+  (action
+   (with-outputs-to Emacs_and_diffs.v.log
+    (with-stdin-from Emacs_and_diffs.v
+     (run ../tools/amend-output-log.sh Emacs_and_diffs.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Emacs_and_diffs.out
+        Emacs_and_diffs.v.log)
+  (action
+   (diff Emacs_and_diffs.out Emacs_and_diffs.v.log)))
+ (rule
+  (alias runtest)
+  (targets Emacs_and_diffs.v.chk.log)
+  (deps Emacs_and_diffs.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Emacs_and_diffs.v)
+  (action
+   (with-outputs-to Emacs_and_diffs.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     Emacs_and_diffs.vo))))
+ (rule
+  (alias runtest)
+  (targets .injection.aux
+           injection.vo
+           injection.glob
+           injection.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/injection.v)
+  (action
+   (with-outputs-to injection.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force injection.v))))
+ (rule
+  (alias runtest)
+  (targets injection.v.log)
+  (deps injection.v.log.pre)
+  (action
+   (with-outputs-to injection.v.log
+    (with-stdin-from injection.v
+     (run ../tools/amend-output-log.sh injection.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps injection.out
+        injection.v.log)
+  (action
+   (diff injection.out injection.v.log)))
+ (rule
+  (alias runtest)
+  (targets injection.v.chk.log)
+  (deps injection.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/injection.v)
+  (action
+   (with-outputs-to injection.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     injection.vo))))
+ (rule
+  (alias runtest)
+  (targets .Sint63NumberSyntax.aux
+           Sint63NumberSyntax.vo
+           Sint63NumberSyntax.glob
+           Sint63NumberSyntax.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Sint63NumberSyntax.v
+        .././../theories/Numbers/Cyclic/Int63/Sint63.vo)
+  (action
+   (with-outputs-to Sint63NumberSyntax.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force Sint63NumberSyntax.v))))
+ (rule
+  (alias runtest)
+  (targets Sint63NumberSyntax.v.log)
+  (deps Sint63NumberSyntax.v.log.pre)
+  (action
+   (with-outputs-to Sint63NumberSyntax.v.log
+    (with-stdin-from Sint63NumberSyntax.v
+     (run ../tools/amend-output-log.sh Sint63NumberSyntax.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Sint63NumberSyntax.out
+        Sint63NumberSyntax.v.log)
+  (action
+   (diff Sint63NumberSyntax.out Sint63NumberSyntax.v.log)))
+ (rule
+  (alias runtest)
+  (targets Sint63NumberSyntax.v.chk.log)
+  (deps Sint63NumberSyntax.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Sint63NumberSyntax.v
+        .././../theories/Numbers/Cyclic/Int63/Sint63.vo)
+  (action
+   (with-outputs-to Sint63NumberSyntax.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     Sint63NumberSyntax.vo))))
+ (rule
+  (alias runtest)
+  (targets .PrintNotation.aux
+           PrintNotation.vo
+           PrintNotation.glob
+           PrintNotation.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/PrintNotation.v)
+  (action
+   (with-outputs-to PrintNotation.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force PrintNotation.v))))
+ (rule
+  (alias runtest)
+  (targets PrintNotation.v.log)
+  (deps PrintNotation.v.log.pre)
+  (action
+   (with-outputs-to PrintNotation.v.log
+    (with-stdin-from PrintNotation.v
+     (run ../tools/amend-output-log.sh PrintNotation.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps PrintNotation.out
+        PrintNotation.v.log)
+  (action
+   (diff PrintNotation.out PrintNotation.v.log)))
+ (rule
+  (alias runtest)
+  (targets PrintNotation.v.chk.log)
+  (deps PrintNotation.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/PrintNotation.v)
+  (action
+   (with-outputs-to PrintNotation.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     PrintNotation.vo))))
+ (rule
+  (alias runtest)
+  (targets .TranspModtype.aux
+           TranspModtype.vo
+           TranspModtype.glob
+           TranspModtype.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/TranspModtype.v)
+  (action
+   (with-outputs-to TranspModtype.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force TranspModtype.v))))
+ (rule
+  (alias runtest)
+  (targets TranspModtype.v.log)
+  (deps TranspModtype.v.log.pre)
+  (action
+   (with-outputs-to TranspModtype.v.log
+    (with-stdin-from TranspModtype.v
+     (run ../tools/amend-output-log.sh TranspModtype.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps TranspModtype.out
+        TranspModtype.v.log)
+  (action
+   (diff TranspModtype.out TranspModtype.v.log)))
+ (rule
+  (alias runtest)
+  (targets TranspModtype.v.chk.log)
+  (deps TranspModtype.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/TranspModtype.v)
+  (action
+   (with-outputs-to TranspModtype.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     TranspModtype.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_10803.aux
+           bug_10803.vo
+           bug_10803.glob
+           bug_10803.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_10803.v)
+  (action
+   (with-outputs-to bug_10803.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug_10803.v))))
+ (rule
+  (alias runtest)
+  (targets bug_10803.v.log)
+  (deps bug_10803.v.log.pre)
+  (action
+   (with-outputs-to bug_10803.v.log
+    (with-stdin-from bug_10803.v
+     (run ../tools/amend-output-log.sh bug_10803.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_10803.out
+        bug_10803.v.log)
+  (action
+   (diff bug_10803.out bug_10803.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_10803.v.chk.log)
+  (deps bug_10803.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_10803.v)
+  (action
+   (with-outputs-to bug_10803.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     bug_10803.vo))))
+ (rule
+  (alias runtest)
+  (targets .Arguments.aux
+           Arguments.vo
+           Arguments.glob
+           Arguments.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Arguments.v)
+  (action
+   (with-outputs-to Arguments.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -top Arguments
+     -test-mode -async-proofs-cache force Arguments.v))))
+ (rule
+  (alias runtest)
+  (targets Arguments.v.log)
+  (deps Arguments.v.log.pre)
+  (action
+   (with-outputs-to Arguments.v.log
+    (with-stdin-from Arguments.v
+     (run ../tools/amend-output-log.sh Arguments.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Arguments.out
+        Arguments.v.log)
+  (action
+   (diff Arguments.out Arguments.v.log)))
+ (rule
+  (alias runtest)
+  (targets Arguments.v.chk.log)
+  (deps Arguments.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Arguments.v)
+  (action
+   (with-outputs-to Arguments.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     Arguments.vo))))
+ (rule
+  (alias runtest)
+  (targets .ErrorLocation_ltac.aux
+           ErrorLocation_ltac.vo
+           ErrorLocation_ltac.glob
+           ErrorLocation_ltac.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ErrorLocation_ltac.v)
+  (action
+   (with-outputs-to ErrorLocation_ltac.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force ErrorLocation_ltac.v))))
+ (rule
+  (alias runtest)
+  (targets ErrorLocation_ltac.v.log)
+  (deps ErrorLocation_ltac.v.log.pre)
+  (action
+   (with-outputs-to ErrorLocation_ltac.v.log
+    (with-stdin-from ErrorLocation_ltac.v
+     (run ../tools/amend-output-log.sh ErrorLocation_ltac.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps ErrorLocation_ltac.out
+        ErrorLocation_ltac.v.log)
+  (action
+   (diff ErrorLocation_ltac.out ErrorLocation_ltac.v.log)))
+ (rule
+  (alias runtest)
+  (targets ErrorLocation_ltac.v.chk.log)
+  (deps ErrorLocation_ltac.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ErrorLocation_ltac.v)
+  (action
+   (with-outputs-to ErrorLocation_ltac.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     ErrorLocation_ltac.vo))))
+ (rule
+  (alias runtest)
+  (targets .FloatExtraction.aux
+           FloatExtraction.vo
+           FloatExtraction.glob
+           FloatExtraction.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/FloatExtraction.v
+        .././../theories/Floats/Floats.vo
+        .././../theories/extraction/ExtrOCamlFloats.vo
+        .././../theories/Lists/List.vo)
+  (action
+   (with-outputs-to FloatExtraction.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force FloatExtraction.v))))
+ (rule
+  (alias runtest)
+  (targets FloatExtraction.v.log)
+  (deps FloatExtraction.v.log.pre)
+  (action
+   (with-outputs-to FloatExtraction.v.log
+    (with-stdin-from FloatExtraction.v
+     (run ../tools/amend-output-log.sh FloatExtraction.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps FloatExtraction.out
+        FloatExtraction.v.log)
+  (action
+   (diff FloatExtraction.out FloatExtraction.v.log)))
+ (rule
+  (alias runtest)
+  (targets FloatExtraction.v.chk.log)
+  (deps FloatExtraction.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/FloatExtraction.v
+        .././../theories/Floats/Floats.vo
+        .././../theories/extraction/ExtrOCamlFloats.vo
+        .././../theories/Lists/List.vo)
+  (action
+   (with-outputs-to FloatExtraction.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     FloatExtraction.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_13857.aux
+           bug_13857.vo
+           bug_13857.glob
+           bug_13857.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_13857.v)
+  (action
+   (with-outputs-to bug_13857.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug_13857.v))))
+ (rule
+  (alias runtest)
+  (targets bug_13857.v.log)
+  (deps bug_13857.v.log.pre)
+  (action
+   (with-outputs-to bug_13857.v.log
+    (with-stdin-from bug_13857.v
+     (run ../tools/amend-output-log.sh bug_13857.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_13857.out
+        bug_13857.v.log)
+  (action
+   (diff bug_13857.out bug_13857.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_13857.v.chk.log)
+  (deps bug_13857.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_13857.v)
+  (action
+   (with-outputs-to bug_13857.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     bug_13857.vo))))
+ (rule
+  (alias runtest)
+  (targets .detype_cast.aux
+           detype_cast.vo
+           detype_cast.glob
+           detype_cast.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/detype_cast.v)
+  (action
+   (with-outputs-to detype_cast.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force detype_cast.v))))
+ (rule
+  (alias runtest)
+  (targets detype_cast.v.log)
+  (deps detype_cast.v.log.pre)
+  (action
+   (with-outputs-to detype_cast.v.log
+    (with-stdin-from detype_cast.v
+     (run ../tools/amend-output-log.sh detype_cast.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps detype_cast.out
+        detype_cast.v.log)
+  (action
+   (diff detype_cast.out detype_cast.v.log)))
+ (rule
+  (alias runtest)
+  (targets detype_cast.v.chk.log)
+  (deps detype_cast.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/detype_cast.v)
+  (action
+   (with-outputs-to detype_cast.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     detype_cast.vo))))
+ (rule
+  (alias runtest)
+  (targets .DebugFlags.aux
+           DebugFlags.vo
+           DebugFlags.glob
+           DebugFlags.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/DebugFlags.v)
+  (action
+   (with-outputs-to DebugFlags.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force DebugFlags.v))))
+ (rule
+  (alias runtest)
+  (targets DebugFlags.v.log)
+  (deps DebugFlags.v.log.pre)
+  (action
+   (with-outputs-to DebugFlags.v.log
+    (with-stdin-from DebugFlags.v
+     (run ../tools/amend-output-log.sh DebugFlags.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps DebugFlags.out
+        DebugFlags.v.log)
+  (action
+   (diff DebugFlags.out DebugFlags.v.log)))
+ (rule
+  (alias runtest)
+  (targets DebugFlags.v.chk.log)
+  (deps DebugFlags.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/DebugFlags.v)
+  (action
+   (with-outputs-to DebugFlags.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     DebugFlags.vo))))
+ (rule
+  (alias runtest)
+  (targets .extra_dep.aux
+           extra_dep.vo
+           extra_dep.glob
+           extra_dep.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/extra_dep.v)
+  (action
+   (with-outputs-to extra_dep.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force extra_dep.v))))
+ (rule
+  (alias runtest)
+  (targets extra_dep.v.log)
+  (deps extra_dep.v.log.pre)
+  (action
+   (with-outputs-to extra_dep.v.log
+    (with-stdin-from extra_dep.v
+     (run ../tools/amend-output-log.sh extra_dep.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps extra_dep.out
+        extra_dep.v.log)
+  (action
+   (diff extra_dep.out extra_dep.v.log)))
+ (rule
+  (alias runtest)
+  (targets extra_dep.v.chk.log)
+  (deps extra_dep.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/extra_dep.v)
+  (action
+   (with-outputs-to extra_dep.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     extra_dep.vo))))
+ (rule
+  (alias runtest)
+  (targets .QArithSyntax.aux
+           QArithSyntax.vo
+           QArithSyntax.glob
+           QArithSyntax.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/QArithSyntax.v
+        .././../theories/QArith/QArith.vo)
+  (action
+   (with-outputs-to QArithSyntax.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force QArithSyntax.v))))
+ (rule
+  (alias runtest)
+  (targets QArithSyntax.v.log)
+  (deps QArithSyntax.v.log.pre)
+  (action
+   (with-outputs-to QArithSyntax.v.log
+    (with-stdin-from QArithSyntax.v
+     (run ../tools/amend-output-log.sh QArithSyntax.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps QArithSyntax.out
+        QArithSyntax.v.log)
+  (action
+   (diff QArithSyntax.out QArithSyntax.v.log)))
+ (rule
+  (alias runtest)
+  (targets QArithSyntax.v.chk.log)
+  (deps QArithSyntax.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/QArithSyntax.v
+        .././../theories/QArith/QArith.vo)
+  (action
+   (with-outputs-to QArithSyntax.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     QArithSyntax.vo))))
+ (rule
+  (alias runtest)
+  (targets .Extraction_Haskell_String_12258.aux
+           Extraction_Haskell_String_12258.vo
+           Extraction_Haskell_String_12258.glob
+           Extraction_Haskell_String_12258.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Extraction_Haskell_String_12258.v
+        .././../theories/extraction/Extraction.vo
+        .././../theories/extraction/ExtrHaskellString.vo)
+  (action
+   (with-outputs-to Extraction_Haskell_String_12258.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force Extraction_Haskell_String_12258.v))))
+ (rule
+  (alias runtest)
+  (targets Extraction_Haskell_String_12258.v.log)
+  (deps Extraction_Haskell_String_12258.v.log.pre)
+  (action
+   (with-outputs-to Extraction_Haskell_String_12258.v.log
+    (with-stdin-from Extraction_Haskell_String_12258.v
+     (run ../tools/amend-output-log.sh
+      Extraction_Haskell_String_12258.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Extraction_Haskell_String_12258.out
+        Extraction_Haskell_String_12258.v.log)
+  (action
+   (diff Extraction_Haskell_String_12258.out
+    Extraction_Haskell_String_12258.v.log)))
+ (rule
+  (alias runtest)
+  (targets Extraction_Haskell_String_12258.v.chk.log)
+  (deps Extraction_Haskell_String_12258.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Extraction_Haskell_String_12258.v
+        .././../theories/extraction/Extraction.vo
+        .././../theories/extraction/ExtrHaskellString.vo)
+  (action
+   (with-outputs-to Extraction_Haskell_String_12258.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     Extraction_Haskell_String_12258.vo))))
+ (rule
+  (alias runtest)
+  (targets .NumberNotations.aux
+           NumberNotations.vo
+           NumberNotations.glob
+           NumberNotations.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/NumberNotations.v
+        .././../theories/Numbers/Cyclic/Int63/Uint63.vo
+        .././../theories/Lists/List.vo
+        .././../theories/ZArith/ZArith.vo
+        .././../theories/Vectors/Vector.vo
+        .././../theories/Floats/Floats.vo)
+  (action
+   (with-outputs-to NumberNotations.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force NumberNotations.v))))
+ (rule
+  (alias runtest)
+  (targets NumberNotations.v.log)
+  (deps NumberNotations.v.log.pre)
+  (action
+   (with-outputs-to NumberNotations.v.log
+    (with-stdin-from NumberNotations.v
+     (run ../tools/amend-output-log.sh NumberNotations.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps NumberNotations.out
+        NumberNotations.v.log)
+  (action
+   (diff NumberNotations.out NumberNotations.v.log)))
+ (rule
+  (alias runtest)
+  (targets NumberNotations.v.chk.log)
+  (deps NumberNotations.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/NumberNotations.v
+        .././../theories/Numbers/Cyclic/Int63/Uint63.vo
+        .././../theories/Lists/List.vo
+        .././../theories/ZArith/ZArith.vo
+        .././../theories/Vectors/Vector.vo
+        .././../theories/Floats/Floats.vo)
+  (action
+   (with-outputs-to NumberNotations.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     NumberNotations.vo))))
+ (rule
+  (alias runtest)
+  (targets .ErrorModuleWith.aux
+           ErrorModuleWith.vo
+           ErrorModuleWith.glob
+           ErrorModuleWith.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ErrorModuleWith.v)
+  (action
+   (with-outputs-to ErrorModuleWith.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force ErrorModuleWith.v))))
+ (rule
+  (alias runtest)
+  (targets ErrorModuleWith.v.log)
+  (deps ErrorModuleWith.v.log.pre)
+  (action
+   (with-outputs-to ErrorModuleWith.v.log
+    (with-stdin-from ErrorModuleWith.v
+     (run ../tools/amend-output-log.sh ErrorModuleWith.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps ErrorModuleWith.out
+        ErrorModuleWith.v.log)
+  (action
+   (diff ErrorModuleWith.out ErrorModuleWith.v.log)))
+ (rule
+  (alias runtest)
+  (targets ErrorModuleWith.v.chk.log)
+  (deps ErrorModuleWith.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ErrorModuleWith.v)
+  (action
+   (with-outputs-to ErrorModuleWith.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     ErrorModuleWith.vo))))
+ (rule
+  (alias runtest)
+  (targets .PrintModule.aux
+           PrintModule.vo
+           PrintModule.glob
+           PrintModule.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/PrintModule.v)
+  (action
+   (with-outputs-to PrintModule.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force PrintModule.v))))
+ (rule
+  (alias runtest)
+  (targets PrintModule.v.log)
+  (deps PrintModule.v.log.pre)
+  (action
+   (with-outputs-to PrintModule.v.log
+    (with-stdin-from PrintModule.v
+     (run ../tools/amend-output-log.sh PrintModule.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps PrintModule.out
+        PrintModule.v.log)
+  (action
+   (diff PrintModule.out PrintModule.v.log)))
+ (rule
+  (alias runtest)
+  (targets PrintModule.v.chk.log)
+  (deps PrintModule.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/PrintModule.v)
+  (action
+   (with-outputs-to PrintModule.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     PrintModule.vo))))
+ (rule
+  (alias runtest)
+  (targets .CompactContexts.aux
+           CompactContexts.vo
+           CompactContexts.glob
+           CompactContexts.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/CompactContexts.v)
+  (action
+   (with-outputs-to CompactContexts.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force CompactContexts.v))))
+ (rule
+  (alias runtest)
+  (targets CompactContexts.v.log)
+  (deps CompactContexts.v.log.pre)
+  (action
+   (with-outputs-to CompactContexts.v.log
+    (with-stdin-from CompactContexts.v
+     (run ../tools/amend-output-log.sh CompactContexts.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps CompactContexts.out
+        CompactContexts.v.log)
+  (action
+   (diff CompactContexts.out CompactContexts.v.log)))
+ (rule
+  (alias runtest)
+  (targets CompactContexts.v.chk.log)
+  (deps CompactContexts.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/CompactContexts.v)
+  (action
+   (with-outputs-to CompactContexts.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     CompactContexts.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_8206.aux
+           bug_8206.vo
+           bug_8206.glob
+           bug_8206.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_8206.v)
+  (action
+   (with-outputs-to bug_8206.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug_8206.v))))
+ (rule
+  (alias runtest)
+  (targets bug_8206.v.log)
+  (deps bug_8206.v.log.pre)
+  (action
+   (with-outputs-to bug_8206.v.log
+    (with-stdin-from bug_8206.v
+     (run ../tools/amend-output-log.sh bug_8206.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_8206.out
+        bug_8206.v.log)
+  (action
+   (diff bug_8206.out bug_8206.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_8206.v.chk.log)
+  (deps bug_8206.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_8206.v)
+  (action
+   (with-outputs-to bug_8206.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec bug_8206.vo))))
+ (rule
+  (alias runtest)
+  (targets .SuggestProofUsing.aux
+           SuggestProofUsing.vo
+           SuggestProofUsing.glob
+           SuggestProofUsing.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/SuggestProofUsing.v
+        .././../theories/Program/Tactics.vo)
+  (action
+   (with-outputs-to SuggestProofUsing.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force SuggestProofUsing.v))))
+ (rule
+  (alias runtest)
+  (targets SuggestProofUsing.v.log)
+  (deps SuggestProofUsing.v.log.pre)
+  (action
+   (with-outputs-to SuggestProofUsing.v.log
+    (with-stdin-from SuggestProofUsing.v
+     (run ../tools/amend-output-log.sh SuggestProofUsing.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps SuggestProofUsing.out
+        SuggestProofUsing.v.log)
+  (action
+   (diff SuggestProofUsing.out SuggestProofUsing.v.log)))
+ (rule
+  (alias runtest)
+  (targets SuggestProofUsing.v.chk.log)
+  (deps SuggestProofUsing.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/SuggestProofUsing.v
+        .././../theories/Program/Tactics.vo)
+  (action
+   (with-outputs-to SuggestProofUsing.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     SuggestProofUsing.vo))))
+ (rule
+  (alias runtest)
+  (targets .InitSyntax.aux
+           InitSyntax.vo
+           InitSyntax.glob
+           InitSyntax.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/InitSyntax.v)
+  (action
+   (with-outputs-to InitSyntax.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force InitSyntax.v))))
+ (rule
+  (alias runtest)
+  (targets InitSyntax.v.log)
+  (deps InitSyntax.v.log.pre)
+  (action
+   (with-outputs-to InitSyntax.v.log
+    (with-stdin-from InitSyntax.v
+     (run ../tools/amend-output-log.sh InitSyntax.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps InitSyntax.out
+        InitSyntax.v.log)
+  (action
+   (diff InitSyntax.out InitSyntax.v.log)))
+ (rule
+  (alias runtest)
+  (targets InitSyntax.v.chk.log)
+  (deps InitSyntax.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/InitSyntax.v)
+  (action
+   (with-outputs-to InitSyntax.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     InitSyntax.vo))))
+ (rule
+  (alias runtest)
+  (targets .Deprecation.aux
+           Deprecation.vo
+           Deprecation.glob
+           Deprecation.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Deprecation.v)
+  (action
+   (with-outputs-to Deprecation.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force Deprecation.v))))
+ (rule
+  (alias runtest)
+  (targets Deprecation.v.log)
+  (deps Deprecation.v.log.pre)
+  (action
+   (with-outputs-to Deprecation.v.log
+    (with-stdin-from Deprecation.v
+     (run ../tools/amend-output-log.sh Deprecation.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Deprecation.out
+        Deprecation.v.log)
+  (action
+   (diff Deprecation.out Deprecation.v.log)))
+ (rule
+  (alias runtest)
+  (targets Deprecation.v.chk.log)
+  (deps Deprecation.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Deprecation.v)
+  (action
+   (with-outputs-to Deprecation.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     Deprecation.vo))))
+ (rule
+  (alias runtest)
+  (targets .ShowProof.aux
+           ShowProof.vo
+           ShowProof.glob
+           ShowProof.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ShowProof.v)
+  (action
+   (with-outputs-to ShowProof.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force ShowProof.v))))
+ (rule
+  (alias runtest)
+  (targets ShowProof.v.log)
+  (deps ShowProof.v.log.pre)
+  (action
+   (with-outputs-to ShowProof.v.log
+    (with-stdin-from ShowProof.v
+     (run ../tools/amend-output-log.sh ShowProof.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps ShowProof.out
+        ShowProof.v.log)
+  (action
+   (diff ShowProof.out ShowProof.v.log)))
+ (rule
+  (alias runtest)
+  (targets ShowProof.v.chk.log)
+  (deps ShowProof.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ShowProof.v)
+  (action
+   (with-outputs-to ShowProof.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     ShowProof.vo))))
+ (rule
+  (alias runtest)
+  (targets .UpdateLoc.aux
+           UpdateLoc.vo
+           UpdateLoc.glob
+           UpdateLoc.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/UpdateLoc.v)
+  (action
+   (with-outputs-to UpdateLoc.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force UpdateLoc.v))))
+ (rule
+  (alias runtest)
+  (targets UpdateLoc.v.log)
+  (deps UpdateLoc.v.log.pre)
+  (action
+   (with-outputs-to UpdateLoc.v.log
+    (with-stdin-from UpdateLoc.v
+     (run ../tools/amend-output-log.sh UpdateLoc.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps UpdateLoc.out
+        UpdateLoc.v.log)
+  (action
+   (diff UpdateLoc.out UpdateLoc.v.log)))
+ (rule
+  (alias runtest)
+  (targets UpdateLoc.v.chk.log)
+  (deps UpdateLoc.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/UpdateLoc.v)
+  (action
+   (with-outputs-to UpdateLoc.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     UpdateLoc.vo))))
+ (rule
+  (alias runtest)
+  (targets .ssr_error_multiple_intro_after_case.aux
+           ssr_error_multiple_intro_after_case.vo
+           ssr_error_multiple_intro_after_case.glob
+           ssr_error_multiple_intro_after_case.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ssr_error_multiple_intro_after_case.v
+        .././../theories/ssr/ssreflect.vo)
+  (action
+   (with-outputs-to ssr_error_multiple_intro_after_case.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force ssr_error_multiple_intro_after_case.v))))
+ (rule
+  (alias runtest)
+  (targets ssr_error_multiple_intro_after_case.v.log)
+  (deps ssr_error_multiple_intro_after_case.v.log.pre)
+  (action
+   (with-outputs-to ssr_error_multiple_intro_after_case.v.log
+    (with-stdin-from ssr_error_multiple_intro_after_case.v
+     (run ../tools/amend-output-log.sh
+      ssr_error_multiple_intro_after_case.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps ssr_error_multiple_intro_after_case.out
+        ssr_error_multiple_intro_after_case.v.log)
+  (action
+   (diff ssr_error_multiple_intro_after_case.out
+    ssr_error_multiple_intro_after_case.v.log)))
+ (rule
+  (alias runtest)
+  (targets ssr_error_multiple_intro_after_case.v.chk.log)
+  (deps ssr_error_multiple_intro_after_case.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ssr_error_multiple_intro_after_case.v
+        .././../theories/ssr/ssreflect.vo)
+  (action
+   (with-outputs-to ssr_error_multiple_intro_after_case.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     ssr_error_multiple_intro_after_case.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_15709.aux
+           bug_15709.vo
+           bug_15709.glob
+           bug_15709.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_15709.v
+        .././../theories/Strings/String.vo
+        .././../theories/Strings/Ascii.vo)
+  (action
+   (with-outputs-to bug_15709.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug_15709.v))))
+ (rule
+  (alias runtest)
+  (targets bug_15709.v.log)
+  (deps bug_15709.v.log.pre)
+  (action
+   (with-outputs-to bug_15709.v.log
+    (with-stdin-from bug_15709.v
+     (run ../tools/amend-output-log.sh bug_15709.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_15709.out
+        bug_15709.v.log)
+  (action
+   (diff bug_15709.out bug_15709.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_15709.v.chk.log)
+  (deps bug_15709.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_15709.v
+        .././../theories/Strings/String.vo
+        .././../theories/Strings/Ascii.vo)
+  (action
+   (with-outputs-to bug_15709.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     bug_15709.vo))))
+ (rule
+  (alias runtest)
+  (targets .PrintingParentheses.aux
+           PrintingParentheses.vo
+           PrintingParentheses.glob
+           PrintingParentheses.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/PrintingParentheses.v
+        .././../theories/Lists/List.vo)
+  (action
+   (with-outputs-to PrintingParentheses.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force PrintingParentheses.v))))
+ (rule
+  (alias runtest)
+  (targets PrintingParentheses.v.log)
+  (deps PrintingParentheses.v.log.pre)
+  (action
+   (with-outputs-to PrintingParentheses.v.log
+    (with-stdin-from PrintingParentheses.v
+     (run ../tools/amend-output-log.sh PrintingParentheses.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps PrintingParentheses.out
+        PrintingParentheses.v.log)
+  (action
+   (diff PrintingParentheses.out PrintingParentheses.v.log)))
+ (rule
+  (alias runtest)
+  (targets PrintingParentheses.v.chk.log)
+  (deps PrintingParentheses.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/PrintingParentheses.v
+        .././../theories/Lists/List.vo)
+  (action
+   (with-outputs-to PrintingParentheses.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     PrintingParentheses.vo))))
+ (rule
+  (alias runtest)
+  (targets .coercions_tc.aux
+           coercions_tc.vo
+           coercions_tc.glob
+           coercions_tc.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/coercions_tc.v)
+  (action
+   (with-outputs-to coercions_tc.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force coercions_tc.v))))
+ (rule
+  (alias runtest)
+  (targets coercions_tc.v.log)
+  (deps coercions_tc.v.log.pre)
+  (action
+   (with-outputs-to coercions_tc.v.log
+    (with-stdin-from coercions_tc.v
+     (run ../tools/amend-output-log.sh coercions_tc.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps coercions_tc.out
+        coercions_tc.v.log)
+  (action
+   (diff coercions_tc.out coercions_tc.v.log)))
+ (rule
+  (alias runtest)
+  (targets coercions_tc.v.chk.log)
+  (deps coercions_tc.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/coercions_tc.v)
+  (action
+   (with-outputs-to coercions_tc.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     coercions_tc.vo))))
+ (rule
+  (alias runtest)
+  (targets .RecognizePluginWarning.aux
+           RecognizePluginWarning.vo
+           RecognizePluginWarning.glob
+           RecognizePluginWarning.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/RecognizePluginWarning.v)
+  (action
+   (with-outputs-to RecognizePluginWarning.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -w
+     extraction-logical-axiom -test-mode -async-proofs-cache force
+     RecognizePluginWarning.v))))
+ (rule
+  (alias runtest)
+  (targets RecognizePluginWarning.v.log)
+  (deps RecognizePluginWarning.v.log.pre)
+  (action
+   (with-outputs-to RecognizePluginWarning.v.log
+    (with-stdin-from RecognizePluginWarning.v
+     (run ../tools/amend-output-log.sh RecognizePluginWarning.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps RecognizePluginWarning.out
+        RecognizePluginWarning.v.log)
+  (action
+   (diff RecognizePluginWarning.out RecognizePluginWarning.v.log)))
+ (rule
+  (alias runtest)
+  (targets RecognizePluginWarning.v.chk.log)
+  (deps RecognizePluginWarning.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/RecognizePluginWarning.v)
+  (action
+   (with-outputs-to RecognizePluginWarning.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     RecognizePluginWarning.vo))))
+ (rule
+  (alias runtest)
+  (targets .signatureT.aux
+           signatureT.vo
+           signatureT.glob
+           signatureT.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/signatureT.v
+        .././../theories/Setoids/Setoid.vo
+        .././../theories/Classes/CMorphisms.vo)
+  (action
+   (with-outputs-to signatureT.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force signatureT.v))))
+ (rule
+  (alias runtest)
+  (targets signatureT.v.log)
+  (deps signatureT.v.log.pre)
+  (action
+   (with-outputs-to signatureT.v.log
+    (with-stdin-from signatureT.v
+     (run ../tools/amend-output-log.sh signatureT.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps signatureT.out
+        signatureT.v.log)
+  (action
+   (diff signatureT.out signatureT.v.log)))
+ (rule
+  (alias runtest)
+  (targets signatureT.v.chk.log)
+  (deps signatureT.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/signatureT.v
+        .././../theories/Setoids/Setoid.vo
+        .././../theories/Classes/CMorphisms.vo)
+  (action
+   (with-outputs-to signatureT.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     signatureT.vo))))
+ (rule
+  (alias runtest)
+  (targets .Fixpoint.aux
+           Fixpoint.vo
+           Fixpoint.glob
+           Fixpoint.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Fixpoint.v
+        .././../theories/Lists/List.vo
+        .././../theories/ZArith/ZArith_base.vo
+        .././../theories/micromega/Lia.vo)
+  (action
+   (with-outputs-to Fixpoint.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force Fixpoint.v))))
+ (rule
+  (alias runtest)
+  (targets Fixpoint.v.log)
+  (deps Fixpoint.v.log.pre)
+  (action
+   (with-outputs-to Fixpoint.v.log
+    (with-stdin-from Fixpoint.v
+     (run ../tools/amend-output-log.sh Fixpoint.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Fixpoint.out
+        Fixpoint.v.log)
+  (action
+   (diff Fixpoint.out Fixpoint.v.log)))
+ (rule
+  (alias runtest)
+  (targets Fixpoint.v.chk.log)
+  (deps Fixpoint.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Fixpoint.v
+        .././../theories/Lists/List.vo
+        .././../theories/ZArith/ZArith_base.vo
+        .././../theories/micromega/Lia.vo)
+  (action
+   (with-outputs-to Fixpoint.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec Fixpoint.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_14899.aux
+           bug_14899.vo
+           bug_14899.glob
+           bug_14899.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_14899.v)
+  (action
+   (with-outputs-to bug_14899.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug_14899.v))))
+ (rule
+  (alias runtest)
+  (targets bug_14899.v.log)
+  (deps bug_14899.v.log.pre)
+  (action
+   (with-outputs-to bug_14899.v.log
+    (with-stdin-from bug_14899.v
+     (run ../tools/amend-output-log.sh bug_14899.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_14899.out
+        bug_14899.v.log)
+  (action
+   (diff bug_14899.out bug_14899.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_14899.v.chk.log)
+  (deps bug_14899.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_14899.v)
+  (action
+   (with-outputs-to bug_14899.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     bug_14899.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_9682.aux
+           bug_9682.vo
+           bug_9682.glob
+           bug_9682.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_9682.v)
+  (action
+   (with-outputs-to bug_9682.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug_9682.v))))
+ (rule
+  (alias runtest)
+  (targets bug_9682.v.log)
+  (deps bug_9682.v.log.pre)
+  (action
+   (with-outputs-to bug_9682.v.log
+    (with-stdin-from bug_9682.v
+     (run ../tools/amend-output-log.sh bug_9682.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_9682.out
+        bug_9682.v.log)
+  (action
+   (diff bug_9682.out bug_9682.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_9682.v.chk.log)
+  (deps bug_9682.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_9682.v)
+  (action
+   (with-outputs-to bug_9682.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec bug_9682.vo))))
+ (rule
+  (alias runtest)
+  (targets .UsePluginWarning.aux
+           UsePluginWarning.vo
+           UsePluginWarning.glob
+           UsePluginWarning.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/UsePluginWarning.v
+        .././../theories/extraction/Extraction.vo)
+  (action
+   (with-outputs-to UsePluginWarning.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -w
+     -extraction-logical-axiom -test-mode -async-proofs-cache force
+     UsePluginWarning.v))))
+ (rule
+  (alias runtest)
+  (targets UsePluginWarning.v.log)
+  (deps UsePluginWarning.v.log.pre)
+  (action
+   (with-outputs-to UsePluginWarning.v.log
+    (with-stdin-from UsePluginWarning.v
+     (run ../tools/amend-output-log.sh UsePluginWarning.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps UsePluginWarning.out
+        UsePluginWarning.v.log)
+  (action
+   (diff UsePluginWarning.out UsePluginWarning.v.log)))
+ (rule
+  (alias runtest)
+  (targets UsePluginWarning.v.chk.log)
+  (deps UsePluginWarning.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/UsePluginWarning.v
+        .././../theories/extraction/Extraction.vo)
+  (action
+   (with-outputs-to UsePluginWarning.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     UsePluginWarning.vo))))
+ (rule
+  (alias runtest)
+  (targets .UnexpectedType.aux
+           UnexpectedType.vo
+           UnexpectedType.glob
+           UnexpectedType.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/UnexpectedType.v)
+  (action
+   (with-outputs-to UnexpectedType.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force UnexpectedType.v))))
+ (rule
+  (alias runtest)
+  (targets UnexpectedType.v.log)
+  (deps UnexpectedType.v.log.pre)
+  (action
+   (with-outputs-to UnexpectedType.v.log
+    (with-stdin-from UnexpectedType.v
+     (run ../tools/amend-output-log.sh UnexpectedType.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps UnexpectedType.out
+        UnexpectedType.v.log)
+  (action
+   (diff UnexpectedType.out UnexpectedType.v.log)))
+ (rule
+  (alias runtest)
+  (targets UnexpectedType.v.chk.log)
+  (deps UnexpectedType.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/UnexpectedType.v)
+  (action
+   (with-outputs-to UnexpectedType.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     UnexpectedType.vo))))
+ (rule
+  (alias runtest)
+  (targets .Show.aux
+           Show.vo
+           Show.glob
+           Show.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Show.v)
+  (action
+   (with-outputs-to Show.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -emacs -test-mode
+     -async-proofs-cache force Show.v))))
+ (rule
+  (alias runtest)
+  (targets Show.v.log)
+  (deps Show.v.log.pre)
+  (action
+   (with-outputs-to Show.v.log
+    (with-stdin-from Show.v
+     (run ../tools/amend-output-log.sh Show.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Show.out
+        Show.v.log)
+  (action
+   (diff Show.out Show.v.log)))
+ (rule
+  (alias runtest)
+  (targets Show.v.chk.log)
+  (deps Show.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Show.v)
+  (action
+   (with-outputs-to Show.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec Show.vo))))
+ (rule
+  (alias runtest)
+  (targets .Projections.aux
+           Projections.vo
+           Projections.glob
+           Projections.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Projections.v)
+  (action
+   (with-outputs-to Projections.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force Projections.v))))
+ (rule
+  (alias runtest)
+  (targets Projections.v.log)
+  (deps Projections.v.log.pre)
+  (action
+   (with-outputs-to Projections.v.log
+    (with-stdin-from Projections.v
+     (run ../tools/amend-output-log.sh Projections.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Projections.out
+        Projections.v.log)
+  (action
+   (diff Projections.out Projections.v.log)))
+ (rule
+  (alias runtest)
+  (targets Projections.v.chk.log)
+  (deps Projections.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Projections.v)
+  (action
+   (with-outputs-to Projections.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     Projections.vo))))
+ (rule
+  (alias runtest)
+  (targets .ssr_under.aux
+           ssr_under.vo
+           ssr_under.glob
+           ssr_under.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ssr_under.v
+        .././../theories/ssr/ssreflect.vo)
+  (action
+   (with-outputs-to ssr_under.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force ssr_under.v))))
+ (rule
+  (alias runtest)
+  (targets ssr_under.v.log)
+  (deps ssr_under.v.log.pre)
+  (action
+   (with-outputs-to ssr_under.v.log
+    (with-stdin-from ssr_under.v
+     (run ../tools/amend-output-log.sh ssr_under.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps ssr_under.out
+        ssr_under.v.log)
+  (action
+   (diff ssr_under.out ssr_under.v.log)))
+ (rule
+  (alias runtest)
+  (targets ssr_under.v.chk.log)
+  (deps ssr_under.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ssr_under.v
+        .././../theories/ssr/ssreflect.vo)
+  (action
+   (with-outputs-to ssr_under.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     ssr_under.vo))))
+ (rule
+  (alias runtest)
+  (targets .ImplicitTypes.aux
+           ImplicitTypes.vo
+           ImplicitTypes.glob
+           ImplicitTypes.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ImplicitTypes.v)
+  (action
+   (with-outputs-to ImplicitTypes.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force ImplicitTypes.v))))
+ (rule
+  (alias runtest)
+  (targets ImplicitTypes.v.log)
+  (deps ImplicitTypes.v.log.pre)
+  (action
+   (with-outputs-to ImplicitTypes.v.log
+    (with-stdin-from ImplicitTypes.v
+     (run ../tools/amend-output-log.sh ImplicitTypes.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps ImplicitTypes.out
+        ImplicitTypes.v.log)
+  (action
+   (diff ImplicitTypes.out ImplicitTypes.v.log)))
+ (rule
+  (alias runtest)
+  (targets ImplicitTypes.v.chk.log)
+  (deps ImplicitTypes.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ImplicitTypes.v)
+  (action
+   (with-outputs-to ImplicitTypes.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     ImplicitTypes.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_4167.aux
+           bug_4167.vo
+           bug_4167.glob
+           bug_4167.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_4167.v)
+  (action
+   (with-outputs-to bug_4167.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug_4167.v))))
+ (rule
+  (alias runtest)
+  (targets bug_4167.v.log)
+  (deps bug_4167.v.log.pre)
+  (action
+   (with-outputs-to bug_4167.v.log
+    (with-stdin-from bug_4167.v
+     (run ../tools/amend-output-log.sh bug_4167.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_4167.out
+        bug_4167.v.log)
+  (action
+   (diff bug_4167.out bug_4167.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_4167.v.chk.log)
+  (deps bug_4167.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_4167.v)
+  (action
+   (with-outputs-to bug_4167.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec bug_4167.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_9403.aux
+           bug_9403.vo
+           bug_9403.glob
+           bug_9403.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_9403.v
+        .././../theories/Unicode/Utf8.vo)
+  (action
+   (with-outputs-to bug_9403.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug_9403.v))))
+ (rule
+  (alias runtest)
+  (targets bug_9403.v.log)
+  (deps bug_9403.v.log.pre)
+  (action
+   (with-outputs-to bug_9403.v.log
+    (with-stdin-from bug_9403.v
+     (run ../tools/amend-output-log.sh bug_9403.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_9403.out
+        bug_9403.v.log)
+  (action
+   (diff bug_9403.out bug_9403.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_9403.v.chk.log)
+  (deps bug_9403.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_9403.v
+        .././../theories/Unicode/Utf8.vo)
+  (action
+   (with-outputs-to bug_9403.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec bug_9403.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_13018.aux
+           bug_13018.vo
+           bug_13018.glob
+           bug_13018.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_13018.v)
+  (action
+   (with-outputs-to bug_13018.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug_13018.v))))
+ (rule
+  (alias runtest)
+  (targets bug_13018.v.log)
+  (deps bug_13018.v.log.pre)
+  (action
+   (with-outputs-to bug_13018.v.log
+    (with-stdin-from bug_13018.v
+     (run ../tools/amend-output-log.sh bug_13018.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_13018.out
+        bug_13018.v.log)
+  (action
+   (diff bug_13018.out bug_13018.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_13018.v.chk.log)
+  (deps bug_13018.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_13018.v)
+  (action
+   (with-outputs-to bug_13018.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     bug_13018.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_13595.aux
+           bug_13595.vo
+           bug_13595.glob
+           bug_13595.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_13595.v)
+  (action
+   (with-outputs-to bug_13595.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug_13595.v))))
+ (rule
+  (alias runtest)
+  (targets bug_13595.v.log)
+  (deps bug_13595.v.log.pre)
+  (action
+   (with-outputs-to bug_13595.v.log
+    (with-stdin-from bug_13595.v
+     (run ../tools/amend-output-log.sh bug_13595.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_13595.out
+        bug_13595.v.log)
+  (action
+   (diff bug_13595.out bug_13595.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_13595.v.chk.log)
+  (deps bug_13595.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_13595.v)
+  (action
+   (with-outputs-to bug_13595.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     bug_13595.vo))))
+ (rule
+  (alias runtest)
+  (targets .Implicit.aux
+           Implicit.vo
+           Implicit.glob
+           Implicit.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Implicit.v
+        .././../theories/Lists/List.vo)
+  (action
+   (with-outputs-to Implicit.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force Implicit.v))))
+ (rule
+  (alias runtest)
+  (targets Implicit.v.log)
+  (deps Implicit.v.log.pre)
+  (action
+   (with-outputs-to Implicit.v.log
+    (with-stdin-from Implicit.v
+     (run ../tools/amend-output-log.sh Implicit.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Implicit.out
+        Implicit.v.log)
+  (action
+   (diff Implicit.out Implicit.v.log)))
+ (rule
+  (alias runtest)
+  (targets Implicit.v.chk.log)
+  (deps Implicit.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Implicit.v
+        .././../theories/Lists/List.vo)
+  (action
+   (with-outputs-to Implicit.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec Implicit.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_13266.aux
+           bug_13266.vo
+           bug_13266.glob
+           bug_13266.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_13266.v)
+  (action
+   (with-outputs-to bug_13266.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug_13266.v))))
+ (rule
+  (alias runtest)
+  (targets bug_13266.v.log)
+  (deps bug_13266.v.log.pre)
+  (action
+   (with-outputs-to bug_13266.v.log
+    (with-stdin-from bug_13266.v
+     (run ../tools/amend-output-log.sh bug_13266.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_13266.out
+        bug_13266.v.log)
+  (action
+   (diff bug_13266.out bug_13266.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_13266.v.chk.log)
+  (deps bug_13266.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_13266.v)
+  (action
+   (with-outputs-to bug_13266.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     bug_13266.vo))))
+ (rule
+  (alias runtest)
+  (targets .NotationsCoercions.aux
+           NotationsCoercions.vo
+           NotationsCoercions.glob
+           NotationsCoercions.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/NotationsCoercions.v
+        .././../theories/Strings/String.vo)
+  (action
+   (with-outputs-to NotationsCoercions.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force NotationsCoercions.v))))
+ (rule
+  (alias runtest)
+  (targets NotationsCoercions.v.log)
+  (deps NotationsCoercions.v.log.pre)
+  (action
+   (with-outputs-to NotationsCoercions.v.log
+    (with-stdin-from NotationsCoercions.v
+     (run ../tools/amend-output-log.sh NotationsCoercions.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps NotationsCoercions.out
+        NotationsCoercions.v.log)
+  (action
+   (diff NotationsCoercions.out NotationsCoercions.v.log)))
+ (rule
+  (alias runtest)
+  (targets NotationsCoercions.v.chk.log)
+  (deps NotationsCoercions.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/NotationsCoercions.v
+        .././../theories/Strings/String.vo)
+  (action
+   (with-outputs-to NotationsCoercions.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     NotationsCoercions.vo))))
+ (rule
+  (alias runtest)
+  (targets .NotationsSigma.aux
+           NotationsSigma.vo
+           NotationsSigma.glob
+           NotationsSigma.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/NotationsSigma.v)
+  (action
+   (with-outputs-to NotationsSigma.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force NotationsSigma.v))))
+ (rule
+  (alias runtest)
+  (targets NotationsSigma.v.log)
+  (deps NotationsSigma.v.log.pre)
+  (action
+   (with-outputs-to NotationsSigma.v.log
+    (with-stdin-from NotationsSigma.v
+     (run ../tools/amend-output-log.sh NotationsSigma.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps NotationsSigma.out
+        NotationsSigma.v.log)
+  (action
+   (diff NotationsSigma.out NotationsSigma.v.log)))
+ (rule
+  (alias runtest)
+  (targets NotationsSigma.v.chk.log)
+  (deps NotationsSigma.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/NotationsSigma.v)
+  (action
+   (with-outputs-to NotationsSigma.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     NotationsSigma.vo))))
+ (rule
+  (alias runtest)
+  (targets .Warnings.aux
+           Warnings.vo
+           Warnings.glob
+           Warnings.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Warnings.v)
+  (action
+   (with-outputs-to Warnings.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force Warnings.v))))
+ (rule
+  (alias runtest)
+  (targets Warnings.v.log)
+  (deps Warnings.v.log.pre)
+  (action
+   (with-outputs-to Warnings.v.log
+    (with-stdin-from Warnings.v
+     (run ../tools/amend-output-log.sh Warnings.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Warnings.out
+        Warnings.v.log)
+  (action
+   (diff Warnings.out Warnings.v.log)))
+ (rule
+  (alias runtest)
+  (targets Warnings.v.chk.log)
+  (deps Warnings.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Warnings.v)
+  (action
+   (with-outputs-to Warnings.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec Warnings.vo))))
+ (rule
+  (alias runtest)
+  (targets .PrimitiveProjectionsAttribute_Records.aux
+           PrimitiveProjectionsAttribute_Records.vo
+           PrimitiveProjectionsAttribute_Records.glob
+           PrimitiveProjectionsAttribute_Records.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/PrimitiveProjectionsAttribute_Records.v)
+  (action
+   (with-outputs-to PrimitiveProjectionsAttribute_Records.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force PrimitiveProjectionsAttribute_Records.v))))
+ (rule
+  (alias runtest)
+  (targets PrimitiveProjectionsAttribute_Records.v.log)
+  (deps PrimitiveProjectionsAttribute_Records.v.log.pre)
+  (action
+   (with-outputs-to PrimitiveProjectionsAttribute_Records.v.log
+    (with-stdin-from PrimitiveProjectionsAttribute_Records.v
+     (run ../tools/amend-output-log.sh
+      PrimitiveProjectionsAttribute_Records.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps PrimitiveProjectionsAttribute_Records.out
+        PrimitiveProjectionsAttribute_Records.v.log)
+  (action
+   (diff PrimitiveProjectionsAttribute_Records.out
+    PrimitiveProjectionsAttribute_Records.v.log)))
+ (rule
+  (alias runtest)
+  (targets PrimitiveProjectionsAttribute_Records.v.chk.log)
+  (deps PrimitiveProjectionsAttribute_Records.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/PrimitiveProjectionsAttribute_Records.v)
+  (action
+   (with-outputs-to PrimitiveProjectionsAttribute_Records.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     PrimitiveProjectionsAttribute_Records.vo))))
+ (rule
+  (alias runtest)
+  (targets .UnivBinders.aux
+           UnivBinders.vo
+           UnivBinders.glob
+           UnivBinders.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/UnivBinders.v
+        .././prerequisite/bind_univs.vo)
+  (action
+   (with-outputs-to UnivBinders.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -top UnivBinders
+     -test-mode -async-proofs-cache force UnivBinders.v))))
+ (rule
+  (alias runtest)
+  (targets UnivBinders.v.log)
+  (deps UnivBinders.v.log.pre)
+  (action
+   (with-outputs-to UnivBinders.v.log
+    (with-stdin-from UnivBinders.v
+     (run ../tools/amend-output-log.sh UnivBinders.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps UnivBinders.out
+        UnivBinders.v.log)
+  (action
+   (diff UnivBinders.out UnivBinders.v.log)))
+ (rule
+  (alias runtest)
+  (targets UnivBinders.v.chk.log)
+  (deps UnivBinders.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/UnivBinders.v
+        .././prerequisite/bind_univs.vo)
+  (action
+   (with-outputs-to UnivBinders.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     UnivBinders.vo))))
+ (rule
+  (alias runtest)
+  (targets .MExtraction.aux
+           MExtraction.vo
+           MExtraction.glob
+           MExtraction.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/MExtraction.v
+        .././../theories/extraction/Extraction.vo
+        .././../theories/micromega/ZMicromega.vo
+        .././../theories/micromega/QMicromega.vo
+        .././../theories/micromega/RMicromega.vo
+        .././../theories/micromega/VarMap.vo
+        .././../theories/micromega/RingMicromega.vo
+        .././../theories/NArith/NArith.vo
+        .././../theories/QArith/QArith.vo)
+  (action
+   (with-outputs-to MExtraction.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force MExtraction.v))))
+ (rule
+  (alias runtest)
+  (targets MExtraction.v.log)
+  (deps MExtraction.v.log.pre)
+  (action
+   (with-outputs-to MExtraction.v.log
+    (with-stdin-from MExtraction.v
+     (run ../tools/amend-output-log.sh MExtraction.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps MExtraction.out
+        MExtraction.v.log)
+  (action
+   (diff MExtraction.out MExtraction.v.log)))
+ (rule
+  (alias runtest)
+  (targets MExtraction.v.chk.log)
+  (deps MExtraction.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/MExtraction.v
+        .././../theories/extraction/Extraction.vo
+        .././../theories/micromega/ZMicromega.vo
+        .././../theories/micromega/QMicromega.vo
+        .././../theories/micromega/RMicromega.vo
+        .././../theories/micromega/VarMap.vo
+        .././../theories/micromega/RingMicromega.vo
+        .././../theories/NArith/NArith.vo
+        .././../theories/QArith/QArith.vo)
+  (action
+   (with-outputs-to MExtraction.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     MExtraction.vo))))
+ (rule
+  (alias runtest)
+  (targets .ErrorLocation_tac_in_term.aux
+           ErrorLocation_tac_in_term.vo
+           ErrorLocation_tac_in_term.glob
+           ErrorLocation_tac_in_term.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ErrorLocation_tac_in_term.v)
+  (action
+   (with-outputs-to ErrorLocation_tac_in_term.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force ErrorLocation_tac_in_term.v))))
+ (rule
+  (alias runtest)
+  (targets ErrorLocation_tac_in_term.v.log)
+  (deps ErrorLocation_tac_in_term.v.log.pre)
+  (action
+   (with-outputs-to ErrorLocation_tac_in_term.v.log
+    (with-stdin-from ErrorLocation_tac_in_term.v
+     (run ../tools/amend-output-log.sh ErrorLocation_tac_in_term.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps ErrorLocation_tac_in_term.out
+        ErrorLocation_tac_in_term.v.log)
+  (action
+   (diff ErrorLocation_tac_in_term.out ErrorLocation_tac_in_term.v.log)))
+ (rule
+  (alias runtest)
+  (targets ErrorLocation_tac_in_term.v.chk.log)
+  (deps ErrorLocation_tac_in_term.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ErrorLocation_tac_in_term.v)
+  (action
+   (with-outputs-to ErrorLocation_tac_in_term.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     ErrorLocation_tac_in_term.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_7443.aux
+           bug_7443.vo
+           bug_7443.glob
+           bug_7443.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_7443.v)
+  (action
+   (with-outputs-to bug_7443.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug_7443.v))))
+ (rule
+  (alias runtest)
+  (targets bug_7443.v.log)
+  (deps bug_7443.v.log.pre)
+  (action
+   (with-outputs-to bug_7443.v.log
+    (with-stdin-from bug_7443.v
+     (run ../tools/amend-output-log.sh bug_7443.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_7443.out
+        bug_7443.v.log)
+  (action
+   (diff bug_7443.out bug_7443.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_7443.v.chk.log)
+  (deps bug_7443.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_7443.v)
+  (action
+   (with-outputs-to bug_7443.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec bug_7443.vo))))
+ (rule
+  (alias runtest)
+  (targets .Binder.aux
+           Binder.vo
+           Binder.glob
+           Binder.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Binder.v
+        .././../theories/Unicode/Utf8.vo)
+  (action
+   (with-outputs-to Binder.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force Binder.v))))
+ (rule
+  (alias runtest)
+  (targets Binder.v.log)
+  (deps Binder.v.log.pre)
+  (action
+   (with-outputs-to Binder.v.log
+    (with-stdin-from Binder.v
+     (run ../tools/amend-output-log.sh Binder.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Binder.out
+        Binder.v.log)
+  (action
+   (diff Binder.out Binder.v.log)))
+ (rule
+  (alias runtest)
+  (targets Binder.v.chk.log)
+  (deps Binder.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Binder.v
+        .././../theories/Unicode/Utf8.vo)
+  (action
+   (with-outputs-to Binder.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec Binder.vo))))
+ (rule
+  (alias runtest)
+  (targets .Existentials.aux
+           Existentials.vo
+           Existentials.glob
+           Existentials.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Existentials.v)
+  (action
+   (with-outputs-to Existentials.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force Existentials.v))))
+ (rule
+  (alias runtest)
+  (targets Existentials.v.log)
+  (deps Existentials.v.log.pre)
+  (action
+   (with-outputs-to Existentials.v.log
+    (with-stdin-from Existentials.v
+     (run ../tools/amend-output-log.sh Existentials.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Existentials.out
+        Existentials.v.log)
+  (action
+   (diff Existentials.out Existentials.v.log)))
+ (rule
+  (alias runtest)
+  (targets Existentials.v.chk.log)
+  (deps Existentials.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Existentials.v)
+  (action
+   (with-outputs-to Existentials.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     Existentials.vo))))
+ (rule
+  (alias runtest)
+  (targets .coercions_cs.aux
+           coercions_cs.vo
+           coercions_cs.glob
+           coercions_cs.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/coercions_cs.v)
+  (action
+   (with-outputs-to coercions_cs.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force coercions_cs.v))))
+ (rule
+  (alias runtest)
+  (targets coercions_cs.v.log)
+  (deps coercions_cs.v.log.pre)
+  (action
+   (with-outputs-to coercions_cs.v.log
+    (with-stdin-from coercions_cs.v
+     (run ../tools/amend-output-log.sh coercions_cs.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps coercions_cs.out
+        coercions_cs.v.log)
+  (action
+   (diff coercions_cs.out coercions_cs.v.log)))
+ (rule
+  (alias runtest)
+  (targets coercions_cs.v.chk.log)
+  (deps coercions_cs.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/coercions_cs.v)
+  (action
+   (with-outputs-to coercions_cs.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     coercions_cs.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_13942.aux
+           bug_13942.vo
+           bug_13942.glob
+           bug_13942.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_13942.v
+        .././../theories/Classes/Morphisms.vo
+        .././../theories/Classes/RelationClasses.vo
+        .././../theories/Lists/List.vo
+        .././../theories/Bool/Bool.vo
+        .././../theories/Setoids/Setoid.vo
+        .././../theories/Init/Peano.vo
+        .././../theories/Unicode/Utf8.vo
+        .././../theories/Sorting/Permutation.vo
+        .././../theories/Program/Basics.vo
+        .././../theories/Program/Syntax.vo)
+  (action
+   (with-outputs-to bug_13942.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug_13942.v))))
+ (rule
+  (alias runtest)
+  (targets bug_13942.v.log)
+  (deps bug_13942.v.log.pre)
+  (action
+   (with-outputs-to bug_13942.v.log
+    (with-stdin-from bug_13942.v
+     (run ../tools/amend-output-log.sh bug_13942.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_13942.out
+        bug_13942.v.log)
+  (action
+   (diff bug_13942.out bug_13942.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_13942.v.chk.log)
+  (deps bug_13942.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_13942.v
+        .././../theories/Classes/Morphisms.vo
+        .././../theories/Classes/RelationClasses.vo
+        .././../theories/Lists/List.vo
+        .././../theories/Bool/Bool.vo
+        .././../theories/Setoids/Setoid.vo
+        .././../theories/Init/Peano.vo
+        .././../theories/Unicode/Utf8.vo
+        .././../theories/Sorting/Permutation.vo
+        .././../theories/Program/Basics.vo
+        .././../theories/Program/Syntax.vo)
+  (action
+   (with-outputs-to bug_13942.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     bug_13942.vo))))
+ (rule
+  (alias runtest)
+  (targets .ErrorInCanonicalStructures.aux
+           ErrorInCanonicalStructures.vo
+           ErrorInCanonicalStructures.glob
+           ErrorInCanonicalStructures.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ErrorInCanonicalStructures.v)
+  (action
+   (with-outputs-to ErrorInCanonicalStructures.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force ErrorInCanonicalStructures.v))))
+ (rule
+  (alias runtest)
+  (targets ErrorInCanonicalStructures.v.log)
+  (deps ErrorInCanonicalStructures.v.log.pre)
+  (action
+   (with-outputs-to ErrorInCanonicalStructures.v.log
+    (with-stdin-from ErrorInCanonicalStructures.v
+     (run ../tools/amend-output-log.sh ErrorInCanonicalStructures.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps ErrorInCanonicalStructures.out
+        ErrorInCanonicalStructures.v.log)
+  (action
+   (diff ErrorInCanonicalStructures.out ErrorInCanonicalStructures.v.log)))
+ (rule
+  (alias runtest)
+  (targets ErrorInCanonicalStructures.v.chk.log)
+  (deps ErrorInCanonicalStructures.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ErrorInCanonicalStructures.v)
+  (action
+   (with-outputs-to ErrorInCanonicalStructures.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     ErrorInCanonicalStructures.vo))))
+ (rule
+  (alias runtest)
+  (targets .ErrorLocation_13241.aux
+           ErrorLocation_13241.vo
+           ErrorLocation_13241.glob
+           ErrorLocation_13241.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ErrorLocation_13241.v)
+  (action
+   (with-outputs-to ErrorLocation_13241.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force ErrorLocation_13241.v))))
+ (rule
+  (alias runtest)
+  (targets ErrorLocation_13241.v.log)
+  (deps ErrorLocation_13241.v.log.pre)
+  (action
+   (with-outputs-to ErrorLocation_13241.v.log
+    (with-stdin-from ErrorLocation_13241.v
+     (run ../tools/amend-output-log.sh ErrorLocation_13241.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps ErrorLocation_13241.out
+        ErrorLocation_13241.v.log)
+  (action
+   (diff ErrorLocation_13241.out ErrorLocation_13241.v.log)))
+ (rule
+  (alias runtest)
+  (targets ErrorLocation_13241.v.chk.log)
+  (deps ErrorLocation_13241.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ErrorLocation_13241.v)
+  (action
+   (with-outputs-to ErrorLocation_13241.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     ErrorLocation_13241.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_14815.aux
+           bug_14815.vo
+           bug_14815.glob
+           bug_14815.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_14815.v)
+  (action
+   (with-outputs-to bug_14815.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug_14815.v))))
+ (rule
+  (alias runtest)
+  (targets bug_14815.v.log)
+  (deps bug_14815.v.log.pre)
+  (action
+   (with-outputs-to bug_14815.v.log
+    (with-stdin-from bug_14815.v
+     (run ../tools/amend-output-log.sh bug_14815.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_14815.out
+        bug_14815.v.log)
+  (action
+   (diff bug_14815.out bug_14815.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_14815.v.chk.log)
+  (deps bug_14815.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_14815.v)
+  (action
+   (with-outputs-to bug_14815.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     bug_14815.vo))))
+ (rule
+  (alias runtest)
+  (targets .RealNumberSyntax.aux
+           RealNumberSyntax.vo
+           RealNumberSyntax.glob
+           RealNumberSyntax.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/RealNumberSyntax.v
+        .././../theories/Reals/Rdefinitions.vo
+        .././../theories/Reals/Reals.vo
+        .././../theories/micromega/Psatz.vo)
+  (action
+   (with-outputs-to RealNumberSyntax.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force RealNumberSyntax.v))))
+ (rule
+  (alias runtest)
+  (targets RealNumberSyntax.v.log)
+  (deps RealNumberSyntax.v.log.pre)
+  (action
+   (with-outputs-to RealNumberSyntax.v.log
+    (with-stdin-from RealNumberSyntax.v
+     (run ../tools/amend-output-log.sh RealNumberSyntax.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps RealNumberSyntax.out
+        RealNumberSyntax.v.log)
+  (action
+   (diff RealNumberSyntax.out RealNumberSyntax.v.log)))
+ (rule
+  (alias runtest)
+  (targets RealNumberSyntax.v.chk.log)
+  (deps RealNumberSyntax.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/RealNumberSyntax.v
+        .././../theories/Reals/Rdefinitions.vo
+        .././../theories/Reals/Reals.vo
+        .././../theories/micromega/Psatz.vo)
+  (action
+   (with-outputs-to RealNumberSyntax.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     RealNumberSyntax.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug5778.aux
+           bug5778.vo
+           bug5778.glob
+           bug5778.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug5778.v)
+  (action
+   (with-outputs-to bug5778.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug5778.v))))
+ (rule
+  (alias runtest)
+  (targets bug5778.v.log)
+  (deps bug5778.v.log.pre)
+  (action
+   (with-outputs-to bug5778.v.log
+    (with-stdin-from bug5778.v
+     (run ../tools/amend-output-log.sh bug5778.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug5778.out
+        bug5778.v.log)
+  (action
+   (diff bug5778.out bug5778.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug5778.v.chk.log)
+  (deps bug5778.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug5778.v)
+  (action
+   (with-outputs-to bug5778.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec bug5778.vo))))
+ (rule
+  (alias runtest)
+  (targets .rewrite_2172.aux
+           rewrite_2172.vo
+           rewrite_2172.glob
+           rewrite_2172.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/rewrite_2172.v)
+  (action
+   (with-outputs-to rewrite_2172.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force rewrite_2172.v))))
+ (rule
+  (alias runtest)
+  (targets rewrite_2172.v.log)
+  (deps rewrite_2172.v.log.pre)
+  (action
+   (with-outputs-to rewrite_2172.v.log
+    (with-stdin-from rewrite_2172.v
+     (run ../tools/amend-output-log.sh rewrite_2172.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps rewrite_2172.out
+        rewrite_2172.v.log)
+  (action
+   (diff rewrite_2172.out rewrite_2172.v.log)))
+ (rule
+  (alias runtest)
+  (targets rewrite_2172.v.chk.log)
+  (deps rewrite_2172.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/rewrite_2172.v)
+  (action
+   (with-outputs-to rewrite_2172.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     rewrite_2172.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_16219.aux
+           bug_16219.vo
+           bug_16219.glob
+           bug_16219.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_16219.v)
+  (action
+   (with-outputs-to bug_16219.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug_16219.v))))
+ (rule
+  (alias runtest)
+  (targets bug_16219.v.log)
+  (deps bug_16219.v.log.pre)
+  (action
+   (with-outputs-to bug_16219.v.log
+    (with-stdin-from bug_16219.v
+     (run ../tools/amend-output-log.sh bug_16219.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_16219.out
+        bug_16219.v.log)
+  (action
+   (diff bug_16219.out bug_16219.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_16219.v.chk.log)
+  (deps bug_16219.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_16219.v)
+  (action
+   (with-outputs-to bug_16219.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     bug_16219.vo))))
+ (rule
+  (alias runtest)
+  (targets .Match_subterm.aux
+           Match_subterm.vo
+           Match_subterm.glob
+           Match_subterm.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Match_subterm.v)
+  (action
+   (with-outputs-to Match_subterm.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force Match_subterm.v))))
+ (rule
+  (alias runtest)
+  (targets Match_subterm.v.log)
+  (deps Match_subterm.v.log.pre)
+  (action
+   (with-outputs-to Match_subterm.v.log
+    (with-stdin-from Match_subterm.v
+     (run ../tools/amend-output-log.sh Match_subterm.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Match_subterm.out
+        Match_subterm.v.log)
+  (action
+   (diff Match_subterm.out Match_subterm.v.log)))
+ (rule
+  (alias runtest)
+  (targets Match_subterm.v.chk.log)
+  (deps Match_subterm.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Match_subterm.v)
+  (action
+   (with-outputs-to Match_subterm.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     Match_subterm.vo))))
+ (rule
+  (alias runtest)
+  (targets .PrintCanonicalProjections.aux
+           PrintCanonicalProjections.vo
+           PrintCanonicalProjections.glob
+           PrintCanonicalProjections.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/PrintCanonicalProjections.v)
+  (action
+   (with-outputs-to PrintCanonicalProjections.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force PrintCanonicalProjections.v))))
+ (rule
+  (alias runtest)
+  (targets PrintCanonicalProjections.v.log)
+  (deps PrintCanonicalProjections.v.log.pre)
+  (action
+   (with-outputs-to PrintCanonicalProjections.v.log
+    (with-stdin-from PrintCanonicalProjections.v
+     (run ../tools/amend-output-log.sh PrintCanonicalProjections.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps PrintCanonicalProjections.out
+        PrintCanonicalProjections.v.log)
+  (action
+   (diff PrintCanonicalProjections.out PrintCanonicalProjections.v.log)))
+ (rule
+  (alias runtest)
+  (targets PrintCanonicalProjections.v.chk.log)
+  (deps PrintCanonicalProjections.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/PrintCanonicalProjections.v)
+  (action
+   (with-outputs-to PrintCanonicalProjections.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     PrintCanonicalProjections.vo))))
+ (rule
+  (alias runtest)
+  (targets .BadOptionValueType.aux
+           BadOptionValueType.vo
+           BadOptionValueType.glob
+           BadOptionValueType.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/BadOptionValueType.v)
+  (action
+   (with-outputs-to BadOptionValueType.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force BadOptionValueType.v))))
+ (rule
+  (alias runtest)
+  (targets BadOptionValueType.v.log)
+  (deps BadOptionValueType.v.log.pre)
+  (action
+   (with-outputs-to BadOptionValueType.v.log
+    (with-stdin-from BadOptionValueType.v
+     (run ../tools/amend-output-log.sh BadOptionValueType.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps BadOptionValueType.out
+        BadOptionValueType.v.log)
+  (action
+   (diff BadOptionValueType.out BadOptionValueType.v.log)))
+ (rule
+  (alias runtest)
+  (targets BadOptionValueType.v.chk.log)
+  (deps BadOptionValueType.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/BadOptionValueType.v)
+  (action
+   (with-outputs-to BadOptionValueType.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     BadOptionValueType.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_15097.aux
+           bug_15097.vo
+           bug_15097.glob
+           bug_15097.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_15097.v)
+  (action
+   (with-outputs-to bug_15097.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug_15097.v))))
+ (rule
+  (alias runtest)
+  (targets bug_15097.v.log)
+  (deps bug_15097.v.log.pre)
+  (action
+   (with-outputs-to bug_15097.v.log
+    (with-stdin-from bug_15097.v
+     (run ../tools/amend-output-log.sh bug_15097.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_15097.out
+        bug_15097.v.log)
+  (action
+   (diff bug_15097.out bug_15097.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_15097.v.chk.log)
+  (deps bug_15097.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_15097.v)
+  (action
+   (with-outputs-to bug_15097.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     bug_15097.vo))))
+ (rule
+  (alias runtest)
+  (targets .PrimitiveProjectionsAttribute.aux
+           PrimitiveProjectionsAttribute.vo
+           PrimitiveProjectionsAttribute.glob
+           PrimitiveProjectionsAttribute.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/PrimitiveProjectionsAttribute.v)
+  (action
+   (with-outputs-to PrimitiveProjectionsAttribute.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force PrimitiveProjectionsAttribute.v))))
+ (rule
+  (alias runtest)
+  (targets PrimitiveProjectionsAttribute.v.log)
+  (deps PrimitiveProjectionsAttribute.v.log.pre)
+  (action
+   (with-outputs-to PrimitiveProjectionsAttribute.v.log
+    (with-stdin-from PrimitiveProjectionsAttribute.v
+     (run ../tools/amend-output-log.sh
+      PrimitiveProjectionsAttribute.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps PrimitiveProjectionsAttribute.out
+        PrimitiveProjectionsAttribute.v.log)
+  (action
+   (diff PrimitiveProjectionsAttribute.out
+    PrimitiveProjectionsAttribute.v.log)))
+ (rule
+  (alias runtest)
+  (targets PrimitiveProjectionsAttribute.v.chk.log)
+  (deps PrimitiveProjectionsAttribute.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/PrimitiveProjectionsAttribute.v)
+  (action
+   (with-outputs-to PrimitiveProjectionsAttribute.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     PrimitiveProjectionsAttribute.vo))))
+ (rule
+  (alias runtest)
+  (targets .section_have.aux
+           section_have.vo
+           section_have.glob
+           section_have.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/section_have.v
+        .././../theories/ssr/ssreflect.vo)
+  (action
+   (with-outputs-to section_have.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force section_have.v))))
+ (rule
+  (alias runtest)
+  (targets section_have.v.log)
+  (deps section_have.v.log.pre)
+  (action
+   (with-outputs-to section_have.v.log
+    (with-stdin-from section_have.v
+     (run ../tools/amend-output-log.sh section_have.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps section_have.out
+        section_have.v.log)
+  (action
+   (diff section_have.out section_have.v.log)))
+ (rule
+  (alias runtest)
+  (targets section_have.v.chk.log)
+  (deps section_have.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/section_have.v
+        .././../theories/ssr/ssreflect.vo)
+  (action
+   (with-outputs-to section_have.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     section_have.vo))))
+ (rule
+  (alias runtest)
+  (targets .ssr_clear.aux
+           ssr_clear.vo
+           ssr_clear.glob
+           ssr_clear.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ssr_clear.v
+        .././../theories/ssr/ssreflect.vo)
+  (action
+   (with-outputs-to ssr_clear.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force ssr_clear.v))))
+ (rule
+  (alias runtest)
+  (targets ssr_clear.v.log)
+  (deps ssr_clear.v.log.pre)
+  (action
+   (with-outputs-to ssr_clear.v.log
+    (with-stdin-from ssr_clear.v
+     (run ../tools/amend-output-log.sh ssr_clear.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps ssr_clear.out
+        ssr_clear.v.log)
+  (action
+   (diff ssr_clear.out ssr_clear.v.log)))
+ (rule
+  (alias runtest)
+  (targets ssr_clear.v.chk.log)
+  (deps ssr_clear.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ssr_clear.v
+        .././../theories/ssr/ssreflect.vo)
+  (action
+   (with-outputs-to ssr_clear.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     ssr_clear.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_9555.aux
+           bug_9555.vo
+           bug_9555.glob
+           bug_9555.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_9555.v)
+  (action
+   (with-outputs-to bug_9555.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug_9555.v))))
+ (rule
+  (alias runtest)
+  (targets bug_9555.v.log)
+  (deps bug_9555.v.log.pre)
+  (action
+   (with-outputs-to bug_9555.v.log
+    (with-stdin-from bug_9555.v
+     (run ../tools/amend-output-log.sh bug_9555.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_9555.out
+        bug_9555.v.log)
+  (action
+   (diff bug_9555.out bug_9555.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_9555.v.chk.log)
+  (deps bug_9555.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_9555.v)
+  (action
+   (with-outputs-to bug_9555.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec bug_9555.vo))))
+ (rule
+  (alias runtest)
+  (targets .FloatNumberSyntax.aux
+           FloatNumberSyntax.vo
+           FloatNumberSyntax.glob
+           FloatNumberSyntax.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/FloatNumberSyntax.v
+        .././../theories/Floats/Floats.vo)
+  (action
+   (with-outputs-to FloatNumberSyntax.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force FloatNumberSyntax.v))))
+ (rule
+  (alias runtest)
+  (targets FloatNumberSyntax.v.log)
+  (deps FloatNumberSyntax.v.log.pre)
+  (action
+   (with-outputs-to FloatNumberSyntax.v.log
+    (with-stdin-from FloatNumberSyntax.v
+     (run ../tools/amend-output-log.sh FloatNumberSyntax.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps FloatNumberSyntax.out
+        FloatNumberSyntax.v.log)
+  (action
+   (diff FloatNumberSyntax.out FloatNumberSyntax.v.log)))
+ (rule
+  (alias runtest)
+  (targets FloatNumberSyntax.v.chk.log)
+  (deps FloatNumberSyntax.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/FloatNumberSyntax.v
+        .././../theories/Floats/Floats.vo)
+  (action
+   (with-outputs-to FloatNumberSyntax.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     FloatNumberSyntax.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug6821.aux
+           bug6821.vo
+           bug6821.glob
+           bug6821.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug6821.v)
+  (action
+   (with-outputs-to bug6821.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug6821.v))))
+ (rule
+  (alias runtest)
+  (targets bug6821.v.log)
+  (deps bug6821.v.log.pre)
+  (action
+   (with-outputs-to bug6821.v.log
+    (with-stdin-from bug6821.v
+     (run ../tools/amend-output-log.sh bug6821.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug6821.out
+        bug6821.v.log)
+  (action
+   (diff bug6821.out bug6821.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug6821.v.chk.log)
+  (deps bug6821.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug6821.v)
+  (action
+   (with-outputs-to bug6821.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec bug6821.vo))))
+ (rule
+  (alias runtest)
+  (targets .FunExt.aux
+           FunExt.vo
+           FunExt.glob
+           FunExt.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/FunExt.v
+        .././../theories/Logic/FunctionalExtensionality.vo)
+  (action
+   (with-outputs-to FunExt.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -async-proofs no
+     -test-mode -async-proofs-cache force FunExt.v))))
+ (rule
+  (alias runtest)
+  (targets FunExt.v.log)
+  (deps FunExt.v.log.pre)
+  (action
+   (with-outputs-to FunExt.v.log
+    (with-stdin-from FunExt.v
+     (run ../tools/amend-output-log.sh FunExt.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps FunExt.out
+        FunExt.v.log)
+  (action
+   (diff FunExt.out FunExt.v.log)))
+ (rule
+  (alias runtest)
+  (targets FunExt.v.chk.log)
+  (deps FunExt.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/FunExt.v
+        .././../theories/Logic/FunctionalExtensionality.vo)
+  (action
+   (with-outputs-to FunExt.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec FunExt.vo))))
+ (rule
+  (alias runtest)
+  (targets .prim_array.aux
+           prim_array.vo
+           prim_array.glob
+           prim_array.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/prim_array.v)
+  (action
+   (with-outputs-to prim_array.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force prim_array.v))))
+ (rule
+  (alias runtest)
+  (targets prim_array.v.log)
+  (deps prim_array.v.log.pre)
+  (action
+   (with-outputs-to prim_array.v.log
+    (with-stdin-from prim_array.v
+     (run ../tools/amend-output-log.sh prim_array.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps prim_array.out
+        prim_array.v.log)
+  (action
+   (diff prim_array.out prim_array.v.log)))
+ (rule
+  (alias runtest)
+  (targets prim_array.v.chk.log)
+  (deps prim_array.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/prim_array.v)
+  (action
+   (with-outputs-to prim_array.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     prim_array.vo))))
+ (rule
+  (alias runtest)
+  (targets .Notations3.aux
+           Notations3.vo
+           Notations3.glob
+           Notations3.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Notations3.v)
+  (action
+   (with-outputs-to Notations3.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force Notations3.v))))
+ (rule
+  (alias runtest)
+  (targets Notations3.v.log)
+  (deps Notations3.v.log.pre)
+  (action
+   (with-outputs-to Notations3.v.log
+    (with-stdin-from Notations3.v
+     (run ../tools/amend-output-log.sh Notations3.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Notations3.out
+        Notations3.v.log)
+  (action
+   (diff Notations3.out Notations3.v.log)))
+ (rule
+  (alias runtest)
+  (targets Notations3.v.chk.log)
+  (deps Notations3.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Notations3.v)
+  (action
+   (with-outputs-to Notations3.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     Notations3.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_6764.aux
+           bug_6764.vo
+           bug_6764.glob
+           bug_6764.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_6764.v)
+  (action
+   (with-outputs-to bug_6764.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug_6764.v))))
+ (rule
+  (alias runtest)
+  (targets bug_6764.v.log)
+  (deps bug_6764.v.log.pre)
+  (action
+   (with-outputs-to bug_6764.v.log
+    (with-stdin-from bug_6764.v
+     (run ../tools/amend-output-log.sh bug_6764.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_6764.out
+        bug_6764.v.log)
+  (action
+   (diff bug_6764.out bug_6764.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_6764.v.chk.log)
+  (deps bug_6764.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_6764.v)
+  (action
+   (with-outputs-to bug_6764.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec bug_6764.vo))))
+ (rule
+  (alias runtest)
+  (targets ErrorInSection.vio
+           ErrorInSection.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ErrorInSection.v)
+  (action
+   (with-outputs-to ErrorInSection.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -vio -test-mode
+     -async-proofs-cache force -vio ErrorInSection.v))))
+ (rule
+  (alias runtest)
+  (targets ErrorInSection.v.log)
+  (deps ErrorInSection.v.log.pre)
+  (action
+   (with-outputs-to ErrorInSection.v.log
+    (with-stdin-from ErrorInSection.v
+     (run ../tools/amend-output-log.sh ErrorInSection.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps ErrorInSection.out
+        ErrorInSection.v.log)
+  (action
+   (diff ErrorInSection.out ErrorInSection.v.log)))
+ (rule
+  (alias runtest)
+  (targets .ltac_extra_args.aux
+           ltac_extra_args.vo
+           ltac_extra_args.glob
+           ltac_extra_args.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ltac_extra_args.v)
+  (action
+   (with-outputs-to ltac_extra_args.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force ltac_extra_args.v))))
+ (rule
+  (alias runtest)
+  (targets ltac_extra_args.v.log)
+  (deps ltac_extra_args.v.log.pre)
+  (action
+   (with-outputs-to ltac_extra_args.v.log
+    (with-stdin-from ltac_extra_args.v
+     (run ../tools/amend-output-log.sh ltac_extra_args.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps ltac_extra_args.out
+        ltac_extra_args.v.log)
+  (action
+   (diff ltac_extra_args.out ltac_extra_args.v.log)))
+ (rule
+  (alias runtest)
+  (targets ltac_extra_args.v.chk.log)
+  (deps ltac_extra_args.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ltac_extra_args.v)
+  (action
+   (with-outputs-to ltac_extra_args.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     ltac_extra_args.vo))))
+ (rule
+  (alias runtest)
+  (targets .optimize_heap.aux
+           optimize_heap.vo
+           optimize_heap.glob
+           optimize_heap.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/optimize_heap.v)
+  (action
+   (with-outputs-to optimize_heap.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force optimize_heap.v))))
+ (rule
+  (alias runtest)
+  (targets optimize_heap.v.log)
+  (deps optimize_heap.v.log.pre)
+  (action
+   (with-outputs-to optimize_heap.v.log
+    (with-stdin-from optimize_heap.v
+     (run ../tools/amend-output-log.sh optimize_heap.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps optimize_heap.out
+        optimize_heap.v.log)
+  (action
+   (diff optimize_heap.out optimize_heap.v.log)))
+ (rule
+  (alias runtest)
+  (targets optimize_heap.v.chk.log)
+  (deps optimize_heap.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/optimize_heap.v)
+  (action
+   (with-outputs-to optimize_heap.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     optimize_heap.vo))))
+ (rule
+  (alias runtest)
+  (targets .deprecation_definition.aux
+           deprecation_definition.vo
+           deprecation_definition.glob
+           deprecation_definition.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/deprecation_definition.v)
+  (action
+   (with-outputs-to deprecation_definition.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force deprecation_definition.v))))
+ (rule
+  (alias runtest)
+  (targets deprecation_definition.v.log)
+  (deps deprecation_definition.v.log.pre)
+  (action
+   (with-outputs-to deprecation_definition.v.log
+    (with-stdin-from deprecation_definition.v
+     (run ../tools/amend-output-log.sh deprecation_definition.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps deprecation_definition.out
+        deprecation_definition.v.log)
+  (action
+   (diff deprecation_definition.out deprecation_definition.v.log)))
+ (rule
+  (alias runtest)
+  (targets deprecation_definition.v.chk.log)
+  (deps deprecation_definition.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/deprecation_definition.v)
+  (action
+   (with-outputs-to deprecation_definition.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     deprecation_definition.vo))))
+ (rule
+  (alias runtest)
+  (targets .sint63NumberNotation.aux
+           sint63NumberNotation.vo
+           sint63NumberNotation.glob
+           sint63NumberNotation.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/sint63NumberNotation.v
+        .././../theories/Numbers/Cyclic/Int63/Uint63.vo)
+  (action
+   (with-outputs-to sint63NumberNotation.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force sint63NumberNotation.v))))
+ (rule
+  (alias runtest)
+  (targets sint63NumberNotation.v.log)
+  (deps sint63NumberNotation.v.log.pre)
+  (action
+   (with-outputs-to sint63NumberNotation.v.log
+    (with-stdin-from sint63NumberNotation.v
+     (run ../tools/amend-output-log.sh sint63NumberNotation.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps sint63NumberNotation.out
+        sint63NumberNotation.v.log)
+  (action
+   (diff sint63NumberNotation.out sint63NumberNotation.v.log)))
+ (rule
+  (alias runtest)
+  (targets sint63NumberNotation.v.chk.log)
+  (deps sint63NumberNotation.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/sint63NumberNotation.v
+        .././../theories/Numbers/Cyclic/Int63/Uint63.vo)
+  (action
+   (with-outputs-to sint63NumberNotation.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     sint63NumberNotation.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_9370.aux
+           bug_9370.vo
+           bug_9370.glob
+           bug_9370.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_9370.v
+        .././../theories/Reals/Reals.vo)
+  (action
+   (with-outputs-to bug_9370.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug_9370.v))))
+ (rule
+  (alias runtest)
+  (targets bug_9370.v.log)
+  (deps bug_9370.v.log.pre)
+  (action
+   (with-outputs-to bug_9370.v.log
+    (with-stdin-from bug_9370.v
+     (run ../tools/amend-output-log.sh bug_9370.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_9370.out
+        bug_9370.v.log)
+  (action
+   (diff bug_9370.out bug_9370.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_9370.v.chk.log)
+  (deps bug_9370.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_9370.v
+        .././../theories/Reals/Reals.vo)
+  (action
+   (with-outputs-to bug_9370.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec bug_9370.vo))))
+ (rule
+  (alias runtest)
+  (targets .set.aux
+           set.vo
+           set.glob
+           set.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/set.v)
+  (action
+   (with-outputs-to set.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force set.v))))
+ (rule
+  (alias runtest)
+  (targets set.v.log)
+  (deps set.v.log.pre)
+  (action
+   (with-outputs-to set.v.log
+    (with-stdin-from set.v (run ../tools/amend-output-log.sh set.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps set.out
+        set.v.log)
+  (action
+   (diff set.out set.v.log)))
+ (rule
+  (alias runtest)
+  (targets set.v.chk.log)
+  (deps set.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/set.v)
+  (action
+   (with-outputs-to set.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec set.vo))))
+ (rule
+  (alias runtest)
+  (targets .EmptyExtraction.aux
+           EmptyExtraction.vo
+           EmptyExtraction.glob
+           EmptyExtraction.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/EmptyExtraction.v
+        .././../theories/extraction/Extraction.vo)
+  (action
+   (with-outputs-to EmptyExtraction.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force EmptyExtraction.v))))
+ (rule
+  (alias runtest)
+  (targets EmptyExtraction.v.log)
+  (deps EmptyExtraction.v.log.pre)
+  (action
+   (with-outputs-to EmptyExtraction.v.log
+    (with-stdin-from EmptyExtraction.v
+     (run ../tools/amend-output-log.sh EmptyExtraction.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps EmptyExtraction.out
+        EmptyExtraction.v.log)
+  (action
+   (diff EmptyExtraction.out EmptyExtraction.v.log)))
+ (rule
+  (alias runtest)
+  (targets EmptyExtraction.v.chk.log)
+  (deps EmptyExtraction.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/EmptyExtraction.v
+        .././../theories/extraction/Extraction.vo)
+  (action
+   (with-outputs-to EmptyExtraction.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     EmptyExtraction.vo))))
+ (rule
+  (alias runtest)
+  (targets .RecordMissingField.aux
+           RecordMissingField.vo
+           RecordMissingField.glob
+           RecordMissingField.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/RecordMissingField.v)
+  (action
+   (with-outputs-to RecordMissingField.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force RecordMissingField.v))))
+ (rule
+  (alias runtest)
+  (targets RecordMissingField.v.log)
+  (deps RecordMissingField.v.log.pre)
+  (action
+   (with-outputs-to RecordMissingField.v.log
+    (with-stdin-from RecordMissingField.v
+     (run ../tools/amend-output-log.sh RecordMissingField.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps RecordMissingField.out
+        RecordMissingField.v.log)
+  (action
+   (diff RecordMissingField.out RecordMissingField.v.log)))
+ (rule
+  (alias runtest)
+  (targets RecordMissingField.v.chk.log)
+  (deps RecordMissingField.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/RecordMissingField.v)
+  (action
+   (with-outputs-to RecordMissingField.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     RecordMissingField.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_13320.aux
+           bug_13320.vo
+           bug_13320.glob
+           bug_13320.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_13320.v)
+  (action
+   (with-outputs-to bug_13320.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug_13320.v))))
+ (rule
+  (alias runtest)
+  (targets bug_13320.v.log)
+  (deps bug_13320.v.log.pre)
+  (action
+   (with-outputs-to bug_13320.v.log
+    (with-stdin-from bug_13320.v
+     (run ../tools/amend-output-log.sh bug_13320.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_13320.out
+        bug_13320.v.log)
+  (action
+   (diff bug_13320.out bug_13320.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_13320.v.chk.log)
+  (deps bug_13320.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_13320.v)
+  (action
+   (with-outputs-to bug_13320.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     bug_13320.vo))))
+ (rule
+  (alias runtest)
+  (targets .Record.aux
+           Record.vo
+           Record.glob
+           Record.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Record.v)
+  (action
+   (with-outputs-to Record.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force Record.v))))
+ (rule
+  (alias runtest)
+  (targets Record.v.log)
+  (deps Record.v.log.pre)
+  (action
+   (with-outputs-to Record.v.log
+    (with-stdin-from Record.v
+     (run ../tools/amend-output-log.sh Record.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Record.out
+        Record.v.log)
+  (action
+   (diff Record.out Record.v.log)))
+ (rule
+  (alias runtest)
+  (targets Record.v.chk.log)
+  (deps Record.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Record.v)
+  (action
+   (with-outputs-to Record.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec Record.vo))))
+ (rule
+  (alias runtest)
+  (targets .RecordFieldErrors.aux
+           RecordFieldErrors.vo
+           RecordFieldErrors.glob
+           RecordFieldErrors.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/RecordFieldErrors.v)
+  (action
+   (with-outputs-to RecordFieldErrors.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force RecordFieldErrors.v))))
+ (rule
+  (alias runtest)
+  (targets RecordFieldErrors.v.log)
+  (deps RecordFieldErrors.v.log.pre)
+  (action
+   (with-outputs-to RecordFieldErrors.v.log
+    (with-stdin-from RecordFieldErrors.v
+     (run ../tools/amend-output-log.sh RecordFieldErrors.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps RecordFieldErrors.out
+        RecordFieldErrors.v.log)
+  (action
+   (diff RecordFieldErrors.out RecordFieldErrors.v.log)))
+ (rule
+  (alias runtest)
+  (targets RecordFieldErrors.v.chk.log)
+  (deps RecordFieldErrors.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/RecordFieldErrors.v)
+  (action
+   (with-outputs-to RecordFieldErrors.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     RecordFieldErrors.vo))))
+ (rule
+  (alias runtest)
+  (targets .Tactics.aux
+           Tactics.vo
+           Tactics.glob
+           Tactics.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Tactics.v)
+  (action
+   (with-outputs-to Tactics.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force Tactics.v))))
+ (rule
+  (alias runtest)
+  (targets Tactics.v.log)
+  (deps Tactics.v.log.pre)
+  (action
+   (with-outputs-to Tactics.v.log
+    (with-stdin-from Tactics.v
+     (run ../tools/amend-output-log.sh Tactics.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Tactics.out
+        Tactics.v.log)
+  (action
+   (diff Tactics.out Tactics.v.log)))
+ (rule
+  (alias runtest)
+  (targets Tactics.v.chk.log)
+  (deps Tactics.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Tactics.v)
+  (action
+   (with-outputs-to Tactics.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec Tactics.vo))))
+ (rule
+  (alias runtest)
+  (targets .DependentInductionErrors.aux
+           DependentInductionErrors.vo
+           DependentInductionErrors.glob
+           DependentInductionErrors.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/DependentInductionErrors.v
+        .././../theories/Program/Equality.vo)
+  (action
+   (with-outputs-to DependentInductionErrors.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force DependentInductionErrors.v))))
+ (rule
+  (alias runtest)
+  (targets DependentInductionErrors.v.log)
+  (deps DependentInductionErrors.v.log.pre)
+  (action
+   (with-outputs-to DependentInductionErrors.v.log
+    (with-stdin-from DependentInductionErrors.v
+     (run ../tools/amend-output-log.sh DependentInductionErrors.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps DependentInductionErrors.out
+        DependentInductionErrors.v.log)
+  (action
+   (diff DependentInductionErrors.out DependentInductionErrors.v.log)))
+ (rule
+  (alias runtest)
+  (targets DependentInductionErrors.v.chk.log)
+  (deps DependentInductionErrors.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/DependentInductionErrors.v
+        .././../theories/Program/Equality.vo)
+  (action
+   (with-outputs-to DependentInductionErrors.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     DependentInductionErrors.vo))))
+ (rule
+  (alias runtest)
+  (targets .ExtractionString.aux
+           ExtractionString.vo
+           ExtractionString.glob
+           ExtractionString.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ExtractionString.v
+        .././../theories/Strings/String.vo
+        .././../theories/extraction/Extraction.vo
+        .././../theories/extraction/ExtrOcamlString.vo
+        .././../theories/extraction/ExtrOcamlNativeString.vo
+        .././../theories/extraction/ExtrHaskellString.vo)
+  (action
+   (with-outputs-to ExtractionString.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force ExtractionString.v))))
+ (rule
+  (alias runtest)
+  (targets ExtractionString.v.log)
+  (deps ExtractionString.v.log.pre)
+  (action
+   (with-outputs-to ExtractionString.v.log
+    (with-stdin-from ExtractionString.v
+     (run ../tools/amend-output-log.sh ExtractionString.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps ExtractionString.out
+        ExtractionString.v.log)
+  (action
+   (diff ExtractionString.out ExtractionString.v.log)))
+ (rule
+  (alias runtest)
+  (targets ExtractionString.v.chk.log)
+  (deps ExtractionString.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ExtractionString.v
+        .././../theories/Strings/String.vo
+        .././../theories/extraction/Extraction.vo
+        .././../theories/extraction/ExtrOcamlString.vo
+        .././../theories/extraction/ExtrOcamlNativeString.vo
+        .././../theories/extraction/ExtrHaskellString.vo)
+  (action
+   (with-outputs-to ExtractionString.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     ExtractionString.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_9180.aux
+           bug_9180.vo
+           bug_9180.glob
+           bug_9180.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_9180.v)
+  (action
+   (with-outputs-to bug_9180.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug_9180.v))))
+ (rule
+  (alias runtest)
+  (targets bug_9180.v.log)
+  (deps bug_9180.v.log.pre)
+  (action
+   (with-outputs-to bug_9180.v.log
+    (with-stdin-from bug_9180.v
+     (run ../tools/amend-output-log.sh bug_9180.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_9180.out
+        bug_9180.v.log)
+  (action
+   (diff bug_9180.out bug_9180.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_9180.v.chk.log)
+  (deps bug_9180.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_9180.v)
+  (action
+   (with-outputs-to bug_9180.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec bug_9180.vo))))
+ (rule
+  (alias runtest)
+  (targets .RecordProjParameter.aux
+           RecordProjParameter.vo
+           RecordProjParameter.glob
+           RecordProjParameter.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/RecordProjParameter.v)
+  (action
+   (with-outputs-to RecordProjParameter.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force RecordProjParameter.v))))
+ (rule
+  (alias runtest)
+  (targets RecordProjParameter.v.log)
+  (deps RecordProjParameter.v.log.pre)
+  (action
+   (with-outputs-to RecordProjParameter.v.log
+    (with-stdin-from RecordProjParameter.v
+     (run ../tools/amend-output-log.sh RecordProjParameter.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps RecordProjParameter.out
+        RecordProjParameter.v.log)
+  (action
+   (diff RecordProjParameter.out RecordProjParameter.v.log)))
+ (rule
+  (alias runtest)
+  (targets RecordProjParameter.v.chk.log)
+  (deps RecordProjParameter.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/RecordProjParameter.v)
+  (action
+   (with-outputs-to RecordProjParameter.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     RecordProjParameter.vo))))
+ (rule
+  (alias runtest)
+  (targets .Partac.aux
+           Partac.vo
+           Partac.glob
+           Partac.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Partac.v)
+  (action
+   (with-outputs-to Partac.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force Partac.v))))
+ (rule
+  (alias runtest)
+  (targets Partac.v.log)
+  (deps Partac.v.log.pre)
+  (action
+   (with-outputs-to Partac.v.log
+    (with-stdin-from Partac.v
+     (run ../tools/amend-output-log.sh Partac.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Partac.out
+        Partac.v.log)
+  (action
+   (diff Partac.out Partac.v.log)))
+ (rule
+  (alias runtest)
+  (targets Partac.v.chk.log)
+  (deps Partac.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Partac.v)
+  (action
+   (with-outputs-to Partac.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec Partac.vo))))
+ (rule
+  (alias runtest)
+  (targets .SearchPattern.aux
+           SearchPattern.vo
+           SearchPattern.glob
+           SearchPattern.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/SearchPattern.v)
+  (action
+   (with-outputs-to SearchPattern.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force SearchPattern.v))))
+ (rule
+  (alias runtest)
+  (targets SearchPattern.v.log)
+  (deps SearchPattern.v.log.pre)
+  (action
+   (with-outputs-to SearchPattern.v.log
+    (with-stdin-from SearchPattern.v
+     (run ../tools/amend-output-log.sh SearchPattern.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps SearchPattern.out
+        SearchPattern.v.log)
+  (action
+   (diff SearchPattern.out SearchPattern.v.log)))
+ (rule
+  (alias runtest)
+  (targets SearchPattern.v.chk.log)
+  (deps SearchPattern.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/SearchPattern.v)
+  (action
+   (with-outputs-to SearchPattern.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     SearchPattern.vo))))
+ (rule
+  (alias runtest)
+  (targets .Cases.aux
+           Cases.vo
+           Cases.glob
+           Cases.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Cases.v
+        .././../theories/Arith/Arith.vo
+        .././../theories/Lists/List.vo)
+  (action
+   (with-outputs-to Cases.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force Cases.v))))
+ (rule
+  (alias runtest)
+  (targets Cases.v.log)
+  (deps Cases.v.log.pre)
+  (action
+   (with-outputs-to Cases.v.log
+    (with-stdin-from Cases.v
+     (run ../tools/amend-output-log.sh Cases.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Cases.out
+        Cases.v.log)
+  (action
+   (diff Cases.out Cases.v.log)))
+ (rule
+  (alias runtest)
+  (targets Cases.v.chk.log)
+  (deps Cases.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Cases.v
+        .././../theories/Arith/Arith.vo
+        .././../theories/Lists/List.vo)
+  (action
+   (with-outputs-to Cases.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec Cases.vo))))
+ (rule
+  (alias runtest)
+  (targets .Succeed.aux
+           Succeed.vo
+           Succeed.glob
+           Succeed.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Succeed.v)
+  (action
+   (with-outputs-to Succeed.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force Succeed.v))))
+ (rule
+  (alias runtest)
+  (targets Succeed.v.log)
+  (deps Succeed.v.log.pre)
+  (action
+   (with-outputs-to Succeed.v.log
+    (with-stdin-from Succeed.v
+     (run ../tools/amend-output-log.sh Succeed.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Succeed.out
+        Succeed.v.log)
+  (action
+   (diff Succeed.out Succeed.v.log)))
+ (rule
+  (alias runtest)
+  (targets Succeed.v.chk.log)
+  (deps Succeed.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Succeed.v)
+  (action
+   (with-outputs-to Succeed.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec Succeed.vo))))
+ (rule
+  (alias runtest)
+  (targets .PosSyntax.aux
+           PosSyntax.vo
+           PosSyntax.glob
+           PosSyntax.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/PosSyntax.v
+        .././../theories/PArith/PArith.vo
+        .././../theories/Arith/Arith.vo)
+  (action
+   (with-outputs-to PosSyntax.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force PosSyntax.v))))
+ (rule
+  (alias runtest)
+  (targets PosSyntax.v.log)
+  (deps PosSyntax.v.log.pre)
+  (action
+   (with-outputs-to PosSyntax.v.log
+    (with-stdin-from PosSyntax.v
+     (run ../tools/amend-output-log.sh PosSyntax.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps PosSyntax.out
+        PosSyntax.v.log)
+  (action
+   (diff PosSyntax.out PosSyntax.v.log)))
+ (rule
+  (alias runtest)
+  (targets PosSyntax.v.chk.log)
+  (deps PosSyntax.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/PosSyntax.v
+        .././../theories/PArith/PArith.vo
+        .././../theories/Arith/Arith.vo)
+  (action
+   (with-outputs-to PosSyntax.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     PosSyntax.vo))))
+ (rule
+  (alias runtest)
+  (targets .print_ltac.aux
+           print_ltac.vo
+           print_ltac.glob
+           print_ltac.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/print_ltac.v)
+  (action
+   (with-outputs-to print_ltac.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force print_ltac.v))))
+ (rule
+  (alias runtest)
+  (targets print_ltac.v.log)
+  (deps print_ltac.v.log.pre)
+  (action
+   (with-outputs-to print_ltac.v.log
+    (with-stdin-from print_ltac.v
+     (run ../tools/amend-output-log.sh print_ltac.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps print_ltac.out
+        print_ltac.v.log)
+  (action
+   (diff print_ltac.out print_ltac.v.log)))
+ (rule
+  (alias runtest)
+  (targets print_ltac.v.chk.log)
+  (deps print_ltac.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/print_ltac.v)
+  (action
+   (with-outputs-to print_ltac.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     print_ltac.vo))))
+ (rule
+  (alias runtest)
+  (targets .ltac2_deprecated.aux
+           ltac2_deprecated.vo
+           ltac2_deprecated.glob
+           ltac2_deprecated.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ltac2_deprecated.v
+        .././../user-contrib/Ltac2/Ltac2.vo)
+  (action
+   (with-outputs-to ltac2_deprecated.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force ltac2_deprecated.v))))
+ (rule
+  (alias runtest)
+  (targets ltac2_deprecated.v.log)
+  (deps ltac2_deprecated.v.log.pre)
+  (action
+   (with-outputs-to ltac2_deprecated.v.log
+    (with-stdin-from ltac2_deprecated.v
+     (run ../tools/amend-output-log.sh ltac2_deprecated.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps ltac2_deprecated.out
+        ltac2_deprecated.v.log)
+  (action
+   (diff ltac2_deprecated.out ltac2_deprecated.v.log)))
+ (rule
+  (alias runtest)
+  (targets ltac2_deprecated.v.chk.log)
+  (deps ltac2_deprecated.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/ltac2_deprecated.v
+        .././../user-contrib/Ltac2/Ltac2.vo)
+  (action
+   (with-outputs-to ltac2_deprecated.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     ltac2_deprecated.vo))))
+ (rule
+  (alias runtest)
+  (targets .interleave_options_correct_order.aux
+           interleave_options_correct_order.vo
+           interleave_options_correct_order.glob
+           interleave_options_correct_order.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/interleave_options_correct_order.v)
+  (action
+   (with-outputs-to interleave_options_correct_order.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -ri Extraction -unset
+     "Extraction Optimize" -test-mode -async-proofs-cache force
+     interleave_options_correct_order.v))))
+ (rule
+  (alias runtest)
+  (targets interleave_options_correct_order.v.log)
+  (deps interleave_options_correct_order.v.log.pre)
+  (action
+   (with-outputs-to interleave_options_correct_order.v.log
+    (with-stdin-from interleave_options_correct_order.v
+     (run ../tools/amend-output-log.sh
+      interleave_options_correct_order.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps interleave_options_correct_order.out
+        interleave_options_correct_order.v.log)
+  (action
+   (diff interleave_options_correct_order.out
+    interleave_options_correct_order.v.log)))
+ (rule
+  (alias runtest)
+  (targets interleave_options_correct_order.v.chk.log)
+  (deps interleave_options_correct_order.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/interleave_options_correct_order.v)
+  (action
+   (with-outputs-to interleave_options_correct_order.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     interleave_options_correct_order.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_5222.aux
+           bug_5222.vo
+           bug_5222.glob
+           bug_5222.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_5222.v)
+  (action
+   (with-outputs-to bug_5222.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -async-proofs off
+     -test-mode -async-proofs-cache force bug_5222.v))))
+ (rule
+  (alias runtest)
+  (targets bug_5222.v.log)
+  (deps bug_5222.v.log.pre)
+  (action
+   (with-outputs-to bug_5222.v.log
+    (with-stdin-from bug_5222.v
+     (run ../tools/amend-output-log.sh bug_5222.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_5222.out
+        bug_5222.v.log)
+  (action
+   (diff bug_5222.out bug_5222.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_5222.v.chk.log)
+  (deps bug_5222.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_5222.v)
+  (action
+   (with-outputs-to bug_5222.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec bug_5222.vo))))
+ (rule
+  (alias runtest)
+  (targets .Notations2.aux
+           Notations2.vo
+           Notations2.glob
+           Notations2.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Notations2.v)
+  (action
+   (with-outputs-to Notations2.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force Notations2.v))))
+ (rule
+  (alias runtest)
+  (targets Notations2.v.log)
+  (deps Notations2.v.log.pre)
+  (action
+   (with-outputs-to Notations2.v.log
+    (with-stdin-from Notations2.v
+     (run ../tools/amend-output-log.sh Notations2.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Notations2.out
+        Notations2.v.log)
+  (action
+   (diff Notations2.out Notations2.v.log)))
+ (rule
+  (alias runtest)
+  (targets Notations2.v.chk.log)
+  (deps Notations2.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Notations2.v)
+  (action
+   (with-outputs-to Notations2.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     Notations2.vo))))
+ (rule
+  (alias runtest)
+  (targets .Extraction_infix.aux
+           Extraction_infix.vo
+           Extraction_infix.glob
+           Extraction_infix.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Extraction_infix.v
+        .././../theories/extraction/Extraction.vo)
+  (action
+   (with-outputs-to Extraction_infix.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force Extraction_infix.v))))
+ (rule
+  (alias runtest)
+  (targets Extraction_infix.v.log)
+  (deps Extraction_infix.v.log.pre)
+  (action
+   (with-outputs-to Extraction_infix.v.log
+    (with-stdin-from Extraction_infix.v
+     (run ../tools/amend-output-log.sh Extraction_infix.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Extraction_infix.out
+        Extraction_infix.v.log)
+  (action
+   (diff Extraction_infix.out Extraction_infix.v.log)))
+ (rule
+  (alias runtest)
+  (targets Extraction_infix.v.chk.log)
+  (deps Extraction_infix.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Extraction_infix.v
+        .././../theories/extraction/Extraction.vo)
+  (action
+   (with-outputs-to Extraction_infix.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     Extraction_infix.vo))))
+ (rule
+  (alias runtest)
+  (targets .bug_13112.aux
+           bug_13112.vo
+           bug_13112.glob
+           bug_13112.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_13112.v)
+  (action
+   (with-outputs-to bug_13112.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force bug_13112.v))))
+ (rule
+  (alias runtest)
+  (targets bug_13112.v.log)
+  (deps bug_13112.v.log.pre)
+  (action
+   (with-outputs-to bug_13112.v.log
+    (with-stdin-from bug_13112.v
+     (run ../tools/amend-output-log.sh bug_13112.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_13112.out
+        bug_13112.v.log)
+  (action
+   (diff bug_13112.out bug_13112.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_13112.v.chk.log)
+  (deps bug_13112.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/bug_13112.v)
+  (action
+   (with-outputs-to bug_13112.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     bug_13112.vo))))
+ (rule
+  (alias runtest)
+  (targets .Search_bug13298.aux
+           Search_bug13298.vo
+           Search_bug13298.glob
+           Search_bug13298.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Search_bug13298.v)
+  (action
+   (with-outputs-to Search_bug13298.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -test-mode
+     -async-proofs-cache force Search_bug13298.v))))
+ (rule
+  (alias runtest)
+  (targets Search_bug13298.v.log)
+  (deps Search_bug13298.v.log.pre)
+  (action
+   (with-outputs-to Search_bug13298.v.log
+    (with-stdin-from Search_bug13298.v
+     (run ../tools/amend-output-log.sh Search_bug13298.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Search_bug13298.out
+        Search_bug13298.v.log)
+  (action
+   (diff Search_bug13298.out Search_bug13298.v.log)))
+ (rule
+  (alias runtest)
+  (targets Search_bug13298.v.chk.log)
+  (deps Search_bug13298.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Search_bug13298.v)
+  (action
+   (with-outputs-to Search_bug13298.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     Search_bug13298.vo))))
+ (rule
+  (alias runtest)
+  (targets .Errors.aux
+           Errors.vo
+           Errors.glob
+           Errors.v.log.pre)
+  (deps (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Errors.v)
+  (action
+   (with-outputs-to Errors.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -top Errors -test-mode
+     -async-proofs-cache force Errors.v))))
+ (rule
+  (alias runtest)
+  (targets Errors.v.log)
+  (deps Errors.v.log.pre)
+  (action
+   (with-outputs-to Errors.v.log
+    (with-stdin-from Errors.v
+     (run ../tools/amend-output-log.sh Errors.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps Errors.out
+        Errors.v.log)
+  (action
+   (diff Errors.out Errors.v.log)))
+ (rule
+  (alias runtest)
+  (targets Errors.v.chk.log)
+  (deps Errors.vo
+        (alias csdp-cache)
+        ../../theories/Init/Prelude.vo
+        ../output/Errors.v)
+  (action
+   (with-outputs-to Errors.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec Errors.vo))))
+ (rule
+  (alias csdp-cache)
+  (deps (universe)
+        ../.csdp.cache.test-suite)
+  (action
+   (progn (no-infer (copy ../.csdp.cache.test-suite .csdp.cache))
+    (run chmod +w .csdp.cache))))
+ )
 (subdir output-coqchk
  (rule
   (alias runtest)
@@ -41586,6 +51052,227 @@
         DependentEvars.v.log)
   (action
    (diff DependentEvars.out DependentEvars.v.log)))
+ )
+(subdir output-failure
+ (rule
+  (alias runtest)
+  (targets qualification.v.log.pre)
+  (deps ../../theories/Init/Prelude.vo
+        ../output-failure/qualification.v)
+  (action
+   (with-outputs-to qualification.v.log.pre
+    (with-accepted-exit-codes (or 1)
+     (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories
+      Coq -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+      ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+      ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+      -I ../../plugins/ltac2 -I ../../plugins/micromega -I
+      ../../plugins/nsatz -I ../../plugins/ring -I ../../plugins/rtauto -I
+      ../../plugins/ssr -I ../../plugins/ssrmatching -I ../../plugins/syntax
+      -top qualification -test-mode -async-proofs-cache force
+      qualification.v)))))
+ (rule
+  (alias runtest)
+  (targets qualification.v.log)
+  (deps qualification.v.log.pre)
+  (action
+   (with-outputs-to qualification.v.log
+    (with-stdin-from qualification.v
+     (run ../tools/amend-output-log.sh qualification.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps qualification.out
+        qualification.v.log)
+  (action
+   (diff qualification.out qualification.v.log)))
+ (rule
+  (alias runtest)
+  (targets UnclosedBlocks.v.log.pre)
+  (deps ../../theories/Init/Prelude.vo
+        ../output-failure/UnclosedBlocks.v)
+  (action
+   (with-outputs-to UnclosedBlocks.v.log.pre
+    (with-accepted-exit-codes (or 1)
+     (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories
+      Coq -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+      ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+      ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+      -I ../../plugins/ltac2 -I ../../plugins/micromega -I
+      ../../plugins/nsatz -I ../../plugins/ring -I ../../plugins/rtauto -I
+      ../../plugins/ssr -I ../../plugins/ssrmatching -I ../../plugins/syntax
+      -test-mode -async-proofs-cache force UnclosedBlocks.v)))))
+ (rule
+  (alias runtest)
+  (targets UnclosedBlocks.v.log)
+  (deps UnclosedBlocks.v.log.pre)
+  (action
+   (with-outputs-to UnclosedBlocks.v.log
+    (with-stdin-from UnclosedBlocks.v
+     (run ../tools/amend-output-log.sh UnclosedBlocks.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps UnclosedBlocks.out
+        UnclosedBlocks.v.log)
+  (action
+   (diff UnclosedBlocks.out UnclosedBlocks.v.log)))
+ (rule
+  (alias runtest)
+  (targets bug_15334.v.log.pre)
+  (deps ../../theories/Init/Prelude.vo
+        ../output-failure/bug_15334.v)
+  (action
+   (with-outputs-to bug_15334.v.log.pre
+    (with-accepted-exit-codes (or 1)
+     (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories
+      Coq -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+      ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+      ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+      -I ../../plugins/ltac2 -I ../../plugins/micromega -I
+      ../../plugins/nsatz -I ../../plugins/ring -I ../../plugins/rtauto -I
+      ../../plugins/ssr -I ../../plugins/ssrmatching -I ../../plugins/syntax
+      -test-mode -async-proofs-cache force bug_15334.v)))))
+ (rule
+  (alias runtest)
+  (targets bug_15334.v.log)
+  (deps bug_15334.v.log.pre)
+  (action
+   (with-outputs-to bug_15334.v.log
+    (with-stdin-from bug_15334.v
+     (run ../tools/amend-output-log.sh bug_15334.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps bug_15334.out
+        bug_15334.v.log)
+  (action
+   (diff bug_15334.out bug_15334.v.log)))
+ )
+(subdir output-modulo-time
+ (rule
+  (alias runtest)
+  (targets .abort.aux
+           abort.vo
+           abort.glob
+           abort.v.log.pre)
+  (deps ../../theories/Init/Prelude.vo
+        ../output-modulo-time/abort.v)
+  (action
+   (with-outputs-to abort.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -time abort.v))))
+ (rule
+  (alias runtest)
+  (targets abort.v.log)
+  (deps abort.v.log.pre)
+  (action
+   (with-outputs-to abort.v.log
+    (with-stdin-from abort.v
+     (run ../tools/modulo-time-output-log.sh abort.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps abort.out
+        abort.v.log)
+  (action
+   (diff abort.out abort.v.log)))
+ (rule
+  (alias runtest)
+  (targets abort.v.chk.log)
+  (deps abort.vo
+        ../../theories/Init/Prelude.vo
+        ../output-modulo-time/abort.v)
+  (action
+   (with-outputs-to abort.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec abort.vo))))
+ (rule
+  (alias runtest)
+  (targets .ltacprof_abstract.aux
+           ltacprof_abstract.vo
+           ltacprof_abstract.glob
+           ltacprof_abstract.v.log.pre)
+  (deps ../../theories/Init/Prelude.vo
+        ../output-modulo-time/ltacprof_abstract.v)
+  (action
+   (with-outputs-to ltacprof_abstract.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -profile-ltac-cutoff
+     0.0 ltacprof_abstract.v))))
+ (rule
+  (alias runtest)
+  (targets ltacprof_abstract.v.log)
+  (deps ltacprof_abstract.v.log.pre)
+  (action
+   (with-outputs-to ltacprof_abstract.v.log
+    (with-stdin-from ltacprof_abstract.v
+     (run ../tools/modulo-time-output-log.sh ltacprof_abstract.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps ltacprof_abstract.out
+        ltacprof_abstract.v.log)
+  (action
+   (diff ltacprof_abstract.out ltacprof_abstract.v.log)))
+ (rule
+  (alias runtest)
+  (targets ltacprof_abstract.v.chk.log)
+  (deps ltacprof_abstract.vo
+        ../../theories/Init/Prelude.vo
+        ../output-modulo-time/ltacprof_abstract.v)
+  (action
+   (with-outputs-to ltacprof_abstract.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     ltacprof_abstract.vo))))
+ (rule
+  (alias runtest)
+  (targets .ltacprof.aux
+           ltacprof.vo
+           ltacprof.glob
+           ltacprof.v.log.pre)
+  (deps ../../theories/Init/Prelude.vo
+        ../output-modulo-time/ltacprof.v)
+  (action
+   (with-outputs-to ltacprof.v.log.pre
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -profile-ltac-cutoff
+     0.0 ltacprof.v))))
+ (rule
+  (alias runtest)
+  (targets ltacprof.v.log)
+  (deps ltacprof.v.log.pre)
+  (action
+   (with-outputs-to ltacprof.v.log
+    (with-stdin-from ltacprof.v
+     (run ../tools/modulo-time-output-log.sh ltacprof.v.log.pre)))))
+ (rule
+  (alias runtest)
+  (deps ltacprof.out
+        ltacprof.v.log)
+  (action
+   (diff ltacprof.out ltacprof.v.log)))
+ (rule
+  (alias runtest)
+  (targets ltacprof.v.chk.log)
+  (deps ltacprof.vo
+        ../../theories/Init/Prelude.vo
+        ../output-modulo-time/ltacprof.v)
+  (action
+   (with-outputs-to ltacprof.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec ltacprof.vo))))
  )
 (subdir primitive/arrays
  (rule
@@ -46404,6 +56091,130 @@
     (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
      ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
      bug_15770.vo))))
+ )
+(subdir stm
+ (rule
+  (alias runtest)
+  (targets .Nijmegen_QArithSternBrocot_Zaux.aux
+           Nijmegen_QArithSternBrocot_Zaux.vo
+           Nijmegen_QArithSternBrocot_Zaux.glob
+           Nijmegen_QArithSternBrocot_Zaux.v.log)
+  (deps ../../theories/Init/Prelude.vo
+        ../stm/Nijmegen_QArithSternBrocot_Zaux.v
+        .././../theories/ZArith/ZArith.vo
+        .././../theories/setoid_ring/ZArithRing.vo
+        .././../theories/micromega/Lia.vo)
+  (action
+   (with-outputs-to Nijmegen_QArithSternBrocot_Zaux.v.log
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -async-proofs on
+     Nijmegen_QArithSternBrocot_Zaux.v))))
+ (rule
+  (alias runtest)
+  (targets Nijmegen_QArithSternBrocot_Zaux.v.chk.log)
+  (deps Nijmegen_QArithSternBrocot_Zaux.vo
+        ../../theories/Init/Prelude.vo
+        ../stm/Nijmegen_QArithSternBrocot_Zaux.v
+        .././../theories/ZArith/ZArith.vo
+        .././../theories/setoid_ring/ZArithRing.vo
+        .././../theories/micromega/Lia.vo)
+  (action
+   (with-outputs-to Nijmegen_QArithSternBrocot_Zaux.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     Nijmegen_QArithSternBrocot_Zaux.vo))))
+ (rule
+  (alias runtest)
+  (targets .delayed_restrict_univs_9093.aux
+           delayed_restrict_univs_9093.vo
+           delayed_restrict_univs_9093.glob
+           delayed_restrict_univs_9093.v.log)
+  (deps ../../theories/Init/Prelude.vo
+        ../stm/delayed_restrict_univs_9093.v)
+  (action
+   (with-outputs-to delayed_restrict_univs_9093.v.log
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -async-proofs on
+     -async-proofs on delayed_restrict_univs_9093.v))))
+ (rule
+  (alias runtest)
+  (targets delayed_restrict_univs_9093.v.chk.log)
+  (deps delayed_restrict_univs_9093.vo
+        ../../theories/Init/Prelude.vo
+        ../stm/delayed_restrict_univs_9093.v)
+  (action
+   (with-outputs-to delayed_restrict_univs_9093.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     delayed_restrict_univs_9093.vo))))
+ (rule
+  (alias runtest)
+  (targets .classify_set_proof_mode_9093.aux
+           classify_set_proof_mode_9093.vo
+           classify_set_proof_mode_9093.glob
+           classify_set_proof_mode_9093.v.log)
+  (deps ../../theories/Init/Prelude.vo
+        ../stm/classify_set_proof_mode_9093.v)
+  (action
+   (with-outputs-to classify_set_proof_mode_9093.v.log
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -async-proofs on
+     -noinit -async-proofs on classify_set_proof_mode_9093.v))))
+ (rule
+  (alias runtest)
+  (targets classify_set_proof_mode_9093.v.chk.log)
+  (deps classify_set_proof_mode_9093.vo
+        ../../theories/Init/Prelude.vo
+        ../stm/classify_set_proof_mode_9093.v)
+  (action
+   (with-outputs-to classify_set_proof_mode_9093.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     classify_set_proof_mode_9093.vo))))
+ (rule
+  (alias runtest)
+  (targets .arg_filter_1.aux
+           arg_filter_1.vo
+           arg_filter_1.glob
+           arg_filter_1.v.log)
+  (deps ../../theories/Init/Prelude.vo
+        ../stm/arg_filter_1.v)
+  (action
+   (with-outputs-to arg_filter_1.v.log
+    (run %{bin:coqc} -boot -R ../prerequisite TestSuite -R ../../theories Coq
+     -Q ../../user-contrib/Ltac2 Ltac2 -I ../../plugins/btauto -I
+     ../../plugins/cc -I ../../plugins/derive -I ../../plugins/extraction -I
+     ../../plugins/firstorder -I ../../plugins/funind -I ../../plugins/ltac
+     -I ../../plugins/ltac2 -I ../../plugins/micromega -I ../../plugins/nsatz
+     -I ../../plugins/ring -I ../../plugins/rtauto -I ../../plugins/ssr -I
+     ../../plugins/ssrmatching -I ../../plugins/syntax -async-proofs-tac-j 1
+     -async-proofs on arg_filter_1.v))))
+ (rule
+  (alias runtest)
+  (targets arg_filter_1.v.chk.log)
+  (deps arg_filter_1.vo
+        ../../theories/Init/Prelude.vo
+        ../stm/arg_filter_1.v)
+  (action
+   (with-outputs-to arg_filter_1.v.chk.log
+    (run %{bin:coqchk} -silent -o -boot -R ../prerequisite TestSuite -R
+     ../../theories Coq -Q ../../user-contrib/Ltac2 Ltac2 -norec
+     arg_filter_1.vo))))
  )
 (subdir success
  (rule

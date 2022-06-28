@@ -222,27 +222,24 @@ let output_rules out =
    * CoqRules.check_dir ~out ~cctx ~deps ~dir:"modules" ()
    * end; *)
 
-  (*
-  CoqRules.check_dir ~out ~cctx ~deps ~envs "output" ~output:MainJob ~copy_csdp_cache
+  CoqRules.check_dir ~out ~cctx ~deps ~dir:"output" ~output:MainJob ~copy_csdp_cache
     ~args:["-test-mode"; "-async-proofs-cache"; "force"]
     (* TODO: Load.v is broken because we call coqdep in one directory and run coqc in another. *)
-    ~ignore:["Load.v"];
-  *)
+    ~ignore:["Load.v"] ();
 
   CoqRules.check_dir ~out ~cctx ~deps ~dir:"output-coqchk" ~output:CheckJob ();
   CoqRules.check_dir ~out ~cctx ~deps ~dir:"output-coqtop" ~output:MainJob ~kind:Coqtop ();
 
-  (*
-  CoqRules.check_dir ~out ~cctx ~deps ~envs ~dir:"output-failure" ~output:MainJob
-    ~args:["-test-mode"; "-async-proofs-cache"; "force"] ~exit_codes:[1];
-  CoqRules.check_dir ~out ~cctx ~deps ~envs "output-modulo-time" ~output:MainJobModTime ();
-  *)
+  CoqRules.check_dir ~out ~cctx ~deps ~dir:"output-failure" ~output:MainJob
+    ~args:["-test-mode"; "-async-proofs-cache"; "force"] ~exit_codes:[1] ();
+
+  CoqRules.check_dir ~out ~cctx ~deps ~dir:"output-modulo-time" ~output:MainJobModTime ();
   CoqRules.check_dir ~out ~cctx ~deps ~dir:"primitive/arrays" ();
   CoqRules.check_dir ~out ~cctx ~deps ~dir:"primitive/float" ();
   CoqRules.check_dir ~out ~cctx ~deps ~dir:"primitive/sint63" ();
   CoqRules.check_dir ~out ~cctx ~deps ~dir:"primitive/uint63" ();
   CoqRules.check_dir ~out ~cctx ~deps ~dir:"ssr" ();
-  (* CoqRules.check_dir ~out ~cctx ~deps ~dir:"stm" ~args:["-async-proofs" (); "on"] (); *)
+  CoqRules.check_dir ~out ~cctx ~deps ~dir:"stm" ~args:["-async-proofs"; "on"] ();
   CoqRules.check_dir ~out ~cctx ~deps ~dir:"success" ();
   CoqRules.check_dir ~out ~cctx ~deps ~dir:"vio" ~kind:Vio ();
   CoqRules.check_dir ~out ~cctx ~deps ~dir:"vio" ~kind:Vio2vo ();
