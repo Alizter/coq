@@ -1,15 +1,15 @@
 (subdir lib
  (executables
-  (names pp_big_vect
- coqProject)
+  (names coqProject
+ pp_big_vect)
   (libraries coq_utest coq-core.lib))
  
  (rule
-  (targets pp_big_vect.ml.log)
-  (action (with-accepted-exit-codes 0 (run ./pp_big_vect.exe))))
- (rule
   (targets coqProject.ml.log)
   (action (with-accepted-exit-codes 0 (run ./coqProject.exe))))
+ (rule
+  (targets pp_big_vect.ml.log)
+  (action (with-accepted-exit-codes 0 (run ./pp_big_vect.exe))))
  
  (alias
   (name runtest) (deps (glob_files *.ml.log))))
