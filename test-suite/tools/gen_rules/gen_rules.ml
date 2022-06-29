@@ -46,7 +46,7 @@ let test_ide ~out ~deps : unit =
     "-R"; Filename.concat lvl "../theories" ; "Coq";
     "-R"; Filename.concat lvl "prerequisite"; "TestSuite";
     "-Q"; Filename.concat lvl "../user-contrib/Ltac2"; "Ltac2";
-    ] @ (plugins_cctx lvl) @ CoqRules.vfile_header ~dir file
+    ] @ (plugins_cctx lvl) @ Coq_rules.vfile_header ~dir file
     |> String.concat " "
   in
   (* NOTE: it is very important for the arguments to be quoted, so args will have to be flattened *)
@@ -66,7 +66,7 @@ let coqdoc_html_with_diff_rule ~dir ~out file  =
     "--html";
     ]
     (* Get extra args under "coqdoc-prog-args" in file *)
-    @ CoqRules.vfile_header ~dir ~name:"coqdoc-prog-args" file
+    @ Coq_rules.vfile_header ~dir ~name:"coqdoc-prog-args" file
   in
   let run = "%{bin:coqdoc}" :: args @ [file] in
   Dune.Rules.run ~run ~out ~log_file ~targets:[doc_file]
@@ -87,7 +87,7 @@ let coqdoc_latex_with_diff_rule ~dir ~out file  =
     "--latex";
     ]
     (* Get extra args under "coqdoc-prog-args" in file *)
-    @ CoqRules.vfile_header ~dir ~name:"coqdoc-prog-args" file
+    @ Coq_rules.vfile_header ~dir ~name:"coqdoc-prog-args" file
   in
   Dune.Rules.run ~out ~run:("%{bin:coqdoc}" :: args @ [file])
     ~log_file ~targets:[doc_file]
@@ -158,8 +158,8 @@ let test_misc ~out ?(ignore=[]) dir =
     (* TODO: what if this doesn't work? Windows? *)
     let bogomips = run "./tools/bogomips.sh" in
     (* Run tests *)
-    CoqRules.check_dir ~out ~cctx ~envs ~dir
-      (* ~output:CoqRules.Compilation.Output.MainJob *)
+    Coq_rules.check_dir ~out ~cctx ~envs ~dir
+      (* ~output:Coq_rules.Compilation.Output.MainJob *)
       ~deps:(fun lvl -> [
         "%{bin:coqtacticworker.opt}";
         ] @ deps lvl)
@@ -180,8 +180,8 @@ let test_misc ~out ?(ignore=[]) dir =
     ()
 
 let output_rules out =
-  (* let open CoqRules.Compilation.Kind in
-   * let open CoqRules.Compilation.Output in *)
+  (* let open Coq_rules.Compilation.Kind in
+   * let open Coq_rules.Compilation.Output in *)
 
   (* Common context - This will be passed to coqdep and coqc *)
   let cctx lvl =
@@ -200,49 +200,49 @@ let output_rules out =
      prelude to everyone *)
   let deps lvl = [ Filename.concat lvl "../theories/Init/Prelude.vo" ] in
 
-  CoqRules.check_dir ~out ~cctx ~deps ~dir:"prerequisite" ();
+  Coq_rules.check_dir ~out ~cctx ~deps ~dir:"prerequisite" ();
 
-  CoqRules.check_dir ~out ~cctx ~deps ~dir:"bugs" ~copy_csdp_cache
+  Coq_rules.check_dir ~out ~cctx ~deps ~dir:"bugs" ~copy_csdp_cache
     ~ignore:[ "bug_2923.v"     (* coqchk will fail on bug_2923.v see coq/coq#15930  *)
             ; "bug_12138.v"    (* coqdep cannot parse bug_12138.v *)
             ] ();
 
-  CoqRules.check_dir ~out ~cctx ~deps ~dir:"coqchk" ~copy_csdp_cache ();
-  CoqRules.check_dir ~out ~cctx ~deps ~dir:"failure" ();
-  CoqRules.check_dir ~out ~cctx ~deps ~dir:"interactive" ~kind:Coqtop ();
-  CoqRules.check_dir ~out ~cctx ~deps ~dir:"ltac2" ();
+  Coq_rules.check_dir ~out ~cctx ~deps ~dir:"coqchk" ~copy_csdp_cache ();
+  Coq_rules.check_dir ~out ~cctx ~deps ~dir:"failure" ();
+  Coq_rules.check_dir ~out ~cctx ~deps ~dir:"interactive" ~kind:Coqtop ();
+  Coq_rules.check_dir ~out ~cctx ~deps ~dir:"ltac2" ();
 
   (*
-  CoqRules.check_dir ~out ~cctx ~deps ~envs "micromega" ~copy_csdp_cache;
+  Coq_rules.check_dir ~out ~cctx ~deps ~envs "micromega" ~copy_csdp_cache;
   *)
 
   (* We override cctx here in order to pass these arguments to coqdep uniformly *)
   (* begin
    * let cctx lvl = ["-R"; lvl; "Mods"] in
-   * CoqRules.check_dir ~out ~cctx ~deps ~dir:"modules" ()
+   * Coq_rules.check_dir ~out ~cctx ~deps ~dir:"modules" ()
    * end; *)
 
-  CoqRules.check_dir ~out ~cctx ~deps ~dir:"output" ~output:MainJob ~copy_csdp_cache
+  Coq_rules.check_dir ~out ~cctx ~deps ~dir:"output" ~output:MainJob ~copy_csdp_cache
     ~args:["-test-mode"; "-async-proofs-cache"; "force"]
     (* TODO: Load.v is broken because we call coqdep in one directory and run coqc in another. *)
     ~ignore:["Load.v"] ();
 
-  CoqRules.check_dir ~out ~cctx ~deps ~dir:"output-coqchk" ~output:CheckJob ();
-  CoqRules.check_dir ~out ~cctx ~deps ~dir:"output-coqtop" ~output:MainJob ~kind:Coqtop ();
+  Coq_rules.check_dir ~out ~cctx ~deps ~dir:"output-coqchk" ~output:CheckJob ();
+  Coq_rules.check_dir ~out ~cctx ~deps ~dir:"output-coqtop" ~output:MainJob ~kind:Coqtop ();
 
-  CoqRules.check_dir ~out ~cctx ~deps ~dir:"output-failure" ~output:MainJob
+  Coq_rules.check_dir ~out ~cctx ~deps ~dir:"output-failure" ~output:MainJob
     ~args:["-test-mode"; "-async-proofs-cache"; "force"] ~exit_codes:[1] ();
 
-  CoqRules.check_dir ~out ~cctx ~deps ~dir:"output-modulo-time" ~output:MainJobModTime ();
-  CoqRules.check_dir ~out ~cctx ~deps ~dir:"primitive/arrays" ();
-  CoqRules.check_dir ~out ~cctx ~deps ~dir:"primitive/float" ();
-  CoqRules.check_dir ~out ~cctx ~deps ~dir:"primitive/sint63" ();
-  CoqRules.check_dir ~out ~cctx ~deps ~dir:"primitive/uint63" ();
-  CoqRules.check_dir ~out ~cctx ~deps ~dir:"ssr" ();
-  CoqRules.check_dir ~out ~cctx ~deps ~dir:"stm" ~args:["-async-proofs"; "on"] ();
-  CoqRules.check_dir ~out ~cctx ~deps ~dir:"success" ();
-  CoqRules.check_dir ~out ~cctx ~deps ~dir:"vio" ~kind:Vio ();
-  CoqRules.check_dir ~out ~cctx ~deps ~dir:"vio" ~kind:Vio2vo ();
+  Coq_rules.check_dir ~out ~cctx ~deps ~dir:"output-modulo-time" ~output:MainJobModTime ();
+  Coq_rules.check_dir ~out ~cctx ~deps ~dir:"primitive/arrays" ();
+  Coq_rules.check_dir ~out ~cctx ~deps ~dir:"primitive/float" ();
+  Coq_rules.check_dir ~out ~cctx ~deps ~dir:"primitive/sint63" ();
+  Coq_rules.check_dir ~out ~cctx ~deps ~dir:"primitive/uint63" ();
+  Coq_rules.check_dir ~out ~cctx ~deps ~dir:"ssr" ();
+  Coq_rules.check_dir ~out ~cctx ~deps ~dir:"stm" ~args:["-async-proofs"; "on"] ();
+  Coq_rules.check_dir ~out ~cctx ~deps ~dir:"success" ();
+  Coq_rules.check_dir ~out ~cctx ~deps ~dir:"vio" ~kind:Vio ();
+  Coq_rules.check_dir ~out ~cctx ~deps ~dir:"vio" ~kind:Vio2vo ();
 
   (* Other tests *)
 
@@ -261,7 +261,7 @@ let output_rules out =
     "(package coq-core)";
     ];
 
-  CoqRules.check_dir ~out ~cctx ~deps ~dir:"coqdoc" ~args:["-Q"; "coqdoc"; "Coqdoc"] ();
+  Coq_rules.check_dir ~out ~cctx ~deps ~dir:"coqdoc" ~args:["-Q"; "coqdoc"; "Coqdoc"] ();
 
   test_coqdoc ~out "coqdoc";
 
