@@ -3,7 +3,9 @@
 # Make
 CoqMakefile_in="$(realpath "../../tools/CoqMakefile.in")"
 
-TMP=`mktemp -d`
+# Careful with this, some distros mount /tmp as noexec, so we cannot
+# use mktmp and place binaries there.
+TMP=`mktemp -p $(pwd) -d`
 cd $TMP
 
 cat > coq_environment.txt <<EOT
