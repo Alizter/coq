@@ -11,6 +11,12 @@
 (* gen_rules: generate dune build rules for Coq's test-suite            *)
 (* It is desirable that this file can be bootstrapped alone             *)
 
+let worker_deps deps lvl =
+  [ "%{bin:coqtacticworker.opt}"
+  ; "%{bin:coqproofworker.opt}"
+  ; "%{bin:coqqueryworker.opt}"
+  ] @ deps lvl
+
 (* scan *)
 let plugins_dir = ["btauto"; "cc"; "derive"; "extraction"; "firstorder"; "funind"; "ltac"; "ltac2"; "micromega"; "nsatz"; "ring"; "rtauto"; "ssr"; "ssrmatching"; "syntax"]
 
@@ -134,6 +140,8 @@ let test_misc ~out ?(ignore=[]) dir =
         (* We could probably do a lot better (stdlib tests?) *)
         "(package coq-stdlib)";
         "%{lib:coq-core.vm:../../stublibs/dllcoqrun_stubs.so}";
+        (* coq_environment.sh (already pulled by coq-core tho) *)
+        "../../tools/CoqMakefile.in";
         (* printers.sh deps *)
         "../../dev/incdir_dune";
         "../../dev/base_include";
@@ -160,9 +168,7 @@ let test_misc ~out ?(ignore=[]) dir =
     (* Run tests *)
     Coq_rules.check_dir ~out ~cctx ~envs ~dir
       (* ~output:Coq_rules.Compilation.Output.MainJob *)
-      ~deps:(fun lvl -> [
-        "%{bin:coqtacticworker.opt}";
-        ] @ deps lvl)
+      ~deps:(worker_deps deps)
       ~args:["-test-mode"; "-async-proofs-cache"; "force"] ();
     (* Run complexity.sh on test *)
     in_subdir_foreach_ext ~out ~ext:".v" ~ignore
@@ -236,7 +242,8 @@ let output_rules out =
   Coq_rules.check_dir ~out ~cctx ~deps ~dir:"primitive/sint63" ();
   Coq_rules.check_dir ~out ~cctx ~deps ~dir:"primitive/uint63" ();
   Coq_rules.check_dir ~out ~cctx ~deps ~dir:"ssr" ();
-  Coq_rules.check_dir ~out ~cctx ~deps ~dir:"stm" ~args:["-async-proofs"; "on"] ();
+
+  Coq_rules.check_dir ~out ~cctx ~deps:(worker_deps deps) ~dir:"stm" ~args:["-async-proofs"; "on"] ();
   Coq_rules.check_dir ~out ~cctx ~deps ~dir:"success" ();
   Coq_rules.check_dir ~out ~cctx ~deps ~dir:"vio" ~kind:Vio ();
   Coq_rules.check_dir ~out ~cctx ~deps ~dir:"vio" ~kind:Vio2vo ();
