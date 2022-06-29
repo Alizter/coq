@@ -180,8 +180,6 @@ let test_misc ~out ?(ignore=[]) dir =
     ()
 
 let output_rules out =
-  (* let open Coq_rules.Compilation.Kind in
-   * let open Coq_rules.Compilation.Output in *)
 
   (* Common context - This will be passed to coqdep and coqc *)
   let cctx lvl =
@@ -189,6 +187,8 @@ let output_rules out =
     ; "-R"; Filename.concat lvl "prerequisite"; "TestSuite"
     ; "-R"; Filename.concat lvl "../theories" ; "Coq"
     ; "-Q"; Filename.concat lvl "../user-contrib/Ltac2"; "Ltac2"
+    (* TODO perhaps this instead of above? *)
+    (* ; "-Q"; Filename.concat lvl "../user-contrib"; "" *)
     ] @ plugins_cctx lvl
   in
 
@@ -211,16 +211,13 @@ let output_rules out =
   Coq_rules.check_dir ~out ~cctx ~deps ~dir:"failure" ();
   Coq_rules.check_dir ~out ~cctx ~deps ~dir:"interactive" ~kind:Coqtop ();
   Coq_rules.check_dir ~out ~cctx ~deps ~dir:"ltac2" ();
-
-  (*
-  Coq_rules.check_dir ~out ~cctx ~deps ~envs "micromega" ~copy_csdp_cache;
-  *)
+  Coq_rules.check_dir ~out ~cctx ~deps ~dir:"micromega" ~copy_csdp_cache ();
 
   (* We override cctx here in order to pass these arguments to coqdep uniformly *)
-  (* begin
-   * let cctx lvl = ["-R"; lvl; "Mods"] in
-   * Coq_rules.check_dir ~out ~cctx ~deps ~dir:"modules" ()
-   * end; *)
+  begin
+  let cctx lvl = ["-R"; lvl; "Mods"] in
+  Coq_rules.check_dir ~out ~cctx ~deps ~dir:"modules" ()
+  end;
 
   Coq_rules.check_dir ~out ~cctx ~deps ~dir:"output" ~output:MainJob ~copy_csdp_cache
     ~args:["-test-mode"; "-async-proofs-cache"; "force"]
