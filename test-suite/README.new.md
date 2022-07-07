@@ -18,17 +18,20 @@
 
 ## Introduction
 
-The test suite can be run from the Coq root directory by
-`make -f Makefile.dune test`. This does two things:
-  1. Run `dune build @test-gen` to generate the rules for the test-suite.
-  2. Run `dune test` to build all the testing targets.
+The test suite can be run from the Coq root directory by `make test`. This does
+three things:
+  1. Generate the rules for building the stdlib.
+  2. Run `dune build @test-gen` to generate the rules for the test-suite.
+  3. Run `dune build @runtest` to build all the testing targets.
 
 The test suite is incremental meaning that you do not have to build the rest of
 the repository in order to run it. You may also run it after hacking on some
-files and dune will rebuild only what is necessery.
+files and dune will rebuild only what is necessary.
 
 `dune test` is very flexible, you can for instance build all the targets in a
-certain subdirectory by running `dune test test-suite/bugs`.
+certain subdirectory by running `dune test test-suite/bugs`. `dune test` is just
+another way of calling `dune build @runtest` and for directories it calls the
+`@runtest` alias in the directory `dune build @test-suite/bugs/runtest`.
 
 ### Quality of life suggestions
 
@@ -37,16 +40,15 @@ Here are a few quality of life suggestions:
     for make). This will display every target that dune is building at a give
     time.
   + The option `--always-show-command-line` is also very useful since dune will
-    dump a subshell command that you can run to reproduce the failing test. (You
-    might need to add a `$` before running it in your terminal.
-
+    dump a subshell command that you can run to reproduce the failing test.
 
 ## Adding a test
 
-For simple tests, placing the new .v file will be enough. If the test expects an
-output, a file `test.out` should provided for the file `test.v`. The `.out` file
-can be empty for the time being, and the correct output generated using `dune
-promote`. See [Promoting test output](#promoting-test-output).
+For simple tests, placing the new .v file in a given directory will be enough.
+If the test expects an output, a file `test.out` should provided for the file
+`test.v`. The `.out` file can be empty for the time being, and the correct
+output generated using `dune promote`. See [Promoting test
+output](#promoting-test-output).
 
 ### Promoting test output
 
