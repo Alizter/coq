@@ -124,7 +124,7 @@ val mkLetIn : Name.t Context.binder_annot * constr * types * constr -> constr
 (** [mkApp (f, [|t1; ...; tN|]] constructs the application
     {%html:(f t<sub>1</sub> ... t<sub>n</sub>)%}
     {%latex:$(f~t_1\dots f_n)$%}. *)
-val mkApp : constr * constr array -> constr
+val mkApp : constr * constr list -> constr
 
 val map_puniverses : ('a -> 'b) -> 'a Univ.puniverses -> 'b Univ.puniverses
 

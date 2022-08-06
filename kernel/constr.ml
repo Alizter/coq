@@ -103,7 +103,7 @@ type ('constr, 'types, 'sort, 'univs) kind_of_term =
   | Prod      of Name.t binder_annot * 'types * 'types
   | Lambda    of Name.t binder_annot * 'types * 'constr
   | LetIn     of Name.t binder_annot * 'constr * 'types * 'constr
-  | App       of 'constr * 'constr array
+  | App       of 'constr * 'constr list
   | Const     of (Constant.t * 'univs)
   | Ind       of (inductive * 'univs)
   | Construct of (constructor * 'univs)
@@ -173,12 +173,12 @@ let mkLetIn (x,c1,t,c2) = LetIn (x,c1,t,c2)
 (* We ensure applicative terms have at least one argument and the
    function is not itself an applicative term *)
 let mkApp (f, a) =
-  if Int.equal (Array.length a) 0 then f else
+  if Int.equal (List.length a) 0 then f else
     match f with
-      | App (g, cl) -> App (g, Array.append cl a)
+      | App (g, cl) -> App (g, List.append cl a)
       | _ -> App (f, a)
 
-let map_puniverses f (x,u) = (f x, u)
+let map_puniverses f (x,u)s = (f x, u)
 let in_punivs a = (a, Univ.Instance.empty)
 
 (* Constructs a constant *)
@@ -276,7 +276,7 @@ let rec kind_nocast_gen kind c =
   | Cast (c, _, _) -> kind_nocast_gen kind c
   | App (h, outer) as k ->
     (match kind_nocast_gen kind h with
-     | App (h, inner) -> App (h, Array.append inner outer)
+     | App (h, inner) -> App (h, List.append inner outer)
      | _ -> k)
   | k -> k
 
@@ -461,13 +461,11 @@ let destRef c = let open GlobRef in match kind c with
 
 let decompose_app c =
   match kind c with
-    | App (f,cl) -> (f, Array.to_list cl)
+    | App (f,cl) -> (f, cl)
     | _ -> (c,[])
 
-let decompose_appvect c =
-  match kind c with
-    | App (f,cl) -> (f, cl)
-    | _ -> (c,[||])
+let decompose_appvect c = decompose_app c
+[@@ocaml.deprecated "Use decompose_app instead"]
 
 (****************************************************************************)
 (*              Functions to recur through subterms                         *)
@@ -489,7 +487,7 @@ let fold f acc c = match kind c with
   | Prod (_,t,c) -> f (f acc t) c
   | Lambda (_,t,c) -> f (f acc t) c
   | LetIn (_,b,t,c) -> f (f (f acc b) t) c
-  | App (c,l) -> Array.fold_left f (f acc c) l
+  | App (c,l) -> List.fold_left f (f acc c) l
   | Proj (_p,c) -> f acc c
   | Evar (_,l) -> List.fold_left f acc l
   | Case (_,_,pms,(_,p),iv,c,bl) ->
@@ -517,7 +515,7 @@ let iter f c = match kind c with
   | Prod (_,t,c) -> f t; f c
   | Lambda (_,t,c) -> f t; f c
   | LetIn (_,b,t,c) -> f b; f t; f c
-  | App (c,l) -> f c; Array.iter f l
+  | App (c,l) -> f c; List.iter f l
   | Proj (_p,c) -> f c
   | Evar (_,l) -> List.iter f l
   | Case (_,_,pms,p,iv,c,bl) ->
@@ -539,7 +537,7 @@ let iter_with_binders g f n c = match kind c with
   | Prod (_,t,c) -> f n t; f (g n) c
   | Lambda (_,t,c) -> f n t; f (g n) c
   | LetIn (_,b,t,c) -> f n b; f n t; f (g n) c
-  | App (c,l) -> f n c; Array.Fun1.iter f n l
+  | App (c,l) -> f n c; List.Fun1.iter f n l
   | Evar (_,l) -> List.iter (fun c -> f n c) l
   | Case (_,_,pms,p,iv,c,bl) ->
     Array.Fun1.iter f n pms;
@@ -572,7 +570,7 @@ let fold_constr_with_binders g f n acc c =
   | Prod (_na,t,c) -> f (g  n) (f n acc t) c
   | Lambda (_na,t,c) -> f (g  n) (f n acc t) c
   | LetIn (_na,b,t,c) -> f (g  n) (f n (f n acc b) t) c
-  | App (c,l) -> Array.fold_left (f n) (f n acc c) l
+  | App (c,l) -> List.fold_left (f n) (f n acc c) l
   | Proj (_p,c) -> f n acc c
   | Evar (_,l) -> List.fold_left (f n) acc l
   | Case (_,_,pms,p,iv,c,bl) ->
@@ -653,7 +651,7 @@ let map f c = match kind c with
       else mkLetIn (na, b', t', k')
   | App (b,l) ->
       let b' = f b in
-      let l' = Array.Smart.map f l in
+      let l' = List.Smart.map f l in
       if b'==b && l'==l then c
       else mkApp (b', l')
   | Proj (p,t) ->
@@ -736,7 +734,7 @@ let fold_map f accu c = match kind c with
       else accu, mkLetIn (na, b', t', k')
   | App (b,l) ->
       let accu, b' = f accu b in
-      let accu, l' = Array.Smart.fold_left_map f accu l in
+      let accu, l' = List.Smart.fold_left_map f accu l in
       if b'==b && l'==l then accu, c
       else accu, mkApp (b', l')
   | Proj (p,t) ->
@@ -804,7 +802,7 @@ let map_with_binders g f l c0 = match kind c0 with
     else mkLetIn (na, b', t', c')
   | App (c, al) ->
     let c' = f l c in
-    let al' = Array.Fun1.Smart.map f l al in
+    let al' = List.Fun1.Smart.map f l al in
     if c' == c && al' == al then c0
     else mkApp (c', al')
   | Proj (p, t) ->
@@ -904,9 +902,9 @@ let compare_head_gen_leq_with kind1 kind2 leq_universes leq_sorts eq leq nargs t
   | LetIn (_,b1,t1,c1), LetIn (_,b2,t2,c2) -> eq 0 b1 b2 && eq 0 t1 t2 && leq nargs c1 c2
   (* Why do we suddenly make a special case for Cast here? *)
   | App (c1, l1), App (c2, l2) ->
-    let len = Array.length l1 in
-    Int.equal len (Array.length l2) &&
-    leq (nargs+len) c1 c2 && Array.equal_norefl (eq 0) l1 l2
+    let len = List.length l1 in
+    Int.equal len (List.length l2) &&
+    leq (nargs+len) c1 c2 && List.equal (eq 0) l1 l2
   | Proj (p1,c1), Proj (p2,c2) -> Projection.CanOrd.equal p1 p2 && eq 0 c1 c2
   | Evar (e1,l1), Evar (e2,l2) -> Evar.equal e1 e2 && List.equal (eq 0) l1 l2
   | Const (c1,u1), Const (c2,u2) ->
@@ -1045,7 +1043,7 @@ let constr_ord_int f t1 t2 =
     | LetIn (_,b1,t1,c1), LetIn (_,b2,t2,c2) ->
         ((f =? f) ==? f) b1 b2 t1 t2 c1 c2
     | LetIn _, _ -> -1 | _, LetIn _ -> 1
-    | App (c1,l1), App (c2,l2) -> (f =? (Array.compare f)) c1 c2 l1 l2
+    | App (c1,l1), App (c2,l2) -> (f =? (List.compare f)) c1 c2 l1 l2
     | App _, _ -> -1 | _, App _ -> 1
     | Const (c1,_u1), Const (c2,_u2) -> Constant.CanOrd.compare c1 c2
     | Const _, _ -> -1 | _, Const _ -> 1
@@ -1130,6 +1128,15 @@ let array_eqeq t1 t2 =
      (Int.equal i (Array.length t1)) || (t1.(i) == t2.(i) && aux (i + 1))
    in aux 0)
 
+let list_eqeq t1 t2 =
+  t1 == t2 ||
+  (Int.equal (List.length t1) (List.length t2) &&
+  let rec aux l1 l2 = match l1, l2 with
+    | [], [] -> true
+    | x :: l1, y :: l2 -> x == y && aux l1 l2
+    | _, _ -> false
+  in aux t1 t2)  
+
 let invert_eqeq iv1 iv2 =
   match iv1, iv2 with
   | NoInvert, NoInvert -> true
@@ -1151,7 +1158,7 @@ let hasheq t1 t2 =
     | Lambda (n1,t1,c1), Lambda (n2,t2,c2) -> n1 == n2 && t1 == t2 && c1 == c2
     | LetIn (n1,b1,t1,c1), LetIn (n2,b2,t2,c2) ->
       n1 == n2 && b1 == b2 && t1 == t2 && c1 == c2
-    | App (c1,l1), App (c2,l2) -> c1 == c2 && array_eqeq l1 l2
+    | App (c1,l1), App (c2,l2) -> c1 == c2 && list_eqeq l1 l2
     | Proj (p1,c1), Proj(p2,c2) -> p1 == p2 && c1 == c2
     | Evar (e1,l1), Evar (e2,l2) -> e1 == e2 && List.equal (==) l1 l2
     | Const (c1,u1), Const (c2,u2) -> c1 == c2 && u1 == u2
@@ -1221,7 +1228,7 @@ let rec hash t =
       combinesmall 6 (combine3 (hash b) (hash t) (hash c))
     | App (Cast(c, _, _),l) -> hash (mkApp (c,l))
     | App (c,l) ->
-      combinesmall 7 (combine (hash_term_array l) (hash c))
+      combinesmall 7 (combine (hash_term_list l) (hash c))
     | Evar (e,l) ->
       combinesmall 8 (combine (Evar.hash e) (hash_term_list l))
     | Const (c,u) ->
@@ -1342,7 +1349,7 @@ let rec hash_term (t : t) =
     (LetIn (hcons_annot na, b, t, c), combinesmall 6 (combine4 (hash_annot Name.hash na) hb ht hc))
   | App (c,l) ->
     let c, hc = sh_rec c in
-    let l, hl = hash_term_array l in
+    let l, hl = hash_list_array l in
     (App (c,l), combinesmall 7 (combine hl hc))
   | Evar (e,l) ->
     let l, hl = hash_list_array l in
@@ -1505,7 +1512,7 @@ let rec debug_print c =
        debug_print c)
   | App (c,l) ->  hov 1
       (str"(" ++ debug_print c ++ spc() ++
-       prlist_with_sep spc debug_print (Array.to_list l) ++ str")")
+       prlist_with_sep spc debug_print l ++ str")")
   | Evar (e,l) -> hov 1
       (str"Evar#" ++ int (Evar.repr e) ++ str"{" ++
        prlist_with_sep spc debug_print l ++str"}")

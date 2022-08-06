@@ -426,6 +426,26 @@ sig
       relatively to the second argument of [f] *)
 end
 
+module Fun1 : sig
+  val map : ('r -> 'a -> 'b) -> 'r -> 'a list -> 'b list
+  (** [Fun1.map f x v = map (f x) v] *)
+
+  val iter : ('r -> 'a -> unit) -> 'r -> 'a list -> unit
+  (** [Fun1.iter f x v = iter (f x) v] *)
+
+  val iter2 : ('r -> 'a -> 'b -> unit) -> 'r -> 'a list -> 'b list -> unit
+  (** [Fun1.iter2 f x v1 v2 = iter (f x) v1 v2] *)
+
+  module Smart : sig
+    val map : ('r -> 'a -> 'a) -> 'r -> 'a list -> 'a list
+    (** [Fun1.Smart.map f x v = Smart.map (f x) v] *)
+  end
+end
+(** The functions defined in this module are the same as the main ones, except
+    that they are all higher-order, and their function arguments have an
+    additional parameter. This allows us to prevent closure creation in critical
+    cases. *)
+
 module type MonoS = sig
   type elt
   val equal : elt list -> elt list -> bool

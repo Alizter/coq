@@ -948,3 +948,41 @@ module type MonoS = sig
   val remove_assoc : elt -> (elt * 'a) list -> (elt * 'a) list
   val mem_assoc_sym : elt -> ('a * elt) list -> bool
 end
+
+module Fun1 = struct
+
+  let rec map_loop f arg p = function
+    | [] -> ()
+    | x :: l ->
+      let c = { head = f arg x; tail = [] } in
+      p.tail <- cast c;
+      map_loop f arg c l
+  
+  let map f arg = function
+    | [] -> []
+    | x :: l ->
+      let c = { head = f arg x; tail = [] } in
+      map_loop f arg c l;
+      cast c
+  
+  let rec iter f arg = function
+    | [] -> ()
+    | a :: l -> f arg a; iter f arg l
+
+  let rec iter2 f arg l1 l2 =
+    match (l1, l2) with
+    | [], [] -> ()
+    | a1 :: l1, a2 :: l2 -> f arg a1 a2; iter2 f arg l1 l2
+    | _, _ -> invalid_arg "CList.Fun1.iter2"
+
+  module Smart = struct
+
+    let rec map f arg l = match l with
+      | [] -> l
+      | h :: tl ->
+        let h' = f arg h in
+        let tl' = map f arg tl in
+        if h' == h && tl' == tl then l else h' :: tl'
+  
+  end
+end
