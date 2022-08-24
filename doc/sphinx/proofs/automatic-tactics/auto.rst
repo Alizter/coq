@@ -373,7 +373,7 @@ Creating Hints
      The default value for hint locality will change in a future
      release. Hints added outside of sections without an explicit
      locality are now deprecated. We recommend using :attr:`export`
-     where possible.
+     where possible. This warning will raise an error.
 
    The `Hint` commands are:
 

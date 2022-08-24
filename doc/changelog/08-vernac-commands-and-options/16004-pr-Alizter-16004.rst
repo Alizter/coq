@@ -1,0 +1,5 @@
+- **Changed:**
+  Hint locality deprecations now raise an error
+  (`#16004 <https://github.com/coq/coq/pull/16004>`_,
+  fixes `#13394 <https://github.com/coq/coq/issues/13394>`_,
+  by Ali Caglayan).
