@@ -188,6 +188,7 @@ let print_usage_channel co command =
 \n  -admit module               load module and dependencies without checking\
 \n  -norec module               check module but admit dependencies without checking\
 \n\
+\n  -bt                         print backtraces on errors\
 \n  -debug                      enable debugging info\
 \n  -where                      print coqchk's standard library location and exit\
 \n  -v, --version               print coqchk version and exit\
@@ -337,6 +338,8 @@ let parse_args argv =
 
     | ("-Q"|"-R") :: d :: p :: rem -> set_include d p;parse rem
     | ("-Q"|"-R") :: ([] | [_]) -> usage ()
+
+    | "-bt" :: rem -> CDebug.set_flags "backtrace"; parse rem
 
     | "-debug" :: rem -> CDebug.set_debug_all true; parse rem
 
