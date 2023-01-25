@@ -9,9 +9,7 @@
 (************************************************************************)
 
 open Util
-open Vars
 open Names
-open Context
 open Constrintern
 open Impargs
 open Pretyping
@@ -87,7 +85,7 @@ let clear_univs scope univ =
 let declare_assumptions ~poly ~scope ~kind univs nl l =
   let _, _ = List.fold_left (fun (subst,univs) ((is_coe,idl),typ,imps) ->
       (* NB: here univs are ignored when scope=Discharge *)
-      let typ = replace_vars subst typ in
+      let typ = Vars.replace_vars subst typ in
       let univs,subst' =
         List.fold_left_map (fun univs id ->
             let refu = match scope with
@@ -149,7 +147,7 @@ let do_assumptions ~program_mode ~poly ~scope ~kind nl l =
     let sigma,t,imps = interp_assumption ~program_mode env sigma ienv [] c in
     let r = Retyping.relevance_of_type env sigma t in
     let env =
-      EConstr.push_named_context (List.map (fun {CAst.v=id} -> LocalAssum (make_annot id r,t)) idl) env in
+      EConstr.push_named_context (List.map (fun {CAst.v=id} -> LocalAssum (Context.make_annot id r,t)) idl) env in
     let ienv = List.fold_right (fun {CAst.v=id} ienv ->
       let impls = compute_internalization_data env sigma id Variable t imps in
       Id.Map.add id impls ienv) idl ienv in
@@ -243,7 +241,7 @@ let interp_context env sigma l =
       sigma (fun nf -> List.map (RelDecl.map_constr_het nf) ctx) in
   (* reorder, evar-normalize and add implicit status *)
   let ctx = List.rev_map (fun d ->
-      let {binder_name=name}, b, t = RelDecl.to_tuple d in
+      let {Context.binder_name=name}, b, t = RelDecl.to_tuple d in
       let name = match name with
         | Anonymous -> CErrors.user_err Pp.(str "Anonymous variables not allowed in contexts.")
         | Name id -> id
