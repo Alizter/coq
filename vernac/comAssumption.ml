@@ -22,9 +22,7 @@ let declare_variable is_coe ~kind typ univs imps impl {CAst.v=name} =
   let () = Declare.assumption_message name in
   let r = GlobRef.VarRef name in
   let () = maybe_declare_manual_implicits true r imps in
-  let env = Global.env () in
-  let sigma = Evd.from_env env in
-  let () = Classes.declare_instance env sigma None Hints.Local r in
+  let () = Classes.declare_instance None Hints.Local r in
   let () =
     if is_coe = Vernacexpr.AddCoercion then
       ComCoercion.try_add_new_coercion
@@ -220,11 +218,10 @@ let context_nosection sigma ~poly ctx =
     in
     let cst = Declare.declare_constant ~name ~kind ~local decl in
     let () = Declare.assumption_message name in
-    let env = Global.env () in
     (* why local when is_modtype? *)
     let locality = if Lib.is_modtype () then Hints.Local else Hints.SuperGlobal in
     let () = if Lib.is_modtype() || Option.is_empty b then
-        Classes.declare_instance env sigma None locality (GlobRef.ConstRef cst)
+        Classes.declare_instance None locality (GlobRef.ConstRef cst)
     in
     Constr.mkConstU (cst,instance_of_univ_entry univ_entry) :: subst
   in

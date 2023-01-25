@@ -184,7 +184,9 @@ let warning_not_a_class =
           ++ str "” is not a class")
     )
 
-let declare_instance ?(warn = false) env sigma info local glob =
+let declare_instance ?(warn = false) info local glob =
+  let env = Global.env () in
+  let sigma = Evd.from_env env in
   let ty, _ = Typeops.type_of_global_in_context env glob in
   let info = Option.default {hint_priority = None; hint_pattern = None} info in
   match class_of_constr env sigma (EConstr.of_constr ty) with
@@ -307,9 +309,7 @@ let id_of_class cl =
 
 let instance_hook info global ?hook cst =
   let info = intern_info info in
-  let env = Global.env () in
-  let sigma = Evd.from_env env in
-  declare_instance env sigma (Some info) global cst;
+  declare_instance (Some info) global cst;
   (match hook with Some h -> h cst | None -> ())
 
 let declare_instance_constant iinfo global impargs ?hook name udecl poly sigma term termtype =
@@ -337,9 +337,7 @@ let declare_instance_program pm env sigma ~locality ~poly name pri impargs udecl
   let hook { Declare.Hook.S.scope; dref; _ } =
     let cst = match dref with GlobRef.ConstRef kn -> kn | _ -> assert false in
     let pri = intern_info pri in
-    let env = Global.env () in
-    let sigma = Evd.from_env env in
-    declare_instance env sigma (Some pri) locality (GlobRef.ConstRef cst)
+    declare_instance (Some pri) locality (GlobRef.ConstRef cst)
   in
   let obls, _, term, typ = RetrieveObl.retrieve_obligations env name sigma 0 term termtype in
   let hook = Declare.Hook.make hook in

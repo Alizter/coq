@@ -345,15 +345,13 @@ let declare_proj_coercion_instance ~flags ref from ~poly ~with_coercion =
     ComCoercion.try_add_new_coercion_with_source ref ~local ~poly ~nonuniform:false ~reversible:flags.Data.pf_reversible ~source:cl
   end;
   if flags.Data.pf_instance then begin
-    let env = Global.env () in
-    let sigma = Evd.from_env env in
     let info = Typeclasses.{ hint_priority = flags.Data.pf_priority; hint_pattern = None } in
     let local =
       match flags.Data.pf_locality with
       | Goptions.OptLocal -> Hints.Local
       | Goptions.(OptDefault | OptExport) -> Hints.Export
       | Goptions.OptGlobal -> Hints.SuperGlobal in
-    Classes.declare_instance ~warn:true env sigma (Some info) local ref
+    Classes.declare_instance ~warn:true (Some info) local ref
   end
 
 (* TODO: refactor the declaration part here; this requires some

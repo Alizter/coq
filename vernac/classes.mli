@@ -9,7 +9,6 @@
 (************************************************************************)
 
 open Names
-open Environ
 open Constrexpr
 open Typeclasses
 open Libnames
@@ -18,8 +17,6 @@ open Libnames
 
 val declare_instance
   : ?warn:bool
-  -> env
-  -> Evd.evar_map
   -> hint_info option
   -> Hints.hint_locality
   -> GlobRef.t
@@ -28,7 +25,11 @@ val declare_instance
     Does nothing — or emit a “not-a-class” warning if the [warn] argument is set —
     when said type is not a registered type class. *)
 
-val existing_instance : Hints.hint_locality -> qualid -> Vernacexpr.hint_info_expr option -> unit
+val existing_instance
+  : Hints.hint_locality
+  -> qualid
+  -> Vernacexpr.hint_info_expr option
+  -> unit
 (** globality, reference, optional priority and pattern information *)
 
 val new_instance_interactive

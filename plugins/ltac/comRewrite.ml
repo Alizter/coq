@@ -213,7 +213,7 @@ let add_morphism_as_parameter atts m n : unit =
   let evd, pe = Declare.prepare_parameter ~poly ~udecl ~types evd in
   let cst = Declare.declare_constant ~name:instance_id ~kind (Declare.ParameterEntry pe) in
   let cst = GlobRef.ConstRef cst in
-  Classes.declare_instance (Global.env ()) evd (Some Hints.empty_hint_info) atts.locality cst;
+  Classes.declare_instance (Some Hints.empty_hint_info) atts.locality cst;
   declare_projection n instance_id cst
 
 let add_morphism_interactive atts ~tactic m n : Declare.Proof.t =
@@ -226,7 +226,7 @@ let add_morphism_interactive atts ~tactic m n : Declare.Proof.t =
   let kind = Decls.(IsDefinition Instance) in
   let hook { Declare.Hook.S.dref; _ } = dref |> function
     | GlobRef.ConstRef cst ->
-      Classes.declare_instance (Global.env ()) evd (Some Hints.empty_hint_info) atts.locality (GlobRef.ConstRef cst);
+      Classes.declare_instance (Some Hints.empty_hint_info) atts.locality (GlobRef.ConstRef cst);
       declare_projection n instance_id (GlobRef.ConstRef cst)
     | _ -> assert false
   in
