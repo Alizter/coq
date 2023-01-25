@@ -8,7 +8,6 @@
 (*         *     (see LICENSE file for the text of the license)         *)
 (************************************************************************)
 
-open CErrors
 open Util
 open Vars
 open Names
@@ -108,7 +107,7 @@ let declare_assumptions ~poly ~scope ~kind univs nl l =
 
 let maybe_error_many_udecls = function
   | ({CAst.loc;v=id}, Some _) ->
-    user_err ?loc
+    CErrors.user_err ?loc
       Pp.(strbrk "When declaring multiple axioms in one command, " ++
           strbrk "only the first is allowed a universe binder " ++
           strbrk "(which will be shared by the whole block).")
@@ -126,7 +125,7 @@ let process_assumptions_udecls ~scope l =
     | Locality.Discharge, Some _ ->
       let loc = first_id.CAst.loc in
       let msg = Pp.str "Section variables cannot be polymorphic." in
-      user_err ?loc  msg
+      CErrors.user_err ?loc  msg
     | _ -> ()
   in
   udecl, List.map (fun (coe, (idl, c)) -> coe, (List.map fst idl, c)) l
@@ -246,7 +245,7 @@ let interp_context env sigma l =
   let ctx = List.rev_map (fun d ->
       let {binder_name=name}, b, t = RelDecl.to_tuple d in
       let name = match name with
-        | Anonymous -> user_err Pp.(str "Anonymous variables not allowed in contexts.")
+        | Anonymous -> CErrors.user_err Pp.(str "Anonymous variables not allowed in contexts.")
         | Name id -> id
       in
       let impl = let open Glob_term in
