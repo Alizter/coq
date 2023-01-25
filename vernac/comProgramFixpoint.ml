@@ -8,39 +8,28 @@
 (*         *     (see LICENSE file for the text of the license)         *)
 (************************************************************************)
 
-open Pp
-open CErrors
 open Util
-open Constr
 open Context
-open Declare
 open Names
-open Libnames
-open Nameops
-open Constrexpr
-open Constrexpr_ops
 open Constrintern
 open Evarutil
 open Context.Rel.Declaration
-open ComFixpoint
 
 module RelDecl = Context.Rel.Declaration
 
 (* Wellfounded definition *)
 
-open Coqlib
-
 let init_constant sigma rf = Evd.fresh_global sigma rf
-let fix_sub_ref () = lib_ref "program.wf.fix_sub"
-let measure_on_R_ref () = lib_ref "program.wf.mr"
-let well_founded sigma = init_constant (Global.env ()) sigma (lib_ref "core.wf.well_founded")
+let fix_sub_ref () = Coqlib.lib_ref "program.wf.fix_sub"
+let measure_on_R_ref () = Coqlib.lib_ref "program.wf.mr"
+let well_founded sigma = init_constant (Global.env ()) sigma (Coqlib.lib_ref "core.wf.well_founded")
 
 let mkSubset sigma name typ prop =
   let open EConstr in
-  let sigma, app_h = Evd.fresh_global (Global.env ()) sigma (delayed_force build_sigma).typ in
+  let sigma, app_h = Evd.fresh_global (Global.env ()) sigma (delayed_force Coqlib.build_sigma).typ in
   sigma, mkApp (app_h, [| typ; mkLambda (make_annot name Sorts.Relevant, typ, prop) |])
 
-let make_qref s = qualid_of_string s
+let make_qref s = Libnames.qualid_of_string s
 let lt_ref = make_qref "Init.Peano.lt"
 
 type family = SPropF | PropF | TypeF
@@ -53,16 +42,16 @@ let get_sigmatypes sigma ~sort ~predsort =
   let open EConstr in
   let which, sigsort = match predsort, sort with
     | SPropF, _ | _, SPropF ->
-      user_err Pp.(str "SProp arguments not supported by Program Fixpoint yet.")
+      CErrors.user_err Pp.(str "SProp arguments not supported by Program Fixpoint yet.")
     | PropF, PropF -> "ex", PropF
     | PropF, TypeF -> "sig", TypeF
     | TypeF, (PropF|TypeF) -> "sigT", TypeF
   in
-  let sigma, ty = Evd.fresh_global (Global.env ()) sigma (lib_ref ("core."^which^".type")) in
+  let sigma, ty = Evd.fresh_global (Global.env ()) sigma (Coqlib.lib_ref ("core."^which^".type")) in
   let uinstance = snd (destRef sigma ty) in
-  let intro = mkRef (lib_ref ("core."^which^".intro"), uinstance) in
-  let p1 = mkRef (lib_ref ("core."^which^".proj1"), uinstance) in
-  let p2 = mkRef (lib_ref ("core."^which^".proj2"), uinstance) in
+  let intro = mkRef (Coqlib.lib_ref ("core."^which^".intro"), uinstance) in
+  let p1 = mkRef (Coqlib.lib_ref ("core."^which^".proj1"), uinstance) in
+  let p2 = mkRef (Coqlib.lib_ref ("core."^which^".proj2"), uinstance) in
   sigma, ty, intro, p1, p2, sigsort
 
 let rec telescope sigma l =
@@ -134,8 +123,8 @@ let build_wellfounded pm (recname,pl,bl,arityc,body) poly ?typing_flags ?using r
   let relty = Retyping.get_type_of env sigma rel in
   let relargty =
     let error () =
-      user_err ?loc:(constr_loc r)
-        (Printer.pr_econstr_env env sigma rel ++ str " is not an homogeneous binary relation.")
+      CErrors.user_err ?loc:(Constrexpr_ops.constr_loc r)
+        Pp.(Printer.pr_econstr_env env sigma rel ++ str " is not an homogeneous binary relation.")
     in
     try
       let ctx, ar = Reductionops.hnf_decompose_prod_n_decls env sigma 2 relty in
@@ -170,7 +159,7 @@ let build_wellfounded pm (recname,pl,bl,arityc,body) poly ?typing_flags ?using r
     sigma, wfa :: [arg]
   in
   let _intern_env = push_rel_context intern_bl env in
-  let sigma, proj = Evd.fresh_global (Global.env ()) sigma (delayed_force build_sigma).Coqlib.proj1 in
+  let sigma, proj = Evd.fresh_global (Global.env ()) sigma (delayed_force Coqlib.build_sigma).Coqlib.proj1 in
   let wfargpred = mkLambda (make_annot (Name argid') Sorts.Relevant, argtyp, wf_rel_fun (mkRel 1) (mkRel 3)) in
   let projection = (* in wfarg :: arg :: before *)
     mkApp (proj, [| argtyp ; wfargpred ; mkRel 1 |])
@@ -181,11 +170,11 @@ let build_wellfounded pm (recname,pl,bl,arityc,body) poly ?typing_flags ?using r
      now intern_arity is in wfarg :: arg *)
   let sigma, wfa = wfarg sigma 1 in
   let intern_fun_arity_prod = it_mkProd_or_LetIn intern_arity [wfa] in
-  let intern_fun_binder = LocalAssum (make_annot (Name (add_suffix recname "'")) Sorts.Relevant,
+  let intern_fun_binder = LocalAssum (make_annot (Name (Nameops.add_suffix recname "'")) Sorts.Relevant,
                                       intern_fun_arity_prod) in
   let sigma, curry_fun =
     let wfpred = mkLambda (make_annot (Name argid') Sorts.Relevant, argtyp, wf_rel_fun (mkRel 1) (mkRel (2 * len + 4))) in
-    let sigma, intro = Evd.fresh_global (Global.env ()) sigma (delayed_force build_sigma).Coqlib.intro in
+    let sigma, intro = Evd.fresh_global (Global.env ()) sigma (delayed_force Coqlib.build_sigma).Coqlib.intro in
     let arg = mkApp (intro, [| argtyp; wfpred; lift 1 make; mkRel 1 |]) in
     let app = mkApp (mkRel (2 * len + 2 (* recproof + orig binders + current binders *)), [| arg |]) in
     let rcurry = mkApp (rel, [| measure; lift len measure |]) in
@@ -231,7 +220,7 @@ let build_wellfounded pm (recname,pl,bl,arityc,body) poly ?typing_flags ?using r
   let top_arity = Evarutil.nf_evar sigma top_arity in
   let hook, recname, typ =
     if List.length binders_rel > 1 then
-      let name = add_suffix recname "_func" in
+      let name = Nameops.add_suffix recname "_func" in
       (* XXX: Mutating the evar_map in the hook! *)
       (* XXX: Likely the sigma is out of date when the hook is called .... *)
       let hook sigma { Declare.Hook.S.dref; _ } =
@@ -241,7 +230,7 @@ let build_wellfounded pm (recname,pl,bl,arityc,body) poly ?typing_flags ?using r
         let ty = EConstr.Unsafe.to_constr ty in
         let univs = Evd.check_univ_decl ~poly sigma udecl in
         (*FIXME poly? *)
-        let ce = definition_entry ~types:ty ~univs (EConstr.to_constr sigma body) in
+        let ce = Declare.definition_entry ~types:ty ~univs (EConstr.to_constr sigma body) in
         (* FIXME: include locality *)
         let c = Declare.declare_constant ~name:recname ~kind:Decls.(IsDefinition Definition) (DefinitionEntry ce) in
         let gr = GlobRef.ConstRef c in
@@ -276,7 +265,7 @@ let build_wellfounded pm (recname,pl,bl,arityc,body) poly ?typing_flags ?using r
 
 let out_def = function
   | Some def -> def
-  | None -> user_err Pp.(str "Program Fixpoint needs defined bodies.")
+  | None -> CErrors.user_err Pp.(str "Program Fixpoint needs defined bodies.")
 
 let collect_evars_of_term evd c ty =
   Evar.Set.union (Evd.evars_of_term evd c) (Evd.evars_of_term evd ty)
@@ -286,7 +275,7 @@ let do_program_recursive ~pm ~scope ~poly ?typing_flags ?using fixkind fixl =
   let (env, rec_sign, udecl, evd), fix, info =
     let env = Global.env () in
     let env = Environ.update_typing_flags ?typing_flags env in
-    interp_recursive env ~cofix ~program_mode:true fixl
+    ComFixpoint.interp_recursive env ~cofix ~program_mode:true fixl
   in
     (* Program-specific code *)
     (* Get the interesting evars, those that were not instantiated *)
@@ -342,9 +331,9 @@ let do_program_recursive ~pm ~scope ~poly ?typing_flags ?using fixkind fixl =
 let do_fixpoint ~pm ~scope ~poly ?typing_flags ?using l =
   let g = List.map (fun { Vernacexpr.rec_order } -> rec_order) l in
     match g, l with
-    | [Some { CAst.v = CWfRec (n,r) }],
+    | [Some { CAst.v = Constrexpr.CWfRec (n,r) }],
       [ Vernacexpr.{fname={CAst.v=id}; univs; binders; rtype; body_def; notations} ] ->
-        let recarg = mkIdentC n.CAst.v in
+        let recarg = Constrexpr_ops.mkIdentC n.CAst.v in
         build_wellfounded pm (id, univs, binders, rtype, out_def body_def) poly ?typing_flags ?using r recarg notations
 
     | [Some { CAst.v = CMeasureRec (n, m, r) }],
@@ -353,15 +342,15 @@ let do_fixpoint ~pm ~scope ~poly ?typing_flags ?using l =
       let r = match n, r with
         | Some id, None ->
           let loc = id.CAst.loc in
-          Some (CAst.make ?loc @@ CRef(qualid_of_ident ?loc id.CAst.v,None))
+          Some (CAst.make ?loc @@ Constrexpr.CRef (Libnames.qualid_of_ident ?loc id.CAst.v,None))
         | Some _, Some _ ->
-          user_err Pp.(str"Measure takes only two arguments in Program Fixpoint.")
+          CErrors.user_err Pp.(str"Measure takes only two arguments in Program Fixpoint.")
         | _, _ -> r
       in
         build_wellfounded pm (id, univs, binders, rtype, out_def body_def) poly ?typing_flags ?using
-          (Option.default (CAst.make @@ CRef (lt_ref,None)) r) m notations
+          (Option.default (CAst.make @@ Constrexpr.CRef (lt_ref,None)) r) m notations
 
-    | _, _ when List.for_all (fun ro -> match ro with None | Some { CAst.v = CStructRec _} -> true | _ -> false) g ->
+    | _, _ when List.for_all (fun ro -> match ro with None | Some { CAst.v = Constrexpr.CStructRec _} -> true | _ -> false) g ->
       let annots = List.map (fun fix ->
           Vernacexpr.(ComFixpoint.adjust_rec_order ~structonly:true fix.binders fix.rec_order)) l in
       let fixkind = Declare.Obls.IsFixpoint annots in
@@ -369,7 +358,7 @@ let do_fixpoint ~pm ~scope ~poly ?typing_flags ?using l =
       do_program_recursive ~pm ~scope ~poly ?typing_flags ?using fixkind l
     | _, _ ->
       CErrors.user_err
-        (str "Well-founded fixpoints not allowed in mutually recursive blocks.")
+        Pp.(str "Well-founded fixpoints not allowed in mutually recursive blocks.")
 
 let do_cofixpoint ~pm ~scope ~poly ?using fixl =
   let fixl = List.map (fun fix -> { fix with Vernacexpr.rec_order = None }) fixl in
