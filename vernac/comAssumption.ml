@@ -12,7 +12,6 @@ open Util
 open Names
 open Constrintern
 open Impargs
-open Pretyping
 
 module RelDecl = Context.Rel.Declaration
 (* 2| Variable/Hypothesis/Parameter/Axiom declarations *)
@@ -154,7 +153,7 @@ let do_assumptions ~program_mode ~poly ~scope ~kind nl l =
       ((sigma,env,ienv),((is_coe,idl),t,imps)))
     (sigma,env,empty_internalization_env) l
   in
-  let sigma = solve_remaining_evars all_and_fail_flags env sigma in
+  let sigma = Pretyping.solve_remaining_evars Pretyping.all_and_fail_flags env sigma in
   (* The universe constraints come from the whole telescope. *)
   let sigma = Evd.minimize_universes sigma in
   let nf_evar c = EConstr.to_constr sigma c in
