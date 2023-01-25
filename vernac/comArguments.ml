@@ -8,7 +8,6 @@
 (*         *     (see LICENSE file for the text of the license)         *)
 (************************************************************************)
 
-open CAst
 open Util
 open Names
 open Vernacexpr
@@ -265,7 +264,7 @@ let vernac_arguments ~section_local reference args more_implicits flags =
   end;
 
   if scopes_specified || clear_scopes_flag then begin
-    let scopes = List.map (List.map (fun {loc;v=k} ->
+    let scopes = List.map (List.map (fun {CAst.loc;v=k} ->
         try ignore (Notation.find_scope k); k
         with CErrors.UserError _ ->
           Notation.find_delimiters_scope ?loc k)) scopes
