@@ -1,0 +1,5 @@
+(cram
+ (applies_to coqtop-async-color.t)
+ (deps
+  %{bin:coqworker.opt}
+  (alias coqtop-prelude)))

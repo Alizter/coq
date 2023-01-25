@@ -2,6 +2,8 @@
 (name coq)
 (using coq 0.3)
 
+(cram enable)
+
 (formatting
  (enabled_for ocaml))
 
